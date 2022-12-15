@@ -95,7 +95,14 @@ namespace FluxViewer.DataAccess.LiteDbb
         /// <param name="endDate">Дата конца</param>
         /// <returns>Количество записей</returns>
         public int GetDataCountBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null);
-
+        
+        /// <summary>
+        /// Проверка на то, есть ли между указанными датами данные?
+        /// </summary>
+        /// <param name="beginDate">Дата начала</param>
+        /// <param name="endDate">Дата конца</param>
+        /// <param name="step"></param>
+        /// <returns></returns>
         public bool GetHasDataBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null);
 
     }
