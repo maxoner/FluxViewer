@@ -36,5 +36,10 @@ namespace FluxViewer.DataAccess.Models
         /// Информация с датчиков влажности
         /// </summary>
         public float HumiditySensorData { get;set;}
+
+        public override string ToString()
+        {
+            return $"{Id}\t{DateTime}\t{FluxSensorData}\t{TempSensorData}\t{PressureSensorData}\t{HumiditySensorData}";
+        }
     }
 }
