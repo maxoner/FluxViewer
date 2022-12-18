@@ -56,7 +56,14 @@ namespace FluxViewer.DataAccess.LiteDbb
         /// </summary>
         /// <returns>Все показания прибора</returns>
         public List<Data> GetAllData();
-
+        
+        /// <summary>
+        /// "Пакетированное" получение всех показаний прибора из базы данных.
+        /// </summary>
+        /// <param name="batchNumber">Номер пакета</param>
+        /// <param name="batchSize">Размер пакета</param> 
+        /// <returns>Пакет данных с показаниями прибора</returns>
+        public List<Data> GetAllDataBatch(int batchNumber, int batchSize);
 
         /// <summary>
         /// Получение показаний прибора из базы данных между двумя датами.
@@ -66,6 +73,16 @@ namespace FluxViewer.DataAccess.LiteDbb
         /// <returns>Все показания прибора в текущий временной интервал</returns>
         public List<Data> GetDataBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null);
 
+        /// <summary>
+        /// "Пакетное" получение показаний прибора из базы данных между двумя датами.
+        /// </summary>
+        /// <param name="beginDate">Дата начала, с которой следует искать показания</param>
+        /// <param name="endDate">Дата конца, по которую следует искать показания</param>
+        /// <param name="batchNumber">Номер пакета</param>
+        /// <param name="batchSize">Размер пакета</param>
+        /// <returns>Все показания прибора в текущий временной интервал</returns>
+        public List<Data> GetDataBatchBetweenTwoDates(DateTime beginDate, DateTime endDate, int batchNumber, int batchSize);
+        
         /// <summary>
         /// Получение количества показаний между двумя датами.
         /// </summary>
