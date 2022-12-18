@@ -23,16 +23,18 @@ namespace FluxViewer.DataAccess.LiteDbb
         public void DisconnectFromDataBase();
 
         /// <summary>
-        /// Добавление показаний прибора в базу данных.
+        /// Получение всех логов из базы данных.
         /// </summary>
-        /// <param name="data">Структура, описывающая 1 показание прибора</param>
-        public void WriteData(Data data);
+        /// <returns>Список логов</returns>
+        public List<Log> GetAllLogs();
 
         /// <summary>
-        /// Записать коллекцию показаний прибора в базу данных.
+        /// Получение логов между датами из базы данных.
         /// </summary>
-        /// <param name="data">Коллекция показаний прибора</param>
-        public void WriteData(IEnumerable<Data> data);
+        /// <param name="beginDate">Дата начала, с которой следует искать логи</param>
+        /// <param name="endDate">Дата конца, по которую следует искать логи</param>
+        /// <returns></returns>
+        public List<Log> GetLogsBetweenTwoDates(DateTime beginDate, DateTime endDate);
 
         /// <summary>
         /// Запись информационного лога в базу данных.
@@ -50,18 +52,11 @@ namespace FluxViewer.DataAccess.LiteDbb
         public void LogError(string message, Exception exception = default);
 
         /// <summary>
-        /// Получение логов между датами из базы данных.
+        /// Получение всех показаний прибора из базы данных.
         /// </summary>
-        /// <param name="beginDate">Дата начала, с которой следует искать логи</param>
-        /// <param name="endDate">Дата конца, по которую следует искать логи</param>
-        /// <returns></returns>
-        public List<Log> GetLogsBetweenTwoDates(DateTime beginDate, DateTime endDate);
+        /// <returns>Все показания прибора</returns>
+        public List<Data> GetAllData();
 
-        /// <summary>
-        /// Получение всех логов из базы данных.
-        /// </summary>
-        /// <returns>Список логов</returns>
-        public List<Log> GetAllLogs();
 
         /// <summary>
         /// Получение показаний прибора из базы данных между двумя датами.
@@ -70,23 +65,6 @@ namespace FluxViewer.DataAccess.LiteDbb
         /// <param name="endDate">Дата конца, по которую следует искать показания</param>
         /// <returns>Все показания прибора в текущий временной интервал</returns>
         public List<Data> GetDataBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null);
-
-        /// <summary>
-        /// Получание нужного столбца из базы данных между двумя датами.
-        /// </summary>
-        /// <param name="beginDate">Дата начала, с которой следует искать показания</param>
-        /// <param name="endDate">Дата конца, по которую следует искать показания</param>
-        /// <param name="datatype">Тип данных, которые требуется вернуть</param>
-        /// <returns>?</returns>
-        /// TODO: переделать данный метод (как минимум, не передавать dataType в виде int-а)
-        public PointPair[] GetDataBetweenTwoDatesColumn(DateTime beginDate, DateTime endDate, int datatype,
-            int? step = null);
-
-        /// <summary>
-        /// Получение всех показаний прибора из базы данных.
-        /// </summary>
-        /// <returns>Все показания прибора</returns>
-        public List<Data> GetAllData();
 
         /// <summary>
         /// Получение количества показаний между двумя датами.
@@ -104,5 +82,28 @@ namespace FluxViewer.DataAccess.LiteDbb
         /// <param name="step"></param>
         /// <returns>true - если записи между датами есть, false - если записей не обнаружено</returns>
         public bool GetHasDataBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null);
+
+        /// <summary>
+        /// Получание нужного столбца из базы данных между двумя датами.
+        /// </summary>
+        /// <param name="beginDate">Дата начала, с которой следует искать показания</param>
+        /// <param name="endDate">Дата конца, по которую следует искать показания</param>
+        /// <param name="datatype">Тип данных, которые требуется вернуть</param>
+        /// <returns>?</returns>
+        /// TODO: переделать данный метод (как минимум, не передавать dataType в виде int-а)
+        public PointPair[] GetDataBetweenTwoDatesColumn(DateTime beginDate, DateTime endDate, int datatype,
+            int? step = null);
+
+        /// <summary>
+        /// Добавление показаний прибора в базу данных.
+        /// </summary>
+        /// <param name="data">Структура, описывающая 1 показание прибора</param>
+        public void WriteData(Data data);
+
+        /// <summary>
+        /// Записать коллекцию показаний прибора в базу данных.
+        /// </summary>
+        /// <param name="data">Коллекция показаний прибора</param>
+        public void WriteData(IEnumerable<Data> data);
     }
 }
