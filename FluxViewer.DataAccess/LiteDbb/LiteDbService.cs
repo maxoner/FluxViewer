@@ -1,10 +1,9 @@
-﻿using FluxViewer.DataAccess.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using FluxViewer.DataAccess.Enums;
 using FluxViewer.DataAccess.Models;
 using LiteDB;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using ZedGraph;
 
 namespace FluxViewer.DataAccess.LiteDbb
@@ -15,7 +14,7 @@ namespace FluxViewer.DataAccess.LiteDbb
         /// <summary>
         /// Путь до БД
         /// </summary>
-        private string _databasePath;// = "defaultDataBase.db";
+        private string _databasePath; // = "defaultDataBase.db";
 
         private ILiteDatabase _dataContext;
 
@@ -27,8 +26,7 @@ namespace FluxViewer.DataAccess.LiteDbb
         {
         }
 
-        /// <inheritdoc/>
-        public bool ConnectOrCreateDataBase(string dataBasePath/* = null*/)
+        public bool ConnectOrCreateDataBase(string dataBasePath /* = null*/)
         {
             if (dataBasePath != null)
             {
@@ -46,7 +44,6 @@ namespace FluxViewer.DataAccess.LiteDbb
                 _dataContext = new LiteDatabase(_databasePath);
                 InitializeDataCollection();
                 InitializeLogCollection();
-                
             }
             catch
             {
@@ -71,7 +68,6 @@ namespace FluxViewer.DataAccess.LiteDbb
             _dataCollection.EnsureIndex(x => x.DateTime);
         }
 
-        /// <inheritdoc/>
         public void DisconnectFromDataBase()
         {
             InsertLog(LogLevel.Informtaion, "Database disconnected");
@@ -89,13 +85,8 @@ namespace FluxViewer.DataAccess.LiteDbb
         {
             return _logCollection.FindAll().ToList();
         }
-        /// <summary>
-        /// Получаем все каналы измерений между указанными датами
-        /// </summary>
-        /// <param name="beginDate"></param>
-        /// <param name="endDate"></param>
-        /// <param name="step"></param>
-        /// <returns></returns>
+
+
         public List<Data> GetDataBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null)
         {
             if (!step.HasValue)
@@ -104,17 +95,11 @@ namespace FluxViewer.DataAccess.LiteDbb
             }
             else
             {
-                return _dataCollection.Find(x => x.DateTime > beginDate && x.DateTime < endDate && (step == null || x.Id % step == 0)).ToList();
+                return _dataCollection.Find(x =>
+                    x.DateTime > beginDate && x.DateTime < endDate && (step == null || x.Id % step == 0)).ToList();
             }
         }
 
-        /// <summary>
-        /// Узнаем сколько строк в базе между указанными датами
-        /// </summary>
-        /// <param name="beginDate"></param>
-        /// <param name="endDate"></param>
-        /// <param name="step"></param>
-        /// <returns></returns>
         public int GetDataCountBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null)
         {
             if (!step.HasValue)
@@ -123,79 +108,73 @@ namespace FluxViewer.DataAccess.LiteDbb
             }
             else
             {
-                return _dataCollection.Count(x => x.DateTime > beginDate && x.DateTime < endDate && (step == null || x.Id % step == 0));
+                return _dataCollection.Count(x =>
+                    x.DateTime > beginDate && x.DateTime < endDate && (step == null || x.Id % step == 0));
             }
         }
-        /// <summary>
-        /// Есть ли записи между указанными данными
-        /// </summary>
-        /// <param name="beginDate"></param>
-        /// <param name="endDate"></param>
-        /// <param name="step"></param>
-        /// <returns></returns>
-            public bool GetHasDataBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null)
+
+        public bool GetHasDataBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null)
+        {
+            string q;
+            if (step == null)
             {
-                string q;
-                if (step == null)
-                {
-                    q = $"SELECT COUNT($) FROM Data WHERE DateTime > DATETIME('{beginDate}') AND DateTime < DATETIME('{endDate}');";
-                }
-                else
-                {
-                    q = $"SELECT COUNT($) FROM Data WHERE DateTime > DATETIME('{beginDate}') AND DateTime < DATETIME('{endDate}') AND _id % {step} = 0;";
-                }
-                using var reader = _dataContext.Execute(q);
-                return reader.HasValues;
+                q =
+                    $"SELECT COUNT($) FROM Data WHERE DateTime > DATETIME('{beginDate}') AND DateTime < DATETIME('{endDate}');";
             }
-        /// <summary>
-        /// Получаем данные в формате графиков pointpair для выбранного канала измерения
-        /// </summary>
-        /// <param name="beginDate"></param>
-        /// <param name="endDate"></param>
-        /// <param name="datatype"></param>
-        /// <param name="step"></param>
-        /// <returns></returns>
-        public PointPair[] GetDataBetweenTwoDatesColumn(DateTime beginDate, DateTime endDate, int datatype, int? step = null)
+            else
+            {
+                q =
+                    $"SELECT COUNT($) FROM Data WHERE DateTime > DATETIME('{beginDate}') AND DateTime < DATETIME('{endDate}') AND _id % {step} = 0;";
+            }
+
+            using var reader = _dataContext.Execute(q);
+            return reader.HasValues;
+        }
+
+        public PointPair[] GetDataBetweenTwoDatesColumn(DateTime beginDate, DateTime endDate, int datatype,
+            int? step = null)
         {
             string selectPart;
 
             switch (datatype)
             {
                 case 1:
-                    {
-                        selectPart = " DateTime, FLuxSensorData";
-                    }
+                {
+                    selectPart = " DateTime, FLuxSensorData";
+                }
                     break;
                 case 2:
-                    {
-                        selectPart = " DateTime, TempSensorData";
-                    }
+                {
+                    selectPart = " DateTime, TempSensorData";
+                }
                     break;
                 case 3:
-                    {
-                        selectPart = " DateTime, PressureSensorData";
-                    }
+                {
+                    selectPart = " DateTime, PressureSensorData";
+                }
                     break;
                 case 4:
-                    {
-                        selectPart = " DateTime, HumiditySensorData";
-                    }
+                {
+                    selectPart = " DateTime, HumiditySensorData";
+                }
                     break;
                 default:
-                    {
-                        throw new ArgumentException($"Unknown data type: {datatype}");
-                    }
+                {
+                    throw new ArgumentException($"Unknown data type: {datatype}");
+                }
             }
 
             string q;
 
             if (step == null)
             {
-                q = $"SELECT {selectPart} FROM Data WHERE DateTime > DATETIME('{beginDate}') AND DateTime < DATETIME('{endDate}');";
+                q =
+                    $"SELECT {selectPart} FROM Data WHERE DateTime > DATETIME('{beginDate}') AND DateTime < DATETIME('{endDate}');";
             }
             else
             {
-                q = $"SELECT {selectPart} FROM Data WHERE DateTime > DATETIME('{beginDate}') AND DateTime < DATETIME('{endDate}') AND _id % {step} = 0;";
+                q =
+                    $"SELECT {selectPart} FROM Data WHERE DateTime > DATETIME('{beginDate}') AND DateTime < DATETIME('{endDate}') AND _id % {step} = 0;";
             }
 
             using var reader = _dataContext.Execute(q);
@@ -208,27 +187,31 @@ namespace FluxViewer.DataAccess.LiteDbb
                 switch (datatype)
                 {
                     case 1:
-                        {
-                            vals.Add(new PointPair(new XDate(reader.Current["DateTime"].AsDateTime), reader.Current["FluxSensorData"].AsDouble));
-                        }
+                    {
+                        vals.Add(new PointPair(new XDate(reader.Current["DateTime"].AsDateTime),
+                            reader.Current["FluxSensorData"].AsDouble));
+                    }
                         break;
                     case 2:
-                        {
-                            vals.Add(new PointPair(new XDate(reader.Current["DateTime"].AsDateTime), reader.Current["TempSensorData"].AsDouble));
-                        }
+                    {
+                        vals.Add(new PointPair(new XDate(reader.Current["DateTime"].AsDateTime),
+                            reader.Current["TempSensorData"].AsDouble));
+                    }
                         break;
                     case 3:
-                        {
-                            vals.Add(new PointPair(new XDate(reader.Current["DateTime"].AsDateTime), reader.Current["PressureSensorData"].AsDouble));
-                        }
+                    {
+                        vals.Add(new PointPair(new XDate(reader.Current["DateTime"].AsDateTime),
+                            reader.Current["PressureSensorData"].AsDouble));
+                    }
                         break;
                     case 4:
-                        {
-                            vals.Add(new PointPair(new XDate(reader.Current["DateTime"].AsDateTime), reader.Current["HumiditySensorData"].AsDouble));
-                        }
+                    {
+                        vals.Add(new PointPair(new XDate(reader.Current["DateTime"].AsDateTime),
+                            reader.Current["HumiditySensorData"].AsDouble));
+                    }
                         break;
-                    default:                       
-                            throw new ArgumentException($"Unknown data type: {datatype}");                        
+                    default:
+                        throw new ArgumentException($"Unknown data type: {datatype}");
                 }
             }
 
@@ -251,7 +234,6 @@ namespace FluxViewer.DataAccess.LiteDbb
             }
 
             InsertLog(LogLevel.Error, message);
-
         }
 
         public void LogInformation(string message)
@@ -306,8 +288,8 @@ namespace FluxViewer.DataAccess.LiteDbb
 
         private void InsertLogWithException(string message, Exception exception)
         {
-            InsertLog(LogLevel.Error, $"{message} |MESSAGE: {exception?.Message} |INNER MESSAEG: {exception?.InnerException?.Message} |STACK TRACE: {exception?.StackTrace}");
+            InsertLog(LogLevel.Error,
+                $"{message} |MESSAGE: {exception?.Message} |INNER MESSAEG: {exception?.InnerException?.Message} |STACK TRACE: {exception?.StackTrace}");
         }
-
     }
 }

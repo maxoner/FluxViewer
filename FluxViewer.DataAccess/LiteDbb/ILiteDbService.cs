@@ -1,7 +1,6 @@
-﻿using FluxViewer.DataAccess.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using FluxViewer.DataAccess.Models;
 using ZedGraph;
 
 namespace FluxViewer.DataAccess.LiteDbb
@@ -12,98 +11,98 @@ namespace FluxViewer.DataAccess.LiteDbb
     public interface ILiteDbService
     {
         /// <summary>
-        /// Метод для подключения к БД если она есть, иначе для создания
+        /// Метод для подключения к базе данных. Если база уже существует, то происходит подключение, иначе - создание. 
         /// </summary>
         /// <param name="dataBasePath">Полный путь до местанахождения БД</param>
-        /// <returns>Успешно ли открытие/создание</returns>
+        /// <returns>true, если открытие/создание произошло успешно, иначе false</returns>
         public bool ConnectOrCreateDataBase(string dataBasePath);
 
         /// <summary>
-        /// Метод для отключения от текущей БД
+        /// Метод для отключения от текущей базы данных.
         /// </summary>
         public void DisconnectFromDataBase();
 
         /// <summary>
-        /// Записать данные
+        /// Добавление показаний прибора в базу данных.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">Структура, описывающая 1 показание прибора</param>
         public void WriteData(Data data);
 
         /// <summary>
-        /// Записать коллекцию данных
+        /// Записать коллекцию показаний прибора в базу данных.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">Коллекция показаний прибора</param>
         public void WriteData(IEnumerable<Data> data);
 
         /// <summary>
-        /// Лог информации
+        /// Запись информационного лога в базу данных.
         /// </summary>
         public void LogInformation(string message);
 
         /// <summary>
-        /// Лог предупреждения
+        /// Запись предупреждающего лога в базу данных.
         /// </summary>
         public void LogWarning(string message);
 
         /// <summary>
-        /// Лог ошибки
+        /// Запись лога с ошибкой в базу данных.
         /// </summary>
         public void LogError(string message, Exception exception = default);
 
         /// <summary>
-        /// Получение логов между датами
+        /// Получение логов между датами из базы данных.
         /// </summary>
-        /// <param name="beginDate">Дата начала</param>
-        /// <param name="endDate">Дата конца</param>
+        /// <param name="beginDate">Дата начала, с которой следует искать логи</param>
+        /// <param name="endDate">Дата конца, по которую следует искать логи</param>
         /// <returns></returns>
         public List<Log> GetLogsBetweenTwoDates(DateTime beginDate, DateTime endDate);
 
         /// <summary>
-        /// Получение всех логов
+        /// Получение всех логов из базы данных.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Список логов</returns>
         public List<Log> GetAllLogs();
 
         /// <summary>
-        /// Получение данных между двумя датами
+        /// Получение показаний прибора из базы данных между двумя датами.
         /// </summary>
-        /// <param name="beginDate">Дата начала</param>
-        /// <param name="endDate">Дата конца</param>
-        /// <returns>Данные</returns>
+        /// <param name="beginDate">Дата начала, с которой следует искать показания</param>
+        /// <param name="endDate">Дата конца, по которую следует искать показания</param>
+        /// <returns>Все показания прибора в текущий временной интервал</returns>
         public List<Data> GetDataBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null);
-      
-        /// <summary>
-        /// получание нужного столбца между двумя датами
-        /// </summary>
-        /// <param name="beginDate"></param>
-        /// <param name="endDate"></param>
-        /// <param name="datatype"></param>
-        /// <returns></returns>
-
-        public PointPair[] GetDataBetweenTwoDatesColumn(DateTime beginDate, DateTime endDate, int datatype, int? step = null);
 
         /// <summary>
-        /// Получение всех данных
+        /// Получание нужного столбца из базы данных между двумя датами.
         /// </summary>
-        /// <returns>Данные</returns>
+        /// <param name="beginDate">Дата начала, с которой следует искать показания</param>
+        /// <param name="endDate">Дата конца, по которую следует искать показания</param>
+        /// <param name="datatype">Тип данных, которые требуется вернуть</param>
+        /// <returns>?</returns>
+        /// TODO: переделать данный метод (как минимум, не передавать dataType в виде int-а)
+        public PointPair[] GetDataBetweenTwoDatesColumn(DateTime beginDate, DateTime endDate, int datatype,
+            int? step = null);
+
+        /// <summary>
+        /// Получение всех показаний прибора из базы данных.
+        /// </summary>
+        /// <returns>Все показания прибора</returns>
         public List<Data> GetAllData();
 
         /// <summary>
-        /// Получение количества данных между двумя датами
+        /// Получение количества показаний между двумя датами.
         /// </summary>
-        /// <param name="beginDate">Дата начала</param>
-        /// <param name="endDate">Дата конца</param>
-        /// <returns>Количество записей</returns>
+        /// <param name="beginDate">Дата начала, с которой считаются показания</param>
+        /// <param name="endDate">Дата конца, по которую считаются показания</param>
+        /// <returns>Количество показаний прибора</returns>
         public int GetDataCountBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null);
-        
-        /// <summary>
-        /// Проверка на то, есть ли между указанными датами данные?
-        /// </summary>
-        /// <param name="beginDate">Дата начала</param>
-        /// <param name="endDate">Дата конца</param>
-        /// <param name="step"></param>
-        /// <returns></returns>
-        public bool GetHasDataBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null);
 
+        /// <summary>
+        /// Проверка на то, есть ли показания прибора между указанными датами?
+        /// </summary>
+        /// <param name="beginDate">Дата начала, с которой считаются показания</param>
+        /// <param name="endDate">Дата конца, по которую считаются показания</param>
+        /// <param name="step"></param>
+        /// <returns>true - если записи между датами есть, false - если записей не обнаружено</returns>
+        public bool GetHasDataBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null);
     }
 }
