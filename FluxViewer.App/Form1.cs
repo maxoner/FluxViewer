@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using XMLFileSettings;
 using System.Drawing;
 using System.Diagnostics;
+using FluxViewer.DataAccess.Converters;
 //using 
 
 namespace FluxViewer
@@ -1465,54 +1466,33 @@ namespace FluxViewer
 
         private void btn_export_Click(object sender, EventArgs e)
         {
-            string temp_line;
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.FilterIndex = 0;
+            // saveFileDialog.FilterIndex = 0;
+            saveFileDialog.Filter = "CSV|*.csv";
             saveFileDialog.RestoreDirectory = true;
             saveFileDialog.CreatePrompt = true;
             saveFileDialog.Title = "Сохранить выбраный отрезок как";
-            if (saveFileDialog1.FileName != "")
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                System.IO.FileStream fs = (System.IO.FileStream)saveFileDialog1.OpenFile();
-                int time_via = int.Parse(textBox2.Text);
-
-                if (time_via==0)//выводем весь файл
-                { 
-                 if(checkBox3.Checked)//Выводим только записаный кусок
-                    { }
-                 else //Выводим кусок с заполнениями
-                    { }
-                }
-                DateTime date1 = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 00, 00, 00, 000);
-                DateTime date2 = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59, 999);
-
-                //List 
-                for (int i = 0; i < (int)(baze_size / max_readsize_base); i++)
+                DateTime beginDate = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 00, 00, 00, 000);
+                DateTime endDate = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59, 999);
+                CsvConverter csvConverter = new CsvConverter(Path.GetFullPath(saveFileDialog.FileName));
+                csvConverter.Open();
+                for (int batchNUmber = 0; ; batchNUmber++)
                 {
-                    list.Clear();
-                    list.AddRange(_dataBaseContext.GetDataBetweenTwoDatesColumn(date1, date2, comboBox1.SelectedIndex + 1, (int)(baze_size / max_outsize_graph) - 1));
-                      }
-                switch (saveFileDialog1.FilterIndex)
-                {
-                    case 1: //txt
-
-                        break;
-
-                    case 2://csv
-
-                        break;
+                    try
+                    {
+                        List<Data> dataBatch = _dataBaseContext.GetDataBatchBetweenTwoDates(beginDate, endDate, batchNUmber, 100);  // TODO надо найти оптимальный batchSize
+                        if (dataBatch.Count == 0)
+                            break;
+                        csvConverter.Write(dataBatch);
+                    }
+                    catch(Exception ex) // TODO Тут отследить норм. исключение
+                    {
+                        break;  
+                    }
                 }
-
-                do
-                {
-                    temp_line = "1";
-                    byte[] output = Encoding.Default.GetBytes(temp_line);
-                    fs.Write(output, 0, output.Length);
-                }
-                while (true);
-
-
-                fs.Close();
+                csvConverter.Close();
             }
         }
 
