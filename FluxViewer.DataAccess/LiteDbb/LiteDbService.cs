@@ -81,6 +81,19 @@ namespace FluxViewer.DataAccess.LiteDbb
             return _dataCollection.FindAll().ToList();
         }
 
+        public List<Data> GetAllDataBatch(int batchNumber, int batchSize)
+        {
+            try
+            {
+                return _dataCollection.Find(Query.All(), skip: batchNumber * batchSize, limit: batchSize).ToList();
+            }
+            catch (Exception e)
+            {
+                // TODO Сделай уникальное исключение для этого
+                throw new Exception("Оп, а такого батча то и нету");
+            }
+        }
+
         public List<Log> GetAllLogs()
         {
             return _logCollection.FindAll().ToList();
@@ -97,6 +110,21 @@ namespace FluxViewer.DataAccess.LiteDbb
             {
                 return _dataCollection.Find(x =>
                     x.DateTime > beginDate && x.DateTime < endDate && (step == null || x.Id % step == 0)).ToList();
+            }
+        }
+
+        public List<Data> GetDataBatchBetweenTwoDates(DateTime beginDate, DateTime endDate, int batchNumber,
+            int batchSize)
+        {
+            try
+            {
+                return _dataCollection.Find(x => x.DateTime > beginDate && x.DateTime < endDate,
+                    skip: batchNumber * batchSize, limit: batchSize).ToList();
+            }
+            catch (Exception e)
+            {
+                // TODO Сделай уникальное исключение для этого
+                throw new Exception("Оп, а такого батча то и нету");
             }
         }
 
