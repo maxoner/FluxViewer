@@ -1474,7 +1474,7 @@ namespace FluxViewer
             saveFileDialog.Title = "Сохранить выбраный отрезок как";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                DateTime beginDate = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 00, 00, 00, 000);
+                DateTime beginDate = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, dateTimePicker1.Value.Day, 00, 00, 00, 000);
                 DateTime endDate = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59, 999);
                 CsvConverter csvConverter = new CsvConverter(Path.GetFullPath(saveFileDialog.FileName));
                 csvConverter.Open();
@@ -1482,7 +1482,7 @@ namespace FluxViewer
                 {
                     try
                     {
-                        List<Data> dataBatch = _dataBaseContext.GetDataBatchBetweenTwoDates(beginDate, endDate, batchNUmber, 100);  // TODO надо найти оптимальный batchSize
+                        List<Data> dataBatch = _dataBaseContext.GetDataBatchBetweenTwoDates(beginDate, endDate, batchNUmber, 100000);  // TODO надо найти оптимальный batchSize
                         if (dataBatch.Count == 0)
                             break;
                         csvConverter.Write(dataBatch);
