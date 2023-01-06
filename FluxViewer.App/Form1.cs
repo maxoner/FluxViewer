@@ -114,6 +114,10 @@ namespace FluxViewer
             tableLayoutPanel1.RowStyles[1].SizeType = SizeType.Percent;
             tableLayoutPanel1.ColumnStyles[0].SizeType = SizeType.Percent;
             tableLayoutPanel1.ColumnStyles[1].SizeType = SizeType.Percent;
+
+            // ƒата начала и окончани€ по умолчанию текущие
+            dateTimePicker1.Value = DateTime.Now;
+            dateTimePicker2.Value = DateTime.Now;
         }
         private void DrawGraph_dot()
         {
