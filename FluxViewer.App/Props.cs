@@ -1,9 +1,5 @@
-﻿using System;
-//надо добавить для работы класса
+﻿using System.Reflection;
 using System.Xml.Serialization;
-using System.IO;
-using FluxViewer.App.Properties;
-using System.Reflection;
 
 namespace XMLFileSettings
 {
@@ -18,12 +14,12 @@ namespace XMLFileSettings
         public Boolean BoolValue = true;
 
         public String db_path = @"d:\Project\Ya\YandexDisk\!Project\Fluxmeter\!Digital\ver1.1\FluxViewer\FluxViewer\FluxViewer.App\bin\Debug\net6.0-windows\defaultDataBase.db";
+
         public Boolean is_pc_time = true;
         public String com_num = @"";
         public String com_speed = @"115200";
         public double maxGbRAM = 2.5;
-
-
+        
         //вкладка графифики
         public Decimal line_width = 1;
         public Boolean is_black_theme = true;
@@ -42,6 +38,7 @@ namespace XMLFileSettings
         public String g4_K = @"1";
         public String g4_B = @"0";
     }
+
     //Класс работы с настройками
     public class Props
     {
@@ -51,6 +48,7 @@ namespace XMLFileSettings
         {
             Fields = new PropsFields();
         }
+
         //Запись настроек в файл
         public void WriteXml()
         {
@@ -60,13 +58,8 @@ namespace XMLFileSettings
             TextWriter writer = new StreamWriter(XMLFileName);
             ser.Serialize(writer, Fields);
             writer.Close();
-
-
-      /*      Stream file = File.Open(Fields.XMLFileName, FileMode.Create, FileAccess.Write);
-            XmlSerializer formatter = new XmlSerializer(typeof(Settings));
-            formatter.Serialize(file, Fields);
-            file.Close();*/
         }
+
         //Чтение настроек из файла
         public void ReadXml()
         {
