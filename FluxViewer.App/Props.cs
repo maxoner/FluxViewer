@@ -21,6 +21,8 @@ namespace XMLFileSettings
         public Boolean is_pc_time = true;
         public String com_num = @"";
         public String com_speed = @"115200";
+        public double maxGbRAM = 2.5;
+
 
         //вкладка графифики
         public Decimal line_width = 1;
