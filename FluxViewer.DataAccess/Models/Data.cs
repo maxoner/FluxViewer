@@ -3,7 +3,7 @@
 namespace FluxViewer.DataAccess.Models
 {
     /// <summary>
-    /// Информация с прибора
+    /// Информация с прибора. Созданный и инициализированный бъект весит ~ 80 байт
     /// </summary>
     public class Data
     {
