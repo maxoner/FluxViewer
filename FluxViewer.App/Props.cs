@@ -1,80 +1,115 @@
-﻿using System.Reflection;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace XMLFileSettings
 {
-    //Класс определяющий какие настройки есть в программе
+    /// <summary>
+    /// Класс, определяющий настройки программы.
+    /// Каждое поле класса - соответствующая настройка.
+    /// Чтобы добавить настройку в программу просто добавьте в класс строку вида:
+    ///     public ТИП_ПЕРЕМЕННОЙ ИМЯ_ПЕРЕМЕННОЙ = значение_переменной_по_умолчанию; 
+    /// </summary>
     public class PropsFields
     {
-        //Чтобы добавить настройку в программу просто добавьте туда строку вида -
-        //public ТИП ИМЯ_ПЕРЕМЕННОЙ = значение_переменной_по_умолчанию;
-        public String TextValue = @"File Settings";
-        public DateTime DateValue = new DateTime(2011, 1, 1);
-        public Decimal DecimalValue = 555;
-        public Boolean BoolValue = true;
+        public string DbPath = "";
 
-        public String db_path = @"d:\Project\Ya\YandexDisk\!Project\Fluxmeter\!Digital\ver1.1\FluxViewer\FluxViewer\FluxViewer.App\bin\Debug\net6.0-windows\defaultDataBase.db";
+        public bool IsPcTime = true;
+        public string ComNum = @"";
+        public string ComSpeed = @"115200";
+        public double MaxGbRam = 2.5;
 
-        public Boolean is_pc_time = true;
-        public String com_num = @"";
-        public String com_speed = @"115200";
-        public double maxGbRAM = 2.5;
-        
-        //вкладка графифики
-        public Decimal line_width = 1;
-        public Boolean is_black_theme = true;
-        public Boolean is_grid = true;
+        // Параметры, связанные с графиками
+        public decimal LineWidth = 1;
+        public bool IsBlackTheme = true;
+        public bool IsGrid = true;
 
-        public String g_one_title = @"Электростатическое поле, В/м";
-        public String g_two_title = @"Температура, гр. С";
-        public String g_three_title = @"Давление, мм. рт. ст.";
-        public String g_four_title = @"Влажность, %";
-        public String g1_K = @"1";
-        public String g1_B = @"0";
-        public String g2_K = @"0,7500637";
-        public String g2_B = @"0";
-        public String g3_K = @"1";
-        public String g3_B = @"0";
-        public String g4_K = @"1";
-        public String g4_B = @"0";
+        public string GOneTitle = @"Электростатическое поле, В/м";
+        public string GTwoTitle = @"Температура, гр. С";
+        public string GThreeTitle = @"Давление, мм. рт. ст.";
+        public string GFourTitle = @"Влажность, %";
+        public string G1K = @"1";
+        public string G1B = @"0";
+        public string G2K = @"0,7500637";
+        public string G2B = @"0";
+        public string G3K = @"1";
+        public string G3B = @"0";
+        public string G4K = @"1";
+        public string G4B = @"0";
     }
 
-    //Класс работы с настройками
+    /// <summary>
+    /// Класс, позволяющий читать и сохранять настройки в XML файл
+    /// </summary>
     public class Props
     {
+        private string PathToXmlFile;
         public PropsFields Fields;
 
-        public Props()
+        public Props(string pathToXmlFile)
         {
+            PathToXmlFile = pathToXmlFile;
             Fields = new PropsFields();
         }
 
-        //Запись настроек в файл
+        /// <summary>
+        /// Запись настроек в файл.
+        /// Настройки записываются (сохраняются)  в папку с приложением в файл "settings.xml".
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         public void WriteXml()
         {
-            String CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            String XMLFileName = Environment.CurrentDirectory + "\\settings.xml";
-            XmlSerializer ser = new XmlSerializer(typeof(PropsFields));
-            TextWriter writer = new StreamWriter(XMLFileName);
-            ser.Serialize(writer, Fields);
-            writer.Close();
-        }
+            TextWriter writer;
+            try
+            {
+                writer = new StreamWriter(PathToXmlFile);
+            }
+            catch (IOException e)
+            {
+                throw new Exception(""); // TODO: надо написать уникальное исключение
+            }
 
-        //Чтение настроек из файла
-        public void ReadXml()
-        {
-            String CurrentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            String XMLFileName = Environment.CurrentDirectory + "\\settings.xml";
-            if (File.Exists(XMLFileName))
+            try
             {
                 XmlSerializer ser = new XmlSerializer(typeof(PropsFields));
-                TextReader reader = new StreamReader(XMLFileName);
-                Fields = ser.Deserialize(reader) as PropsFields;
-                reader.Close();
+                ser.Serialize(writer, Fields);
             }
-            else
+            catch
             {
-                //можно написать вывод сообщения если файла не существует
+                throw new Exception("fsda"); // TODO: надо написать уникальное исключение
+            }
+            finally
+            {
+                writer.Close();
+            }
+        }
+
+        /// <summary>
+        /// Чтение настроек из файла.
+        /// Настройки ищутся в папке с приложением в файле "settings.xml".
+        /// </summary>
+        public void ReadXml()
+        {
+            XmlSerializer ser = new XmlSerializer(typeof(PropsFields));
+            TextReader reader;
+            try
+            {
+                reader = new StreamReader(PathToXmlFile);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("TODO"); // TODO: надо написать уникальное исключение
+            }
+
+            try
+            {
+                Fields = ser.Deserialize(reader) as PropsFields;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("TODO"); // TODO: надо написать уникальное исключение
+            }
+            finally
+            {
+                reader.Close();
             }
         }
     }
