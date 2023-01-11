@@ -61,7 +61,7 @@ namespace FluxViewer
         ILiteDbService _dataBaseContext;
 
  //       #region Settings action
-        Props props = new Props(); //экземпляр класса с настройками 
+        private Props props; 
         string[] graph_title = new string[4];
         float[] graph_k = new float[4];
         float[] graph_b = new float[4];
@@ -82,7 +82,7 @@ namespace FluxViewer
             list = new PointPairList();
 
             InitializeComponent();
-
+            PrepareSettings();
             GetSetings();
             DrawGraph();
 
@@ -119,6 +119,19 @@ namespace FluxViewer
             dateTimePicker1.Value = DateTime.Now;
             dateTimePicker2.Value = DateTime.Now;
         }
+
+        private void PrepareSettings()
+        {
+            var pathToXmlSettingsFile = Environment.CurrentDirectory + "\\settings.xml";
+            props = new Props(pathToXmlSettingsFile);
+            // Если файла с настройками не существует, то дополняем найстроки и создаём этот файл
+            if (!File.Exists(pathToXmlSettingsFile))
+            {
+                props.Fields.DbPath = Environment.CurrentDirectory + "\\database.litedb";
+                props.WriteXml();
+            }
+        }
+        
         private void DrawGraph_dot()
         {
             pane[4] = zedGraphControl5.GraphPane;
@@ -465,44 +478,44 @@ namespace FluxViewer
         public void GetSetings()
         {
             props.ReadXml();
-            string path = props.Fields.db_path.ToString();
+            string path = props.Fields.DbPath.ToString();
             this.textBox3.Text = path;
             if(_dataBaseContext.ConnectOrCreateDataBase(path)==false)
             {
                 MessageBox.Show("Укажите путь к базе данных \nи перезагрузите приложение", "Ошибка подключения к базе", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
             //_dataBaseContext.ConnectOrCreateDataBase(path);
-            rb_isPCclock.Checked = props.Fields.is_pc_time;
-            com_name.Text = props.Fields.com_num.ToString();
-            com_speed.Text = props.Fields.com_speed.ToString();
+            rb_isPCclock.Checked = props.Fields.IsPcTime;
+            com_name.Text = props.Fields.ComNum.ToString();
+            com_speed.Text = props.Fields.ComSpeed.ToString();
 
 
-            textBox6.Text = props.Fields.g_one_title.ToString();
-            textBox11.Text = props.Fields.g_two_title.ToString();
-            textBox14.Text = props.Fields.g_three_title.ToString();
-            textBox17.Text = props.Fields.g_four_title.ToString();
-            textBox7.Text = props.Fields.g1_K.ToString();
-            textBox8.Text = props.Fields.g1_B.ToString();
-            textBox10.Text = props.Fields.g2_K.ToString();
-            textBox9.Text = props.Fields.g2_B.ToString();
-            textBox13.Text = props.Fields.g3_K.ToString();
-            textBox12.Text = props.Fields.g3_B.ToString();
-            textBox16.Text = props.Fields.g4_K.ToString();
-            textBox15.Text = props.Fields.g4_B.ToString();
+            textBox6.Text = props.Fields.GOneTitle.ToString();
+            textBox11.Text = props.Fields.GTwoTitle.ToString();
+            textBox14.Text = props.Fields.GThreeTitle.ToString();
+            textBox17.Text = props.Fields.GFourTitle.ToString();
+            textBox7.Text = props.Fields.G1K.ToString();
+            textBox8.Text = props.Fields.G1B.ToString();
+            textBox10.Text = props.Fields.G2K.ToString();
+            textBox9.Text = props.Fields.G2B.ToString();
+            textBox13.Text = props.Fields.G3K.ToString();
+            textBox12.Text = props.Fields.G3B.ToString();
+            textBox16.Text = props.Fields.G4K.ToString();
+            textBox15.Text = props.Fields.G4B.ToString();
 
-            graph_title[0] = props.Fields.g_one_title.ToString();
-            graph_title[1] = props.Fields.g_two_title.ToString();
-            graph_title[2] = props.Fields.g_three_title.ToString();
-            graph_title[3] = props.Fields.g_four_title.ToString();
+            graph_title[0] = props.Fields.GOneTitle.ToString();
+            graph_title[1] = props.Fields.GTwoTitle.ToString();
+            graph_title[2] = props.Fields.GThreeTitle.ToString();
+            graph_title[3] = props.Fields.GFourTitle.ToString();
 
-            graph_k[0] = float.Parse(props.Fields.g1_K);
-            graph_b[0] = float.Parse(props.Fields.g1_B);
-            graph_k[1] = float.Parse(props.Fields.g2_K);
-            graph_b[1] = float.Parse(props.Fields.g2_B);
-            graph_k[2] = float.Parse(props.Fields.g3_K);
-            graph_b[2] = float.Parse(props.Fields.g3_B);
-            graph_k[3] = float.Parse(props.Fields.g4_K);
-            graph_b[3] = float.Parse(props.Fields.g4_B);
+            graph_k[0] = float.Parse(props.Fields.G1K);
+            graph_b[0] = float.Parse(props.Fields.G1B);
+            graph_k[1] = float.Parse(props.Fields.G2K);
+            graph_b[1] = float.Parse(props.Fields.G2B);
+            graph_k[2] = float.Parse(props.Fields.G3K);
+            graph_b[2] = float.Parse(props.Fields.G3B);
+            graph_k[3] = float.Parse(props.Fields.G4K);
+            graph_b[3] = float.Parse(props.Fields.G4B);
 
             comboBox1.Items.Clear();
             comboBox1.Items.Add(graph_title[0]);
@@ -518,9 +531,9 @@ namespace FluxViewer
             cb_graphtype.SelectedIndex = 0;
 
             //вкладка графифики
-            num_linewidth.Value = props.Fields.line_width;
-            rb_templot_2.Checked = props.Fields.is_black_theme;
-            check_grid.Checked = props.Fields.is_grid;
+            num_linewidth.Value = props.Fields.LineWidth;
+            rb_templot_2.Checked = props.Fields.IsBlackTheme;
+            check_grid.Checked = props.Fields.IsGrid;
         }
 
         /// <summary>
@@ -529,28 +542,28 @@ namespace FluxViewer
         public void SaveSettings()
         {
             //вкладка программа
-            props.Fields.db_path = textBox3.Text;
-            props.Fields.is_pc_time = rb_isPCclock.Checked;
-            props.Fields.com_num = com_name.Text;
-            props.Fields.com_speed = com_speed.Text;
+            props.Fields.DbPath = textBox3.Text;
+            props.Fields.IsPcTime = rb_isPCclock.Checked;
+            props.Fields.ComNum = com_name.Text;
+            props.Fields.ComSpeed = com_speed.Text;
 
             //вкладка графифики
-            props.Fields.line_width = num_linewidth.Value;
-            props.Fields.is_black_theme = rb_templot_2.Checked;
-            props.Fields.is_grid = check_grid.Checked;
+            props.Fields.LineWidth = num_linewidth.Value;
+            props.Fields.IsBlackTheme = rb_templot_2.Checked;
+            props.Fields.IsGrid = check_grid.Checked;
 
-            props.Fields.g_one_title = textBox6.Text;
-            props.Fields.g_two_title = textBox11.Text;
-            props.Fields.g_three_title = textBox14.Text;
-            props.Fields.g_four_title = textBox17.Text;
-            props.Fields.g1_K = textBox7.Text;
-            props.Fields.g1_B = textBox8.Text;
-            props.Fields.g2_K = textBox10.Text;
-            props.Fields.g2_B = textBox9.Text;
-            props.Fields.g3_K = textBox13.Text;
-            props.Fields.g3_B = textBox12.Text;
-            props.Fields.g4_K = textBox16.Text;
-            props.Fields.g4_B = textBox15.Text;
+            props.Fields.GOneTitle = textBox6.Text;
+            props.Fields.GTwoTitle = textBox11.Text;
+            props.Fields.GThreeTitle = textBox14.Text;
+            props.Fields.GFourTitle = textBox17.Text;
+            props.Fields.G1K = textBox7.Text;
+            props.Fields.G1B = textBox8.Text;
+            props.Fields.G2K = textBox10.Text;
+            props.Fields.G2B = textBox9.Text;
+            props.Fields.G3K = textBox13.Text;
+            props.Fields.G3B = textBox12.Text;
+            props.Fields.G4K = textBox16.Text;
+            props.Fields.G4B = textBox15.Text;
             props.WriteXml();
         }
         
