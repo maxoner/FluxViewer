@@ -1,56 +1,97 @@
-﻿using FluxViewer.DataAccess.LiteDbb;
+﻿using System.Diagnostics;
+using FluxViewer.DataAccess.LiteDbb;
 using FluxViewer.DataAccess.Models;
 
-float lastpercentage = 0;
-var currentDir = Directory.GetCurrentDirectory();
-Console.WriteLine(currentDir);
-
-var liteDbService = new LiteDbService();
-liteDbService.ConnectOrCreateDataBase($"{currentDir}/testDb.db");
-
-var iterationsCount = (int)Math.Pow(10, 9);
-var testStartDate = DateTime.Now;
-var insertValue = (int)Math.Pow(10, 5);
-
-var data = new List<Data>(insertValue);
-
-for (long i = 0; i < iterationsCount; i++)
+void CreateBigDatabase(DateTime beginDate, DateTime endDate, int batchSize)
 {
-    data.Add(new Data()
-    {
-        DateTime = testStartDate.AddMilliseconds(500),
-        FluxSensorData = (float)i %20/100,
-        HumiditySensorData = (float)i %100/100,
-        PressureSensorData = (float)i %10 /100,
-        TempSensorData = (float)i %50 /100
-    });
+    var currentDir = Directory.GetCurrentDirectory();
+    var pathToDatabase = $"{currentDir}/database.litedb";
+    if (File.Exists(pathToDatabase))
+        File.Delete(pathToDatabase);
 
-    if (data.Count == insertValue)
+    var pathToLogDatabase = $"{currentDir}/database_logs.litedb";
+    if (File.Exists(pathToLogDatabase))
+        File.Delete(pathToLogDatabase);
+
+    var liteDbService = new LiteDbService();
+    liteDbService.ConnectOrCreateDataBase(pathToDatabase);
+
+    var data = new List<Data>(batchSize);
+    var currentDate = new DateTime(beginDate.Year, beginDate.Month, beginDate.Day);
+    var batchNumber = 1;
+    while (currentDate <= endDate)
     {
-        PrintProgressPercentage(i, iterationsCount);
-        Console.SetCursorPosition(0, 2);
-        Console.WriteLine("Inserting in db.");
-        liteDbService.WriteData(data);
-        Console.SetCursorPosition(0, 2);
-        Console.WriteLine("                 ");
-        data.Clear();
-        PrintProgressPercentage(i, iterationsCount);
+        data.Add(new Data()
+            {
+                DateTime = currentDate,
+                FluxSensorData = (float)currentDate.Millisecond % 20 / 100,
+                HumiditySensorData = (float)currentDate.Millisecond % 100 / 100,
+                PressureSensorData = (float)currentDate.Millisecond % 10 / 100,
+                TempSensorData = (float)currentDate.Millisecond % 50 / 100
+            }
+        );
+        currentDate = currentDate.AddMilliseconds(400);
+
+        if (data.Count == batchSize)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            liteDbService.WriteData(data);
+            stopwatch.Stop();
+            var writeTime = stopwatch.Elapsed;
+
+            data.Clear();
+            Console.WriteLine($"{currentDate}\tЗаписан {batchNumber} батч (затрачено: {writeTime})");
+            batchNumber++;
+        }
     }
+
+    liteDbService.DisconnectFromDataBase();
 }
 
-Console.WriteLine("Finished.");
 
-Console.WriteLine();
-
-void PrintProgressPercentage(long iterated, long length)
+void ReadBigDatabase(DateTime beginDate, DateTime endDate, int batchSize)
 {
-    float percentage = ((float)iterated / length)*100;
-    
-    if(percentage > 0.0001 &&  (percentage - lastpercentage) > 0.0001)
+    var currentDir = Directory.GetCurrentDirectory();
+    var pathToDatabase = $"{currentDir}/database.litedb";
+    var liteDbService = new LiteDbService();
+    liteDbService.ConnectOrCreateDataBase(pathToDatabase);
+
+    Stopwatch stopwatch = new Stopwatch();
+    stopwatch.Start();
+    var dataCountBetweenTwoDates = liteDbService.GetDataCountBetweenTwoDates(beginDate, endDate);
+    stopwatch.Stop();
+    var readDataCountTime = stopwatch.Elapsed;
+    Console.WriteLine($"Количество данных: {dataCountBetweenTwoDates} (затрачено: {readDataCountTime})");
+
+    stopwatch.Reset();
+    stopwatch.Start();
+    liteDbService.CreateDateTimeIndex();
+    stopwatch.Stop();
+    var createIndexTime = stopwatch.Elapsed;
+    Console.WriteLine($"Создан индекс на DateTime (затрачено: {createIndexTime})");
+
+
+    var batchCount = Math.Ceiling((float)dataCountBetweenTwoDates / batchSize);
+    for (var batchNumber = 0; batchNumber < batchCount; batchNumber++)
     {
-        lastpercentage = percentage;
-        Console.SetCursorPosition(0, 1);
-        Console.WriteLine($"Completed {percentage.ToString("0.0000")}%.");
+        stopwatch.Reset();
+        stopwatch.Start();
+        var data = liteDbService.GetDataBatchBetweenTwoDates(beginDate, endDate, batchNumber, batchSize);
+        stopwatch.Stop();
+        var readBatchTime = stopwatch.Elapsed;
+
+        var firstDate = data.First();
+        var lastDate = data.Last();
+        Console.WriteLine($"{firstDate} -- {lastDate}\tПрочитан {batchNumber} батч (затрачено: {readBatchTime})");
     }
+
+    liteDbService.DisconnectFromDataBase();
 }
 
+
+var beginDate = new DateTime(2022, 11, 24);
+var endDate = new DateTime(2022, 12, 24);
+const int batchSize = 100000;
+CreateBigDatabase(beginDate, endDate, batchSize);
+ReadBigDatabase(beginDate, endDate, batchSize);
