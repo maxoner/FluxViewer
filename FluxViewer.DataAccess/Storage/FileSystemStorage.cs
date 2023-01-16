@@ -47,16 +47,22 @@ public class FileSystemStorage : IStorage
         WriteDataInFile(file, data, newDataCount);
     }
 
-    private long GetDataCountFromFile(Stream file)
+    private int GetDataCountFromFile(string pathToFile)
+    {
+        var file = new FileStream(pathToFile, FileMode.Open, FileAccess.Read);
+        return GetDataCountFromFile(file);
+    }
+
+    private int GetDataCountFromFile(Stream file)
     {
         // На последней строке находится число - кол-во элементов в файле. Это число и пытаемся достать
 
         if (file.Length == 0)
             return 0;
-        
+
         if (file.Length < 2)
             throw new Exception($"В файле {_pathToCurrentFile} нарушена структура!"); // TODO: написать своё исключение
-        
+
         file.Seek(-2, SeekOrigin.End); // Курсор в конец файла, пропустив символы EOF и '\n'
         var dataCountReverse = "";
         while (true)
@@ -77,12 +83,12 @@ public class FileSystemStorage : IStorage
         var dataCount = new string(dataCountReverse.Reverse().ToArray());
         try
         {
-            return Convert.ToInt64(dataCount);
+            return Convert.ToInt32(dataCount);
         }
         catch
         {
             throw new Exception($"В файле {_pathToCurrentFile} нарушена структура!" +
-                                       $"Не удаётся найти блок с кол-во элементов в файле."); // TODO: написать своё исключение
+                                $"Не удаётся найти блок с кол-во элементов в файле."); // TODO: написать своё исключение
         }
     }
 
@@ -100,6 +106,52 @@ public class FileSystemStorage : IStorage
         file.Write(newDataCountBinary, 0, newDataCountBinary.Length);
     }
 
+
+    public int GetDataCount()
+    {
+        var paths = GetFilePaths();
+        return paths.Sum(GetDataCountFromFile);
+    }
+
+    public int GetDataCountBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null)
+    {
+        var paths = GetFilePathsBetweenTwoDates(beginDate, endDate);
+        return paths.Sum(GetDataCountFromFile);
+    }
+
+    private IEnumerable<string> GetFilePathsBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null)
+    {
+        var goalPaths = new List<string>();
+        foreach (var fullPath in GetFilePaths())
+        {
+            var filename = Path.GetFileNameWithoutExtension(fullPath);
+            var date = DateTime.ParseExact(filename, FilenameDateFormat, null);
+            if (date >= beginDate && date <= endDate)
+                goalPaths.Add(fullPath);
+        }
+
+        return goalPaths;
+    }
+
+    private IEnumerable<string> GetFilePaths()
+    {
+        var goalFilePath = new List<string>();
+        var allFilePaths = Directory.GetFiles(_pathToStorageDir);
+        foreach (var fullPath in allFilePaths)
+        {
+            var filename = Path.GetFileNameWithoutExtension(fullPath);
+            try
+            {
+                DateTime.ParseExact(filename, FilenameDateFormat, null);
+                goalFilePath.Add(fullPath);
+            }
+            catch
+            {
+            }
+        }
+
+        return goalFilePath;
+    }
 
     public List<Data> GetDataBatchBetweenTwoDates(DateTime beginDate, DateTime endDate, int batchNumber, int batchSize)
     {
