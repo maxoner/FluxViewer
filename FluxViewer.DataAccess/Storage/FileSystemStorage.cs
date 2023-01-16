@@ -10,6 +10,7 @@ namespace FluxViewer.DataAccess.Storage;
 public class FileSystemStorage : IStorage
 {
     private string _pathToStorageDir;
+    private string _pathToCurrentFile;
 
     public void Open()
     {
@@ -26,54 +27,74 @@ public class FileSystemStorage : IStorage
     public void WriteData(Data data)
     {
         // Структура файла следующая:
-        // N - кол-во элементов в файле
         // Элемент №1
         // Элемент №2
         // ...
         // Элемент №N
+        // N - кол-во элементов в файле
+        //
 
-        var pathToCurrentFile = _pathToStorageDir + "/" + DateTime.Today.ToString("yyyy_MM_dd") + ".flux";
-        var dataCount = (File.Exists(pathToCurrentFile)) ? GetDataCountFromFile(pathToCurrentFile) : 0;
-        var newDataCount = dataCount + 1;
+        _pathToCurrentFile = _pathToStorageDir + "/" + DateTime.Today.ToString("yyyy_MM_dd") + ".flux";
+        using var file = new FileStream(_pathToCurrentFile, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+        var oldDataCount = GetDataCountFromFile(file);
+        var newDataCount = oldDataCount + 1;
 
-        using var fileToWrite = new FileStream(pathToCurrentFile, FileMode.Append);
-        WriteDataInFile(fileToWrite, data);
-        WriteDataCountInFile(fileToWrite, newDataCount);
+        if (oldDataCount != 0)
+            RemoveDataCountInFile(file, oldDataCount);
+        WriteDataInFile(file, data, newDataCount);
     }
 
-    private static int GetDataCountFromFile(string pathToCurrentFile)
+    private long GetDataCountFromFile(Stream file)
     {
-        using var fileToRead = new FileStream(pathToCurrentFile, FileMode.Open);
-        fileToRead.Seek(0, SeekOrigin.End);
-        byte symbol = 0;
-        string dataCountString = "";
-        while (symbol != (byte) '\n')
+        // На последней строке находится число - кол-во элементов в файле. Это число и пытаемся достать
+
+        if (file.Length == 0)
+            return 0;
+        
+        if (file.Length < 2)
+            throw new Exception($"В файле {_pathToCurrentFile} нарушена структура!"); // TODO: написать своё исключение
+        
+        file.Seek(-2, SeekOrigin.End); // Курсор в конец файла, пропустив символы EOF и '\n'
+        var dataCountReverse = "";
+        while (true)
         {
-            symbol = (byte) fileToRead.ReadByte();
-            dataCountString += symbol.ToString();
-            fileToRead.Seek(-1, SeekOrigin.Current);
+            var currentByte = (byte)file.ReadByte();
+            file.Seek(-1, SeekOrigin.Current); // Назад оступили (-1)
+
+            var currentSymbol = Convert.ToChar(currentByte);
+            if (currentSymbol == '\n') // Дошли до предыдущей строки?
+                break;
+            dataCountReverse += currentSymbol;
+
+            if (file.Position == 0) // Дошли до начала файла?
+                break;
+            file.Seek(-1, SeekOrigin.Current); // Сделали сдвиг для следующей итерации (-1)
         }
 
-        dataCountString = dataCountString.Reverse().ToString();
-        return Convert.ToInt32(dataCountString);
+        var dataCount = new string(dataCountReverse.Reverse().ToArray());
+        try
+        {
+            return Convert.ToInt64(dataCount);
+        }
+        catch
+        {
+            throw new Exception($"В файле {_pathToCurrentFile} нарушена структура!" +
+                                       $"Не удаётся найти блок с кол-во элементов в файле."); // TODO: написать своё исключение
+        }
     }
 
-    private void WriteDataInFile(Stream file, Data data)
+    private static void RemoveDataCountInFile(Stream file, long oldDataCount)
     {
-        var streamWriter = new StreamWriter(file, Encoding.UTF8);
-        streamWriter.WriteLine(data.ToString());
-
-        // var bytesToWrite = Encoding.UTF8.GetBytes($"{data}\n");
-        // file.Seek(file.Length, SeekOrigin.Begin); // Курсор в конец файла
-        // file.Write(bytesToWrite, 0, bytesToWrite.Length);
-        // file.Flush();
+        var countOfNumbers = oldDataCount.ToString().Length + 1; // +1, т.к. считаем ещё и символ '\n'
+        file.Seek(-countOfNumbers, SeekOrigin.End);
     }
 
-    private static void WriteDataCountInFile(Stream file, int newDateCount)
+    private static void WriteDataInFile(Stream file, Data data, long newDataCount)
     {
-        var lineToWrite = $"{newDateCount}\n";
-        var streamWriter = new StreamWriter(file, Encoding.UTF8);
-        streamWriter.WriteLine(lineToWrite);
+        var dataBinary = Encoding.ASCII.GetBytes($"{data}\n");
+        file.Write(dataBinary, 0, dataBinary.Length);
+        var newDataCountBinary = Encoding.ASCII.GetBytes($"{newDataCount}\n");
+        file.Write(newDataCountBinary, 0, newDataCountBinary.Length);
     }
 
 
