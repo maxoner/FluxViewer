@@ -9,6 +9,8 @@ namespace FluxViewer.DataAccess.Storage;
 
 public class FileSystemStorage : IStorage
 {
+    private const string FilenameDateFormat = "yyyy_MM_dd";
+    private const string FilenameExtension = "flux";
     private string _pathToStorageDir;
     private string _pathToCurrentFile;
 
@@ -34,7 +36,7 @@ public class FileSystemStorage : IStorage
         // N - кол-во элементов в файле
         //
 
-        var filename = DateTime.Today.ToString("yyyy_MM_dd") + ".flux";
+        var filename = DateTime.Today.ToString(FilenameDateFormat) + "." + FilenameExtension;
         _pathToCurrentFile = Path.Combine(_pathToStorageDir, filename);
         using var file = new FileStream(_pathToCurrentFile, FileMode.OpenOrCreate, FileAccess.ReadWrite);
         var oldDataCount = GetDataCountFromFile(file);
