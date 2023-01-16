@@ -14,7 +14,7 @@ public class FileSystemStorage : IStorage
 
     public void Open()
     {
-        _pathToStorageDir = Directory.GetCurrentDirectory() + "/data";
+        _pathToStorageDir = Path.Combine(Directory.GetCurrentDirectory(), "data");
         if (!Directory.Exists(_pathToStorageDir))
             Directory.CreateDirectory(_pathToStorageDir);
     }
@@ -34,7 +34,8 @@ public class FileSystemStorage : IStorage
         // N - кол-во элементов в файле
         //
 
-        _pathToCurrentFile = _pathToStorageDir + "/" + DateTime.Today.ToString("yyyy_MM_dd") + ".flux";
+        var filename = DateTime.Today.ToString("yyyy_MM_dd") + ".flux";
+        _pathToCurrentFile = Path.Combine(_pathToStorageDir, filename);
         using var file = new FileStream(_pathToCurrentFile, FileMode.OpenOrCreate, FileAccess.ReadWrite);
         var oldDataCount = GetDataCountFromFile(file);
         var newDataCount = oldDataCount + 1;
