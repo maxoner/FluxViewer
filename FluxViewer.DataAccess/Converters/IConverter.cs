@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using FluxViewer.DataAccess.Models;
 
 namespace FluxViewer.DataAccess.Converters;
 
-public abstract class Converter
+public interface IConverter
 {
-    protected string _pathToFile;
-
-    /// <summary>
-    /// Создать конвертер, который будет записывать результат в переданный файл.
-    /// </summary>
-    /// <param name="pathToFile">Путь до файла, куда будет записан результат конвертации</param>
-    protected Converter(string pathToFile)
-    {
-        _pathToFile = pathToFile;
-    }
-
     /// <summary>
     /// Открыть конвертер и подготовить к записи.
     /// </summary>
