@@ -5,16 +5,22 @@ using FluxViewer.DataAccess.Models;
 
 namespace FluxViewer.DataAccess.Converters;
 
-public class CsvConverter : Converter
+public class CsvConverter : IConverter
 {
+    private readonly string _pathToFile;
     private StreamWriter _file;
     private bool _isOpen;
 
-    public CsvConverter(string pathToFile) : base(pathToFile)
+    /// <summary>
+    /// Конвертер в CSV формат
+    /// </summary>
+    /// <param name="pathToFile">Путь до файла CSV файла, куда будет записан результат конвертации</param>
+    public CsvConverter(string pathToFile)
     {
+        _pathToFile = pathToFile;
     }
 
-    public override void Open()
+    public void Open()
     {
         try
         {
@@ -27,7 +33,7 @@ public class CsvConverter : Converter
         }
     }
 
-    public override void Close()
+    public void Close()
     {
         if (_isOpen && _file is not null)
         {
@@ -36,7 +42,7 @@ public class CsvConverter : Converter
         }
     }
 
-    public override void Write(Data data)
+    public void Write(Data data)
     {
         if (!_isOpen || _file is null)
             throw new Exception("Файл не открыт"); // TODO: тот же класс-исключение
@@ -45,7 +51,7 @@ public class CsvConverter : Converter
                         $"{data.PressureSensorData};{data.HumiditySensorData}");
     }
 
-    public override void Write(IEnumerable<Data> data)
+    public void Write(IEnumerable<Data> data)
     {
         foreach (var record in data)
         {
