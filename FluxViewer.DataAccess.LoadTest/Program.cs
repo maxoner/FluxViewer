@@ -5,22 +5,23 @@ void CreateFileWithRandomData(DateTime date, long dataCount)
     var pathToStorageDir = Path.Combine(Directory.GetCurrentDirectory(), "data");
     if (!Directory.Exists(pathToStorageDir))
         Directory.CreateDirectory(pathToStorageDir);
-    
+
     var filename = date.ToString("yyyy_MM_dd") + ".flux";
     var pathToFile = Path.Combine(pathToStorageDir, filename);
-    using var streamWriter = new StreamWriter(pathToFile);
+    using var file = new FileStream(pathToFile, FileMode.Append);
+
     for (var i = 0; i < dataCount; i++)
     {
-        streamWriter.WriteLine(new Data()
-        {
-            DateTime = DateTime.Now,
-            FluxSensorData = (float)DateTime.Now.Millisecond % 20 / 100,
-            HumiditySensorData = (float)DateTime.Now.Millisecond % 100 / 100,
-            PressureSensorData = (float)DateTime.Now.Millisecond % 10 / 100,
-            TempSensorData = (float)DateTime.Now.Millisecond % 50 / 100
-        });
+        file.Write(new NewData(
+                i,
+                DateTime.Now,
+                (float)DateTime.Now.Millisecond % 20 / 100,
+                (float)DateTime.Now.Millisecond % 100 / 100,
+                (float)DateTime.Now.Millisecond % 10 / 100,
+                (float)DateTime.Now.Millisecond % 50 / 100
+            ).Serialize()
+        );
     }
-    streamWriter.WriteLine(dataCount);
 }
 
 
