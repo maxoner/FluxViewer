@@ -24,7 +24,7 @@ public interface IStorage
     /// Добавление показания прибора в хранилище.
     /// </summary>
     /// <param name="data">Структура, описывающая 1 показание прибора</param>
-    void WriteData(Data data);
+    void WriteData(NewData data);
 
     /// <summary>
     /// Получение количества всех показаний, записанных за всё время.
@@ -46,7 +46,6 @@ public interface IStorage
     /// <param name="beginDate">Дата начала, с которой следует искать показания</param>
     /// <param name="endDate">Дата конца, по которую следует искать показания</param>
     /// <param name="batchNumber">Номер пакета</param>
-    /// <param name="batchSize">Размер пакета</param>
     /// <returns>Все показания прибора в текущий временной интервал</returns>
-    public List<Data> GetDataBatchBetweenTwoDates(DateTime beginDate, DateTime endDate, int batchNumber, int batchSize);
+    public List<NewData> GetDataBatchBetweenTwoDates(DateTime beginDate, DateTime endDate, int batchNumber);
 }
