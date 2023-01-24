@@ -7,69 +7,66 @@ using FluxViewer.DataAccess.Models;
 using FluxViewer.DataAccess.Storage;
 using XMLFileSettings;
 using ZedGraph;
-//using FluxViewer.Properties;
+
 
 namespace FluxViewer
 {
     public partial class Form1 : Form
     {
-        static SerialPort _serialPort = new SerialPort();
-        public static int tabindex = 0;
+        private static readonly SerialPort SerialPort = new();
 
-        readonly int _capacity = 50;
-        double _currentx = 0;
-        readonly double _step = 1;
+        private const int Capacity = 50;
+        private const int PosAverageMax = 10;
+        private const int MaxOutsizeGraph = 600000;
+        private const int MaxReadsizeBase = 600000; // TODO: зачем это поле???
+        private const double Step = 1;
 
-        float flux = 0, temp = 0, pres = 0, humm = 0; //переданные измеренные данные
+        private double _currentX;
+        
+        // Переданные измеренные данные прибора
+        private float _flux;
+        private float _temp;
+        private float _pres;
+        private float _humm;
 
-        RollingPointPairList[] _data = new RollingPointPairList[4]; //данные на графиках
-        /*        RollingPointPairList _data2;
-                RollingPointPairList _data3;
-                RollingPointPairList _data4;   */
-        PointPairList list; // Создадим список точек для графика архива
+        private readonly RollingPointPairList[] _data = new RollingPointPairList[4]; // Данные на графиках
+        private readonly PointPairList _list; // Создадим список точек для графика архива
 
-        PointPair[] _data_archive;
+        private readonly GraphPane[] _pane = new GraphPane[5];
+        private readonly LineItem[] _myCurve = new LineItem[5];
 
-        GraphPane[] pane = new GraphPane[5];
-        LineItem[] myCurve = new LineItem[5];
+        private bool _isGraduateMode; // Вкладка градуировка, пишем данные в таблицу
+        private float _averageDataflux; // Среднее значение измерений в режиме градуировки TODO: зачем это поле???
+        private int _posAverage; // Колическво средних
 
-        bool is_SettingMode = false; //флаг что тестируем порт из вкладки настройки
-        bool is_GraduateMode = false;//вкладка градуировка, пишем данные в таблицу
-        float average_dataflux=0; // среднее значение измерений в режиме градуировки
-        int pos_average;// колическво средних
-        readonly int pos_average_max=10;
-        bool is_dataStartFlux = false;
-        bool is_TestButton;          //запрос информации с кнопки тестирования связи
-        bool is_ASCII_console;//Нажата кнопка вывести данные в консоль
+        private bool _isDataStartFlux;
+        private bool _isTestButton; // Запрос информации с кнопки тестирования связи
+        private bool _isAsciiConsole; // Нажата кнопка вывести данные в консоль?
 
-        byte select_pane = 255; //текущий выбранный график
+        private byte _selectPane = 255; // Текущий выбранный график
 
-        int baze_size; //размер строк в базе между указанными датами
-        readonly int max_outsize_graph = 600000;
-        readonly int max_readsize_base = 600000;
-        //byte sizetable = 2;
+        private int _baseSize; // Размер строк в базе между указанными датами TODO: выпилить данное поле
 
         // База данных
-        ILiteDbService _dataBaseContext;
+        private ILiteDbService _dataBaseContext; // TODO: выпилить БД
         private IStorage _storage;
- 
-        private Props props; 
-        string[] graph_title = new string[4];
-        float[] graph_k = new float[4];
-        float[] graph_b = new float[4];
 
-        //System.IO.FileInfo file;
-        byte[] wirmvare_data;
-        long position_firmware = 0;
-        long size_wirmware = 0;
+        private Props _props;
+        private readonly string[] _graphTitle = new string[4];
+        private readonly float[] _graphK = new float[4];
+        private readonly float[] _graphB = new float[4];
 
-        public Form1()
+        private byte[] _wirmvareData;
+        private long _positionFirmware = 0;
+        private long _sizeWirmware = 0;
+
+        public Form1(ILiteDbService dataBaseContext)
         {
-            _data[0] = new RollingPointPairList(_capacity);
-            _data[1] = new RollingPointPairList(_capacity);
-            _data[2] = new RollingPointPairList(_capacity);
-            _data[3] = new RollingPointPairList(_capacity);
-            list = new PointPairList();
+            _data[0] = new RollingPointPairList(Capacity);
+            _data[1] = new RollingPointPairList(Capacity);
+            _data[2] = new RollingPointPairList(Capacity);
+            _data[3] = new RollingPointPairList(Capacity);
+            _list = new PointPairList();
 
             InitializeComponent();
             OpenStorage();
@@ -125,18 +122,18 @@ namespace FluxViewer
         private void PrepareSettings()
         {
             var pathToXmlSettingsFile = Environment.CurrentDirectory + "\\settings.xml";
-            props = new Props(pathToXmlSettingsFile);
+            _props = new Props(pathToXmlSettingsFile);
             // Если файла с настройками не существует, то дополняем найстроки и создаём этот файл
             if (!File.Exists(pathToXmlSettingsFile))
             {
-                props.Fields.DbPath = Environment.CurrentDirectory + "\\database.litedb";   // TODO: выпилить путь до файла с настройками
-                props.WriteXml();
+                _props.Fields.DbPath = Environment.CurrentDirectory + "\\database.litedb";   // TODO: выпилить путь до файла с настройками
+                _props.WriteXml();
             }
         }
         
         private void DrawGraph_dot()
         {
-            pane[4] = zedGraphControl5.GraphPane;
+            _pane[4] = zedGraphControl5.GraphPane;
         }
         /// <summary>
         /// Инициализация графиков
@@ -144,11 +141,11 @@ namespace FluxViewer
         private void DrawGraph()
         {
             // Получим панель для рисования
-            pane[0] = zedGraphControl1.GraphPane;
-            pane[1] = zedGraphControl2.GraphPane;
-            pane[2] = zedGraphControl3.GraphPane;
-            pane[3] = zedGraphControl4.GraphPane;
-            pane[4] = zedGraphControl5.GraphPane;
+            _pane[0] = zedGraphControl1.GraphPane;
+            _pane[1] = zedGraphControl2.GraphPane;
+            _pane[2] = zedGraphControl3.GraphPane;
+            _pane[3] = zedGraphControl4.GraphPane;
+            _pane[4] = zedGraphControl5.GraphPane;
 
             // Очистим список кривых на тот случай, если до этого сигналы уже были нарисованы
             /*        pane1.CurveList.Clear();
@@ -160,26 +157,26 @@ namespace FluxViewer
             for (int i = 0; i < 5; i++)
             {
                 if (i < 4)
-                    myCurve[i] = pane[i].AddCurve("", _data[i], Color.Blue, SymbolType.None);
+                    _myCurve[i] = _pane[i].AddCurve("", _data[i], Color.Blue, SymbolType.None);
                 else
-                    myCurve[i] = pane[i].AddCurve("", list, Color.Blue, SymbolType.None);
+                    _myCurve[i] = _pane[i].AddCurve("", _list, Color.Blue, SymbolType.None);
 
-                myCurve[i].Line.Width = (float)num_linewidth.Value;//2.0F;
-                pane[i].XAxis.Title.Text = "Время мм:cc";
+                _myCurve[i].Line.Width = (float)num_linewidth.Value;//2.0F;
+                _pane[i].XAxis.Title.Text = "Время мм:cc";
             }
-            pane[0].Title.Text = graph_title[0];
-            pane[1].Title.Text = graph_title[1];
-            pane[2].Title.Text = graph_title[2];
-            pane[3].Title.Text = graph_title[3];
+            _pane[0].Title.Text = _graphTitle[0];
+            _pane[1].Title.Text = _graphTitle[1];
+            _pane[2].Title.Text = _graphTitle[2];
+            _pane[3].Title.Text = _graphTitle[3];
 
-            pane[0].YAxis.Scale.Min = -5000;
-            pane[0].YAxis.Scale.Max = 5000;
-            pane[1].YAxis.Scale.Min = -40;
-            pane[1].YAxis.Scale.Max = 60;
-            pane[2].YAxis.Scale.Min = -10;
-            pane[2].YAxis.Scale.Max = 1200;
-            pane[3].YAxis.Scale.Min = 0;
-            pane[3].YAxis.Scale.Max = 100;
+            _pane[0].YAxis.Scale.Min = -5000;
+            _pane[0].YAxis.Scale.Max = 5000;
+            _pane[1].YAxis.Scale.Min = -40;
+            _pane[1].YAxis.Scale.Max = 60;
+            _pane[2].YAxis.Scale.Min = -10;
+            _pane[2].YAxis.Scale.Max = 1200;
+            _pane[3].YAxis.Scale.Min = 0;
+            _pane[3].YAxis.Scale.Max = 100;
 
             DrawUpdate();
         }
@@ -233,7 +230,7 @@ namespace FluxViewer
             SerialPort sp = (SerialPort)sender;
             if (e.EventType == SerialData.Eof)
                 return;
-            if(is_ASCII_console)
+            if(_isAsciiConsole)
             {
                 string str = sp.ReadExisting();
                 this.BeginInvoke((MethodInvoker)delegate
@@ -270,9 +267,9 @@ namespace FluxViewer
             }
             if (rx_buf[2] == 0x1A)// Режим данных
             {
-                if (!is_dataStartFlux)
+                if (!_isDataStartFlux)
                 {
-                    is_dataStartFlux = true;//преобразование запущено
+                    _isDataStartFlux = true;//преобразование запущено
                     this.BeginInvoke((MethodInvoker)delegate
                     {
                         toolStripStatusLabel2.Text = "Подключено";
@@ -291,49 +288,49 @@ namespace FluxViewer
                 {
                     date1 = DateTime.Now;
                 }
-                flux = BitConverter.ToSingle(rx_buf, 12) * float.Parse(textBox7.Text) + float.Parse(textBox8.Text);
-                temp = BitConverter.ToSingle(rx_buf, 16) * float.Parse(textBox10.Text) + float.Parse(textBox9.Text);
-                pres = BitConverter.ToSingle(rx_buf, 20) * float.Parse(textBox13.Text) + float.Parse(textBox12.Text);
-                humm = BitConverter.ToSingle(rx_buf, 24) * float.Parse(textBox16.Text) + float.Parse(textBox15.Text);
+                _flux = BitConverter.ToSingle(rx_buf, 12) * float.Parse(textBox7.Text) + float.Parse(textBox8.Text);
+                _temp = BitConverter.ToSingle(rx_buf, 16) * float.Parse(textBox10.Text) + float.Parse(textBox9.Text);
+                _pres = BitConverter.ToSingle(rx_buf, 20) * float.Parse(textBox13.Text) + float.Parse(textBox12.Text);
+                _humm = BitConverter.ToSingle(rx_buf, 24) * float.Parse(textBox16.Text) + float.Parse(textBox15.Text);
 
                 //режим градуировки
-                if (is_GraduateMode)
+                if (_isGraduateMode)
                 {
-                    average_dataflux += flux / 2;
-                    if (pos_average > pos_average_max)
+                    _averageDataflux += _flux / 2;
+                    if (_posAverage > PosAverageMax)
                     {
                         this.BeginInvoke((MethodInvoker)delegate
                         {
-                            dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value = flux.ToString();
+                            dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value = _flux.ToString();
                             btn_stop_Click(sender, e);// отключить преобразование
                         });
-                        pos_average = 0;
-                        is_GraduateMode = false;
+                        _posAverage = 0;
+                        _isGraduateMode = false;
                         return;
                     }
-                    pos_average++;
+                    _posAverage++;
                     return;
                 }
                 //XDate valueX = new XDate(date1);
-                _data[0].Add(_currentx, flux);
-                _data[1].Add(_currentx, temp);
-                _data[2].Add(_currentx, pres);
-                _data[3].Add(_currentx, humm);
-                _currentx += _step;
+                _data[0].Add(_currentX, _flux);
+                _data[1].Add(_currentX, _temp);
+                _data[2].Add(_currentX, _pres);
+                _data[3].Add(_currentX, _humm);
+                _currentX += Step;
 
                 // Рассчитаем интервал по оси X, который нужно отобразить на графике
-                double xmin = _currentx - _capacity * _step;
-                double xmax = _currentx;
+                double xmin = _currentX - Capacity * Step;
+                double xmax = _currentX;
 
                 for (int j = 0; j < 4; j++)
                 {
-                    pane[j].XAxis.Scale.Min = xmin;
-                    pane[j].XAxis.Scale.Max = xmax;
+                    _pane[j].XAxis.Scale.Min = xmin;
+                    _pane[j].XAxis.Scale.Max = xmax;
                 }
 
                 //Сохранить данные в базу
                 // TODO: Убираем ID, т.к. не можем его контроллировать!
-                _storage.WriteData(new NewData(0, DateTime.Now, flux, temp, pres, humm));
+                _storage.WriteData(new NewData(0, DateTime.Now, _flux, _temp, _pres, _humm));
 
 
                 this.BeginInvoke((MethodInvoker)delegate { DrawUpdate(); });
@@ -381,50 +378,50 @@ namespace FluxViewer
                     toolStripStatusLabel2.Text = "Подключено";
                     toolStripStatusLabel2.BackColor = Color.Green;
                     toolStripStatusLabel4.Text = Encoding.UTF8.GetString(rx_buf, 18, 10);
-                    if (is_TestButton)
+                    if (_isTestButton)
                     {
                         timer1.Enabled = false;                        
                         MessageBox.Show(info, "Успешно подключено", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-                        is_TestButton = false;
+                        _isTestButton = false;
 
                     }
                 });
             }
             else if (rx_buf[2] == 0x5b)//Перепрошивка
             {
-                if (position_firmware == 0)
+                if (_positionFirmware == 0)
                 {                   
-                    size_wirmware = wirmvare_data.Length;
-                    position_firmware = 200;
+                    _sizeWirmware = _wirmvareData.Length;
+                    _positionFirmware = 200;
                     this.BeginInvoke((MethodInvoker)delegate { 
-                        progressBar1.Maximum = (int)size_wirmware; 
+                        progressBar1.Maximum = (int)_sizeWirmware; 
                         label29.Text = "Передача данных в устройство";
-                        progressBar1.Value = (int)position_firmware;
+                        progressBar1.Value = (int)_positionFirmware;
                     });
-                    com_send(0x5b, wirmvare_data, 200);
+                    com_send(0x5b, _wirmvareData, 200);
                 }
-                else if (position_firmware <= size_wirmware)
+                else if (_positionFirmware <= _sizeWirmware)
                 {
-                    if (size_wirmware - position_firmware >= 200)
+                    if (_sizeWirmware - _positionFirmware >= 200)
                     {
                         byte[] arr = new byte[200];
-                        Array.Copy(wirmvare_data, (int)position_firmware, arr, 0, 200);
+                        Array.Copy(_wirmvareData, (int)_positionFirmware, arr, 0, 200);
                         com_send(0x5b, arr, 200);
-                        position_firmware += 200;
-                        this.BeginInvoke((MethodInvoker)delegate { progressBar1.Value = (int)position_firmware; });
+                        _positionFirmware += 200;
+                        this.BeginInvoke((MethodInvoker)delegate { progressBar1.Value = (int)_positionFirmware; });
                     }
                     else
                     {
-                        byte[] arr = new byte[size_wirmware - position_firmware];
-                        Array.Copy(wirmvare_data, (int)position_firmware, arr, 0, size_wirmware - position_firmware);
-                        com_send(0x5b, arr, (int)(size_wirmware - position_firmware));
-                        position_firmware += size_wirmware - position_firmware;
+                        byte[] arr = new byte[_sizeWirmware - _positionFirmware];
+                        Array.Copy(_wirmvareData, (int)_positionFirmware, arr, 0, _sizeWirmware - _positionFirmware);
+                        com_send(0x5b, arr, (int)(_sizeWirmware - _positionFirmware));
+                        _positionFirmware += _sizeWirmware - _positionFirmware;
                         this.BeginInvoke((MethodInvoker)delegate { 
                         label29.Text = "Перепрограммирование устройства";
                             Thread.Sleep(3000);
                         btn_stop_Click(sender, e);
                          });
-                        _serialPort.Close();
+                        SerialPort.Close();
                     //com_send_cmd(0x5a); //перезагружаем устроцство
                 }
                 }
@@ -474,59 +471,59 @@ namespace FluxViewer
         /// </summary>
         public void SetSettings()
         {
-            props.ReadXml();
-            string path = props.Fields.DbPath.ToString();
+            _props.ReadXml();
+            string path = _props.Fields.DbPath.ToString();
             this.textBox3.Text = path;
          
-            rb_isPCclock.Checked = props.Fields.IsPcTime;
-            com_name.Text = props.Fields.ComNum.ToString();
-            com_speed.Text = props.Fields.ComSpeed.ToString();
+            rb_isPCclock.Checked = _props.Fields.IsPcTime;
+            com_name.Text = _props.Fields.ComNum.ToString();
+            com_speed.Text = _props.Fields.ComSpeed.ToString();
 
 
-            textBox6.Text = props.Fields.GOneTitle.ToString();
-            textBox11.Text = props.Fields.GTwoTitle.ToString();
-            textBox14.Text = props.Fields.GThreeTitle.ToString();
-            textBox17.Text = props.Fields.GFourTitle.ToString();
-            textBox7.Text = props.Fields.G1K.ToString();
-            textBox8.Text = props.Fields.G1B.ToString();
-            textBox10.Text = props.Fields.G2K.ToString();
-            textBox9.Text = props.Fields.G2B.ToString();
-            textBox13.Text = props.Fields.G3K.ToString();
-            textBox12.Text = props.Fields.G3B.ToString();
-            textBox16.Text = props.Fields.G4K.ToString();
-            textBox15.Text = props.Fields.G4B.ToString();
+            textBox6.Text = _props.Fields.GOneTitle.ToString();
+            textBox11.Text = _props.Fields.GTwoTitle.ToString();
+            textBox14.Text = _props.Fields.GThreeTitle.ToString();
+            textBox17.Text = _props.Fields.GFourTitle.ToString();
+            textBox7.Text = _props.Fields.G1K.ToString();
+            textBox8.Text = _props.Fields.G1B.ToString();
+            textBox10.Text = _props.Fields.G2K.ToString();
+            textBox9.Text = _props.Fields.G2B.ToString();
+            textBox13.Text = _props.Fields.G3K.ToString();
+            textBox12.Text = _props.Fields.G3B.ToString();
+            textBox16.Text = _props.Fields.G4K.ToString();
+            textBox15.Text = _props.Fields.G4B.ToString();
 
-            graph_title[0] = props.Fields.GOneTitle.ToString();
-            graph_title[1] = props.Fields.GTwoTitle.ToString();
-            graph_title[2] = props.Fields.GThreeTitle.ToString();
-            graph_title[3] = props.Fields.GFourTitle.ToString();
+            _graphTitle[0] = _props.Fields.GOneTitle.ToString();
+            _graphTitle[1] = _props.Fields.GTwoTitle.ToString();
+            _graphTitle[2] = _props.Fields.GThreeTitle.ToString();
+            _graphTitle[3] = _props.Fields.GFourTitle.ToString();
 
-            graph_k[0] = float.Parse(props.Fields.G1K);
-            graph_b[0] = float.Parse(props.Fields.G1B);
-            graph_k[1] = float.Parse(props.Fields.G2K);
-            graph_b[1] = float.Parse(props.Fields.G2B);
-            graph_k[2] = float.Parse(props.Fields.G3K);
-            graph_b[2] = float.Parse(props.Fields.G3B);
-            graph_k[3] = float.Parse(props.Fields.G4K);
-            graph_b[3] = float.Parse(props.Fields.G4B);
+            _graphK[0] = float.Parse(_props.Fields.G1K);
+            _graphB[0] = float.Parse(_props.Fields.G1B);
+            _graphK[1] = float.Parse(_props.Fields.G2K);
+            _graphB[1] = float.Parse(_props.Fields.G2B);
+            _graphK[2] = float.Parse(_props.Fields.G3K);
+            _graphB[2] = float.Parse(_props.Fields.G3B);
+            _graphK[3] = float.Parse(_props.Fields.G4K);
+            _graphB[3] = float.Parse(_props.Fields.G4B);
 
             comboBox1.Items.Clear();
-            comboBox1.Items.Add(graph_title[0]);
-            comboBox1.Items.Add(graph_title[1]);
-            comboBox1.Items.Add(graph_title[2]);
-            comboBox1.Items.Add(graph_title[3]);
+            comboBox1.Items.Add(_graphTitle[0]);
+            comboBox1.Items.Add(_graphTitle[1]);
+            comboBox1.Items.Add(_graphTitle[2]);
+            comboBox1.Items.Add(_graphTitle[3]);
             cb_graphtype.Items.Clear();
             cb_graphtype.Items.Add("все графики");
-            cb_graphtype.Items.Add(graph_title[0]);
-            cb_graphtype.Items.Add(graph_title[1]);
-            cb_graphtype.Items.Add(graph_title[2]);
-            cb_graphtype.Items.Add(graph_title[3]);
+            cb_graphtype.Items.Add(_graphTitle[0]);
+            cb_graphtype.Items.Add(_graphTitle[1]);
+            cb_graphtype.Items.Add(_graphTitle[2]);
+            cb_graphtype.Items.Add(_graphTitle[3]);
             cb_graphtype.SelectedIndex = 0;
 
             //вкладка графифики
-            num_linewidth.Value = props.Fields.LineWidth;
-            rb_templot_2.Checked = props.Fields.IsBlackTheme;
-            check_grid.Checked = props.Fields.IsGrid;
+            num_linewidth.Value = _props.Fields.LineWidth;
+            rb_templot_2.Checked = _props.Fields.IsBlackTheme;
+            check_grid.Checked = _props.Fields.IsGrid;
         }
 
         /// <summary>
@@ -535,29 +532,29 @@ namespace FluxViewer
         public void SaveSettings()
         {
             //вкладка программа
-            props.Fields.DbPath = textBox3.Text;
-            props.Fields.IsPcTime = rb_isPCclock.Checked;
-            props.Fields.ComNum = com_name.Text;
-            props.Fields.ComSpeed = com_speed.Text;
+            _props.Fields.DbPath = textBox3.Text;
+            _props.Fields.IsPcTime = rb_isPCclock.Checked;
+            _props.Fields.ComNum = com_name.Text;
+            _props.Fields.ComSpeed = com_speed.Text;
 
             //вкладка графифики
-            props.Fields.LineWidth = num_linewidth.Value;
-            props.Fields.IsBlackTheme = rb_templot_2.Checked;
-            props.Fields.IsGrid = check_grid.Checked;
+            _props.Fields.LineWidth = num_linewidth.Value;
+            _props.Fields.IsBlackTheme = rb_templot_2.Checked;
+            _props.Fields.IsGrid = check_grid.Checked;
 
-            props.Fields.GOneTitle = textBox6.Text;
-            props.Fields.GTwoTitle = textBox11.Text;
-            props.Fields.GThreeTitle = textBox14.Text;
-            props.Fields.GFourTitle = textBox17.Text;
-            props.Fields.G1K = textBox7.Text;
-            props.Fields.G1B = textBox8.Text;
-            props.Fields.G2K = textBox10.Text;
-            props.Fields.G2B = textBox9.Text;
-            props.Fields.G3K = textBox13.Text;
-            props.Fields.G3B = textBox12.Text;
-            props.Fields.G4K = textBox16.Text;
-            props.Fields.G4B = textBox15.Text;
-            props.WriteXml();
+            _props.Fields.GOneTitle = textBox6.Text;
+            _props.Fields.GTwoTitle = textBox11.Text;
+            _props.Fields.GThreeTitle = textBox14.Text;
+            _props.Fields.GFourTitle = textBox17.Text;
+            _props.Fields.G1K = textBox7.Text;
+            _props.Fields.G1B = textBox8.Text;
+            _props.Fields.G2K = textBox10.Text;
+            _props.Fields.G2B = textBox9.Text;
+            _props.Fields.G3K = textBox13.Text;
+            _props.Fields.G3B = textBox12.Text;
+            _props.Fields.G4K = textBox16.Text;
+            _props.Fields.G4B = textBox15.Text;
+            _props.WriteXml();
         }
         
         /// <summary>
@@ -579,9 +576,9 @@ namespace FluxViewer
         private void btn_updateport_Click(object sender, EventArgs e)
         {
             com_name.Items.Clear();
-            if (!_serialPort.IsOpen)
+            if (!SerialPort.IsOpen)
             {
-                _serialPort.PortName = SetPortName();
+                SerialPort.PortName = SetPortName();
             }
             else 
             {
@@ -640,18 +637,18 @@ namespace FluxViewer
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    pane[j].YAxis.Scale.MinAuto = true;
-                    pane[j].YAxis.Scale.MaxAuto = true;
-                    pane[j].IsBoundedRanges = true;
+                    _pane[j].YAxis.Scale.MinAuto = true;
+                    _pane[j].YAxis.Scale.MaxAuto = true;
+                    _pane[j].IsBoundedRanges = true;
                 }
             }
             else
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    pane[j].YAxis.Scale.MinAuto = false;
-                    pane[j].YAxis.Scale.MaxAuto = false;
-                    pane[j].IsBoundedRanges = false;
+                    _pane[j].YAxis.Scale.MinAuto = false;
+                    _pane[j].YAxis.Scale.MaxAuto = false;
+                    _pane[j].IsBoundedRanges = false;
                 }
             }
             DrawUpdate();
@@ -669,9 +666,9 @@ namespace FluxViewer
             data[2] = cmd;
             data[3] = 0x00;
             data[4] = cmd;
-            if (_serialPort.IsOpen)
+            if (SerialPort.IsOpen)
             {
-                _serialPort.Write(data, 0, 5);
+                SerialPort.Write(data, 0, 5);
             }
         }
         
@@ -694,7 +691,7 @@ namespace FluxViewer
                 buf[i + 4] = data_send[i];
             }
             buf[i + 4] = checksum(buf, (byte)(lenght + 2));
-            _serialPort.Write(buf, 0, lenght + 5);
+            SerialPort.Write(buf, 0, lenght + 5);
         }
         
         //посылаем команду
@@ -737,7 +734,7 @@ namespace FluxViewer
             buf[18] = (byte)(cb_st_format.SelectedIndex);
             buf[19] = checkBox1.Checked ? (byte)1 : (byte)0;
             buf[20] = checksum(buf, (byte)(buf.Length - 3));
-            _serialPort.Write(buf, 0, buf.Length);
+            SerialPort.Write(buf, 0, buf.Length);
 
             DialogResult result = MessageBox.Show("Настройки записаны в устройство\nдля применение необходимо перезагрузить устройство\nПерезагрузить?", "Сообщение", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
             if (result == DialogResult.Yes)
@@ -747,7 +744,7 @@ namespace FluxViewer
                 //команда перезагрузки
                 Thread.Sleep(500);
                 com_send_cmd(0x5a);
-                _serialPort.Close();
+                SerialPort.Close();
 
             }
         }
@@ -761,11 +758,11 @@ namespace FluxViewer
         
         private void btn_start_Click(object sender, EventArgs e)
         {
-            if (!is_dataStartFlux)
+            if (!_isDataStartFlux)
             {
                 connect_flux();
             }
-            if (_serialPort.IsOpen)
+            if (SerialPort.IsOpen)
             {
                 Thread.Sleep(400);
                 com_send_cmd(0x2a);// Старт преобразования
@@ -784,7 +781,7 @@ namespace FluxViewer
         {
             if (e.TabPageIndex == 1) //настройка устройства
             {
-                if (_serialPort.IsOpen)
+                if (SerialPort.IsOpen)
                 {
                     com_send_cmd(0x1b);// Настройки устройства
                 }
@@ -861,69 +858,69 @@ namespace FluxViewer
         /// <param name="e"></param>
         private void zedGraphControl1_MouseClick(object sender, MouseEventArgs e)
         {
-            if (select_pane == 0)
+            if (_selectPane == 0)
             {
-                pane[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                select_pane = 255;
+                _pane[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _selectPane = 255;
             }
             else
             {
-                pane[0].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
-                pane[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                pane[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                pane[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                select_pane = 0;
+                _pane[0].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
+                _pane[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _pane[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _pane[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _selectPane = 0;
             }
             DrawUpdate();
         }
         private void zedGraphControl2_MouseClick(object sender, MouseEventArgs e)
         {
-            if (select_pane == 1)
+            if (_selectPane == 1)
             {
-                pane[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                select_pane = 255;
+                _pane[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _selectPane = 255;
             }
             else
             {
-                pane[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                pane[1].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
-                pane[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                pane[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                select_pane = 1;
+                _pane[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _pane[1].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
+                _pane[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _pane[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _selectPane = 1;
             }
             DrawUpdate();
         }
         private void zedGraphControl3_MouseClick(object sender, MouseEventArgs e)
         {
-            if (select_pane == 2)
+            if (_selectPane == 2)
             {
-                pane[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                select_pane = 255;
+                _pane[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _selectPane = 255;
             }
             else
             {
-                pane[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                pane[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                pane[2].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
-                pane[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                select_pane = 2;
+                _pane[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _pane[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _pane[2].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
+                _pane[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _selectPane = 2;
             }
             DrawUpdate();
         }
         private void zedGraphControl4_MouseClick(object sender, MouseEventArgs e)
         {
-            if (select_pane == 3)
+            if (_selectPane == 3)
             {
-                pane[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                select_pane = 255;
+                _pane[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _selectPane = 255;
             }
             else
             {
-                pane[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                pane[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                pane[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                pane[3].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
-                select_pane = 3;
+                _pane[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _pane[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _pane[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _pane[3].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
+                _selectPane = 3;
             }
             DrawUpdate();
         }
@@ -935,11 +932,11 @@ namespace FluxViewer
         /// <param name="e"></param>
         private void bpn_plus_reg_Click(object sender, EventArgs e)
         {
-            if (select_pane == 255)
+            if (_selectPane == 255)
                 return;
-            double amp = (pane[select_pane].YAxis.Scale.Max - pane[select_pane].YAxis.Scale.Min) * 0.1;
-            pane[select_pane].YAxis.Scale.Min = pane[select_pane].YAxis.Scale.Min + amp;
-            pane[select_pane].YAxis.Scale.Max = pane[select_pane].YAxis.Scale.Max - amp;
+            double amp = (_pane[_selectPane].YAxis.Scale.Max - _pane[_selectPane].YAxis.Scale.Min) * 0.1;
+            _pane[_selectPane].YAxis.Scale.Min = _pane[_selectPane].YAxis.Scale.Min + amp;
+            _pane[_selectPane].YAxis.Scale.Max = _pane[_selectPane].YAxis.Scale.Max - amp;
             DrawUpdate();
         }
 
@@ -950,11 +947,11 @@ namespace FluxViewer
         /// <param name="e"></param>
         private void btn_minus_reg_Click(object sender, EventArgs e)
         {
-            if (select_pane == 255)
+            if (_selectPane == 255)
                 return;
-            double amp = (pane[select_pane].YAxis.Scale.Max - pane[select_pane].YAxis.Scale.Min) * 0.1;
-            pane[select_pane].YAxis.Scale.Min = pane[select_pane].YAxis.Scale.Min - amp;
-            pane[select_pane].YAxis.Scale.Max = pane[select_pane].YAxis.Scale.Max + amp;
+            double amp = (_pane[_selectPane].YAxis.Scale.Max - _pane[_selectPane].YAxis.Scale.Min) * 0.1;
+            _pane[_selectPane].YAxis.Scale.Min = _pane[_selectPane].YAxis.Scale.Min - amp;
+            _pane[_selectPane].YAxis.Scale.Max = _pane[_selectPane].YAxis.Scale.Max + amp;
             DrawUpdate();
         }
 
@@ -1038,7 +1035,7 @@ namespace FluxViewer
             //_serialPort.Close();
             btn_stop.Enabled = false;
             btn_start.Enabled = true;
-            is_dataStartFlux = false;
+            _isDataStartFlux = false;
             gb_settings.Enabled = false;
         }
 
@@ -1056,8 +1053,8 @@ namespace FluxViewer
         /// <param name="e"></param>
         private void button17_Click(object sender, EventArgs e)
         {
-            is_GraduateMode = true;
-            if (!is_dataStartFlux) btn_start_Click(sender, e); // запуск измерения
+            _isGraduateMode = true;
+            if (!_isDataStartFlux) btn_start_Click(sender, e); // запуск измерения
         }
         /// <summary>
         /// Кнопка апроксимации
@@ -1093,8 +1090,8 @@ namespace FluxViewer
             var dataCount = _storage.GetDataCountBetweenTwoDates(beginDate, endDate);
             if (dataCount != 0)
             {
-               baze_size = dataCount;
-               list.Clear();
+               _baseSize = dataCount;
+               _list.Clear();
                comboBox1.Enabled = true;
                btn_export.Enabled = true;
             }
@@ -1116,15 +1113,15 @@ namespace FluxViewer
             DateTime date1 = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 00, 00, 00, 000);
             DateTime date2 = new DateTime (dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59, 999);
            
-            list.Clear();
-            list.AddRange(_dataBaseContext.GetDataBetweenTwoDatesColumn(date1, date2, comboBox1.SelectedIndex+1, (int)baze_size / max_outsize_graph - 1));
+            _list.Clear();
+            _list.AddRange(_dataBaseContext.GetDataBetweenTwoDatesColumn(date1, date2, comboBox1.SelectedIndex+1, (int)_baseSize / MaxOutsizeGraph - 1));
             if (comboBox1.Text == "")
             {
-                pane[4].Title.Text ="График";
+                _pane[4].Title.Text ="График";
             }
             else
             {
-                pane[4].Title.Text = comboBox1.Text;
+                _pane[4].Title.Text = comboBox1.Text;
             }
 
             /*           switch (comboBox1.SelectedIndex)
@@ -1142,22 +1139,22 @@ namespace FluxViewer
                                pane[4].Title.Text = "Влажность, %";
                                break;
                        }*/
-            pane[4].XAxis.Type = AxisType.Date;
-            pane[4].YAxis.Scale.MinAuto = true;
-            pane[4].YAxis.Scale.MaxAuto = true;
+            _pane[4].XAxis.Type = AxisType.Date;
+            _pane[4].YAxis.Scale.MinAuto = true;
+            _pane[4].YAxis.Scale.MaxAuto = true;
             if (checkBox3.Checked)
             {
-                pane[4].XAxis.Scale.MinAuto = true;
-                pane[4].XAxis.Scale.MaxAuto = true;
+                _pane[4].XAxis.Scale.MinAuto = true;
+                _pane[4].XAxis.Scale.MaxAuto = true;
             }
             else
             {
-                pane[4].XAxis.Scale.MinAuto = false;
-                pane[4].XAxis.Scale.MaxAuto = false;
-                pane[4].XAxis.Scale.Min = new XDate(date1);
-                pane[4].XAxis.Scale.Max = new XDate(date2);
+                _pane[4].XAxis.Scale.MinAuto = false;
+                _pane[4].XAxis.Scale.MaxAuto = false;
+                _pane[4].XAxis.Scale.Min = new XDate(date1);
+                _pane[4].XAxis.Scale.Max = new XDate(date2);
             }
-            pane[4].IsBoundedRanges = true;
+            _pane[4].IsBoundedRanges = true;
 
             zedGraphControl5.AxisChange();
             zedGraphControl5.Invalidate();
@@ -1173,98 +1170,98 @@ namespace FluxViewer
                 for (int j = 0; j < 5; j++)
                 {
 
-                    pane[j].XAxis.MajorGrid.IsVisible = true;
+                    _pane[j].XAxis.MajorGrid.IsVisible = true;
                     // Длина штрихов равна 10 пикселям, ...
-                    pane[j].XAxis.MajorGrid.DashOn = 10;
+                    _pane[j].XAxis.MajorGrid.DashOn = 10;
                     // затем 5 пикселей - пропуск
-                    pane[j].XAxis.MajorGrid.DashOff = 5;
+                    _pane[j].XAxis.MajorGrid.DashOff = 5;
                     // Включаем отображение сетки напротив крупных рисок по оси Y
-                    pane[j].YAxis.MajorGrid.IsVisible = true;
+                    _pane[j].YAxis.MajorGrid.IsVisible = true;
                     // Аналогично задаем вид пунктирной линии для крупных рисок по оси Y
-                    pane[j].YAxis.MajorGrid.DashOn = 10;
-                    pane[j].YAxis.MajorGrid.DashOff = 5;
+                    _pane[j].YAxis.MajorGrid.DashOn = 10;
+                    _pane[j].YAxis.MajorGrid.DashOff = 5;
                     // Включаем отображение сетки напротив мелких рисок по оси X
-                    pane[j].YAxis.MinorGrid.IsVisible = true;
+                    _pane[j].YAxis.MinorGrid.IsVisible = true;
                     // Задаем вид пунктирной линии для крупных рисок по оси Y:
                     // Длина штрихов равна одному пикселю, ...
-                    pane[j].YAxis.MinorGrid.DashOn = 1;
+                    _pane[j].YAxis.MinorGrid.DashOn = 1;
                     // затем 2 пикселя - пропуск
-                    pane[j].YAxis.MinorGrid.DashOff = 2;
+                    _pane[j].YAxis.MinorGrid.DashOff = 2;
                     // Включаем отображение сетки напротив мелких рисок по оси Y
-                    pane[j].XAxis.MinorGrid.IsVisible = true;
+                    _pane[j].XAxis.MinorGrid.IsVisible = true;
                     // Аналогично задаем вид пунктирной линии для крупных рисок по оси Y
-                    pane[j].XAxis.MinorGrid.DashOn = 1;
-                    pane[j].XAxis.MinorGrid.DashOff = 2;
+                    _pane[j].XAxis.MinorGrid.DashOn = 1;
+                    _pane[j].XAxis.MinorGrid.DashOff = 2;
                 }
             }
             else
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    pane[j].XAxis.MajorGrid.IsVisible = false;
-                    pane[j].YAxis.MajorGrid.IsVisible = false;
-                    pane[j].YAxis.MinorGrid.IsVisible = false;
-                    pane[j].XAxis.MinorGrid.IsVisible = false;
+                    _pane[j].XAxis.MajorGrid.IsVisible = false;
+                    _pane[j].YAxis.MajorGrid.IsVisible = false;
+                    _pane[j].YAxis.MinorGrid.IsVisible = false;
+                    _pane[j].XAxis.MinorGrid.IsVisible = false;
                 }
             }
             if (rb_templot_1.Checked == true)
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    pane[j].CurveList.RemoveAt(0);
+                    _pane[j].CurveList.RemoveAt(0);
                     if (j < 4)
-                        myCurve[j] = pane[j].AddCurve("", _data[j], Color.Blue, SymbolType.None);
+                        _myCurve[j] = _pane[j].AddCurve("", _data[j], Color.Blue, SymbolType.None);
                     else
-                        myCurve[j] = pane[j].AddCurve("", list, Color.Blue, SymbolType.None);
+                        _myCurve[j] = _pane[j].AddCurve("", _list, Color.Blue, SymbolType.None);
 
-                    myCurve[j].Line.Width = (float)num_linewidth.Value;
-                    pane[j].Border.Color = Color.Black;// Установим цвет рамки для всего компонента                 
-                    pane[j].Chart.Border.Color = Color.Black; // Установим цвет рамки вокруг графика                                      
-                    pane[j].Fill.Type = FillType.Solid;// Закрасим фон всего компонента ZedGraph
-                    pane[j].Fill.Color = Color.White;// Заливка будет сплошная                   
-                    pane[j].Chart.Fill.Type = FillType.Solid; // Закрасим область графика (его фон) в черный цвет
-                    pane[j].Chart.Fill.Color = Color.White;
-                    pane[j].XAxis.MajorGrid.IsZeroLine = true;// Включим показ оси на уровне X = 0 и Y = 0, чтобы видеть цвет осей
-                    pane[j].YAxis.MajorGrid.IsZeroLine = true;
-                    pane[j].XAxis.Color = Color.Black; // Установим цвет осей
-                    pane[j].YAxis.Color = Color.Black;
-                    pane[j].XAxis.MajorGrid.Color = Color.Black;// Установим цвет для сетки
-                    pane[j].YAxis.MajorGrid.Color = Color.Black;
-                    pane[j].XAxis.Title.FontSpec.FontColor = Color.Black;// Установим цвет для подписей рядом с осями
-                    pane[j].YAxis.Title.FontSpec.FontColor = Color.Black;
-                    pane[j].XAxis.Scale.FontSpec.FontColor = Color.Black;// Установим цвет подписей под метками
-                    pane[j].YAxis.Scale.FontSpec.FontColor = Color.Black;
-                    pane[j].Title.FontSpec.FontColor = Color.Black; // Установим цвет заголовка над графиком                    
+                    _myCurve[j].Line.Width = (float)num_linewidth.Value;
+                    _pane[j].Border.Color = Color.Black;// Установим цвет рамки для всего компонента                 
+                    _pane[j].Chart.Border.Color = Color.Black; // Установим цвет рамки вокруг графика                                      
+                    _pane[j].Fill.Type = FillType.Solid;// Закрасим фон всего компонента ZedGraph
+                    _pane[j].Fill.Color = Color.White;// Заливка будет сплошная                   
+                    _pane[j].Chart.Fill.Type = FillType.Solid; // Закрасим область графика (его фон) в черный цвет
+                    _pane[j].Chart.Fill.Color = Color.White;
+                    _pane[j].XAxis.MajorGrid.IsZeroLine = true;// Включим показ оси на уровне X = 0 и Y = 0, чтобы видеть цвет осей
+                    _pane[j].YAxis.MajorGrid.IsZeroLine = true;
+                    _pane[j].XAxis.Color = Color.Black; // Установим цвет осей
+                    _pane[j].YAxis.Color = Color.Black;
+                    _pane[j].XAxis.MajorGrid.Color = Color.Black;// Установим цвет для сетки
+                    _pane[j].YAxis.MajorGrid.Color = Color.Black;
+                    _pane[j].XAxis.Title.FontSpec.FontColor = Color.Black;// Установим цвет для подписей рядом с осями
+                    _pane[j].YAxis.Title.FontSpec.FontColor = Color.Black;
+                    _pane[j].XAxis.Scale.FontSpec.FontColor = Color.Black;// Установим цвет подписей под метками
+                    _pane[j].YAxis.Scale.FontSpec.FontColor = Color.Black;
+                    _pane[j].Title.FontSpec.FontColor = Color.Black; // Установим цвет заголовка над графиком                    
                 }
             }
             else if (rb_templot_2.Checked == true)
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    pane[j].CurveList.RemoveAt(0);
+                    _pane[j].CurveList.RemoveAt(0);
                     if (j < 4)
-                        myCurve[j] = pane[j].AddCurve("", _data[j], Color.Yellow, SymbolType.None);
+                        _myCurve[j] = _pane[j].AddCurve("", _data[j], Color.Yellow, SymbolType.None);
                     else
-                        myCurve[j] = pane[j].AddCurve("", list, Color.Yellow, SymbolType.None);
+                        _myCurve[j] = _pane[j].AddCurve("", _list, Color.Yellow, SymbolType.None);
 
-                    myCurve[j].Line.Width = (float)num_linewidth.Value;
-                    pane[j].Border.Color = Color.Black;// Установим цвет рамки для всего компонента                 
-                    pane[j].Chart.Border.Color = Color.Green; // Установим цвет рамки вокруг графика                                      
-                    pane[j].Fill.Type = FillType.Solid;// Закрасим фон всего компонента ZedGraph
-                    pane[j].Fill.Color = Color.Silver;// Заливка будет сплошная                   
-                    pane[j].Chart.Fill.Type = FillType.Solid; // Закрасим область графика (его фон) в черный цвет
-                    pane[j].Chart.Fill.Color = Color.Black;
-                    pane[j].XAxis.MajorGrid.IsZeroLine = true;// Включим показ оси на уровне X = 0 и Y = 0, чтобы видеть цвет осей
-                    pane[j].YAxis.MajorGrid.IsZeroLine = true;
-                    pane[j].XAxis.Color = Color.Gray; // Установим цвет осей
-                    pane[j].YAxis.Color = Color.Gray;
-                    pane[j].XAxis.MajorGrid.Color = Color.Cyan;// Установим цвет для сетки
-                    pane[j].YAxis.MajorGrid.Color = Color.Cyan;
-                    pane[j].XAxis.Title.FontSpec.FontColor = Color.Teal;// Установим цвет для подписей рядом с осями
-                    pane[j].YAxis.Title.FontSpec.FontColor = Color.Teal;
-                    pane[j].XAxis.Scale.FontSpec.FontColor = Color.Black;// Установим цвет подписей под метками
-                    pane[j].YAxis.Scale.FontSpec.FontColor = Color.Black;
-                    pane[j].Title.FontSpec.FontColor = Color.Teal; // Установим цвет заголовка над графиком
+                    _myCurve[j].Line.Width = (float)num_linewidth.Value;
+                    _pane[j].Border.Color = Color.Black;// Установим цвет рамки для всего компонента                 
+                    _pane[j].Chart.Border.Color = Color.Green; // Установим цвет рамки вокруг графика                                      
+                    _pane[j].Fill.Type = FillType.Solid;// Закрасим фон всего компонента ZedGraph
+                    _pane[j].Fill.Color = Color.Silver;// Заливка будет сплошная                   
+                    _pane[j].Chart.Fill.Type = FillType.Solid; // Закрасим область графика (его фон) в черный цвет
+                    _pane[j].Chart.Fill.Color = Color.Black;
+                    _pane[j].XAxis.MajorGrid.IsZeroLine = true;// Включим показ оси на уровне X = 0 и Y = 0, чтобы видеть цвет осей
+                    _pane[j].YAxis.MajorGrid.IsZeroLine = true;
+                    _pane[j].XAxis.Color = Color.Gray; // Установим цвет осей
+                    _pane[j].YAxis.Color = Color.Gray;
+                    _pane[j].XAxis.MajorGrid.Color = Color.Cyan;// Установим цвет для сетки
+                    _pane[j].YAxis.MajorGrid.Color = Color.Cyan;
+                    _pane[j].XAxis.Title.FontSpec.FontColor = Color.Teal;// Установим цвет для подписей рядом с осями
+                    _pane[j].YAxis.Title.FontSpec.FontColor = Color.Teal;
+                    _pane[j].XAxis.Scale.FontSpec.FontColor = Color.Black;// Установим цвет подписей под метками
+                    _pane[j].YAxis.Scale.FontSpec.FontColor = Color.Black;
+                    _pane[j].Title.FontSpec.FontColor = Color.Teal; // Установим цвет заголовка над графиком
                 }
             }
             tabControl1.SelectedIndex = 0;
@@ -1273,47 +1270,47 @@ namespace FluxViewer
 
         private void btn_achive_plus_Click(object sender, EventArgs e)
         {
-            double amp = (pane[4].YAxis.Scale.Max - pane[4].YAxis.Scale.Min) * 0.1;
-            pane[4].YAxis.Scale.Min = pane[4].YAxis.Scale.Min + amp;
-            pane[4].YAxis.Scale.Max = pane[4].YAxis.Scale.Max - amp;
+            double amp = (_pane[4].YAxis.Scale.Max - _pane[4].YAxis.Scale.Min) * 0.1;
+            _pane[4].YAxis.Scale.Min = _pane[4].YAxis.Scale.Min + amp;
+            _pane[4].YAxis.Scale.Max = _pane[4].YAxis.Scale.Max - amp;
             zedGraphControl5.AxisChange();
             zedGraphControl5.Invalidate();
         }
 
         private void btn_achive_minus_Click(object sender, EventArgs e)
         {
-            double amp = (pane[4].YAxis.Scale.Max - pane[4].YAxis.Scale.Min) * 0.1;
-            pane[4].YAxis.Scale.Min = pane[4].YAxis.Scale.Min - amp;
-            pane[4].YAxis.Scale.Max = pane[4].YAxis.Scale.Max + amp;
+            double amp = (_pane[4].YAxis.Scale.Max - _pane[4].YAxis.Scale.Min) * 0.1;
+            _pane[4].YAxis.Scale.Min = _pane[4].YAxis.Scale.Min - amp;
+            _pane[4].YAxis.Scale.Max = _pane[4].YAxis.Scale.Max + amp;
             zedGraphControl5.AxisChange();
             zedGraphControl5.Invalidate();
         }
 
         private void btn_achive_up_Click(object sender, EventArgs e)
         {
-            double amp = (pane[4].YAxis.Scale.Max - pane[4].YAxis.Scale.Min) * 0.1;
-            pane[4].YAxis.Scale.Min = pane[4].YAxis.Scale.Min - amp;
-            pane[4].YAxis.Scale.Max = pane[4].YAxis.Scale.Max - amp;
+            double amp = (_pane[4].YAxis.Scale.Max - _pane[4].YAxis.Scale.Min) * 0.1;
+            _pane[4].YAxis.Scale.Min = _pane[4].YAxis.Scale.Min - amp;
+            _pane[4].YAxis.Scale.Max = _pane[4].YAxis.Scale.Max - amp;
             zedGraphControl5.AxisChange();
             zedGraphControl5.Invalidate();
         }
 
         private void btn_achive_down_Click(object sender, EventArgs e)
         {
-            double amp = (pane[4].YAxis.Scale.Max - pane[4].YAxis.Scale.Min) * 0.1;
-            pane[4].YAxis.Scale.Min = pane[4].YAxis.Scale.Min + amp;
-            pane[4].YAxis.Scale.Max = pane[4].YAxis.Scale.Max + amp;
+            double amp = (_pane[4].YAxis.Scale.Max - _pane[4].YAxis.Scale.Min) * 0.1;
+            _pane[4].YAxis.Scale.Min = _pane[4].YAxis.Scale.Min + amp;
+            _pane[4].YAxis.Scale.Max = _pane[4].YAxis.Scale.Max + amp;
             zedGraphControl5.AxisChange();
             zedGraphControl5.Invalidate();
         }
 
         private void btn_achive_autozoom_Click(object sender, EventArgs e)
         {
-            pane[4].YAxis.Scale.MinAuto = true;
-            pane[4].YAxis.Scale.MaxAuto = true;
-            pane[4].XAxis.Scale.MinAuto = true;
-            pane[4].XAxis.Scale.MaxAuto = true;
-            pane[4].IsBoundedRanges = true;
+            _pane[4].YAxis.Scale.MinAuto = true;
+            _pane[4].YAxis.Scale.MaxAuto = true;
+            _pane[4].XAxis.Scale.MinAuto = true;
+            _pane[4].XAxis.Scale.MaxAuto = true;
+            _pane[4].IsBoundedRanges = true;
             zedGraphControl5.AxisChange();
             zedGraphControl5.Invalidate();
         }
@@ -1323,8 +1320,8 @@ namespace FluxViewer
             string url = textBox1.Text;
             if (url == null) return;
 
-            wirmvare_data = File.ReadAllBytes(url);
-            long size = wirmvare_data.Length;
+            _wirmvareData = File.ReadAllBytes(url);
+            long size = _wirmvareData.Length;
 
             byte[] data = new byte[2];
             data[0] = (byte)size;
@@ -1344,9 +1341,9 @@ namespace FluxViewer
 
         private void Form1_FormClosing(object sender, FormClosedEventArgs e)
         {
-           if(_serialPort.IsOpen)
+           if(SerialPort.IsOpen)
             {
-                _serialPort.Close();
+                SerialPort.Close();
             }
             SaveSettings();
         }
@@ -1445,10 +1442,10 @@ namespace FluxViewer
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (is_TestButton)//Произошло по нажатию кнопки тестирования
+            if (_isTestButton)//Произошло по нажатию кнопки тестирования
             {
-                is_TestButton = false;
-                _serialPort.Close();
+                _isTestButton = false;
+                SerialPort.Close();
                 MessageBox.Show("Не удалось подключиться к флюксметру.\nПопробуйте перезагрузить устройство\nили изменить настрйки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);           
             }
         }
@@ -1458,9 +1455,9 @@ namespace FluxViewer
             if(button15.Text=="Запустить вывод данных в ASCII")
             {
                 button15.Text = "Остановить вывод данных в ASCII";
-                is_ASCII_console = true;
+                _isAsciiConsole = true;
                 com_send_cmd(0xc1);
-                if(!is_dataStartFlux)
+                if(!_isDataStartFlux)
                     btn_start_Click(sender, e);
             }
             else
@@ -1468,7 +1465,7 @@ namespace FluxViewer
                 button15.Text = "Запустить вывод данных в ASCII";
                 com_send_cmd(0xc2);
                 btn_stop_Click(sender, e);
-                is_ASCII_console = false;
+                _isAsciiConsole = false;
             }
         }
 
@@ -1544,10 +1541,10 @@ namespace FluxViewer
 
         private void connect_flux()
         {
-            if (!_serialPort.IsOpen)
+            if (!SerialPort.IsOpen)
             {
-                _serialPort.ReadTimeout = 500;
-                _serialPort.WriteTimeout = 500;
+                SerialPort.ReadTimeout = 500;
+                SerialPort.WriteTimeout = 500;
                 if (com_name.Text == "")
                 {
                     MessageBox.Show("Выберите COM порт", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
@@ -1558,12 +1555,12 @@ namespace FluxViewer
                     MessageBox.Show("Нет доступных COM портов", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                     return;
                 }
-                _serialPort.PortName = (string)com_name.Text;
-                _serialPort.BaudRate = int.Parse((string)com_speed.Text);
-                _serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+                SerialPort.PortName = (string)com_name.Text;
+                SerialPort.BaudRate = int.Parse((string)com_speed.Text);
+                SerialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
                 try
                 {
-                    _serialPort.Open();
+                    SerialPort.Open();
                 }
                 catch (/*InvalidOperationException*/Exception ex)
                 {
@@ -1582,11 +1579,11 @@ namespace FluxViewer
         /// <param name="e"></param>								
         private void btn_testconnect_Click(object sender, EventArgs e)
         {
-            if(_serialPort.IsOpen)
+            if(SerialPort.IsOpen)
             {
-                _serialPort.Close();
+                SerialPort.Close();
             }
-            is_TestButton = true;
+            _isTestButton = true;
             timer1.Interval = 1000;
             timer1.Enabled = true;
             connect_flux();
