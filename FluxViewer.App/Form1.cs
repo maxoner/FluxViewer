@@ -1420,22 +1420,6 @@ namespace FluxViewer
             }
         }
 
-        private void button8_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-            // openFileDialog1.InitialDirectory = "c:\\";
-            openFileDialog1.Filter = "Base files (*.db)|*.db";
-            openFileDialog1.FilterIndex = 2;
-            openFileDialog1.RestoreDirectory = true;
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                string filename = openFileDialog1.FileName;
-                textBox3.Text = filename;
-            }
-        }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (_isTestButton)//Произошло по нажатию кнопки тестирования

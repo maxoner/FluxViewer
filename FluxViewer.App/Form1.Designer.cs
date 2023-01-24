@@ -84,9 +84,6 @@
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.rb_isFluxclock = new System.Windows.Forms.RadioButton();
             this.rb_isPCclock = new System.Windows.Forms.RadioButton();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.button8 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btn_testconnect = new System.Windows.Forms.Button();
             this.rb_485_con = new System.Windows.Forms.RadioButton();
@@ -219,7 +216,6 @@
             this.tabPage5.SuspendLayout();
             this.groupBox15.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.gb_settings.SuspendLayout();
@@ -890,14 +886,13 @@
             // 
             this.groupBox15.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.groupBox15.Controls.Add(this.groupBox7);
-            this.groupBox15.Controls.Add(this.groupBox6);
             this.groupBox15.Controls.Add(this.groupBox5);
             this.groupBox15.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox15.Location = new System.Drawing.Point(188, 29);
             this.groupBox15.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox15.Name = "groupBox15";
             this.groupBox15.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox15.Size = new System.Drawing.Size(648, 349);
+            this.groupBox15.Size = new System.Drawing.Size(648, 271);
             this.groupBox15.TabIndex = 18;
             this.groupBox15.TabStop = false;
             // 
@@ -906,7 +901,7 @@
             this.groupBox7.Controls.Add(this.rb_isFluxclock);
             this.groupBox7.Controls.Add(this.rb_isPCclock);
             this.groupBox7.Enabled = false;
-            this.groupBox7.Location = new System.Drawing.Point(32, 249);
+            this.groupBox7.Location = new System.Drawing.Point(32, 170);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(585, 81);
             this.groupBox7.TabIndex = 19;
@@ -916,7 +911,7 @@
             // rb_isFluxclock
             // 
             this.rb_isFluxclock.AutoSize = true;
-            this.rb_isFluxclock.Location = new System.Drawing.Point(190, 52);
+            this.rb_isFluxclock.Location = new System.Drawing.Point(37, 47);
             this.rb_isFluxclock.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rb_isFluxclock.Name = "rb_isFluxclock";
             this.rb_isFluxclock.Size = new System.Drawing.Size(232, 23);
@@ -928,7 +923,7 @@
             // 
             this.rb_isPCclock.AutoSize = true;
             this.rb_isPCclock.Checked = true;
-            this.rb_isPCclock.Location = new System.Drawing.Point(190, 28);
+            this.rb_isPCclock.Location = new System.Drawing.Point(37, 23);
             this.rb_isPCclock.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rb_isPCclock.Name = "rb_isPCclock";
             this.rb_isPCclock.Size = new System.Drawing.Size(232, 23);
@@ -936,37 +931,6 @@
             this.rb_isPCclock.TabStop = true;
             this.rb_isPCclock.Text = "Использовать часы компьютера";
             this.rb_isPCclock.UseVisualStyleBackColor = true;
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.button8);
-            this.groupBox6.Controls.Add(this.textBox3);
-            this.groupBox6.Location = new System.Drawing.Point(32, 160);
-            this.groupBox6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox6.Size = new System.Drawing.Size(585, 84);
-            this.groupBox6.TabIndex = 18;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Путь базы данных";
-            // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(471, 33);
-            this.button8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(103, 26);
-            this.button8.TabIndex = 0;
-            this.button8.Text = "Обзор";
-            this.button8.Click += new System.EventHandler(this.button8_Click);
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(28, 35);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(428, 25);
-            this.textBox3.TabIndex = 0;
             // 
             // groupBox5
             // 
@@ -1062,7 +1026,7 @@
             this.tabPage4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage4.Size = new System.Drawing.Size(1094, 523);
+            this.tabPage4.Size = new System.Drawing.Size(968, 523);
             this.tabPage4.TabIndex = 0;
             this.tabPage4.Text = "Настройка устройства";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1073,7 +1037,7 @@
             this.gb_settings.Controls.Add(this.panel3);
             this.gb_settings.Controls.Add(this.btn_writesettings);
             this.gb_settings.Enabled = false;
-            this.gb_settings.Location = new System.Drawing.Point(302, 30);
+            this.gb_settings.Location = new System.Drawing.Point(239, 30);
             this.gb_settings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gb_settings.Name = "gb_settings";
             this.gb_settings.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -1810,7 +1774,7 @@
             this.tabPage10.Location = new System.Drawing.Point(304, 4);
             this.tabPage10.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage10.Name = "tabPage10";
-            this.tabPage10.Size = new System.Drawing.Size(1094, 523);
+            this.tabPage10.Size = new System.Drawing.Size(968, 523);
             this.tabPage10.TabIndex = 6;
             this.tabPage10.Text = "Градуировка";
             this.tabPage10.UseVisualStyleBackColor = true;
@@ -1822,7 +1786,7 @@
             this.groupBox18.Controls.Add(this.radioButton5);
             this.groupBox18.Controls.Add(this.radioButton2);
             this.groupBox18.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox18.Location = new System.Drawing.Point(206, 29);
+            this.groupBox18.Location = new System.Drawing.Point(143, 29);
             this.groupBox18.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox18.Name = "groupBox18";
             this.groupBox18.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -2005,7 +1969,7 @@
             this.tabPage8.Location = new System.Drawing.Point(304, 4);
             this.tabPage8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(1094, 523);
+            this.tabPage8.Size = new System.Drawing.Size(968, 523);
             this.tabPage8.TabIndex = 4;
             this.tabPage8.Text = "Обновление прошивки";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -2023,7 +1987,7 @@
             this.groupBox16.Controls.Add(this.textBox1);
             this.groupBox16.Controls.Add(this.btn_flash_edit);
             this.groupBox16.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox16.Location = new System.Drawing.Point(332, 126);
+            this.groupBox16.Location = new System.Drawing.Point(269, 126);
             this.groupBox16.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox16.Name = "groupBox16";
             this.groupBox16.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -2126,7 +2090,7 @@
             this.tabPage9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage9.Size = new System.Drawing.Size(1094, 523);
+            this.tabPage9.Size = new System.Drawing.Size(968, 523);
             this.tabPage9.TabIndex = 5;
             this.tabPage9.Text = "О программе";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -2306,8 +2270,6 @@
             this.groupBox15.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.tabPage4.ResumeLayout(false);
@@ -2427,8 +2389,6 @@
         private GroupBox groupBox7;
         private RadioButton rb_isFluxclock;
         private RadioButton rb_isPCclock;
-        private GroupBox groupBox6;
-        private TextBox textBox3;
         private GroupBox groupBox5;
         private Button btn_testconnect;
         private RadioButton rb_485_con;
@@ -2474,7 +2434,6 @@
         private DateTimePicker dateTimePicker2;
         private GroupBox groupBox20;
         private NumericUpDown num_linewidth;
-        private Button button8;
         private GroupBox groupBox21;
         private Label label24;
         private Label label25;
