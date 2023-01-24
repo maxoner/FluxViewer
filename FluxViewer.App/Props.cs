@@ -10,8 +10,6 @@ namespace XMLFileSettings
     /// </summary>
     public class PropsFields
     {
-        public string DbPath = "";
-
         public bool IsPcTime = true;
         public string ComNum = @"";
         public string ComSpeed = @"115200";

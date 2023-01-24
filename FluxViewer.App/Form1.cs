@@ -126,7 +126,6 @@ namespace FluxViewer
             // Если файла с настройками не существует, то дополняем найстроки и создаём этот файл
             if (!File.Exists(pathToXmlSettingsFile))
             {
-                _props.Fields.DbPath = Environment.CurrentDirectory + "\\database.litedb";   // TODO: выпилить путь до файла с настройками
                 _props.WriteXml();
             }
         }
@@ -472,8 +471,6 @@ namespace FluxViewer
         public void SetSettings()
         {
             _props.ReadXml();
-            string path = _props.Fields.DbPath.ToString();
-            this.textBox3.Text = path;
          
             rb_isPCclock.Checked = _props.Fields.IsPcTime;
             com_name.Text = _props.Fields.ComNum.ToString();
@@ -532,7 +529,6 @@ namespace FluxViewer
         public void SaveSettings()
         {
             //вкладка программа
-            _props.Fields.DbPath = textBox3.Text;
             _props.Fields.IsPcTime = rb_isPCclock.Checked;
             _props.Fields.ComNum = com_name.Text;
             _props.Fields.ComSpeed = com_speed.Text;
