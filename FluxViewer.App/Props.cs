@@ -39,12 +39,12 @@ namespace XMLFileSettings
     /// </summary>
     public class Props
     {
-        private string PathToXmlFile;
+        private readonly string _pathToXmlFile;
         public PropsFields Fields;
 
         public Props(string pathToXmlFile)
         {
-            PathToXmlFile = pathToXmlFile;
+            _pathToXmlFile = pathToXmlFile;
             Fields = new PropsFields();
         }
 
@@ -58,7 +58,7 @@ namespace XMLFileSettings
             TextWriter writer;
             try
             {
-                writer = new StreamWriter(PathToXmlFile);
+                writer = new StreamWriter(_pathToXmlFile);
             }
             catch (IOException e)
             {
@@ -86,11 +86,11 @@ namespace XMLFileSettings
         /// </summary>
         public void ReadXml()
         {
-            XmlSerializer ser = new XmlSerializer(typeof(PropsFields));
+            var ser = new XmlSerializer(typeof(PropsFields));
             TextReader reader;
             try
             {
-                reader = new StreamReader(PathToXmlFile);
+                reader = new StreamReader(_pathToXmlFile);
             }
             catch (Exception e)
             {
