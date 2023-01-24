@@ -256,7 +256,7 @@
             this.toolStripStatusLabel4});
             this.statusStrip1.Location = new System.Drawing.Point(0, 589);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1410, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(1284, 26);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -309,7 +309,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1410, 589);
+            this.tabControl1.Size = new System.Drawing.Size(1284, 589);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 3;
             // 
@@ -322,7 +322,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(1402, 531);
+            this.tabPage1.Size = new System.Drawing.Size(1276, 531);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "РЕГИСТРАТОР";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -343,7 +343,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1396, 474);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1270, 474);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // zedGraphControl1
@@ -352,7 +352,7 @@
             this.zedGraphControl1.BackColor = System.Drawing.SystemColors.Control;
             this.zedGraphControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.zedGraphControl1.Location = new System.Drawing.Point(4, 4);
-            this.zedGraphControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.zedGraphControl1.Margin = new System.Windows.Forms.Padding(4);
             this.zedGraphControl1.Name = "zedGraphControl1";
             this.zedGraphControl1.ScrollGrace = 0D;
             this.zedGraphControl1.ScrollMaxX = 0D;
@@ -361,7 +361,7 @@
             this.zedGraphControl1.ScrollMinX = 0D;
             this.zedGraphControl1.ScrollMinY = 0D;
             this.zedGraphControl1.ScrollMinY2 = 0D;
-            this.zedGraphControl1.Size = new System.Drawing.Size(690, 229);
+            this.zedGraphControl1.Size = new System.Drawing.Size(627, 229);
             this.zedGraphControl1.TabIndex = 0;
             this.zedGraphControl1.UseExtendedPrintDialog = true;
             this.zedGraphControl1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.zedGraphControl1_MouseClick);
@@ -370,8 +370,8 @@
             // zedGraphControl2
             // 
             this.zedGraphControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zedGraphControl2.Location = new System.Drawing.Point(702, 4);
-            this.zedGraphControl2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.zedGraphControl2.Location = new System.Drawing.Point(639, 4);
+            this.zedGraphControl2.Margin = new System.Windows.Forms.Padding(4);
             this.zedGraphControl2.Name = "zedGraphControl2";
             this.zedGraphControl2.ScrollGrace = 0D;
             this.zedGraphControl2.ScrollMaxX = 0D;
@@ -380,7 +380,7 @@
             this.zedGraphControl2.ScrollMinX = 0D;
             this.zedGraphControl2.ScrollMinY = 0D;
             this.zedGraphControl2.ScrollMinY2 = 0D;
-            this.zedGraphControl2.Size = new System.Drawing.Size(690, 229);
+            this.zedGraphControl2.Size = new System.Drawing.Size(627, 229);
             this.zedGraphControl2.TabIndex = 1;
             this.zedGraphControl2.UseExtendedPrintDialog = true;
             this.zedGraphControl2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.zedGraphControl2_MouseClick);
@@ -390,7 +390,7 @@
             // 
             this.zedGraphControl3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.zedGraphControl3.Location = new System.Drawing.Point(4, 241);
-            this.zedGraphControl3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.zedGraphControl3.Margin = new System.Windows.Forms.Padding(4);
             this.zedGraphControl3.Name = "zedGraphControl3";
             this.zedGraphControl3.ScrollGrace = 0D;
             this.zedGraphControl3.ScrollMaxX = 0D;
@@ -399,7 +399,7 @@
             this.zedGraphControl3.ScrollMinX = 0D;
             this.zedGraphControl3.ScrollMinY = 0D;
             this.zedGraphControl3.ScrollMinY2 = 0D;
-            this.zedGraphControl3.Size = new System.Drawing.Size(690, 229);
+            this.zedGraphControl3.Size = new System.Drawing.Size(627, 229);
             this.zedGraphControl3.TabIndex = 2;
             this.zedGraphControl3.UseExtendedPrintDialog = true;
             this.zedGraphControl3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.zedGraphControl3_MouseClick);
@@ -408,8 +408,8 @@
             // zedGraphControl4
             // 
             this.zedGraphControl4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zedGraphControl4.Location = new System.Drawing.Point(702, 241);
-            this.zedGraphControl4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.zedGraphControl4.Location = new System.Drawing.Point(639, 241);
+            this.zedGraphControl4.Margin = new System.Windows.Forms.Padding(4);
             this.zedGraphControl4.Name = "zedGraphControl4";
             this.zedGraphControl4.ScrollGrace = 0D;
             this.zedGraphControl4.ScrollMaxX = 0D;
@@ -418,7 +418,7 @@
             this.zedGraphControl4.ScrollMinX = 0D;
             this.zedGraphControl4.ScrollMinY = 0D;
             this.zedGraphControl4.ScrollMinY2 = 0D;
-            this.zedGraphControl4.Size = new System.Drawing.Size(690, 229);
+            this.zedGraphControl4.Size = new System.Drawing.Size(627, 229);
             this.zedGraphControl4.TabIndex = 3;
             this.zedGraphControl4.UseExtendedPrintDialog = true;
             this.zedGraphControl4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.zedGraphControl4_MouseClick);
@@ -434,7 +434,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1396, 53);
+            this.panel1.Size = new System.Drawing.Size(1270, 53);
             this.panel1.TabIndex = 4;
             // 
             // groupBox13
@@ -444,7 +444,7 @@
             this.groupBox13.Controls.Add(this.btn_minus_reg);
             this.groupBox13.Controls.Add(this.bpn_plus_reg);
             this.groupBox13.Controls.Add(this.cb_graphtype);
-            this.groupBox13.Location = new System.Drawing.Point(876, -4);
+            this.groupBox13.Location = new System.Drawing.Point(750, -4);
             this.groupBox13.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -540,7 +540,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Size = new System.Drawing.Size(1402, 531);
+            this.tabPage2.Size = new System.Drawing.Size(1276, 531);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "АРХИВ ДАННЫХ";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -615,7 +615,7 @@
             // 
             this.zedGraphControl5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.zedGraphControl5.Location = new System.Drawing.Point(3, 77);
-            this.zedGraphControl5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.zedGraphControl5.Margin = new System.Windows.Forms.Padding(4);
             this.zedGraphControl5.Name = "zedGraphControl5";
             this.zedGraphControl5.ScrollGrace = 0D;
             this.zedGraphControl5.ScrollMaxX = 0D;
@@ -624,7 +624,7 @@
             this.zedGraphControl5.ScrollMinX = 0D;
             this.zedGraphControl5.ScrollMinY = 0D;
             this.zedGraphControl5.ScrollMinY2 = 0D;
-            this.zedGraphControl5.Size = new System.Drawing.Size(1396, 452);
+            this.zedGraphControl5.Size = new System.Drawing.Size(1270, 452);
             this.zedGraphControl5.TabIndex = 1;
             this.zedGraphControl5.UseExtendedPrintDialog = true;
             this.zedGraphControl5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.zedGraphControl5_MouseClick);
@@ -642,7 +642,7 @@
             this.panel2.Location = new System.Drawing.Point(3, 2);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1396, 75);
+            this.panel2.Size = new System.Drawing.Size(1270, 75);
             this.panel2.TabIndex = 0;
             // 
             // groupBox17
@@ -843,7 +843,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 54);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1402, 531);
+            this.tabPage3.Size = new System.Drawing.Size(1276, 531);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "НАСТРОЙКИ";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -868,7 +868,7 @@
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.RightToLeftLayout = true;
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(1402, 531);
+            this.tabControl2.Size = new System.Drawing.Size(1276, 531);
             this.tabControl2.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl2.TabIndex = 1;
             this.tabControl2.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl2_DrawItem);
@@ -881,7 +881,7 @@
             this.tabPage5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage5.Size = new System.Drawing.Size(1094, 523);
+            this.tabPage5.Size = new System.Drawing.Size(968, 523);
             this.tabPage5.TabIndex = 1;
             this.tabPage5.Text = "Настройка программы";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -893,7 +893,7 @@
             this.groupBox15.Controls.Add(this.groupBox6);
             this.groupBox15.Controls.Add(this.groupBox5);
             this.groupBox15.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox15.Location = new System.Drawing.Point(251, 29);
+            this.groupBox15.Location = new System.Drawing.Point(188, 29);
             this.groupBox15.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox15.Name = "groupBox15";
             this.groupBox15.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -1062,7 +1062,7 @@
             this.tabPage4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage4.Size = new System.Drawing.Size(1095, 544);
+            this.tabPage4.Size = new System.Drawing.Size(1094, 523);
             this.tabPage4.TabIndex = 0;
             this.tabPage4.Text = "Настройка устройства";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1073,7 +1073,7 @@
             this.gb_settings.Controls.Add(this.panel3);
             this.gb_settings.Controls.Add(this.btn_writesettings);
             this.gb_settings.Enabled = false;
-            this.gb_settings.Location = new System.Drawing.Point(302, 41);
+            this.gb_settings.Location = new System.Drawing.Point(302, 30);
             this.gb_settings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gb_settings.Name = "gb_settings";
             this.gb_settings.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -1354,7 +1354,7 @@
             this.tabPage6.Location = new System.Drawing.Point(304, 4);
             this.tabPage6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(1095, 544);
+            this.tabPage6.Size = new System.Drawing.Size(968, 523);
             this.tabPage6.TabIndex = 2;
             this.tabPage6.Text = "Настройка вывода графиков";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -1368,7 +1368,7 @@
             this.groupBox14.Controls.Add(this.btn_graph_settings);
             this.groupBox14.Controls.Add(this.groupBox4);
             this.groupBox14.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox14.Location = new System.Drawing.Point(23, 35);
+            this.groupBox14.Location = new System.Drawing.Point(-40, 24);
             this.groupBox14.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox14.Name = "groupBox14";
             this.groupBox14.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -1738,7 +1738,7 @@
             this.tabPage7.Location = new System.Drawing.Point(304, 4);
             this.tabPage7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(1095, 544);
+            this.tabPage7.Size = new System.Drawing.Size(968, 523);
             this.tabPage7.TabIndex = 3;
             this.tabPage7.Text = "Терминал";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1749,10 +1749,10 @@
             this.panel4.Controls.Add(this.button14);
             this.panel4.Controls.Add(this.button6);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(0, 492);
+            this.panel4.Location = new System.Drawing.Point(0, 471);
             this.panel4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1095, 52);
+            this.panel4.Size = new System.Drawing.Size(968, 52);
             this.panel4.TabIndex = 3;
             // 
             // button15
@@ -1800,7 +1800,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextBox1.Size = new System.Drawing.Size(1095, 544);
+            this.richTextBox1.Size = new System.Drawing.Size(968, 523);
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "";
             // 
@@ -1810,7 +1810,7 @@
             this.tabPage10.Location = new System.Drawing.Point(304, 4);
             this.tabPage10.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage10.Name = "tabPage10";
-            this.tabPage10.Size = new System.Drawing.Size(1095, 544);
+            this.tabPage10.Size = new System.Drawing.Size(1094, 523);
             this.tabPage10.TabIndex = 6;
             this.tabPage10.Text = "Градуировка";
             this.tabPage10.UseVisualStyleBackColor = true;
@@ -1822,7 +1822,7 @@
             this.groupBox18.Controls.Add(this.radioButton5);
             this.groupBox18.Controls.Add(this.radioButton2);
             this.groupBox18.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox18.Location = new System.Drawing.Point(206, 40);
+            this.groupBox18.Location = new System.Drawing.Point(206, 29);
             this.groupBox18.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox18.Name = "groupBox18";
             this.groupBox18.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -2005,7 +2005,7 @@
             this.tabPage8.Location = new System.Drawing.Point(304, 4);
             this.tabPage8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(1095, 544);
+            this.tabPage8.Size = new System.Drawing.Size(1094, 523);
             this.tabPage8.TabIndex = 4;
             this.tabPage8.Text = "Обновление прошивки";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -2023,7 +2023,7 @@
             this.groupBox16.Controls.Add(this.textBox1);
             this.groupBox16.Controls.Add(this.btn_flash_edit);
             this.groupBox16.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox16.Location = new System.Drawing.Point(332, 137);
+            this.groupBox16.Location = new System.Drawing.Point(332, 126);
             this.groupBox16.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox16.Name = "groupBox16";
             this.groupBox16.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -2126,7 +2126,7 @@
             this.tabPage9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage9.Size = new System.Drawing.Size(1095, 544);
+            this.tabPage9.Size = new System.Drawing.Size(1094, 523);
             this.tabPage9.TabIndex = 5;
             this.tabPage9.Text = "О программе";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -2273,7 +2273,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1410, 615);
+            this.ClientSize = new System.Drawing.Size(1284, 615);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
             this.Name = "Form1";
