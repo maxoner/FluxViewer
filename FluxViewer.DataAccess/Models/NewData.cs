@@ -19,22 +19,22 @@ public struct NewData
     /// <summary>
     /// Информация с датчиков флюкс метра
     /// </summary>
-    public float FluxSensorData;
+    public readonly float FluxSensorData;
 
     /// <summary>
     /// Информация с датчиков температуры
     /// </summary>
-    public float TempSensorData;
+    public readonly float TempSensorData;
 
     /// <summary>
     /// Информация с датчиков давления
     /// </summary>
-    public float PressureSensorData;
+    public readonly float PressureSensorData;
 
     /// <summary>
     /// Информация с датчиков влажности
     /// </summary>
-    public float HumiditySensorData;
+    public readonly float HumiditySensorData;
 
     public NewData(DateTime dateTime, float fluxSensorData, float tempSensorData, float pressureSensorData,
         float humiditySensorData)
@@ -54,7 +54,7 @@ public struct NewData
                     BitConverter.GetBytes(PressureSensorData).Concat(
                         BitConverter.GetBytes(HumiditySensorData))))).ToArray();
     }
-    
+
     public static NewData Deserialize(byte[] bytes)
     {
         var dateTimeBytes = new byte[8];
