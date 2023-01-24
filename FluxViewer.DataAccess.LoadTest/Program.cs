@@ -7,7 +7,6 @@ void CreateDataFiles(DateTime beginDate, DateTime endDate, float timeDeltaMillis
     if (!Directory.Exists(pathToStorageDir))
         Directory.CreateDirectory(pathToStorageDir);
 
-    var i = 0;
     for (var dayDelta = 0; dayDelta < (endDate - beginDate).Days; dayDelta++)
     {
         var currentDate = beginDate.AddDays(dayDelta);
@@ -19,7 +18,6 @@ void CreateDataFiles(DateTime beginDate, DateTime endDate, float timeDeltaMillis
         while (currentDate < nextDate)
         {
             file.Write(new NewData(
-                    i++,
                     currentDate,
                     (float)currentDate.Millisecond % 20 / 100,
                     (float)currentDate.Millisecond % 100 / 100,

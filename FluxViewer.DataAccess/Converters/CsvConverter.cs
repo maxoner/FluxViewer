@@ -47,7 +47,7 @@ public class CsvConverter : IConverter
         if (!_isOpen || _file is null)
             throw new Exception("Файл не открыт"); // TODO: тот же класс-исключение
 
-        _file.WriteLine($"{data.Id};{data.DateTime};{data.FluxSensorData};{data.TempSensorData};" +
+        _file.WriteLine($"{data.DateTime};{data.FluxSensorData};{data.TempSensorData};" +
                         $"{data.PressureSensorData};{data.HumiditySensorData}");
     }
 

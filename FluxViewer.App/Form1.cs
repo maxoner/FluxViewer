@@ -60,7 +60,7 @@ namespace FluxViewer
         private long _positionFirmware = 0;
         private long _sizeWirmware = 0;
 
-        public Form1(ILiteDbService dataBaseContext)
+        public Form1()
         {
             _data[0] = new RollingPointPairList(Capacity);
             _data[1] = new RollingPointPairList(Capacity);
@@ -330,7 +330,7 @@ namespace FluxViewer
 
                 //Сохранить данные в базу
                 // TODO: Убираем ID, т.к. не можем его контроллировать!
-                _storage.WriteData(new NewData(0, DateTime.Now, _flux, _temp, _pres, _humm));
+                _storage.WriteData(new NewData(DateTime.Now, _flux, _temp, _pres, _humm));
 
 
                 this.BeginInvoke((MethodInvoker)delegate { DrawUpdate(); });
