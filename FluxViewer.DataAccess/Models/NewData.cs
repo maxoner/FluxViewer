@@ -5,12 +5,11 @@ namespace FluxViewer.DataAccess.Models;
 
 public struct NewData
 {
-    public static int ByteLenght = 28;
-    
     /// <summary>
-    /// Идентификатор
+    /// DateTime (8 байт) + FluxSensorData (4 байта) + TempSensorData (4 байта) +
+    /// PressureSensorData (4 байта) + HumiditySensorData (4 байта) = 24 байта
     /// </summary>
-    public int Id;
+    public const int ByteLenght = 24;
 
     /// <summary>
     /// Дата и время с миллисекундами
@@ -37,10 +36,9 @@ public struct NewData
     /// </summary>
     public float HumiditySensorData;
 
-    public NewData(int id, DateTime dateTime, float fluxSensorData, float tempSensorData, float pressureSensorData,
+    public NewData(DateTime dateTime, float fluxSensorData, float tempSensorData, float pressureSensorData,
         float humiditySensorData)
     {
-        Id = id;
         DateTime = dateTime;
         FluxSensorData = fluxSensorData;
         TempSensorData = tempSensorData;
@@ -50,32 +48,27 @@ public struct NewData
 
     public byte[] Serialize()
     {
-        return BitConverter.GetBytes(Id).Concat(
-            BitConverter.GetBytes(((DateTimeOffset)DateTime).ToUnixTimeMilliseconds()).Concat(
-                BitConverter.GetBytes(FluxSensorData).Concat(
-                    BitConverter.GetBytes(TempSensorData).Concat(
-                        BitConverter.GetBytes(PressureSensorData).Concat(
-                            BitConverter.GetBytes(HumiditySensorData)))))).ToArray();
+        return BitConverter.GetBytes(((DateTimeOffset)DateTime).ToUnixTimeMilliseconds()).Concat(
+            BitConverter.GetBytes(FluxSensorData).Concat(
+                BitConverter.GetBytes(TempSensorData).Concat(
+                    BitConverter.GetBytes(PressureSensorData).Concat(
+                        BitConverter.GetBytes(HumiditySensorData))))).ToArray();
     }
-
-
+    
     public static NewData Deserialize(byte[] bytes)
     {
-        var idBytes = new byte[4];
-        Array.Copy(bytes, 0, idBytes, 0, 4);
         var dateTimeBytes = new byte[8];
-        Array.Copy(bytes, 4, dateTimeBytes, 0, 8);
+        Array.Copy(bytes, 0, dateTimeBytes, 0, 8);
         var fluxSensorDataBytes = new byte[4];
-        Array.Copy(bytes, 12, fluxSensorDataBytes, 0, 4);
+        Array.Copy(bytes, 8, fluxSensorDataBytes, 0, 4);
         var tempSensorDataDataBytes = new byte[4];
-        Array.Copy(bytes, 16, tempSensorDataDataBytes, 0, 4);
+        Array.Copy(bytes, 12, tempSensorDataDataBytes, 0, 4);
         var pressureSensorDataBytes = new byte[4];
-        Array.Copy(bytes, 20, pressureSensorDataBytes, 0, 4);
+        Array.Copy(bytes, 26, pressureSensorDataBytes, 0, 4);
         var humiditySensorDataBytes = new byte[4];
-        Array.Copy(bytes, 24, humiditySensorDataBytes, 0, 4);
-        
+        Array.Copy(bytes, 20, humiditySensorDataBytes, 0, 4);
+
         return new NewData(
-            BitConverter.ToInt32(idBytes),
             DateTimeOffset.FromUnixTimeMilliseconds(BitConverter.ToInt64(dateTimeBytes)).LocalDateTime,
             BitConverter.ToSingle(fluxSensorDataBytes),
             BitConverter.ToSingle(tempSensorDataDataBytes),
