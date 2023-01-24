@@ -38,7 +38,7 @@
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.registrarTab = new System.Windows.Forms.TabPage();
+            this.registrarTabPage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.zedGraphControl2 = new ZedGraph.ZedGraphControl();
@@ -52,7 +52,7 @@
             this.cb_graphtype = new System.Windows.Forms.ComboBox();
             this.btn_stop = new System.Windows.Forms.Button();
             this.btn_start = new System.Windows.Forms.Button();
-            this.dataArchiveTab = new System.Windows.Forms.TabPage();
+            this.dataArchiveTabPage = new System.Windows.Forms.TabPage();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.btn_achive_down = new System.Windows.Forms.Button();
             this.btn_achive_up = new System.Windows.Forms.Button();
@@ -77,7 +77,7 @@
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.settingsTab = new System.Windows.Forms.TabPage();
+            this.settingsTabPage = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
@@ -197,13 +197,14 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.exportTabPage = new System.Windows.Forms.TabPage();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.registrarTab.SuspendLayout();
+            this.registrarTabPage.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox13.SuspendLayout();
-            this.dataArchiveTab.SuspendLayout();
+            this.dataArchiveTabPage.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox17.SuspendLayout();
             this.groupBox12.SuspendLayout();
@@ -211,7 +212,7 @@
             this.groupBox10.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox8.SuspendLayout();
-            this.settingsTab.SuspendLayout();
+            this.settingsTabPage.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox15.SuspendLayout();
@@ -295,9 +296,10 @@
             // 
             this.tabControl1.Appearance = System.Windows.Forms.TabAppearance.Buttons;
             this.tabControl1.CausesValidation = false;
-            this.tabControl1.Controls.Add(this.registrarTab);
-            this.tabControl1.Controls.Add(this.dataArchiveTab);
-            this.tabControl1.Controls.Add(this.settingsTab);
+            this.tabControl1.Controls.Add(this.registrarTabPage);
+            this.tabControl1.Controls.Add(this.dataArchiveTabPage);
+            this.tabControl1.Controls.Add(this.exportTabPage);
+            this.tabControl1.Controls.Add(this.settingsTabPage);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.tabControl1.ItemSize = new System.Drawing.Size(200, 50);
@@ -309,19 +311,19 @@
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 3;
             // 
-            // registrarTab
+            // registrarTabPage
             // 
-            this.registrarTab.Controls.Add(this.tableLayoutPanel1);
-            this.registrarTab.Controls.Add(this.panel1);
-            this.registrarTab.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.registrarTab.Location = new System.Drawing.Point(4, 54);
-            this.registrarTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.registrarTab.Name = "registrarTab";
-            this.registrarTab.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.registrarTab.Size = new System.Drawing.Size(1276, 531);
-            this.registrarTab.TabIndex = 0;
-            this.registrarTab.Text = "РЕГИСТРАТОР";
-            this.registrarTab.UseVisualStyleBackColor = true;
+            this.registrarTabPage.Controls.Add(this.tableLayoutPanel1);
+            this.registrarTabPage.Controls.Add(this.panel1);
+            this.registrarTabPage.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.registrarTabPage.Location = new System.Drawing.Point(4, 54);
+            this.registrarTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.registrarTabPage.Name = "registrarTabPage";
+            this.registrarTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.registrarTabPage.Size = new System.Drawing.Size(1276, 531);
+            this.registrarTabPage.TabIndex = 0;
+            this.registrarTabPage.Text = "РЕГИСТРАТОР";
+            this.registrarTabPage.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
             // 
@@ -522,24 +524,24 @@
             this.btn_start.UseVisualStyleBackColor = true;
             this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
             // 
-            // dataArchiveTab
+            // dataArchiveTabPage
             // 
-            this.dataArchiveTab.Controls.Add(this.checkBox3);
-            this.dataArchiveTab.Controls.Add(this.btn_achive_down);
-            this.dataArchiveTab.Controls.Add(this.btn_achive_up);
-            this.dataArchiveTab.Controls.Add(this.btn_achive_minus);
-            this.dataArchiveTab.Controls.Add(this.btn_achive_plus);
-            this.dataArchiveTab.Controls.Add(this.btn_achive_autozoom);
-            this.dataArchiveTab.Controls.Add(this.zedGraphControl5);
-            this.dataArchiveTab.Controls.Add(this.panel2);
-            this.dataArchiveTab.Location = new System.Drawing.Point(4, 54);
-            this.dataArchiveTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dataArchiveTab.Name = "dataArchiveTab";
-            this.dataArchiveTab.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dataArchiveTab.Size = new System.Drawing.Size(1276, 531);
-            this.dataArchiveTab.TabIndex = 1;
-            this.dataArchiveTab.Text = "АРХИВ ДАННЫХ";
-            this.dataArchiveTab.UseVisualStyleBackColor = true;
+            this.dataArchiveTabPage.Controls.Add(this.checkBox3);
+            this.dataArchiveTabPage.Controls.Add(this.btn_achive_down);
+            this.dataArchiveTabPage.Controls.Add(this.btn_achive_up);
+            this.dataArchiveTabPage.Controls.Add(this.btn_achive_minus);
+            this.dataArchiveTabPage.Controls.Add(this.btn_achive_plus);
+            this.dataArchiveTabPage.Controls.Add(this.btn_achive_autozoom);
+            this.dataArchiveTabPage.Controls.Add(this.zedGraphControl5);
+            this.dataArchiveTabPage.Controls.Add(this.panel2);
+            this.dataArchiveTabPage.Location = new System.Drawing.Point(4, 54);
+            this.dataArchiveTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dataArchiveTabPage.Name = "dataArchiveTabPage";
+            this.dataArchiveTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dataArchiveTabPage.Size = new System.Drawing.Size(1276, 531);
+            this.dataArchiveTabPage.TabIndex = 1;
+            this.dataArchiveTabPage.Text = "АРХИВ ДАННЫХ";
+            this.dataArchiveTabPage.UseVisualStyleBackColor = true;
             // 
             // checkBox3
             // 
@@ -611,7 +613,7 @@
             // 
             this.zedGraphControl5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.zedGraphControl5.Location = new System.Drawing.Point(3, 77);
-            this.zedGraphControl5.Margin = new System.Windows.Forms.Padding(4);
+            this.zedGraphControl5.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.zedGraphControl5.Name = "zedGraphControl5";
             this.zedGraphControl5.ScrollGrace = 0D;
             this.zedGraphControl5.ScrollMaxX = 0D;
@@ -833,16 +835,16 @@
             this.dateTimePicker1.Value = new System.DateTime(2022, 11, 1, 0, 0, 0, 0);
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
             // 
-            // settingsTab
+            // settingsTabPage
             // 
-            this.settingsTab.Controls.Add(this.tabControl2);
-            this.settingsTab.Location = new System.Drawing.Point(4, 54);
-            this.settingsTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.settingsTab.Name = "settingsTab";
-            this.settingsTab.Size = new System.Drawing.Size(1276, 531);
-            this.settingsTab.TabIndex = 2;
-            this.settingsTab.Text = "НАСТРОЙКИ";
-            this.settingsTab.UseVisualStyleBackColor = true;
+            this.settingsTabPage.Controls.Add(this.tabControl2);
+            this.settingsTabPage.Location = new System.Drawing.Point(4, 54);
+            this.settingsTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.settingsTabPage.Name = "settingsTabPage";
+            this.settingsTabPage.Size = new System.Drawing.Size(1276, 531);
+            this.settingsTabPage.TabIndex = 2;
+            this.settingsTabPage.Text = "НАСТРОЙКИ";
+            this.settingsTabPage.UseVisualStyleBackColor = true;
             // 
             // tabControl2
             // 
@@ -2233,6 +2235,15 @@
             // 
             this.saveFileDialog1.Filter = "Текстовый файл (*.txt)|*.txt|Таблица|*.csv";
             // 
+            // exportTabPage
+            // 
+            this.exportTabPage.Location = new System.Drawing.Point(4, 54);
+            this.exportTabPage.Name = "exportTabPage";
+            this.exportTabPage.Size = new System.Drawing.Size(1276, 531);
+            this.exportTabPage.TabIndex = 3;
+            this.exportTabPage.Text = "ЭКСПОРТ";
+            this.exportTabPage.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -2248,14 +2259,14 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.registrarTab.ResumeLayout(false);
+            this.registrarTabPage.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.groupBox13.ResumeLayout(false);
             this.groupBox13.PerformLayout();
-            this.dataArchiveTab.ResumeLayout(false);
-            this.dataArchiveTab.PerformLayout();
+            this.dataArchiveTabPage.ResumeLayout(false);
+            this.dataArchiveTabPage.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.groupBox17.ResumeLayout(false);
             this.groupBox12.ResumeLayout(false);
@@ -2264,7 +2275,7 @@
             this.groupBox10.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
-            this.settingsTab.ResumeLayout(false);
+            this.settingsTabPage.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.groupBox15.ResumeLayout(false);
@@ -2319,15 +2330,15 @@
         private ToolStripStatusLabel toolStripStatusLabel3;
         private ToolStripStatusLabel toolStripStatusLabel4;
         private TabControl tabControl1;
-        private TabPage registrarTab;
+        private TabPage registrarTabPage;
         private TableLayoutPanel tableLayoutPanel1;
         private ZedGraph.ZedGraphControl zedGraphControl1;
         private ZedGraph.ZedGraphControl zedGraphControl2;
         private ZedGraph.ZedGraphControl zedGraphControl3;
         private ZedGraph.ZedGraphControl zedGraphControl4;
         private Panel panel1;
-        private TabPage dataArchiveTab;
-        private TabPage settingsTab;
+        private TabPage dataArchiveTabPage;
+        private TabPage settingsTabPage;
         public TabControl tabControl2;
         private TabPage tabPage4;
         private TabPage tabPage5;
@@ -2478,5 +2489,6 @@
         private LinkLabel linkLabel3;
         private LinkLabel linkLabel5;
         private LinkLabel linkLabel4;
+        private TabPage exportTabPage;
     }
 }
