@@ -1,21 +1,13 @@
+using System.Diagnostics;
 using System.IO.Ports;
-using ZedGraph;
-using System.Globalization;
 using System.Text;
-using System.Security;
-using System.IO;
-using System.Windows.Forms;
-//using FluxViewer.Properties;
+using FluxViewer.DataAccess.Converters;
 using FluxViewer.DataAccess.LiteDbb;
 using FluxViewer.DataAccess.Models;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.Reflection;
-using System.Collections.Generic;
+using FluxViewer.DataAccess.Storage;
 using XMLFileSettings;
-using System.Drawing;
-using System.Diagnostics;
-using FluxViewer.DataAccess.Converters;
-//using 
+using ZedGraph;
+//using FluxViewer.Properties;
 
 namespace FluxViewer
 {
@@ -59,8 +51,8 @@ namespace FluxViewer
 
         // База данных
         ILiteDbService _dataBaseContext;
-
- //       #region Settings action
+        private IStorage _storage;
+ 
         private Props props; 
         string[] graph_title = new string[4];
         float[] graph_k = new float[4];
@@ -73,8 +65,6 @@ namespace FluxViewer
 
         public Form1()
         {
-            _dataBaseContext = new LiteDbService();
-
             _data[0] = new RollingPointPairList(_capacity);
             _data[1] = new RollingPointPairList(_capacity);
             _data[2] = new RollingPointPairList(_capacity);
@@ -82,8 +72,9 @@ namespace FluxViewer
             list = new PointPairList();
 
             InitializeComponent();
+            OpenStorage();
             PrepareSettings();
-            GetSetings();
+            SetSettings();
             DrawGraph();
 
             dataGridView1.Rows.Add();
@@ -91,7 +82,6 @@ namespace FluxViewer
 
             save_settings_graph();
 
-            //_dataBaseContext.LogInformation("Приложение запущено");
             groupBox14.Left = (tabPage6.Width - groupBox14.Width) / 2;
             groupBox14.Top = (tabPage6.Height - groupBox14.Height) / 2;
 
@@ -119,7 +109,19 @@ namespace FluxViewer
             dateTimePicker1.Value = DateTime.Now;
             dateTimePicker2.Value = DateTime.Now;
         }
-
+        
+        /// <summary>
+        /// Создаём и открываем хранилище, куда будут записываться данные прибора 
+        /// </summary>
+        private void OpenStorage()
+        {
+            _storage = new FileSystemStorage();
+            _storage.Open();
+        }
+        
+        /// <summary>
+        /// Инициализируем настройки приложения и если их не существует, то создаём файл с стандартными настройками
+        /// </summary>
         private void PrepareSettings()
         {
             var pathToXmlSettingsFile = Environment.CurrentDirectory + "\\settings.xml";
@@ -127,7 +129,7 @@ namespace FluxViewer
             // Если файла с настройками не существует, то дополняем найстроки и создаём этот файл
             if (!File.Exists(pathToXmlSettingsFile))
             {
-                props.Fields.DbPath = Environment.CurrentDirectory + "\\database.litedb";
+                props.Fields.DbPath = Environment.CurrentDirectory + "\\database.litedb";   // TODO: выпилить путь до файла с настройками
                 props.WriteXml();
             }
         }
@@ -274,7 +276,7 @@ namespace FluxViewer
                     this.BeginInvoke((MethodInvoker)delegate
                     {
                         toolStripStatusLabel2.Text = "Подключено";
-                        toolStripStatusLabel2.BackColor = System.Drawing.Color.Green;
+                        toolStripStatusLabel2.BackColor = Color.Green;
                         btn_start.Enabled = false;
                         btn_stop.Enabled = true;
 
@@ -330,13 +332,8 @@ namespace FluxViewer
                 }
 
                 //Сохранить данные в базу
-                _dataBaseContext.WriteData(new Data()
-                {
-                    FluxSensorData = flux,
-                    TempSensorData = temp,
-                    PressureSensorData = pres,
-                    HumiditySensorData = humm
-                });
+                // TODO: Убираем ID, т.к. не можем его контроллировать!
+                _storage.WriteData(new NewData(0, DateTime.Now, flux, temp, pres, humm));
 
 
                 this.BeginInvoke((MethodInvoker)delegate { DrawUpdate(); });
@@ -382,7 +379,7 @@ namespace FluxViewer
                     label11.Text = "UIN контроллера: 0x" + hex.ToString();
                     label12.Text = "Размер памяти: " + (rx_buf[16] | (rx_buf[17] << 8)).ToString();
                     toolStripStatusLabel2.Text = "Подключено";
-                    toolStripStatusLabel2.BackColor = System.Drawing.Color.Green;
+                    toolStripStatusLabel2.BackColor = Color.Green;
                     toolStripStatusLabel4.Text = Encoding.UTF8.GetString(rx_buf, 18, 10);
                     if (is_TestButton)
                     {
@@ -424,7 +421,7 @@ namespace FluxViewer
                         position_firmware += size_wirmware - position_firmware;
                         this.BeginInvoke((MethodInvoker)delegate { 
                         label29.Text = "Перепрограммирование устройства";
-                            System.Threading.Thread.Sleep(3000);
+                            Thread.Sleep(3000);
                         btn_stop_Click(sender, e);
                          });
                         _serialPort.Close();
@@ -473,18 +470,14 @@ namespace FluxViewer
         }
         
         /// <summary>
-        /// Считать настройки из файла .Settings
+        /// Считываем настройки из файла и применяем их
         /// </summary>
-        public void GetSetings()
+        public void SetSettings()
         {
             props.ReadXml();
             string path = props.Fields.DbPath.ToString();
             this.textBox3.Text = path;
-            if(_dataBaseContext.ConnectOrCreateDataBase(path)==false)
-            {
-                MessageBox.Show("Укажите путь к базе данных \nи перезагрузите приложение", "Ошибка подключения к базе", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-            }
-            //_dataBaseContext.ConnectOrCreateDataBase(path);
+         
             rb_isPCclock.Checked = props.Fields.IsPcTime;
             com_name.Text = props.Fields.ComNum.ToString();
             com_speed.Text = props.Fields.ComSpeed.ToString();
@@ -622,7 +615,7 @@ namespace FluxViewer
             }
             else
             {
-                _textBrush = new System.Drawing.SolidBrush(e.ForeColor);
+                _textBrush = new SolidBrush(e.ForeColor);
                 e.DrawBackground();
             }
 
@@ -749,10 +742,10 @@ namespace FluxViewer
             DialogResult result = MessageBox.Show("Настройки записаны в устройство\nдля применение необходимо перезагрузить устройство\nПерезагрузить?", "Сообщение", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
             if (result == DialogResult.Yes)
             {
-                System.Threading.Thread.Sleep(500);
+                Thread.Sleep(500);
                 btn_stop_Click(sender,e);
                 //команда перезагрузки
-                System.Threading.Thread.Sleep(500);
+                Thread.Sleep(500);
                 com_send_cmd(0x5a);
                 _serialPort.Close();
 
@@ -774,7 +767,7 @@ namespace FluxViewer
             }
             if (_serialPort.IsOpen)
             {
-                System.Threading.Thread.Sleep(400);
+                Thread.Sleep(400);
                 com_send_cmd(0x2a);// Старт преобразования
             }
         }
@@ -1092,17 +1085,17 @@ namespace FluxViewer
         /// <param name="e"></param>
         private void dateTimePicker_ValueChanged(object sender, EventArgs e)
         {
-            DateTime date1 = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 00, 00, 00, 000);
-            DateTime date2 = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59, 999);
+            var beginDate = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 00, 00, 00, 000);
+            var endDate = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59, 999);
 
             comboBox1.Text = "";
-           
-            if (_dataBaseContext.GetHasDataBetweenTwoDates(date1, date2))
+
+            var dataCount = _storage.GetDataCountBetweenTwoDates(beginDate, endDate);
+            if (dataCount != 0)
             {
-               baze_size = _dataBaseContext.GetDataCountBetweenTwoDates(date1, date2);
+               baze_size = dataCount;
                list.Clear();
                comboBox1.Enabled = true;
-               //comboBox1.DroppedDown = true;
                btn_export.Enabled = true;
             }
             else
@@ -1477,75 +1470,71 @@ namespace FluxViewer
                 btn_stop_Click(sender, e);
                 is_ASCII_console = false;
             }
-
-
         }
 
         private void btn_export_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            // saveFileDialog.FilterIndex = 0;
+            var saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "CSV|*.csv";
             saveFileDialog.RestoreDirectory = true;
             saveFileDialog.CreatePrompt = true;
             saveFileDialog.Title = "Сохранить выбраный отрезок как";
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+
+            if (saveFileDialog.ShowDialog() != DialogResult.OK) return;
+            
+            var beginDate = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, dateTimePicker1.Value.Day, 00, 00, 00, 000);
+            var endDate = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59, 999);
+            var csvConverter = new CsvConverter(Path.GetFullPath(saveFileDialog.FileName));
+            csvConverter.Open();
+            for (var batchNUmber = 0; ; batchNUmber++)
             {
-                DateTime beginDate = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, dateTimePicker1.Value.Day, 00, 00, 00, 000);
-                DateTime endDate = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59, 999);
-                CsvConverter csvConverter = new CsvConverter(Path.GetFullPath(saveFileDialog.FileName));
-                csvConverter.Open();
-                for (int batchNUmber = 0; ; batchNUmber++)
+                try
                 {
-                    try
-                    {
-                        List<Data> dataBatch = _dataBaseContext.GetDataBatchBetweenTwoDates(beginDate, endDate, batchNUmber, 100000);  // TODO надо найти оптимальный batchSize
-                        if (dataBatch.Count == 0)
-                            break;
+                    var dataBatch = _storage.GetDataBatchBetweenTwoDates(beginDate, endDate, batchNUmber);
+                    if (dataBatch.Count != 0)
                         csvConverter.Write(dataBatch);
-                    }
-                    catch(Exception ex) // TODO Тут отследить норм. исключение
-                    {
-                        break;  
-                    }
                 }
-                csvConverter.Close();
+                catch(Exception ex) // TODO Тут отследить норм. исключение
+                {
+                    break;  
+                }
             }
+            csvConverter.Close();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             string mailto = string.Format("mailto:{0}?Subject={1}&Body={2}", "az@azmotors.ru", "Запрос по FluxViewer", "Добрый день!");
             //            mailto = Uri.EscapeUriString(mailto);
-            System.Diagnostics.Process.Start(new ProcessStartInfo(mailto) { UseShellExecute = true });
+            Process.Start(new ProcessStartInfo(mailto) { UseShellExecute = true });
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.linkLabel1.LinkVisited = true;          
-            System.Diagnostics.Process.Start(new ProcessStartInfo { FileName = @"http://fluxmeter.ru", UseShellExecute = true });
+            Process.Start(new ProcessStartInfo { FileName = @"http://fluxmeter.ru", UseShellExecute = true });
         }
 
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var startInfo = new System.Diagnostics.ProcessStartInfo
+            var startInfo = new ProcessStartInfo
             {
                 FileName = Environment.CurrentDirectory + @"\doc\Руководство пользователя FluxViewer.pdf",  // Путь к приложению
                 UseShellExecute = true,
                 CreateNoWindow = true
             };
-            System.Diagnostics.Process.Start(startInfo);
+            Process.Start(startInfo);
         }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var startInfo = new System.Diagnostics.ProcessStartInfo
+            var startInfo = new ProcessStartInfo
             {
                 FileName = Environment.CurrentDirectory + @"\doc\Руководство пользователя флюксметр Пчела-Д.pdf",  // Путь к приложению
                 UseShellExecute = true,
                 CreateNoWindow = true
             };
-            System.Diagnostics.Process.Start(startInfo);
+            Process.Start(startInfo);
         }
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
