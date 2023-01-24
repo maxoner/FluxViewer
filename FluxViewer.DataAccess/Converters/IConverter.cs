@@ -20,12 +20,12 @@ public interface IConverter
     /// Конвертировать и записать показание прибора.
     /// </summary>
     /// <param name="data">Показание прибора, которые будут конвертированы и записаны</param>
-    public abstract void Write(Data data);
+    public abstract void Write(NewData data);
 
 
     /// <summary>
     /// Конвертировать и записать коллекцию с показаниями прибора.
     /// </summary>
     /// <param name="data">Коллекция с показаниями прибора, которые будут конвертированы и записаны</param>
-    public abstract void Write(IEnumerable<Data> data);
+    public abstract void Write(IEnumerable<NewData> data);
 }

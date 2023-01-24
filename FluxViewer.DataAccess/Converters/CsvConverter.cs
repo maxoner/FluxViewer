@@ -42,7 +42,7 @@ public class CsvConverter : IConverter
         }
     }
 
-    public void Write(Data data)
+    public void Write(NewData data)
     {
         if (!_isOpen || _file is null)
             throw new Exception("Файл не открыт"); // TODO: тот же класс-исключение
@@ -51,7 +51,7 @@ public class CsvConverter : IConverter
                         $"{data.PressureSensorData};{data.HumiditySensorData}");
     }
 
-    public void Write(IEnumerable<Data> data)
+    public void Write(IEnumerable<NewData> data)
     {
         foreach (var record in data)
         {
