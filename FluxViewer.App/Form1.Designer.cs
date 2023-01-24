@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -38,7 +38,7 @@
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.registrarTab = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.zedGraphControl2 = new ZedGraph.ZedGraphControl();
@@ -52,7 +52,7 @@
             this.cb_graphtype = new System.Windows.Forms.ComboBox();
             this.btn_stop = new System.Windows.Forms.Button();
             this.btn_start = new System.Windows.Forms.Button();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dataArchiveTab = new System.Windows.Forms.TabPage();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.btn_achive_down = new System.Windows.Forms.Button();
             this.btn_achive_up = new System.Windows.Forms.Button();
@@ -77,7 +77,7 @@
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.settingsTab = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
@@ -199,11 +199,11 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.registrarTab.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox13.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.dataArchiveTab.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox17.SuspendLayout();
             this.groupBox12.SuspendLayout();
@@ -211,7 +211,7 @@
             this.groupBox10.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox8.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.settingsTab.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox15.SuspendLayout();
@@ -295,9 +295,9 @@
             // 
             this.tabControl1.Appearance = System.Windows.Forms.TabAppearance.Buttons;
             this.tabControl1.CausesValidation = false;
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.registrarTab);
+            this.tabControl1.Controls.Add(this.dataArchiveTab);
+            this.tabControl1.Controls.Add(this.settingsTab);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.tabControl1.ItemSize = new System.Drawing.Size(200, 50);
@@ -309,19 +309,19 @@
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 3;
             // 
-            // tabPage1
+            // registrarTab
             // 
-            this.tabPage1.Controls.Add(this.tableLayoutPanel1);
-            this.tabPage1.Controls.Add(this.panel1);
-            this.tabPage1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tabPage1.Location = new System.Drawing.Point(4, 54);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(1276, 531);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "РЕГИСТРАТОР";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.registrarTab.Controls.Add(this.tableLayoutPanel1);
+            this.registrarTab.Controls.Add(this.panel1);
+            this.registrarTab.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.registrarTab.Location = new System.Drawing.Point(4, 54);
+            this.registrarTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.registrarTab.Name = "registrarTab";
+            this.registrarTab.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.registrarTab.Size = new System.Drawing.Size(1276, 531);
+            this.registrarTab.TabIndex = 0;
+            this.registrarTab.Text = "РЕГИСТРАТОР";
+            this.registrarTab.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
             // 
@@ -522,24 +522,24 @@
             this.btn_start.UseVisualStyleBackColor = true;
             this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
             // 
-            // tabPage2
+            // dataArchiveTab
             // 
-            this.tabPage2.Controls.Add(this.checkBox3);
-            this.tabPage2.Controls.Add(this.btn_achive_down);
-            this.tabPage2.Controls.Add(this.btn_achive_up);
-            this.tabPage2.Controls.Add(this.btn_achive_minus);
-            this.tabPage2.Controls.Add(this.btn_achive_plus);
-            this.tabPage2.Controls.Add(this.btn_achive_autozoom);
-            this.tabPage2.Controls.Add(this.zedGraphControl5);
-            this.tabPage2.Controls.Add(this.panel2);
-            this.tabPage2.Location = new System.Drawing.Point(4, 54);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Size = new System.Drawing.Size(1276, 531);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "АРХИВ ДАННЫХ";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.dataArchiveTab.Controls.Add(this.checkBox3);
+            this.dataArchiveTab.Controls.Add(this.btn_achive_down);
+            this.dataArchiveTab.Controls.Add(this.btn_achive_up);
+            this.dataArchiveTab.Controls.Add(this.btn_achive_minus);
+            this.dataArchiveTab.Controls.Add(this.btn_achive_plus);
+            this.dataArchiveTab.Controls.Add(this.btn_achive_autozoom);
+            this.dataArchiveTab.Controls.Add(this.zedGraphControl5);
+            this.dataArchiveTab.Controls.Add(this.panel2);
+            this.dataArchiveTab.Location = new System.Drawing.Point(4, 54);
+            this.dataArchiveTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dataArchiveTab.Name = "dataArchiveTab";
+            this.dataArchiveTab.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dataArchiveTab.Size = new System.Drawing.Size(1276, 531);
+            this.dataArchiveTab.TabIndex = 1;
+            this.dataArchiveTab.Text = "АРХИВ ДАННЫХ";
+            this.dataArchiveTab.UseVisualStyleBackColor = true;
             // 
             // checkBox3
             // 
@@ -833,16 +833,16 @@
             this.dateTimePicker1.Value = new System.DateTime(2022, 11, 1, 0, 0, 0, 0);
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
             // 
-            // tabPage3
+            // settingsTab
             // 
-            this.tabPage3.Controls.Add(this.tabControl2);
-            this.tabPage3.Location = new System.Drawing.Point(4, 54);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1276, 531);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "НАСТРОЙКИ";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.settingsTab.Controls.Add(this.tabControl2);
+            this.settingsTab.Location = new System.Drawing.Point(4, 54);
+            this.settingsTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.settingsTab.Name = "settingsTab";
+            this.settingsTab.Size = new System.Drawing.Size(1276, 531);
+            this.settingsTab.TabIndex = 2;
+            this.settingsTab.Text = "НАСТРОЙКИ";
+            this.settingsTab.UseVisualStyleBackColor = true;
             // 
             // tabControl2
             // 
@@ -1910,13 +1910,13 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 29;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -2248,14 +2248,14 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
+            this.registrarTab.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.groupBox13.ResumeLayout(false);
             this.groupBox13.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.dataArchiveTab.ResumeLayout(false);
+            this.dataArchiveTab.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.groupBox17.ResumeLayout(false);
             this.groupBox12.ResumeLayout(false);
@@ -2264,7 +2264,7 @@
             this.groupBox10.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
+            this.settingsTab.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.groupBox15.ResumeLayout(false);
@@ -2319,15 +2319,15 @@
         private ToolStripStatusLabel toolStripStatusLabel3;
         private ToolStripStatusLabel toolStripStatusLabel4;
         private TabControl tabControl1;
-        private TabPage tabPage1;
+        private TabPage registrarTab;
         private TableLayoutPanel tableLayoutPanel1;
         private ZedGraph.ZedGraphControl zedGraphControl1;
         private ZedGraph.ZedGraphControl zedGraphControl2;
         private ZedGraph.ZedGraphControl zedGraphControl3;
         private ZedGraph.ZedGraphControl zedGraphControl4;
         private Panel panel1;
-        private TabPage tabPage2;
-        private TabPage tabPage3;
+        private TabPage dataArchiveTab;
+        private TabPage settingsTab;
         public TabControl tabControl2;
         private TabPage tabPage4;
         private TabPage tabPage5;
