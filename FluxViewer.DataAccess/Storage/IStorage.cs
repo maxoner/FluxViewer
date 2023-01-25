@@ -39,7 +39,23 @@ public interface IStorage
     /// <param name="endDate">Дата конца, по которую считаются показания</param>
     /// <returns>Количество показаний прибора</returns>
     public int GetDataCountBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null);
-
+    
+    /// <summary>
+    /// Получение количества всех батчей
+    /// (батч - некоторый набор показаний прибора, гарантированно вмещающийся в оперативуню память)
+    /// </summary>
+    /// <returns>Количество показаний прибора</returns>
+    public int GetBatchCount();
+    
+    
+    /// <summary>
+    /// Получение количества батчей между двумя датами.
+    /// </summary>
+    /// <param name="beginDate">Дата начала, с которой считаются батчи</param>
+    /// <param name="endDate">Дата конца, по которую считаются батчи</param>
+    /// <returns>Количество показаний прибора</returns>
+    public int GetBatchCountBetweenTwoDates(DateTime beginDate, DateTime endDate);
+    
     /// <summary>
     /// "Пакетное" получение показаний прибора между двумя датами из хранилища.
     /// </summary>
