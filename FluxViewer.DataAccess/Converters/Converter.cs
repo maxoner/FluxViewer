@@ -6,26 +6,29 @@ namespace FluxViewer.DataAccess.Converters;
 public abstract class Converter
 {
     protected readonly string PathToFile;
+    protected readonly string DateTimeFormat;
     protected readonly bool DateTimeConvert;
     protected readonly bool FluxConvert;
     protected readonly bool TempConvert;
     protected readonly bool PresConvert;
     protected readonly bool HummConvert;
-    
-    
+
+
     /// <summary>
     /// Абстрактный конвертер.
     /// </summary>
     /// <param name="pathToFile">Путь до файла файла, куда будет записан результат конвертации</param>
+    /// <param name="dateTimeFormat">Формат даты и времени</param>
     /// <param name="dateTimeConvert">Нужно ли экспортировать дату и время?</param>
     /// <param name="fluxConvert">Нужно ли конвертировать электростатическое поле?</param>
     /// <param name="tempConvert">Нужно ли конвертировать температуру?</param>
     /// <param name="presConvert">Нужно ли конвертировать давление?</param>
     /// <param name="hummConvert">Нужно ли конвертировать влажность?</param>
-    protected Converter(string pathToFile, bool dateTimeConvert, bool fluxConvert, bool tempConvert,
+    protected Converter(string pathToFile, string dateTimeFormat, bool dateTimeConvert, bool fluxConvert, bool tempConvert,
         bool presConvert, bool hummConvert)
     {
         PathToFile = pathToFile;
+        DateTimeFormat = dateTimeFormat;
         DateTimeConvert = dateTimeConvert; 
         FluxConvert = fluxConvert;
         TempConvert = tempConvert;

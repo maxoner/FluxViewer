@@ -10,8 +10,9 @@ public class CsvConverter : Converter
     private StreamWriter _file;
     private bool _isOpen;
 
-    public CsvConverter(string pathToFile, bool dateTimeConvert, bool fluxConvert, bool tempConvert, bool presConvert,
-        bool hummConvert) : base(pathToFile, dateTimeConvert, fluxConvert, tempConvert, presConvert, hummConvert)
+    public CsvConverter(string pathToFile, string dateTimeFormat, bool dateTimeConvert, bool fluxConvert,
+        bool tempConvert, bool presConvert, bool hummConvert) :
+        base(pathToFile, dateTimeFormat, dateTimeConvert, fluxConvert, tempConvert, presConvert, hummConvert)
     {
     }
 
@@ -43,7 +44,7 @@ public class CsvConverter : Converter
             throw new Exception("Файл не открыт"); // TODO: тот же класс-исключение
 
         var csvLine = "";
-        if (DateTimeConvert) csvLine += $"{data.DateTime};";
+        if (DateTimeConvert) csvLine += $"{data.DateTime.ToString(DateTimeFormat)};";
         if (FluxConvert) csvLine += $"{data.FluxSensorData};";
         if (TempConvert) csvLine += $"{data.TempSensorData};";
         if (PresConvert) csvLine += $"{data.PressureSensorData};";
