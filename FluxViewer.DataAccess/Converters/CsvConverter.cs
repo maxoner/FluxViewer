@@ -48,7 +48,7 @@ public class CsvConverter : Converter
         if (TempConvert) csvLine += $"{data.TempSensorData};";
         if (PresConvert) csvLine += $"{data.PressureSensorData};";
         if (HummConvert) csvLine += $"{data.HumiditySensorData};";
-        var csvLineWithoutLastComma = csvLine.Remove(0, csvLine.Length - 1); // Удаляем последнюю ';'
+        var csvLineWithoutLastComma = csvLine.Substring(0, csvLine.Length - 1); // Удаляем последнюю ';'
 
         _file.WriteLine(csvLineWithoutLastComma);
     }
