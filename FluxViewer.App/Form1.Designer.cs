@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -64,11 +64,6 @@
             this.groupBox17 = new System.Windows.Forms.GroupBox();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.btn_export = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
@@ -78,7 +73,15 @@
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.exportTabPage = new System.Windows.Forms.TabPage();
+            this.exportInfoGroupBox = new System.Windows.Forms.GroupBox();
+            this.exportDataCountTextBox = new System.Windows.Forms.TextBox();
+            this.exportDataCountLabel = new System.Windows.Forms.Label();
             this.exportGroupBox = new System.Windows.Forms.GroupBox();
+            this.secondsLabel = new System.Windows.Forms.Label();
+            this.exportIntervalsTextBox = new System.Windows.Forms.TextBox();
+            this.filterApplyingCheckBox = new System.Windows.Forms.CheckBox();
+            this.dateFormatLabel = new System.Windows.Forms.Label();
+            this.dateFormatComboBox = new System.Windows.Forms.ComboBox();
             this.exportButton = new System.Windows.Forms.Button();
             this.beginExportDateLabel = new System.Windows.Forms.Label();
             this.beginExportDate = new System.Windows.Forms.DateTimePicker();
@@ -212,9 +215,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.exportInfoGroupBox = new System.Windows.Forms.GroupBox();
-            this.exportDataCountLabel = new System.Windows.Forms.Label();
-            this.exportDataCountTextBox = new System.Windows.Forms.TextBox();
+            this.exportProgressBar = new System.Windows.Forms.ProgressBar();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.registrarTabPage.SuspendLayout();
@@ -224,12 +225,12 @@
             this.dataArchiveTabPage.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox17.SuspendLayout();
-            this.groupBox12.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.exportTabPage.SuspendLayout();
+            this.exportInfoGroupBox.SuspendLayout();
             this.exportGroupBox.SuspendLayout();
             this.exportFieldsGroupBox.SuspendLayout();
             this.settingsTabPage.SuspendLayout();
@@ -261,7 +262,6 @@
             this.groupBox16.SuspendLayout();
             this.tabPage9.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.exportInfoGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -652,7 +652,6 @@
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.groupBox17);
-            this.panel2.Controls.Add(this.groupBox12);
             this.panel2.Controls.Add(this.groupBox11);
             this.panel2.Controls.Add(this.groupBox10);
             this.panel2.Controls.Add(this.groupBox9);
@@ -669,7 +668,7 @@
             this.groupBox17.Controls.Add(this.button5);
             this.groupBox17.Controls.Add(this.button4);
             this.groupBox17.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox17.Location = new System.Drawing.Point(1109, 3);
+            this.groupBox17.Location = new System.Drawing.Point(841, 4);
             this.groupBox17.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox17.Name = "groupBox17";
             this.groupBox17.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -697,62 +696,6 @@
             this.button4.TabIndex = 0;
             this.button4.Text = "Гистограммы";
             this.button4.UseVisualStyleBackColor = true;
-            // 
-            // groupBox12
-            // 
-            this.groupBox12.Controls.Add(this.label10);
-            this.groupBox12.Controls.Add(this.label9);
-            this.groupBox12.Controls.Add(this.btn_export);
-            this.groupBox12.Controls.Add(this.textBox2);
-            this.groupBox12.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox12.Location = new System.Drawing.Point(841, 4);
-            this.groupBox12.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox12.Size = new System.Drawing.Size(261, 59);
-            this.groupBox12.TabIndex = 4;
-            this.groupBox12.TabStop = false;
-            this.groupBox12.Text = "Экспорт в равных промежутках";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label10.Location = new System.Drawing.Point(102, 29);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(19, 15);
-            this.label10.TabIndex = 11;
-            this.label10.Text = ", с";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label9.Location = new System.Drawing.Point(5, 29);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(38, 15);
-            this.label9.TabIndex = 10;
-            this.label9.Text = "через";
-            // 
-            // btn_export
-            // 
-            this.btn_export.Enabled = false;
-            this.btn_export.Location = new System.Drawing.Point(142, 24);
-            this.btn_export.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_export.Name = "btn_export";
-            this.btn_export.Size = new System.Drawing.Size(105, 27);
-            this.btn_export.TabIndex = 12;
-            this.btn_export.Text = "Экспорт";
-            this.btn_export.Click += new System.EventHandler(this.btn_export_Click);
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(51, 25);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(51, 25);
-            this.textBox2.TabIndex = 0;
-            this.textBox2.Text = "30";
             // 
             // groupBox11
             // 
@@ -830,7 +773,6 @@
             this.dateTimePicker2.Size = new System.Drawing.Size(146, 25);
             this.dateTimePicker2.TabIndex = 0;
             this.dateTimePicker2.Value = new System.DateTime(2022, 11, 1, 0, 0, 0, 0);
-            this.dateTimePicker2.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
             // 
             // groupBox8
             // 
@@ -854,7 +796,6 @@
             this.dateTimePicker1.Size = new System.Drawing.Size(145, 25);
             this.dateTimePicker1.TabIndex = 0;
             this.dateTimePicker1.Value = new System.DateTime(2022, 11, 1, 0, 0, 0, 0);
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
             // 
             // exportTabPage
             // 
@@ -867,8 +808,43 @@
             this.exportTabPage.Text = "ЭКСПОРТ";
             this.exportTabPage.UseVisualStyleBackColor = true;
             // 
+            // exportInfoGroupBox
+            // 
+            this.exportInfoGroupBox.Controls.Add(this.exportDataCountTextBox);
+            this.exportInfoGroupBox.Controls.Add(this.exportDataCountLabel);
+            this.exportInfoGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.exportInfoGroupBox.Location = new System.Drawing.Point(697, 19);
+            this.exportInfoGroupBox.Name = "exportInfoGroupBox";
+            this.exportInfoGroupBox.Size = new System.Drawing.Size(555, 159);
+            this.exportInfoGroupBox.TabIndex = 1;
+            this.exportInfoGroupBox.TabStop = false;
+            this.exportInfoGroupBox.Text = "Данные экспорта";
+            // 
+            // exportDataCountTextBox
+            // 
+            this.exportDataCountTextBox.Location = new System.Drawing.Point(265, 51);
+            this.exportDataCountTextBox.Name = "exportDataCountTextBox";
+            this.exportDataCountTextBox.ReadOnly = true;
+            this.exportDataCountTextBox.Size = new System.Drawing.Size(202, 25);
+            this.exportDataCountTextBox.TabIndex = 1;
+            // 
+            // exportDataCountLabel
+            // 
+            this.exportDataCountLabel.AutoSize = true;
+            this.exportDataCountLabel.Location = new System.Drawing.Point(49, 51);
+            this.exportDataCountLabel.Name = "exportDataCountLabel";
+            this.exportDataCountLabel.Size = new System.Drawing.Size(153, 19);
+            this.exportDataCountLabel.TabIndex = 0;
+            this.exportDataCountLabel.Text = "Количество показаний";
+            // 
             // exportGroupBox
             // 
+            this.exportGroupBox.Controls.Add(this.exportProgressBar);
+            this.exportGroupBox.Controls.Add(this.secondsLabel);
+            this.exportGroupBox.Controls.Add(this.exportIntervalsTextBox);
+            this.exportGroupBox.Controls.Add(this.filterApplyingCheckBox);
+            this.exportGroupBox.Controls.Add(this.dateFormatLabel);
+            this.exportGroupBox.Controls.Add(this.dateFormatComboBox);
             this.exportGroupBox.Controls.Add(this.exportButton);
             this.exportGroupBox.Controls.Add(this.beginExportDateLabel);
             this.exportGroupBox.Controls.Add(this.beginExportDate);
@@ -880,19 +856,69 @@
             this.exportGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.exportGroupBox.Location = new System.Drawing.Point(21, 19);
             this.exportGroupBox.Name = "exportGroupBox";
-            this.exportGroupBox.Size = new System.Drawing.Size(575, 498);
+            this.exportGroupBox.Size = new System.Drawing.Size(623, 498);
             this.exportGroupBox.TabIndex = 0;
             this.exportGroupBox.TabStop = false;
             this.exportGroupBox.Text = "Настройки экспорта";
             // 
+            // secondsLabel
+            // 
+            this.secondsLabel.AutoSize = true;
+            this.secondsLabel.Location = new System.Drawing.Point(551, 219);
+            this.secondsLabel.Name = "secondsLabel";
+            this.secondsLabel.Size = new System.Drawing.Size(32, 19);
+            this.secondsLabel.TabIndex = 11;
+            this.secondsLabel.Text = "сек.";
+            // 
+            // exportIntervalsTextBox
+            // 
+            this.exportIntervalsTextBox.Enabled = false;
+            this.exportIntervalsTextBox.Location = new System.Drawing.Point(383, 213);
+            this.exportIntervalsTextBox.Name = "exportIntervalsTextBox";
+            this.exportIntervalsTextBox.Size = new System.Drawing.Size(162, 25);
+            this.exportIntervalsTextBox.TabIndex = 10;
+            // 
+            // filterApplyingCheckBox
+            // 
+            this.filterApplyingCheckBox.AutoSize = true;
+            this.filterApplyingCheckBox.Enabled = false;
+            this.filterApplyingCheckBox.Location = new System.Drawing.Point(33, 215);
+            this.filterApplyingCheckBox.Name = "filterApplyingCheckBox";
+            this.filterApplyingCheckBox.Size = new System.Drawing.Size(293, 23);
+            this.filterApplyingCheckBox.TabIndex = 5;
+            this.filterApplyingCheckBox.Text = "Экспортировать равными промежутками";
+            this.filterApplyingCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // dateFormatLabel
+            // 
+            this.dateFormatLabel.AutoSize = true;
+            this.dateFormatLabel.Location = new System.Drawing.Point(33, 163);
+            this.dateFormatLabel.Name = "dateFormatLabel";
+            this.dateFormatLabel.Size = new System.Drawing.Size(93, 19);
+            this.dateFormatLabel.TabIndex = 8;
+            this.dateFormatLabel.Text = "Формат даты";
+            // 
+            // dateFormatComboBox
+            // 
+            this.dateFormatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.dateFormatComboBox.FormattingEnabled = true;
+            this.dateFormatComboBox.Items.AddRange(new object[] {
+            "MM/dd/yyyy HH:mm:ss",
+            "yyyy’-‘MM’-‘dd’T’HH’:’mm’:’ss"});
+            this.dateFormatComboBox.Location = new System.Drawing.Point(383, 163);
+            this.dateFormatComboBox.Name = "dateFormatComboBox";
+            this.dateFormatComboBox.Size = new System.Drawing.Size(200, 25);
+            this.dateFormatComboBox.TabIndex = 9;
+            // 
             // exportButton
             // 
-            this.exportButton.Location = new System.Drawing.Point(33, 396);
+            this.exportButton.Location = new System.Drawing.Point(406, 407);
             this.exportButton.Name = "exportButton";
             this.exportButton.Size = new System.Drawing.Size(177, 42);
             this.exportButton.TabIndex = 7;
             this.exportButton.Text = "Экспорт";
             this.exportButton.UseVisualStyleBackColor = true;
+            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
             // 
             // beginExportDateLabel
             // 
@@ -905,10 +931,11 @@
             // 
             // beginExportDate
             // 
-            this.beginExportDate.Location = new System.Drawing.Point(246, 42);
+            this.beginExportDate.Location = new System.Drawing.Point(383, 42);
             this.beginExportDate.Name = "beginExportDate";
             this.beginExportDate.Size = new System.Drawing.Size(200, 25);
             this.beginExportDate.TabIndex = 5;
+            this.beginExportDate.ValueChanged += new System.EventHandler(this.beginExportDate_ValueChanged);
             // 
             // endExportDateLabel
             // 
@@ -921,7 +948,7 @@
             // 
             // endExportDate
             // 
-            this.endExportDate.Location = new System.Drawing.Point(246, 82);
+            this.endExportDate.Location = new System.Drawing.Point(383, 82);
             this.endExportDate.Name = "endExportDate";
             this.endExportDate.Size = new System.Drawing.Size(200, 25);
             this.endExportDate.TabIndex = 6;
@@ -937,12 +964,13 @@
             // 
             // convertorComboBox
             // 
+            this.convertorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.convertorComboBox.FormattingEnabled = true;
             this.convertorComboBox.Items.AddRange(new object[] {
             "Plain Text",
             "CSV",
             "JSON"});
-            this.convertorComboBox.Location = new System.Drawing.Point(246, 120);
+            this.convertorComboBox.Location = new System.Drawing.Point(383, 120);
             this.convertorComboBox.Name = "convertorComboBox";
             this.convertorComboBox.Size = new System.Drawing.Size(200, 25);
             this.convertorComboBox.TabIndex = 1;
@@ -954,7 +982,7 @@
             this.exportFieldsGroupBox.Controls.Add(this.tempForExportCheckBox);
             this.exportFieldsGroupBox.Controls.Add(this.hummForExportCheckBox);
             this.exportFieldsGroupBox.Controls.Add(this.presForExportCheckBox);
-            this.exportFieldsGroupBox.Location = new System.Drawing.Point(33, 168);
+            this.exportFieldsGroupBox.Location = new System.Drawing.Point(33, 258);
             this.exportFieldsGroupBox.Name = "exportFieldsGroupBox";
             this.exportFieldsGroupBox.Size = new System.Drawing.Size(253, 193);
             this.exportFieldsGroupBox.TabIndex = 2;
@@ -972,6 +1000,7 @@
             this.dateTimeForExportCheckBox.TabIndex = 0;
             this.dateTimeForExportCheckBox.Text = "Дата и время";
             this.dateTimeForExportCheckBox.UseVisualStyleBackColor = true;
+            this.dateTimeForExportCheckBox.CheckedChanged += new System.EventHandler(this.dateTimeForExportCheckBox_CheckedChanged);
             // 
             // fluxForExportCheckBox
             // 
@@ -2098,13 +2127,13 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 29;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -2421,34 +2450,12 @@
             // 
             this.saveFileDialog1.Filter = "Текстовый файл (*.txt)|*.txt|Таблица|*.csv";
             // 
-            // exportInfoGroupBox
+            // exportProgressBar
             // 
-            this.exportInfoGroupBox.Controls.Add(this.exportDataCountTextBox);
-            this.exportInfoGroupBox.Controls.Add(this.exportDataCountLabel);
-            this.exportInfoGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.exportInfoGroupBox.Location = new System.Drawing.Point(622, 19);
-            this.exportInfoGroupBox.Name = "exportInfoGroupBox";
-            this.exportInfoGroupBox.Size = new System.Drawing.Size(630, 159);
-            this.exportInfoGroupBox.TabIndex = 1;
-            this.exportInfoGroupBox.TabStop = false;
-            this.exportInfoGroupBox.Text = "Данные экспорта";
-            // 
-            // exportDataCountLabel
-            // 
-            this.exportDataCountLabel.AutoSize = true;
-            this.exportDataCountLabel.Location = new System.Drawing.Point(49, 51);
-            this.exportDataCountLabel.Name = "exportDataCountLabel";
-            this.exportDataCountLabel.Size = new System.Drawing.Size(153, 19);
-            this.exportDataCountLabel.TabIndex = 0;
-            this.exportDataCountLabel.Text = "Количество показаний";
-            // 
-            // exportDataCountTextBox
-            // 
-            this.exportDataCountTextBox.Location = new System.Drawing.Point(265, 51);
-            this.exportDataCountTextBox.Name = "exportDataCountTextBox";
-            this.exportDataCountTextBox.ReadOnly = true;
-            this.exportDataCountTextBox.Size = new System.Drawing.Size(202, 25);
-            this.exportDataCountTextBox.TabIndex = 1;
+            this.exportProgressBar.Location = new System.Drawing.Point(33, 462);
+            this.exportProgressBar.Name = "exportProgressBar";
+            this.exportProgressBar.Size = new System.Drawing.Size(550, 23);
+            this.exportProgressBar.TabIndex = 2;
             // 
             // Form1
             // 
@@ -2475,13 +2482,13 @@
             this.dataArchiveTabPage.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.groupBox17.ResumeLayout(false);
-            this.groupBox12.ResumeLayout(false);
-            this.groupBox12.PerformLayout();
             this.groupBox11.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.exportTabPage.ResumeLayout(false);
+            this.exportInfoGroupBox.ResumeLayout(false);
+            this.exportInfoGroupBox.PerformLayout();
             this.exportGroupBox.ResumeLayout(false);
             this.exportGroupBox.PerformLayout();
             this.exportFieldsGroupBox.ResumeLayout(false);
@@ -2527,8 +2534,6 @@
             this.tabPage9.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            this.exportInfoGroupBox.ResumeLayout(false);
-            this.exportInfoGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2596,11 +2601,6 @@
         private Button btn_achive_minus;
         private Button btn_achive_plus;
         private Button btn_achive_autozoom;
-        private GroupBox groupBox12;
-        private Label label10;
-        private Label label9;
-        private Button btn_export;
-        private TextBox textBox2;
         private ComboBox comboBox2;
         private TabPage tabPage9;
         private OpenFileDialog openFileDialog1;
@@ -2720,5 +2720,11 @@
         private GroupBox exportInfoGroupBox;
         private Label exportDataCountLabel;
         private TextBox exportDataCountTextBox;
+        private Label dateFormatLabel;
+        private ComboBox dateFormatComboBox;
+        private Label secondsLabel;
+        private TextBox exportIntervalsTextBox;
+        private CheckBox filterApplyingCheckBox;
+        private ProgressBar exportProgressBar;
     }
 }
