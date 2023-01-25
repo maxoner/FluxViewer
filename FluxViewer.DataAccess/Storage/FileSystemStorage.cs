@@ -47,6 +47,16 @@ public class FileSystemStorage : IStorage
         return paths.Sum(GetDataCountFromFile);
     }
 
+    public int GetBatchCount()
+    {
+        return GetFilePaths().Count();
+    }
+
+    public int GetBatchCountBetweenTwoDates(DateTime beginDate, DateTime endDate)
+    {
+        return GetFilePathsBetweenTwoDates(beginDate, endDate).Count();
+    }
+
     public List<NewData> GetDataBatchBetweenTwoDates(DateTime beginDate, DateTime endDate, int butchNumber)
     {
         var paths = GetFilePathsBetweenTwoDates(beginDate, endDate).ToArray();
