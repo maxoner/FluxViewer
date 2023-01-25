@@ -64,7 +64,7 @@ public struct NewData
         var tempSensorDataDataBytes = new byte[4];
         Array.Copy(bytes, 12, tempSensorDataDataBytes, 0, 4);
         var pressureSensorDataBytes = new byte[4];
-        Array.Copy(bytes, 26, pressureSensorDataBytes, 0, 4);
+        Array.Copy(bytes, 16, pressureSensorDataBytes, 0, 4);
         var humiditySensorDataBytes = new byte[4];
         Array.Copy(bytes, 20, humiditySensorDataBytes, 0, 4);
 
