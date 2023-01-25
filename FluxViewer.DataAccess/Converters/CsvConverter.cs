@@ -5,26 +5,21 @@ using FluxViewer.DataAccess.Models;
 
 namespace FluxViewer.DataAccess.Converters;
 
-public class CsvConverter : IConverter
+public class CsvConverter : Converter
 {
-    private readonly string _pathToFile;
     private StreamWriter _file;
     private bool _isOpen;
 
-    /// <summary>
-    /// Конвертер в CSV формат
-    /// </summary>
-    /// <param name="pathToFile">Путь до файла CSV файла, куда будет записан результат конвертации</param>
-    public CsvConverter(string pathToFile)
+    public CsvConverter(string pathToFile, bool dateTimeConvert, bool fluxConvert, bool tempConvert, bool presConvert,
+        bool hummConvert) : base(pathToFile, dateTimeConvert, fluxConvert, tempConvert, presConvert, hummConvert)
     {
-        _pathToFile = pathToFile;
     }
 
-    public void Open()
+    public override void Open()
     {
         try
         {
-            _file = new StreamWriter(_pathToFile); // В случае повторного открытия пересоздаём файл!
+            _file = new StreamWriter(PathToFile); // В случае повторного открытия пересоздаём файл!
             _isOpen = true;
         }
         catch (Exception e)
@@ -33,7 +28,7 @@ public class CsvConverter : IConverter
         }
     }
 
-    public void Close()
+    public override void Close()
     {
         if (_isOpen && _file is not null)
         {
@@ -42,16 +37,23 @@ public class CsvConverter : IConverter
         }
     }
 
-    public void Write(NewData data)
+    public override void Write(NewData data)
     {
         if (!_isOpen || _file is null)
             throw new Exception("Файл не открыт"); // TODO: тот же класс-исключение
 
-        _file.WriteLine($"{data.DateTime};{data.FluxSensorData};{data.TempSensorData};" +
-                        $"{data.PressureSensorData};{data.HumiditySensorData}");
+        var csvLine = "";
+        if (DateTimeConvert) csvLine += $"{data.DateTime};";
+        if (FluxConvert) csvLine += $"{data.FluxSensorData};";
+        if (TempConvert) csvLine += $"{data.TempSensorData};";
+        if (PresConvert) csvLine += $"{data.PressureSensorData};";
+        if (HummConvert) csvLine += $"{data.HumiditySensorData};";
+        var csvLineWithoutLastComma = csvLine.Remove(0, csvLine.Length - 1); // Удаляем последнюю ';'
+
+        _file.WriteLine(csvLineWithoutLastComma);
     }
 
-    public void Write(IEnumerable<NewData> data)
+    public override void Write(IEnumerable<NewData> data)
     {
         foreach (var record in data)
         {
