@@ -15,45 +15,44 @@ public static class PlaceHolder
         var dataBatchWithoutHoles = new List<NewData>();
         var timeShift = GetMeanTimeShift(dataBatch); // Время между двумя показаниями (т.н. timedelta)
 
-        var startData = dataBatch.First();
-        var endData = dataBatch.Last();
-        var startDateTime = startData.DateTime;
-        var endDateTime = endData.DateTime;
+        var firstData = dataBatch.First();
+        var lastData = dataBatch.Last();
+        var firstDateTime = firstData.DateTime;
+        var lastDateTime = lastData.DateTime;
 
         // Если показания начинаются не с 00:00:00, то заполняем их ПЕРВЫМ значением!
-        if (startDateTime.Hour != 0 || startDateTime.Minute != 0 || startDateTime.Second != 0)
+        if (firstDateTime.Hour != 0 || firstDateTime.Minute != 0 || firstDateTime.Second != 0)
         {
-            var currentTime = new DateTime(startDateTime.Year, startDateTime.Month, startDateTime.Day, 0, 0, 0);
-            while (currentTime < startDateTime)
+            var currentTime = new DateTime(firstDateTime.Year, firstDateTime.Month, firstDateTime.Day, 0, 0, 0);
+            while (currentTime < firstDateTime)
             {
                 dataBatchWithoutHoles.Add(new NewData(
                     currentTime,
-                    startData.FluxSensorData,
-                    startData.TempSensorData,
-                    startData.PressureSensorData,
-                    startData.HumiditySensorData
+                    firstData.FluxSensorData,
+                    firstData.TempSensorData,
+                    firstData.PressureSensorData,
+                    firstData.HumiditySensorData
                 ));
                 currentTime = currentTime.AddMilliseconds(timeShift);
             }
         }
-
-        // Заполняем все пробелы между стартовым и конечным показаниями
+        dataBatchWithoutHoles.Add(firstData);   // Добавляем первую запись из батча
+        
+        // Копируем все значения из батча и заполняем найденные пробелы
         for (var i = 0; i < dataBatch.Count - 1; i++)
         {
-            var firstData = dataBatch[i];
-            var secondData = dataBatch[i + 1];
-
-            dataBatchWithoutHoles.Add(firstData);
-
+            var startData = dataBatch[i];
+            var endData = dataBatch[i + 1];
+            
             // Если обнаружен пробел, то заполняем его средним
-            if ((secondData.DateTime - firstData.DateTime).TotalMilliseconds > MaxTimeDeltaBetweenTwoData)
+            if ((endData.DateTime - startData.DateTime).TotalMilliseconds > MaxTimeDeltaBetweenTwoData)
             {
-                var currentDateTime = firstData.DateTime.AddMilliseconds(timeShift);
-                var meanFluxSensorData = (firstData.FluxSensorData + secondData.FluxSensorData) / 2;
-                var meanTempSensorData = (firstData.TempSensorData + secondData.TempSensorData) / 2;
-                var meanPressureSensorData = (firstData.PressureSensorData + secondData.PressureSensorData) / 2;
-                var meanHumiditySensorData = (firstData.HumiditySensorData + secondData.HumiditySensorData) / 2;
-                while (currentDateTime < secondData.DateTime)
+                var currentDateTime = startData.DateTime.AddMilliseconds(timeShift);
+                var meanFluxSensorData = (startData.FluxSensorData + endData.FluxSensorData) / 2;
+                var meanTempSensorData = (startData.TempSensorData + endData.TempSensorData) / 2;
+                var meanPressureSensorData = (startData.PressureSensorData + endData.PressureSensorData) / 2;
+                var meanHumiditySensorData = (startData.HumiditySensorData + endData.HumiditySensorData) / 2;
+                while (currentDateTime < endData.DateTime)
                 {
                     dataBatchWithoutHoles.Add(new NewData(
                         currentDateTime,
@@ -65,24 +64,26 @@ public static class PlaceHolder
                     currentDateTime = currentDateTime.AddMilliseconds(timeShift);
                 }
             }
-
-            dataBatchWithoutHoles.Add(secondData);
+            
+            // Всегда добавляем только вторую запись, т.к первая запись была уже добавлена или на пред. итерации цикла,
+            // или за пределами цикла
+            dataBatchWithoutHoles.Add(endData);   
         }
 
 
         // Если показания кончаются не в 23:59:59, то заполняем их ПОСЛЕДНИМ значением!
-        if (endDateTime.Hour != 23 || endDateTime.Minute != 59 || endDateTime.Second != 59)
+        if (lastDateTime.Hour != 23 || lastDateTime.Minute != 59 || lastDateTime.Second != 59)
         {
-            var requiredEndDateTime = new DateTime(endDateTime.Year, endDateTime.Month, endDateTime.Day, 23, 59, 59);
-            var currentTime = endDateTime.AddMilliseconds(timeShift);
+            var requiredEndDateTime = new DateTime(lastDateTime.Year, lastDateTime.Month, lastDateTime.Day, 23, 59, 59);
+            var currentTime = lastDateTime.AddMilliseconds(timeShift);
             while (currentTime <= requiredEndDateTime)
             {
                 dataBatchWithoutHoles.Add(new NewData(
                     currentTime,
-                    endData.FluxSensorData,
-                    endData.TempSensorData,
-                    endData.PressureSensorData,
-                    endData.HumiditySensorData
+                    lastData.FluxSensorData,
+                    lastData.TempSensorData,
+                    lastData.PressureSensorData,
+                    lastData.HumiditySensorData
                 ));
                 currentTime = currentTime.AddMilliseconds(timeShift);
             }
