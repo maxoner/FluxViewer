@@ -15,15 +15,15 @@ public abstract class Exporter
 
 
     /// <summary>
-    /// Абстрактный конвертер.
+    /// Абстрактный экспортёр.
     /// </summary>
-    /// <param name="pathToFile">Путь до файла файла, куда будет записан результат конвертации</param>
+    /// <param name="pathToFile">Путь до файла файла, куда будет записан результат экспорта</param>
     /// <param name="dateTimeFormat">Формат даты и времени</param>
     /// <param name="dateTimeConvert">Нужно ли экспортировать дату и время?</param>
-    /// <param name="fluxConvert">Нужно ли конвертировать электростатическое поле?</param>
-    /// <param name="tempConvert">Нужно ли конвертировать температуру?</param>
-    /// <param name="presConvert">Нужно ли конвертировать давление?</param>
-    /// <param name="hummConvert">Нужно ли конвертировать влажность?</param>
+    /// <param name="fluxConvert">Нужно ли экспортировать электростатическое поле?</param>
+    /// <param name="tempConvert">Нужно ли экспортировать температуру?</param>
+    /// <param name="presConvert">Нужно ли экспортировать давление?</param>
+    /// <param name="hummConvert">Нужно ли экспортировать влажность?</param>
     protected Exporter(string pathToFile, string dateTimeFormat, bool dateTimeConvert, bool fluxConvert, bool tempConvert,
         bool presConvert, bool hummConvert)
     {
@@ -37,26 +37,26 @@ public abstract class Exporter
     }
 
     /// <summary>
-    /// Открыть конвертер и подготовить к записи.
+    /// Открыть экспортёр и подготовить к записи.
     /// </summary>
     public abstract void Open();
 
 
     /// <summary>
-    /// Закрыть конвертер и сохранить данные.
+    /// Закрыть экспортёр и сохранить данные.
     /// </summary>
     public abstract void Close();
 
     /// <summary>
-    /// Конвертировать и записать показание прибора.
+    /// Экспортировать показание прибора.
     /// </summary>
-    /// <param name="data">Показание прибора, которые будут конвертированы и записаны</param>
+    /// <param name="data">Показание прибора, которые будут экспортированы</param>
     public abstract void Write(NewData data);
 
 
     /// <summary>
-    /// Конвертировать и записать коллекцию с показаниями прибора.
+    /// Экспортировать коллекцию с показаниями прибора.
     /// </summary>
-    /// <param name="data">Коллекция с показаниями прибора, которые будут конвертированы и записаны</param>
+    /// <param name="data">Коллекция с показаниями прибора, которые будут экспортированы</param>
     public abstract void Write(IEnumerable<NewData> data);
 }
