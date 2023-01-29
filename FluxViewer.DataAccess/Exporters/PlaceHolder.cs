@@ -10,7 +10,7 @@ public static class PlaceHolder
     // TODO: скок миллисекунд должно стоять?
     private const int MaxTimeDeltaBetweenTwoData = 1500; // Максимальная дельта времени между двумя показаниями (в мс.)
 
-    public static IEnumerable<NewData> FillHoles(List<NewData> dataBatch)
+    public static List<NewData> FillHoles(List<NewData> dataBatch)
     {
         var dataBatchWithoutHoles = new List<NewData>();
         var timeShift = GetMeanTimeShift(dataBatch); // Время между двумя показаниями (т.н. timedelta)
