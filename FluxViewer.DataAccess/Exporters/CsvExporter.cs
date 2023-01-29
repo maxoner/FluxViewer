@@ -22,6 +22,15 @@ public class CsvExporter : Exporter
         {
             _file = new StreamWriter(PathToFile); // В случае повторного открытия пересоздаём файл!
             _isOpen = true;
+            
+            var csvTitle = "";
+            if (DateTimeConvert) csvTitle += $"Дата и время;";
+            if (FluxConvert) csvTitle += $"Электростатическое поле;";
+            if (TempConvert) csvTitle += $"Температура;";
+            if (PresConvert) csvTitle += $"Давление;";
+            if (HummConvert) csvTitle += $"Влажность;";
+            var csvTitleWithoutLastComma = csvTitle[..^1]; // Удаляем последнюю ';'
+            _file.WriteLine(csvTitleWithoutLastComma);
         }
         catch (Exception e)
         {
@@ -49,7 +58,7 @@ public class CsvExporter : Exporter
         if (TempConvert) csvLine += $"{data.TempSensorData};";
         if (PresConvert) csvLine += $"{data.PressureSensorData};";
         if (HummConvert) csvLine += $"{data.HumiditySensorData};";
-        var csvLineWithoutLastComma = csvLine.Substring(0, csvLine.Length - 1); // Удаляем последнюю ';'
+        var csvLineWithoutLastComma = csvLine[..^1]; // Удаляем последнюю ';'
 
         _file.WriteLine(csvLineWithoutLastComma);
     }
