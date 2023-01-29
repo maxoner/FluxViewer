@@ -868,7 +868,6 @@
             this.fillHolesCheckBox.AutoSize = true;
             this.fillHolesCheckBox.Checked = true;
             this.fillHolesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.fillHolesCheckBox.Enabled = false;
             this.fillHolesCheckBox.Location = new System.Drawing.Point(33, 202);
             this.fillHolesCheckBox.Name = "fillHolesCheckBox";
             this.fillHolesCheckBox.Size = new System.Drawing.Size(213, 23);
