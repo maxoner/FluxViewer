@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using FluxViewer.DataAccess.Models;
 
-namespace FluxViewer.DataAccess.Converters;
+namespace FluxViewer.DataAccess.Exporters;
 
-public abstract class Converter
+public abstract class Exporter
 {
     protected readonly string PathToFile;
     protected readonly string DateTimeFormat;
@@ -24,7 +24,7 @@ public abstract class Converter
     /// <param name="tempConvert">Нужно ли конвертировать температуру?</param>
     /// <param name="presConvert">Нужно ли конвертировать давление?</param>
     /// <param name="hummConvert">Нужно ли конвертировать влажность?</param>
-    protected Converter(string pathToFile, string dateTimeFormat, bool dateTimeConvert, bool fluxConvert, bool tempConvert,
+    protected Exporter(string pathToFile, string dateTimeFormat, bool dateTimeConvert, bool fluxConvert, bool tempConvert,
         bool presConvert, bool hummConvert)
     {
         PathToFile = pathToFile;

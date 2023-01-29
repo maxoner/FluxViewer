@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using FluxViewer.DataAccess.Models;
 
-namespace FluxViewer.DataAccess.Converters;
+namespace FluxViewer.DataAccess.Exporters;
 
-public class CsvConverter : Converter
+public class CsvExporter : Exporter
 {
     private StreamWriter _file;
     private bool _isOpen;
 
-    public CsvConverter(string pathToFile, string dateTimeFormat, bool dateTimeConvert, bool fluxConvert,
+    public CsvExporter(string pathToFile, string dateTimeFormat, bool dateTimeConvert, bool fluxConvert,
         bool tempConvert, bool presConvert, bool hummConvert) :
         base(pathToFile, dateTimeFormat, dateTimeConvert, fluxConvert, tempConvert, presConvert, hummConvert)
     {
