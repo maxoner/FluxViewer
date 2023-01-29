@@ -3,7 +3,7 @@ using FluxViewer.DataAccess.Models;
 
 namespace FluxViewer.DataAccess.Exporters;
 
-public abstract class Exporter
+public abstract class FileExporter
 {
     protected readonly string PathToFile;
     protected readonly string DateTimeFormat;
@@ -24,7 +24,7 @@ public abstract class Exporter
     /// <param name="tempConvert">Нужно ли экспортировать температуру?</param>
     /// <param name="presConvert">Нужно ли экспортировать давление?</param>
     /// <param name="hummConvert">Нужно ли экспортировать влажность?</param>
-    protected Exporter(
+    protected FileExporter(
         string pathToFile,
         string dateTimeFormat,
         bool dateTimeConvert,
@@ -43,26 +43,15 @@ public abstract class Exporter
     }
 
     /// <summary>
-    /// Открыть экспортёр и подготовить к записи.
-    /// </summary>
-    public abstract void Open();
-
-
-    /// <summary>
-    /// Закрыть экспортёр и сохранить данные.
-    /// </summary>
-    public abstract void Close();
-
-    /// <summary>
     /// Экспортировать показание прибора.
     /// </summary>
     /// <param name="data">Показание прибора, которые будут экспортированы</param>
-    public abstract void Write(NewData data);
+    public abstract void Export(NewData data);
 
 
     /// <summary>
     /// Экспортировать коллекцию с показаниями прибора.
     /// </summary>
     /// <param name="data">Коллекция с показаниями прибора, которые будут экспортированы</param>
-    public abstract void Write(IEnumerable<NewData> data);
+    public abstract void Export(IEnumerable<NewData> data);
 }
