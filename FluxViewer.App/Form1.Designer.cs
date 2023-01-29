@@ -77,6 +77,8 @@
             this.exportDataCountTextBox = new System.Windows.Forms.TextBox();
             this.exportDataCountLabel = new System.Windows.Forms.Label();
             this.exportGroupBox = new System.Windows.Forms.GroupBox();
+            this.fillHolesCheckBox = new System.Windows.Forms.CheckBox();
+            this.exportProgressBar = new System.Windows.Forms.ProgressBar();
             this.secondsLabel = new System.Windows.Forms.Label();
             this.exportIntervalsTextBox = new System.Windows.Forms.TextBox();
             this.filterApplyingCheckBox = new System.Windows.Forms.CheckBox();
@@ -215,7 +217,6 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.exportProgressBar = new System.Windows.Forms.ProgressBar();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.registrarTabPage.SuspendLayout();
@@ -839,6 +840,7 @@
             // 
             // exportGroupBox
             // 
+            this.exportGroupBox.Controls.Add(this.fillHolesCheckBox);
             this.exportGroupBox.Controls.Add(this.exportProgressBar);
             this.exportGroupBox.Controls.Add(this.secondsLabel);
             this.exportGroupBox.Controls.Add(this.exportIntervalsTextBox);
@@ -861,10 +863,30 @@
             this.exportGroupBox.TabStop = false;
             this.exportGroupBox.Text = "Настройки экспорта";
             // 
+            // fillHolesCheckBox
+            // 
+            this.fillHolesCheckBox.AutoSize = true;
+            this.fillHolesCheckBox.Checked = true;
+            this.fillHolesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.fillHolesCheckBox.Enabled = false;
+            this.fillHolesCheckBox.Location = new System.Drawing.Point(33, 202);
+            this.fillHolesCheckBox.Name = "fillHolesCheckBox";
+            this.fillHolesCheckBox.Size = new System.Drawing.Size(213, 23);
+            this.fillHolesCheckBox.TabIndex = 12;
+            this.fillHolesCheckBox.Text = "Заполнять пробелы средним";
+            this.fillHolesCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // exportProgressBar
+            // 
+            this.exportProgressBar.Location = new System.Drawing.Point(33, 469);
+            this.exportProgressBar.Name = "exportProgressBar";
+            this.exportProgressBar.Size = new System.Drawing.Size(550, 23);
+            this.exportProgressBar.TabIndex = 2;
+            // 
             // secondsLabel
             // 
             this.secondsLabel.AutoSize = true;
-            this.secondsLabel.Location = new System.Drawing.Point(551, 219);
+            this.secondsLabel.Location = new System.Drawing.Point(551, 242);
             this.secondsLabel.Name = "secondsLabel";
             this.secondsLabel.Size = new System.Drawing.Size(32, 19);
             this.secondsLabel.TabIndex = 11;
@@ -873,7 +895,7 @@
             // exportIntervalsTextBox
             // 
             this.exportIntervalsTextBox.Enabled = false;
-            this.exportIntervalsTextBox.Location = new System.Drawing.Point(383, 213);
+            this.exportIntervalsTextBox.Location = new System.Drawing.Point(383, 236);
             this.exportIntervalsTextBox.Name = "exportIntervalsTextBox";
             this.exportIntervalsTextBox.Size = new System.Drawing.Size(162, 25);
             this.exportIntervalsTextBox.TabIndex = 10;
@@ -882,7 +904,7 @@
             // 
             this.filterApplyingCheckBox.AutoSize = true;
             this.filterApplyingCheckBox.Enabled = false;
-            this.filterApplyingCheckBox.Location = new System.Drawing.Point(33, 215);
+            this.filterApplyingCheckBox.Location = new System.Drawing.Point(33, 238);
             this.filterApplyingCheckBox.Name = "filterApplyingCheckBox";
             this.filterApplyingCheckBox.Size = new System.Drawing.Size(293, 23);
             this.filterApplyingCheckBox.TabIndex = 5;
@@ -912,7 +934,7 @@
             // 
             // exportButton
             // 
-            this.exportButton.Location = new System.Drawing.Point(406, 407);
+            this.exportButton.Location = new System.Drawing.Point(406, 421);
             this.exportButton.Name = "exportButton";
             this.exportButton.Size = new System.Drawing.Size(177, 42);
             this.exportButton.TabIndex = 7;
@@ -982,7 +1004,7 @@
             this.exportFieldsGroupBox.Controls.Add(this.tempForExportCheckBox);
             this.exportFieldsGroupBox.Controls.Add(this.hummForExportCheckBox);
             this.exportFieldsGroupBox.Controls.Add(this.presForExportCheckBox);
-            this.exportFieldsGroupBox.Location = new System.Drawing.Point(33, 258);
+            this.exportFieldsGroupBox.Location = new System.Drawing.Point(33, 270);
             this.exportFieldsGroupBox.Name = "exportFieldsGroupBox";
             this.exportFieldsGroupBox.Size = new System.Drawing.Size(253, 193);
             this.exportFieldsGroupBox.TabIndex = 2;
@@ -2450,13 +2472,6 @@
             // 
             this.saveFileDialog1.Filter = "Текстовый файл (*.txt)|*.txt|Таблица|*.csv";
             // 
-            // exportProgressBar
-            // 
-            this.exportProgressBar.Location = new System.Drawing.Point(33, 462);
-            this.exportProgressBar.Name = "exportProgressBar";
-            this.exportProgressBar.Size = new System.Drawing.Size(550, 23);
-            this.exportProgressBar.TabIndex = 2;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -2726,5 +2741,6 @@
         private TextBox exportIntervalsTextBox;
         private CheckBox filterApplyingCheckBox;
         private ProgressBar exportProgressBar;
+        private CheckBox fillHolesCheckBox;
     }
 }
