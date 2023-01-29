@@ -41,17 +41,10 @@ public abstract class FileExporter
         PresConvert = presConvert;
         HummConvert = hummConvert;
     }
-
-    /// <summary>
-    /// Экспортировать показание прибора.
-    /// </summary>
-    /// <param name="data">Показание прибора, которые будут экспортированы</param>
-    public abstract void Export(NewData data);
-
-
+    
     /// <summary>
     /// Экспортировать коллекцию с показаниями прибора.
     /// </summary>
-    /// <param name="data">Коллекция с показаниями прибора, которые будут экспортированы</param>
-    public abstract void Export(IEnumerable<NewData> data);
+    /// <param name="dataBatch">Коллекция с показаниями прибора, которые будут экспортированы</param>
+    public abstract void Export(IEnumerable<NewData> dataBatch);
 }

@@ -21,8 +21,7 @@ public class CsvFileExporter : FileExporter
     {
     }
 
-
-    public override void Export(NewData data)
+    public override void Export(IEnumerable<NewData> dataBatch)
     {
         using var stream = new StreamWriter(PathToFile, true);
         if (_isFirstLine)
@@ -31,22 +30,9 @@ public class CsvFileExporter : FileExporter
             _isFirstLine = false;
         }
 
-        var exportLine = GetExportLine(data);
-        stream.WriteLine(exportLine);
-    }
-
-    public override void Export(IEnumerable<NewData> data)
-    {
-        using var stream = new StreamWriter(PathToFile, true);
-        if (_isFirstLine)
+        foreach (var data in dataBatch)
         {
-            stream.WriteLine(GetTitleLine());
-            _isFirstLine = false;
-        }
-
-        foreach (var record in data)
-        {
-            var exportLine = GetExportLine(record);
+            var exportLine = GetExportLine(data);
             stream.WriteLine(exportLine);
         }
     }
