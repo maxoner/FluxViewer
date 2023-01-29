@@ -24,12 +24,18 @@ public abstract class Exporter
     /// <param name="tempConvert">Нужно ли экспортировать температуру?</param>
     /// <param name="presConvert">Нужно ли экспортировать давление?</param>
     /// <param name="hummConvert">Нужно ли экспортировать влажность?</param>
-    protected Exporter(string pathToFile, string dateTimeFormat, bool dateTimeConvert, bool fluxConvert, bool tempConvert,
-        bool presConvert, bool hummConvert)
+    protected Exporter(
+        string pathToFile,
+        string dateTimeFormat,
+        bool dateTimeConvert,
+        bool fluxConvert,
+        bool tempConvert,
+        bool presConvert,
+        bool hummConvert)
     {
         PathToFile = pathToFile;
         DateTimeFormat = dateTimeFormat;
-        DateTimeConvert = dateTimeConvert; 
+        DateTimeConvert = dateTimeConvert;
         FluxConvert = fluxConvert;
         TempConvert = tempConvert;
         PresConvert = presConvert;

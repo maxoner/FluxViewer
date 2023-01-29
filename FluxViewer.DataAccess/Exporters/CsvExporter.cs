@@ -10,8 +10,14 @@ public class CsvExporter : Exporter
     private StreamWriter _file;
     private bool _isOpen;
 
-    public CsvExporter(string pathToFile, string dateTimeFormat, bool dateTimeConvert, bool fluxConvert,
-        bool tempConvert, bool presConvert, bool hummConvert) :
+    public CsvExporter(
+        string pathToFile,
+        string dateTimeFormat,
+        bool dateTimeConvert,
+        bool fluxConvert,
+        bool tempConvert,
+        bool presConvert,
+        bool hummConvert) :
         base(pathToFile, dateTimeFormat, dateTimeConvert, fluxConvert, tempConvert, presConvert, hummConvert)
     {
     }
@@ -22,7 +28,7 @@ public class CsvExporter : Exporter
         {
             _file = new StreamWriter(PathToFile); // В случае повторного открытия пересоздаём файл!
             _isOpen = true;
-            
+
             var csvTitle = "";
             if (DateTimeConvert) csvTitle += $"Дата и время;";
             if (FluxConvert) csvTitle += $"Электростатическое поле;";
