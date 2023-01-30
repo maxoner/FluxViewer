@@ -47,21 +47,10 @@ public interface IStorage
     /// <returns>Количество показаний прибора</returns>
     public int GetBatchCount();
     
-    
     /// <summary>
-    /// Получение количества батчей между двумя датами.
+    /// Получение показаний прибора между за конкретную дату.
     /// </summary>
-    /// <param name="beginDate">Дата начала, с которой считаются батчи</param>
-    /// <param name="endDate">Дата конца, по которую считаются батчи</param>
-    /// <returns>Количество показаний прибора</returns>
-    public int GetBatchCountBetweenTwoDates(DateTime beginDate, DateTime endDate);
-    
-    /// <summary>
-    /// "Пакетное" получение показаний прибора между двумя датами из хранилища.
-    /// </summary>
-    /// <param name="beginDate">Дата начала, с которой следует искать показания</param>
-    /// <param name="endDate">Дата конца, по которую следует искать показания</param>
-    /// <param name="batchNumber">Номер пакета</param>
-    /// <returns>Все показания прибора в текущий временной интервал</returns>
-    public List<NewData> GetDataBatchBetweenTwoDates(DateTime beginDate, DateTime endDate, int batchNumber);
+    /// <param name="date">Дата начала, с которой следует искать показания</param>
+    /// <returns>Все показания прибора, полученные в текущую дату</returns>
+    public List<NewData> GetDataByDate(DateTime date);
 }
