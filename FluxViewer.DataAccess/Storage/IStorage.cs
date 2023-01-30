@@ -52,5 +52,5 @@ public interface IStorage
     /// </summary>
     /// <param name="date">Дата начала, с которой следует искать показания</param>
     /// <returns>Все показания прибора, полученные в текущую дату</returns>
-    public List<NewData> GetDataByDate(DateTime date);
+    public List<NewData> GetDataBatchByDate(DateTime date);
 }
