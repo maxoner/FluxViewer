@@ -47,15 +47,16 @@ public class FileSystemStorage : IStorage
         return paths.Sum(GetDataCountFromFile);
     }
 
-    public int GetBatchCount()
+    public bool HasDataForThisDate(DateTime date)
     {
-        return GetFilePaths().Count();
+        var filename = date.ToString(FilenameDateFormat) + "." + FilenameExtension;
+        var pathToFile = Path.Combine(_pathToStorageDir, filename);
+        return File.Exists(pathToFile);
     }
 
     public List<NewData> GetDataBatchByDate(DateTime date)
     {
-        var filenameDateFormat = date.ToString(FilenameDateFormat);
-        var filename = $"{filenameDateFormat}.{FilenameExtension}";
+        var filename = date.ToString(FilenameDateFormat) + "." + FilenameExtension;
         var pathToFile = Path.Combine(_pathToStorageDir, filename);
 
         try

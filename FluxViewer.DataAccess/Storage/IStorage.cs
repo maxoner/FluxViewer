@@ -38,19 +38,19 @@ public interface IStorage
     /// <param name="beginDate">Дата начала, с которой считаются показания</param>
     /// <param name="endDate">Дата конца, по которую считаются показания</param>
     /// <returns>Количество показаний прибора</returns>
-    public int GetDataCountBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null);
-    
+    public int GetDataCountBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null);  // TODO: выпилить step
+
     /// <summary>
-    /// Получение количества всех батчей
-    /// (батч - некоторый набор показаний прибора, гарантированно вмещающийся в оперативуню память)
+    /// Записывал ли прибор показания прибора в данную дату?
     /// </summary>
-    /// <returns>Количество показаний прибора</returns>
-    public int GetBatchCount();
+    /// <param name="date">Дата, за которую нужно проверить писал ли прибор показания</param>
+    /// <returns>true - если есть данные за эту дату, иначе - false</returns>
+    public bool HasDataForThisDate(DateTime date);
     
     /// <summary>
     /// Получение показаний прибора между за конкретную дату.
     /// </summary>
-    /// <param name="date">Дата начала, с которой следует искать показания</param>
+    /// <param name="date">Дата в которую следует искать показания</param>
     /// <returns>Все показания прибора, полученные в текущую дату</returns>
     public List<NewData> GetDataBatchByDate(DateTime date);
 }
