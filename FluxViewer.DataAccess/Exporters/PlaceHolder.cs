@@ -55,8 +55,8 @@ public static class PlaceHolder
             yield return headData;
         yield return firstData; // Генерируем первое значение
         // Генерируем все значения из батча и заполняем найденные в них пробелы
-        foreach (var headData in GenerateBatchWithoutHolder(dataBatch, timeShift))
-            yield return headData;
+        foreach (var batchData in GenerateBatchWithoutHolder(dataBatch, timeShift))
+            yield return batchData;
         yield return lastData; // Генерируем последнее значение
         // Если показания кончаются не в 23:59:59, то генерируем их с 'lastData.DateTime' до 23:59:59
         foreach (var tailData in GenerateTail(lastData, timeShift))
