@@ -12,36 +12,7 @@ public static class PlaceHolder
     /// Всё, что больше данного значения будет считаться пробелом, и будет в конечном итоге заполнено средним значением!
     /// </summary>
     private const int MaxTimeDeltaBetweenTwoData = 1500; // TODO: скок миллисекунд должно стоять?
-
-    /// <summary>
-    /// Заполнить пробелы до второго набора данных.
-    /// Заполнение происходит так:
-    ///     - С 00:00:00 до даты первой записи первого батча заполняются ПЕРВЫМ значением.
-    ///     - Если между двумя записями нет пробела -> возвращаются эти записи.
-    ///     - Если между двумя записями есть пробел -> возвращаются эти записи + пробелы заполняется СРЕДНИМ.
-    ///     - С даты последней записи первого батча до даты начала второго батча (не включая её) заполняются ПОСЛЕДНИМ значением.
-    /// </summary>
-    /// <param name="firstBatch">Набор показаний прибора №1.</param>
-    /// <param name="secondBatch">Набор показаний прибора №2.</param>
-    /// <returns>Все показания прибора, присущие этим батчам, но уже с заполненными пробелами.</returns>
-    public static IEnumerable<NewData> FillHolesBeforeSecondBatch(List<NewData> firstBatch, List<NewData> secondBatch)
-    {
-        var dataBatch = new List<NewData>(firstBatch);
-        dataBatch.Add(secondBatch.Last());  // Добавляем (но не возвращаем) первое значение из второго батча! 
-        
-        var timeShift = GetMeanTimeShift(dataBatch); // Время (в мс.) между двумя показаниями (т.н. timedelta)
-        var firstData = dataBatch.First();
-
-        // Если показания начинаются не с 00:00:00, то генерируем их с 00:00:00 до 'firstData.DateTime' 
-        foreach (var headData in GenerateHead(firstData, timeShift))
-            yield return headData;
-        yield return firstData; // Генерируем первое значение
-        // Генерируем все значения из батча и заполняем найденные в них пробелы
-        foreach (var batchData in GenerateBatchWithoutHolder(dataBatch, timeShift))
-            yield return batchData;
-        // <-- ТУТ не возвращаем последнее значение, т.к. оно уже относится ко 2му батчу!
-    }
-
+    
     /// <summary>
     /// Заполнить пробелы в показаний прибора.
     /// Заполнение происходит так:
