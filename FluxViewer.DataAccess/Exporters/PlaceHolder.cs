@@ -7,12 +7,26 @@ namespace FluxViewer.DataAccess.Exporters;
 
 public static class PlaceHolder
 {
-    // TODO: скок миллисекунд должно стоять?
-    private const int MaxTimeDeltaBetweenTwoData = 1500; // Максимальная дельта времени между двумя показаниями (в мс.)
+    /// <summary>
+    /// Максимальная дельта времени между двумя показаниями (в мс.).
+    /// Всё, что больше данного значения будет считаться пробелом, и будет в конечном итоге заполнено средним значением!
+    /// </summary>
+    private const int MaxTimeDeltaBetweenTwoData = 1500; // TODO: скок миллисекунд должно стоять?
 
+    /// <summary>
+    /// Заполнить пробелы между двумя наборами с показаниями прибора.
+    /// Заполнение происходит так:
+    ///     - С 00:00:00 до даты первой записи заполняются ПЕРВЫМ значением.
+    ///     - Если между двумя записями нет пробела -> возвращаются эти записи.
+    ///     - Если между двумя записями есть пробел -> возвращаются эти записи + пробелы заполняется СРЕДНИМ.
+    ///     - С даты последней записи до 23:59:59 заполняются ПОСЛЕДНИМ значением.
+    /// </summary>
+    /// <param name="firstBatch">Набор показаний прибора №1.</param>
+    /// <param name="secondBatch">Набор показаний прибора №2.</param>
+    /// <returns>Все показания прибора, присущие этим батчам, но уже с заполненными пробелами.</returns>
     public static IEnumerable<NewData> FillHoles(List<NewData> firstBatch, List<NewData> secondBatch)
     {
-        var dataBatch = new List<NewData>(firstBatch); 
+        var dataBatch = new List<NewData>(firstBatch);
         dataBatch.AddRange(secondBatch);
         foreach (var data in FillHoles(dataBatch))
         {
@@ -20,6 +34,16 @@ public static class PlaceHolder
         }
     }
 
+    /// <summary>
+    /// Заполнить пробелы в показаний прибора.
+    /// Заполнение происходит так:
+    ///     - С 00:00:00 до даты первой записи заполняются ПЕРВЫМ значением.
+    ///     - Если между двумя записями нет пробела -> возвращаются эти записи.
+    ///     - Если между двумя записями есть пробел -> возвращаются эти записи + пробелы заполняется СРЕДНИМ.
+    ///     - С даты последней записи до 23:59:59 заполняются ПОСЛЕДНИМ значением.
+    /// </summary>
+    /// <param name="dataBatch">Набор показаний прибора</param>
+    /// <returns>Все показания прибора, но уже с заполненными пробелами.</returns>
     public static IEnumerable<NewData> FillHoles(List<NewData> dataBatch)
     {
         var timeShift = GetMeanTimeShift(dataBatch); // Время (в мс.) между двумя показаниями (т.н. timedelta)
@@ -80,7 +104,7 @@ public static class PlaceHolder
     private static IEnumerable<NewData> GenerateBatchWithoutHolder(IReadOnlyList<NewData> dataBatch, double timeShift)
     {
         // 'dataBatch.Count - 2' - потому что 'lastData' вернём за пределами метода
-        for (var i = 0; i < dataBatch.Count - 2; i++)  
+        for (var i = 0; i < dataBatch.Count - 2; i++)
         {
             var startData = dataBatch[i];
             var endData = dataBatch[i + 1];
@@ -117,7 +141,8 @@ public static class PlaceHolder
         var lastDateTime = lastData.DateTime;
         if (lastDateTime.Hour == 23 && lastDateTime.Minute == 59 && lastDateTime.Second == 59)
             yield break; // Если кончаются в 23:59:59, то всё ок, ничего генерировать дополнительно не нужно
-        var requiredEndDateTime = new DateTime(lastDateTime.Year, lastDateTime.Month, lastDateTime.Day, 0, 0, 0).AddDays(1);
+        var requiredEndDateTime =
+            new DateTime(lastDateTime.Year, lastDateTime.Month, lastDateTime.Day, 0, 0, 0).AddDays(1);
         var currentTime = lastDateTime.AddMilliseconds(timeShift);
         while (currentTime <= requiredEndDateTime)
         {
