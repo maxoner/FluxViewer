@@ -52,15 +52,32 @@ public class FileSystemStorage : IStorage
         return GetFilePaths().Count();
     }
 
-    public int GetBatchCountBetweenTwoDates(DateTime beginDate, DateTime endDate)
+    public List<NewData> GetDataByDate(DateTime date)
     {
-        return GetFilePathsBetweenTwoDates(beginDate, endDate).Count();
-    }
+        var filenameDateFormat = date.ToString(FilenameDateFormat);
+        var filename = $"{filenameDateFormat}.{FilenameExtension}";
+        var pathToFile = Path.Combine(_pathToStorageDir, filename);
 
-    public List<NewData> GetDataBatchBetweenTwoDates(DateTime beginDate, DateTime endDate, int butchNumber)
-    {
-        var paths = GetFilePathsBetweenTwoDates(beginDate, endDate).ToArray();
-        return GetDataFromFile(paths[butchNumber]);
+        try
+        {
+            using var file = new FileStream(pathToFile, FileMode.Open, FileAccess.Read);
+            var data = new List<NewData>();
+            var buffer = new byte[NewData.ByteLenght];
+            while (true)
+            {
+                var numOfReadBytes = file.Read(buffer);
+                if (numOfReadBytes == 0)
+                    break;
+
+                data.Add(NewData.Deserialize(buffer));
+            }
+
+            return data;
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Файл '{pathToFile}' не найден"); // TODO: уникальная ошибка!
+        }
     }
 
     private IEnumerable<string> GetFilePaths()
@@ -100,23 +117,5 @@ public class FileSystemStorage : IStorage
     private static int GetDataCountFromFile(string pathToFile)
     {
         return (int)(new FileInfo(pathToFile).Length / NewData.ByteLenght);
-    }
-
-    private List<NewData> GetDataFromFile(string pathToFile)
-    {
-        var data = new List<NewData>();
-        var buffer = new byte[NewData.ByteLenght];
-        using var file = new FileStream(pathToFile, FileMode.Open, FileAccess.Read);
-
-        while (true)
-        {
-            var numOfReadBytes = file.Read(buffer);
-            if (numOfReadBytes == 0)
-                break;
-
-            data.Add(NewData.Deserialize(buffer));
-        }
-
-        return data;
     }
 }
