@@ -10,6 +10,16 @@ public static class PlaceHolder
     // TODO: скок миллисекунд должно стоять?
     private const int MaxTimeDeltaBetweenTwoData = 1500; // Максимальная дельта времени между двумя показаниями (в мс.)
 
+    public static IEnumerable<NewData> FillHoles(List<NewData> firstBatch, List<NewData> secondBatch)
+    {
+        var dataBatch = new List<NewData>(firstBatch); 
+        dataBatch.AddRange(secondBatch);
+        foreach (var data in FillHoles(dataBatch))
+        {
+            yield return data;
+        }
+    }
+
     public static IEnumerable<NewData> FillHoles(List<NewData> dataBatch)
     {
         var timeShift = GetMeanTimeShift(dataBatch); // Время (в мс.) между двумя показаниями (т.н. timedelta)
@@ -69,9 +79,8 @@ public static class PlaceHolder
 
     private static IEnumerable<NewData> GenerateBatchWithoutHolder(IReadOnlyList<NewData> dataBatch, double timeShift)
     {
-        // 'i = 1' - т.к. 'firstData' за пределами метода уже вернули
         // 'dataBatch.Count - 2' - потому что 'lastData' вернём за пределами метода
-        for (var i = 1; i < dataBatch.Count - 2; i++)  
+        for (var i = 0; i < dataBatch.Count - 2; i++)  
         {
             var startData = dataBatch[i];
             var endData = dataBatch[i + 1];
@@ -79,7 +88,7 @@ public static class PlaceHolder
             // Если обнаружен пробел, то заполняем его средним
             if ((endData.DateTime - startData.DateTime).TotalMilliseconds > MaxTimeDeltaBetweenTwoData)
             {
-                var currentDateTime = startData.DateTime;
+                var currentDateTime = startData.DateTime.AddMilliseconds(timeShift);
                 var meanFluxSensorData = (startData.FluxSensorData + endData.FluxSensorData) / 2;
                 var meanTempSensorData = (startData.TempSensorData + endData.TempSensorData) / 2;
                 var meanPressureSensorData = (startData.PressureSensorData + endData.PressureSensorData) / 2;
