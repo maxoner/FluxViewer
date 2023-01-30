@@ -10,86 +10,23 @@ public static class PlaceHolder
     // TODO: скок миллисекунд должно стоять?
     private const int MaxTimeDeltaBetweenTwoData = 1500; // Максимальная дельта времени между двумя показаниями (в мс.)
 
-    public static List<NewData> FillHoles(List<NewData> dataBatch)
+    public static IEnumerable<NewData> FillHoles(List<NewData> dataBatch)
     {
-        var dataBatchWithoutHoles = new List<NewData>();
-        var timeShift = GetMeanTimeShift(dataBatch); // Время между двумя показаниями (т.н. timedelta)
-
+        var timeShift = GetMeanTimeShift(dataBatch); // Время (в мс.) между двумя показаниями (т.н. timedelta)
         var firstData = dataBatch.First();
         var lastData = dataBatch.Last();
-        var firstDateTime = firstData.DateTime;
-        var lastDateTime = lastData.DateTime;
 
-        // Если показания начинаются не с 00:00:00, то заполняем их ПЕРВЫМ значением!
-        if (firstDateTime.Hour != 0 || firstDateTime.Minute != 0 || firstDateTime.Second != 0)
-        {
-            var currentTime = new DateTime(firstDateTime.Year, firstDateTime.Month, firstDateTime.Day, 0, 0, 0);
-            while (currentTime < firstDateTime)
-            {
-                dataBatchWithoutHoles.Add(new NewData(
-                    currentTime,
-                    firstData.FluxSensorData,
-                    firstData.TempSensorData,
-                    firstData.PressureSensorData,
-                    firstData.HumiditySensorData
-                ));
-                currentTime = currentTime.AddMilliseconds(timeShift);
-            }
-        }
-        dataBatchWithoutHoles.Add(firstData);   // Добавляем первую запись из батча
-        
-        // Копируем все значения из батча и заполняем найденные пробелы
-        for (var i = 0; i < dataBatch.Count - 1; i++)
-        {
-            var startData = dataBatch[i];
-            var endData = dataBatch[i + 1];
-            
-            // Если обнаружен пробел, то заполняем его средним
-            if ((endData.DateTime - startData.DateTime).TotalMilliseconds > MaxTimeDeltaBetweenTwoData)
-            {
-                var currentDateTime = startData.DateTime.AddMilliseconds(timeShift);
-                var meanFluxSensorData = (startData.FluxSensorData + endData.FluxSensorData) / 2;
-                var meanTempSensorData = (startData.TempSensorData + endData.TempSensorData) / 2;
-                var meanPressureSensorData = (startData.PressureSensorData + endData.PressureSensorData) / 2;
-                var meanHumiditySensorData = (startData.HumiditySensorData + endData.HumiditySensorData) / 2;
-                while (currentDateTime < endData.DateTime)
-                {
-                    dataBatchWithoutHoles.Add(new NewData(
-                        currentDateTime,
-                        meanFluxSensorData,
-                        meanTempSensorData,
-                        meanPressureSensorData,
-                        meanHumiditySensorData
-                    ));
-                    currentDateTime = currentDateTime.AddMilliseconds(timeShift);
-                }
-            }
-            
-            // Всегда добавляем только вторую запись, т.к первая запись была уже добавлена или на пред. итерации цикла,
-            // или за пределами цикла
-            dataBatchWithoutHoles.Add(endData);   
-        }
-
-
-        // Если показания кончаются не в 23:59:59, то заполняем их ПОСЛЕДНИМ значением!
-        if (lastDateTime.Hour != 23 || lastDateTime.Minute != 59 || lastDateTime.Second != 59)
-        {
-            var requiredEndDateTime = new DateTime(lastDateTime.Year, lastDateTime.Month, lastDateTime.Day, 23, 59, 59);
-            var currentTime = lastDateTime.AddMilliseconds(timeShift);
-            while (currentTime <= requiredEndDateTime)
-            {
-                dataBatchWithoutHoles.Add(new NewData(
-                    currentTime,
-                    lastData.FluxSensorData,
-                    lastData.TempSensorData,
-                    lastData.PressureSensorData,
-                    lastData.HumiditySensorData
-                ));
-                currentTime = currentTime.AddMilliseconds(timeShift);
-            }
-        }
-
-        return dataBatchWithoutHoles;
+        // Если показания начинаются не с 00:00:00, то генерируем их с 00:00:00 до 'firstData.DateTime' 
+        foreach (var headData in GenerateHead(firstData, timeShift))
+            yield return headData;
+        yield return firstData; // Генерируем первое значение
+        // Генерируем все значения из батча и заполняем найденные в них пробелы
+        foreach (var headData in GenerateBatchWithoutHolder(dataBatch, timeShift))
+            yield return headData;
+        yield return lastData; // Генерируем последнее значение
+        // Если показания кончаются не в 23:59:59, то генерируем их с 'lastData.DateTime' до 23:59:59
+        foreach (var tailData in GenerateTail(lastData, timeShift))
+            yield return tailData;
     }
 
     private static double GetMeanTimeShift(IReadOnlyList<NewData> dataBatch)
@@ -109,5 +46,80 @@ public static class PlaceHolder
         }
 
         return meanTimeShift / num;
+    }
+
+    private static IEnumerable<NewData> GenerateHead(NewData firstData, double timeShift)
+    {
+        var firstDateTime = firstData.DateTime;
+        if (firstDateTime.Hour == 0 && firstDateTime.Minute == 0 && firstDateTime.Second == 0)
+            yield break; // Если начинаются с 00:00:00, то всё ок, ничего генерировать дополнительно не нужно
+        var currentTime = new DateTime(firstDateTime.Year, firstDateTime.Month, firstDateTime.Day, 0, 0, 0);
+        while (currentTime < firstDateTime)
+        {
+            yield return new NewData(
+                currentTime,
+                firstData.FluxSensorData,
+                firstData.TempSensorData,
+                firstData.PressureSensorData,
+                firstData.HumiditySensorData
+            );
+            currentTime = currentTime.AddMilliseconds(timeShift);
+        }
+    }
+
+    private static IEnumerable<NewData> GenerateBatchWithoutHolder(IReadOnlyList<NewData> dataBatch, double timeShift)
+    {
+        // 'i = 1' - т.к. 'firstData' за пределами метода уже вернули
+        // 'dataBatch.Count - 2' - потому что 'lastData' вернём за пределами метода
+        for (var i = 1; i < dataBatch.Count - 2; i++)  
+        {
+            var startData = dataBatch[i];
+            var endData = dataBatch[i + 1];
+
+            // Если обнаружен пробел, то заполняем его средним
+            if ((endData.DateTime - startData.DateTime).TotalMilliseconds > MaxTimeDeltaBetweenTwoData)
+            {
+                var currentDateTime = startData.DateTime;
+                var meanFluxSensorData = (startData.FluxSensorData + endData.FluxSensorData) / 2;
+                var meanTempSensorData = (startData.TempSensorData + endData.TempSensorData) / 2;
+                var meanPressureSensorData = (startData.PressureSensorData + endData.PressureSensorData) / 2;
+                var meanHumiditySensorData = (startData.HumiditySensorData + endData.HumiditySensorData) / 2;
+                while (currentDateTime < endData.DateTime)
+                {
+                    yield return new NewData(
+                        currentDateTime,
+                        meanFluxSensorData,
+                        meanTempSensorData,
+                        meanPressureSensorData,
+                        meanHumiditySensorData
+                    );
+                    currentDateTime = currentDateTime.AddMilliseconds(timeShift);
+                }
+            }
+
+            // Генерируем всегда только вторую запись, т.к. первая была сгенерирована или на предыдущей итерации,
+            // или же за пределами цикла!
+            yield return endData;
+        }
+    }
+
+    private static IEnumerable<NewData> GenerateTail(NewData lastData, double timeShift)
+    {
+        var lastDateTime = lastData.DateTime;
+        if (lastDateTime.Hour == 23 && lastDateTime.Minute == 59 && lastDateTime.Second == 59)
+            yield break; // Если кончаются в 23:59:59, то всё ок, ничего генерировать дополнительно не нужно
+        var requiredEndDateTime = new DateTime(lastDateTime.Year, lastDateTime.Month, lastDateTime.Day, 0, 0, 0).AddDays(1);
+        var currentTime = lastDateTime.AddMilliseconds(timeShift);
+        while (currentTime <= requiredEndDateTime)
+        {
+            yield return new NewData(
+                currentTime,
+                lastData.FluxSensorData,
+                lastData.TempSensorData,
+                lastData.PressureSensorData,
+                lastData.HumiditySensorData
+            );
+            currentTime = currentTime.AddMilliseconds(timeShift);
+        }
     }
 }
