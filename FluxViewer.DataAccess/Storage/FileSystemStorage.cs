@@ -52,7 +52,7 @@ public class FileSystemStorage : IStorage
         return GetFilePaths().Count();
     }
 
-    public List<NewData> GetDataByDate(DateTime date)
+    public List<NewData> GetDataBatchByDate(DateTime date)
     {
         var filenameDateFormat = date.ToString(FilenameDateFormat);
         var filename = $"{filenameDateFormat}.{FilenameExtension}";
