@@ -71,6 +71,7 @@ public interface IStorage
     ///     GetNextBatchAfterThisDate(17.01.2022) вернёт ошибку!
     /// </summary>
     /// <param name="date">Дата, от которой ищется следующая дата, в которую прибор записывал показания</param>
+    /// <exception cref="NextDataBatchNotFoundException">Порождается, если следующая за текущей дата не найдена</exception>
     /// <returns>Показания прибора, если нашлась дата, позже переданной, иначе - ошибка</returns>
     public List<NewData> GetNextDataBatchAfterThisDate(DateTime date);
 
@@ -83,17 +84,16 @@ public interface IStorage
     ///     GetPrevDataBatchAfterThisDate(17.01.2022) вернёт данные за 14.01.2022.
     /// </summary>
     /// <param name="date">Дата, от которой ищется предыдущая дата, в которую прибор записывал показания</param>
+    /// /// <exception cref="PrevDataBatchNotFoundException">Порождается, если следующая за текущей дата не найдена</exception>
     /// <returns>Показания прибора, если нашлась дата, раньше переданной, иначе - ошибка</returns>
     public List<NewData> GetPrevDataBatchAfterThisDate(DateTime date);
 }
 
-public class DateNotFoundException : Exception
-{
-}
 
 public class NextDataBatchNotFoundException : Exception
 {
 }
+
 
 public class PrevDataBatchNotFoundException : Exception
 {
