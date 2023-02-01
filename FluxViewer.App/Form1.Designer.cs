@@ -217,6 +217,10 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.firstExportDateLabel = new System.Windows.Forms.Label();
+            this.lastExportDateLabel = new System.Windows.Forms.Label();
+            this.firstExportDateTextBox = new System.Windows.Forms.TextBox();
+            this.lastExportDateTextBox = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.registrarTabPage.SuspendLayout();
@@ -811,22 +815,26 @@
             // 
             // exportInfoGroupBox
             // 
+            this.exportInfoGroupBox.Controls.Add(this.lastExportDateTextBox);
+            this.exportInfoGroupBox.Controls.Add(this.firstExportDateTextBox);
+            this.exportInfoGroupBox.Controls.Add(this.lastExportDateLabel);
+            this.exportInfoGroupBox.Controls.Add(this.firstExportDateLabel);
             this.exportInfoGroupBox.Controls.Add(this.exportDataCountTextBox);
             this.exportInfoGroupBox.Controls.Add(this.exportDataCountLabel);
             this.exportInfoGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.exportInfoGroupBox.Location = new System.Drawing.Point(697, 19);
             this.exportInfoGroupBox.Name = "exportInfoGroupBox";
-            this.exportInfoGroupBox.Size = new System.Drawing.Size(555, 159);
+            this.exportInfoGroupBox.Size = new System.Drawing.Size(555, 182);
             this.exportInfoGroupBox.TabIndex = 1;
             this.exportInfoGroupBox.TabStop = false;
             this.exportInfoGroupBox.Text = "Данные экспорта";
             // 
             // exportDataCountTextBox
             // 
-            this.exportDataCountTextBox.Location = new System.Drawing.Point(265, 51);
+            this.exportDataCountTextBox.Location = new System.Drawing.Point(332, 42);
             this.exportDataCountTextBox.Name = "exportDataCountTextBox";
             this.exportDataCountTextBox.ReadOnly = true;
-            this.exportDataCountTextBox.Size = new System.Drawing.Size(202, 25);
+            this.exportDataCountTextBox.Size = new System.Drawing.Size(183, 25);
             this.exportDataCountTextBox.TabIndex = 1;
             // 
             // exportDataCountLabel
@@ -2471,6 +2479,40 @@
             // 
             this.saveFileDialog1.Filter = "Текстовый файл (*.txt)|*.txt|Таблица|*.csv";
             // 
+            // firstExportDateLabel
+            // 
+            this.firstExportDateLabel.AutoSize = true;
+            this.firstExportDateLabel.Location = new System.Drawing.Point(49, 85);
+            this.firstExportDateLabel.Name = "firstExportDateLabel";
+            this.firstExportDateLabel.Size = new System.Drawing.Size(199, 19);
+            this.firstExportDateLabel.TabIndex = 2;
+            this.firstExportDateLabel.Text = "Дата с первыми показаниями";
+            // 
+            // lastExportDateLabel
+            // 
+            this.lastExportDateLabel.AutoSize = true;
+            this.lastExportDateLabel.Location = new System.Drawing.Point(49, 126);
+            this.lastExportDateLabel.Name = "lastExportDateLabel";
+            this.lastExportDateLabel.Size = new System.Drawing.Size(219, 19);
+            this.lastExportDateLabel.TabIndex = 3;
+            this.lastExportDateLabel.Text = "Дата с последними показаниями";
+            // 
+            // firstExportDateTextBox
+            // 
+            this.firstExportDateTextBox.Location = new System.Drawing.Point(332, 82);
+            this.firstExportDateTextBox.Name = "firstExportDateTextBox";
+            this.firstExportDateTextBox.ReadOnly = true;
+            this.firstExportDateTextBox.Size = new System.Drawing.Size(183, 25);
+            this.firstExportDateTextBox.TabIndex = 4;
+            // 
+            // lastExportDateTextBox
+            // 
+            this.lastExportDateTextBox.Location = new System.Drawing.Point(332, 123);
+            this.lastExportDateTextBox.Name = "lastExportDateTextBox";
+            this.lastExportDateTextBox.ReadOnly = true;
+            this.lastExportDateTextBox.Size = new System.Drawing.Size(183, 25);
+            this.lastExportDateTextBox.TabIndex = 5;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -2741,5 +2783,9 @@
         private CheckBox filterApplyingCheckBox;
         private ProgressBar exportProgressBar;
         private CheckBox fillHolesCheckBox;
+        private TextBox lastExportDateTextBox;
+        private TextBox firstExportDateTextBox;
+        private Label lastExportDateLabel;
+        private Label firstExportDateLabel;
     }
 }
