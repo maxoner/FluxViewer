@@ -1,8 +1,10 @@
-﻿using FluxViewer.DataAccess.Models;
+﻿using FluxViewer.DataAccess.Exporters;
+using FluxViewer.DataAccess.Models;
 using FluxViewer.DataAccess.Storage;
 
 void CreateDataFiles(DateTime beginDate, DateTime endDate, float timeDeltaMilliseconds)
 {
+    var random = new Random();
     var pathToStorageDir = Path.Combine(Directory.GetCurrentDirectory(), "data");
     if (!Directory.Exists(pathToStorageDir))
         Directory.CreateDirectory(pathToStorageDir);
@@ -19,10 +21,10 @@ void CreateDataFiles(DateTime beginDate, DateTime endDate, float timeDeltaMillis
         {
             file.Write(new NewData(
                     currentDate,
-                    (float)currentDate.Millisecond % 20 / 100,
-                    (float)currentDate.Millisecond % 100 / 100,
-                    (float)currentDate.Millisecond % 10 / 100,
-                    (float)currentDate.Millisecond % 50 / 100
+                    (float)(random.NextInt64(1, 30) * random.NextDouble()),
+                    (float)(random.NextInt64(1, 30) * random.NextDouble()),
+                    (float)(random.NextInt64(1, 30) * random.NextDouble()),
+                    (float)(random.NextInt64(1, 30) * random.NextDouble())
                 ).Serialize()
             );
             currentDate = currentDate.AddMilliseconds(timeDeltaMilliseconds);
@@ -34,7 +36,7 @@ void CreateDataFiles(DateTime beginDate, DateTime endDate, float timeDeltaMillis
 var beginDate = new DateTime(2022, 11, 24);
 var endDate = new DateTime(2023, 01, 15);
 CreateDataFiles(beginDate, endDate, 400);
-var storage = new FileSystemStorage();
-storage.Open();
-Console.WriteLine(storage.GetDataCountBetweenTwoDates(new DateTime(2022, 11, 24), new DateTime(2022, 11, 24)));
-storage.Close();
+// var storage = new FileSystemStorage();
+// storage.Open();
+// Console.WriteLine(storage.GetDataCountBetweenTwoDates(new DateTime(2022, 11, 24), new DateTime(2022, 11, 24)));
+// storage.Close();
