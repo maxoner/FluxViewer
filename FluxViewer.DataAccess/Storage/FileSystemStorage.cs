@@ -41,7 +41,7 @@ public class FileSystemStorage : IStorage
         return paths.Sum(GetDataCountFromFile);
     }
 
-    public int GetDataCountBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null)
+    public int GetDataCountBetweenTwoDates(DateTime beginDate, DateTime endDate) 
     {
         var paths = GetFilePathsBetweenTwoDates(beginDate, endDate);
         return paths.Sum(GetDataCountFromFile);
@@ -79,6 +79,33 @@ public class FileSystemStorage : IStorage
         {
             throw new Exception($"Файл '{pathToFile}' не найден"); // TODO: уникальная ошибка!
         }
+    }
+
+    public List<NewData> GetNextDataBatchAfterThisDate(DateTime date) 
+    {
+        var allFilePaths = Directory.GetFiles(_pathToStorageDir);
+        foreach (var fullPath in allFilePaths)
+        {
+            var filename = Path.GetFileNameWithoutExtension(fullPath);
+            var foundDate = DateTime.ParseExact(filename, FilenameDateFormat, null);
+            if (foundDate > date)
+                return GetDataBatchByDate(foundDate);
+        }
+
+        throw new NextDataBatchNotFoundException();
+    }
+
+    public List<NewData> GetPrevDataBatchAfterThisDate(DateTime date)
+    {
+        var allFilePaths = Directory.GetFiles(_pathToStorageDir);
+        foreach (var fullPath in allFilePaths)
+        {
+            var filename = Path.GetFileNameWithoutExtension(fullPath);
+            var foundDate = DateTime.ParseExact(filename, FilenameDateFormat, null);
+            if (foundDate < date)
+                return GetDataBatchByDate(foundDate);
+        }
+        throw new PrevDataBatchNotFoundException();
     }
 
     private IEnumerable<string> GetFilePathsBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null)
