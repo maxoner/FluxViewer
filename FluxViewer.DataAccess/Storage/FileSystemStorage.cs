@@ -81,6 +81,20 @@ public class FileSystemStorage : IStorage
         }
     }
 
+    private IEnumerable<string> GetFilePathsBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null)
+    {
+        var goalPaths = new List<string>();
+        foreach (var fullPath in GetFilePaths())
+        {
+            var filename = Path.GetFileNameWithoutExtension(fullPath);
+            var date = DateTime.ParseExact(filename, FilenameDateFormat, null);
+            if (date >= beginDate && date <= endDate)
+                goalPaths.Add(fullPath);
+        }
+
+        return goalPaths;
+    }
+    
     private IEnumerable<string> GetFilePaths()
     {
         var goalFilePath = new List<string>();
@@ -100,21 +114,7 @@ public class FileSystemStorage : IStorage
 
         return goalFilePath;
     }
-
-    private IEnumerable<string> GetFilePathsBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null)
-    {
-        var goalPaths = new List<string>();
-        foreach (var fullPath in GetFilePaths())
-        {
-            var filename = Path.GetFileNameWithoutExtension(fullPath);
-            var date = DateTime.ParseExact(filename, FilenameDateFormat, null);
-            if (date >= beginDate && date <= endDate)
-                goalPaths.Add(fullPath);
-        }
-
-        return goalPaths;
-    }
-
+    
     private static int GetDataCountFromFile(string pathToFile)
     {
         return (int)(new FileInfo(pathToFile).Length / NewData.ByteLenght);
