@@ -47,6 +47,13 @@ public class FileSystemStorage : IStorage
         return paths.Sum(GetDataCountFromFile);
     }
 
+    public List<DateTime> GetAllDatesWithDataBetweenTwoDates(DateTime beginDate, DateTime endDate)
+    {
+        var paths = GetFilePathsBetweenTwoDates(beginDate, endDate);
+        return paths.Select(path => DateTime.ParseExact(
+            Path.GetFileNameWithoutExtension(path), FilenameDateFormat, null)).ToList();
+    }
+
     public bool HasDataForThisDate(DateTime date)
     {
         var filename = date.ToString(FilenameDateFormat) + "." + FilenameExtension;
@@ -108,7 +115,7 @@ public class FileSystemStorage : IStorage
         throw new PrevDataBatchNotFoundException();
     }
 
-    private IEnumerable<string> GetFilePathsBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null)
+    private List<string> GetFilePathsBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null)
     {
         var goalPaths = new List<string>();
         foreach (var fullPath in GetFilePaths())

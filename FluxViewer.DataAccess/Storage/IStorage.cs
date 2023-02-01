@@ -39,7 +39,15 @@ public interface IStorage
     /// <param name="endDate">Дата конца, по которую считаются показания</param>
     /// <returns>Количество показаний прибора</returns>
     public int GetDataCountBetweenTwoDates(DateTime beginDate, DateTime endDate);
-
+    
+    /// <summary>
+    /// Получить все даты в диапазоне двух дат, в которые прибор записывал показания.
+    /// </summary>
+    /// <param name="beginDate">Дата начала, с которой начинается поиск</param>
+    /// <param name="endDate">Дата окончания, по которую идёт поиск</param>
+    /// <returns>Список дат, в которые прибор записывал показания</returns>
+    public List<DateTime> GetAllDatesWithDataBetweenTwoDates(DateTime beginDate, DateTime endDate);
+    
     /// <summary>
     /// Записывал ли прибор показания прибора в данную дату?
     /// </summary>
@@ -77,6 +85,10 @@ public interface IStorage
     /// <param name="date">Дата, от которой ищется предыдущая дата, в которую прибор записывал показания</param>
     /// <returns>Показания прибора, если нашлась дата, раньше переданной, иначе - ошибка</returns>
     public List<NewData> GetPrevDataBatchAfterThisDate(DateTime date);
+}
+
+public class DateNotFoundException : Exception
+{
 }
 
 public class NextDataBatchNotFoundException : Exception
