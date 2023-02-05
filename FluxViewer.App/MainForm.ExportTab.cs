@@ -2,7 +2,6 @@
 using FluxViewer.App.Enums;
 using FluxViewer.DataAccess.Export;
 using FluxViewer.DataAccess.Export.Exporters;
-using FluxViewer.DataAccess.Storage;
 
 namespace FluxViewer.App;
 
@@ -15,16 +14,46 @@ partial class MainForm
     private void beginExportDate_ValueChanged(object sender, EventArgs e)
     {
         CheckAndChangeDates();
-        ExportDate_Value_Changed();
+        UpdateExportInfo();
     }
     
     // Изменили "Дата конца"
     private void endExportDate_ValueChanged(object sender, EventArgs e)
     {
         CheckAndChangeDates();
-        ExportDate_Value_Changed();
+        UpdateExportInfo();
     }
-
+    
+    // Нажали на флажок "Дата и время"
+    private void dateTimeForExportCheckBox_CheckedChanged(object sender, EventArgs e)
+    {
+        dateFormatComboBox.Enabled = dateTimeForExportCheckBox.Checked;
+    }
+    
+    // Нажали кнопку "Экспорт"
+    private void exportButton_Click(object sender, EventArgs e)
+    {
+        var saveFileDialog = new SaveFileDialog();
+        saveFileDialog.Filter = SaveDialogFilterByExporterType();
+        saveFileDialog.RestoreDirectory = true;
+        saveFileDialog.CreatePrompt = true;
+        saveFileDialog.Title = "Сохранить выбраный отрезок как";
+        if (saveFileDialog.ShowDialog() != DialogResult.OK)
+            return;
+        
+        var exporter = GetExporter();
+        exportProgressBar.Maximum = exporter.NumberOfExportIterations();
+        exportProgressBar.Step = 1;
+        
+        var fileExporter = ProvideFileExporterByExporterType(saveFileDialog.FileName);
+        foreach (var _ in exporter.Export(fileExporter))
+        {
+            exportProgressBar.PerformStep();
+        }
+        SystemSounds.Exclamation.Play();
+        exportProgressBar.Value = 0;
+    }
+    
     private void CheckAndChangeDates()
     {
         var beginDate = beginExportDate.Value.Date;
@@ -37,17 +66,14 @@ partial class MainForm
         beginExportDate.Value = endDate;
     }
     
-    private void ExportDate_Value_Changed()
+    private void UpdateExportInfo()
     {
-        var beginDate = new DateTime(beginExportDate.Value.Year, beginExportDate.Value.Month, beginExportDate.Value.Day, 00, 00, 00, 000);
-        var endDate = new DateTime(endExportDate.Value.Year, endExportDate.Value.Month, endExportDate.Value.Day, 23, 59, 59, 999);
-
-        var dataCount = _storage.GetDataCountBetweenTwoDates(beginDate, endDate);
+        var exporter = GetExporter();
+        var dataCount = exporter.GetDataCount();
         exportButton.Enabled = (dataCount != 0);    // Деактивируем кнопку "Экспорт", если нечего экспортировать
-
         
         exportDataCountTextBox.Text = $"{dataCount} шт.";   // Выводим кол-во точек
-        var allDatesWithData = _storage.GetAllDatesWithDataBetweenTwoDates(beginDate, endDate);
+        var allDatesWithData = exporter.GetAllDatesWithData();
         if (allDatesWithData.Any())
         {
             firstExportDateTextBox.Text = allDatesWithData.First().ToString("d"); // Выводим первую фактическую дату 
@@ -61,37 +87,6 @@ partial class MainForm
             
     }
     
-    
-    
-    private void exportButton_Click(object sender, EventArgs e)
-    {
-        var saveFileDialog = new SaveFileDialog();
-        saveFileDialog.Filter = SaveDialogFilterByExporterType();
-        saveFileDialog.RestoreDirectory = true;
-        saveFileDialog.CreatePrompt = true;
-        saveFileDialog.Title = "Сохранить выбраный отрезок как";
-        if (saveFileDialog.ShowDialog() != DialogResult.OK)
-            return;
-
-        var exporter = new Exporter(
-            new DateTime(beginExportDate.Value.Year, beginExportDate.Value.Month, beginExportDate.Value.Day, 00, 00, 00, 000),
-            new DateTime(endExportDate.Value.Year, endExportDate.Value.Month, endExportDate.Value.Day, 23, 59, 59, 999),
-            _storage,
-            ProvideFileExporterByExporterType(saveFileDialog.FileName),
-            fillHolesCheckBox.Checked
-        );
-        
-        exportProgressBar.Maximum = exporter.NumberOfExportIterations();
-        exportProgressBar.Step = 1;
-
-        foreach (var _ in exporter.Export())
-        {
-            exportProgressBar.PerformStep();
-        }
-        SystemSounds.Exclamation.Play();
-        exportProgressBar.Value = 0;
-    }
-
     private string SaveDialogFilterByExporterType()
     {
         var exporterString = exportTypeComboBox.SelectedItem.ToString();
@@ -128,8 +123,13 @@ partial class MainForm
         };
     }
 
-    private void dateTimeForExportCheckBox_CheckedChanged(object sender, EventArgs e)
+    private Exporter GetExporter()
     {
-        dateFormatComboBox.Enabled = dateTimeForExportCheckBox.Checked;
+        return new Exporter(
+            new DateTime(beginExportDate.Value.Year, beginExportDate.Value.Month, beginExportDate.Value.Day, 00, 00, 00, 000),
+            new DateTime(endExportDate.Value.Year, endExportDate.Value.Month, endExportDate.Value.Day, 23, 59, 59, 999),
+            _storage,
+            fillHolesCheckBox.Checked
+        );
     }
 }
