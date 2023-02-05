@@ -73,60 +73,22 @@ partial class MainForm
         if (saveFileDialog.ShowDialog() != DialogResult.OK)
             return;
 
-        var exporter = ProvideFileExporterByExporterType(saveFileDialog.FileName);
-
-        var beginDate = new DateTime(beginExportDate.Value.Year, beginExportDate.Value.Month, beginExportDate.Value.Day, 00, 00, 00, 000);
-        var endDate = new DateTime(endExportDate.Value.Year, endExportDate.Value.Month, endExportDate.Value.Day, 23, 59, 59, 999);
-        var allDatesWithData = _storage.GetAllDatesWithDataBetweenTwoDates(beginDate, endDate);
-
-        var fillHoles = fillHolesCheckBox.Checked;
-        exportProgressBar.Maximum =
-            fillHoles ? (allDatesWithData.Last() - allDatesWithData.First()).Days : allDatesWithData.Count();
+        var exporter = new Exporter(
+            new DateTime(beginExportDate.Value.Year, beginExportDate.Value.Month, beginExportDate.Value.Day, 00, 00, 00, 000),
+            new DateTime(endExportDate.Value.Year, endExportDate.Value.Month, endExportDate.Value.Day, 23, 59, 59, 999),
+            _storage,
+            ProvideFileExporterByExporterType(saveFileDialog.FileName),
+            fillHolesCheckBox.Checked
+        );
+        
+        exportProgressBar.Maximum = exporter.NumberOfExportIterations();
         exportProgressBar.Step = 1;
 
-        var currentDate = new DateTime(beginDate.Year, beginDate.Month, beginDate.Day, 00, 00, 00);
-        while (currentDate <= endDate)
+        foreach (var _ in exporter.Export())
         {
-            if (_storage.HasDataForThisDate(currentDate))
-            {
-                var dataBatch = _storage.GetDataBatchByDate(currentDate);
-                exporter.Export(fillHoles ? PlaceHolder.FillHoles(dataBatch) : dataBatch);
-            }
-            else
-            {
-                // Если надо заполнять пробелы и мы находимся в диапазоне дат, в которые прибор записывал
-                // (чтобы иметь гарантии всегда получить предыдущий и следующий батч данных), то можем генерировать батч
-                if (fillHoles && currentDate >= allDatesWithData.First() && currentDate <= allDatesWithData.Last())
-                {
-                    try
-                    {
-                        var prevDataBatch = _storage.GetPrevDataBatchAfterThisDate(currentDate);
-                        var nextDataBatch = _storage.GetNextDataBatchAfterThisDate(currentDate);
-                        var dataBatch = DataBatchGenerator.GenerateDataBatch(
-                            currentDate,
-                            250, // TODO: высчитывать на основе двух батчей
-                            (prevDataBatch.Last().FluxSensorData + nextDataBatch.First().FluxSensorData) / 2,
-                            (prevDataBatch.Last().TempSensorData + nextDataBatch.First().TempSensorData) / 2,
-                            (prevDataBatch.Last().PressureSensorData + nextDataBatch.First().PressureSensorData) / 2,
-                            (prevDataBatch.Last().HumiditySensorData + nextDataBatch.First().HumiditySensorData) / 2
-                        );
-                        exporter.Export(fillHoles ? PlaceHolder.FillHoles(dataBatch) : dataBatch);
-                    }
-                    catch (PrevDataBatchNotFoundException exception)
-                    {
-                        // TODO: в логи, т.к. странная ситуация    
-                    }
-                    catch (NextDataBatchNotFoundException exception)
-                    {
-                        // TODO: в логи, т.к. странная ситуация    
-                    }
-                }
-            }
-
-            currentDate = currentDate.AddDays(1);
             exportProgressBar.PerformStep();
         }
-
+        SystemSounds.Exclamation.Play();
         exportProgressBar.Value = 0;
     }
 
