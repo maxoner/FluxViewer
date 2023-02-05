@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using FluxViewer.DataAccess.Models;
 
-namespace FluxViewer.DataAccess.Exporters;
+namespace FluxViewer.DataAccess.Export.Exporters;
 
 public class CsvFileExporter : FileExporter
 {

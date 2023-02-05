@@ -2,7 +2,7 @@
 using System.IO;
 using FluxViewer.DataAccess.Models;
 
-namespace FluxViewer.DataAccess.Exporters;
+namespace FluxViewer.DataAccess.Export.Exporters;
 
 public class JsonFileExporter : FileExporter
 {
