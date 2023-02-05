@@ -43,10 +43,20 @@ partial class MainForm
         var dataCount = _storage.GetDataCountBetweenTwoDates(beginDate, endDate);
         exportButton.Enabled = (dataCount != 0);    // Деактивируем кнопку "Экспорт", если нечего экспортировать
 
-        var allDatesWithData = _storage.GetAllDatesWithDataBetweenTwoDates(beginDate, endDate);
+        
         exportDataCountTextBox.Text = $"{dataCount} шт.";   // Выводим кол-во точек
-        firstExportDateTextBox.Text = allDatesWithData.First().ToString("d");   // Выводим первую фактическую дату 
-        lastExportDateTextBox.Text = allDatesWithData.Last().ToString("d");  // Выводим последнюю фактическую дату 
+        var allDatesWithData = _storage.GetAllDatesWithDataBetweenTwoDates(beginDate, endDate);
+        if (allDatesWithData.Any())
+        {
+            firstExportDateTextBox.Text = allDatesWithData.First().ToString("d"); // Выводим первую фактическую дату 
+            lastExportDateTextBox.Text = allDatesWithData.Last().ToString("d"); // Выводим последнюю фактическую дату
+        }
+        else
+        {
+            firstExportDateTextBox.Text = "";
+            lastExportDateTextBox.Text = "";
+        }
+            
     }
     
     
