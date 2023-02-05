@@ -1,4 +1,5 @@
 ﻿using System.Media;
+using FluxViewer.App.Enums;
 using FluxViewer.DataAccess.Export;
 using FluxViewer.DataAccess.Export.Exporters;
 using FluxViewer.DataAccess.Storage;
@@ -10,13 +11,14 @@ namespace FluxViewer.App;
 /// </summary>
 partial class MainForm
 {
-    // 
+    // Изменили "Дата начала"
     private void beginExportDate_ValueChanged(object sender, EventArgs e)
     {
         CheckAndChangeDates();
         ExportDate_Value_Changed();
     }
-
+    
+    // Изменили "Дата конца"
     private void endExportDate_ValueChanged(object sender, EventArgs e)
     {
         CheckAndChangeDates();
@@ -130,12 +132,13 @@ partial class MainForm
 
     private string SaveDialogFilterByExporterType()
     {
-        var exporterType = convertorComboBox.SelectedItem.ToString();
+        var exporterString = exportTypeComboBox.SelectedItem.ToString();
+        var exporterType = ExportTypeHelper.FromString(exporterString ?? string.Empty);
         return exporterType switch
         {
-            "Plain Text" => "TXT|*.txt",
-            "CSV" => "CSV|*.csv",
-            "JSON" => "JSON|*.json",
+            ExportType.PlainText => "TXT|*.txt",
+            ExportType.Csv => "CSV|*.csv",
+            ExportType.Json => "JSON|*.json",
             _ => throw new Exception("Неизвестный тип экспортёра")
         };
     }
@@ -149,14 +152,15 @@ partial class MainForm
         var hummNeedExport = hummForExportCheckBox.Checked;
         var presTimeNeedExport = presForExportCheckBox.Checked;
 
-        var exporterType = convertorComboBox.SelectedItem.ToString();
+        var exporterString = exportTypeComboBox.SelectedItem.ToString();
+        var exporterType = ExportTypeHelper.FromString(exporterString ?? string.Empty);
         return exporterType switch
         {
-            "Plain Text" => new PlainTextFileExporter(pathToFile, dateTimeFormat, dateTimeNeedExport,
+            ExportType.PlainText => new PlainTextFileExporter(pathToFile, dateTimeFormat, dateTimeNeedExport,
                 fluxNeedExport, tempNeedExport, hummNeedExport, presTimeNeedExport),
-            "CSV" => new CsvFileExporter(pathToFile, dateTimeFormat, dateTimeNeedExport, fluxNeedExport,
+            ExportType.Csv => new CsvFileExporter(pathToFile, dateTimeFormat, dateTimeNeedExport, fluxNeedExport,
                 tempNeedExport, hummNeedExport, presTimeNeedExport),
-            "JSON" => new JsonFileExporter(pathToFile, dateTimeFormat, dateTimeNeedExport, fluxNeedExport,
+            ExportType.Json => new JsonFileExporter(pathToFile, dateTimeFormat, dateTimeNeedExport, fluxNeedExport,
                 tempNeedExport, hummNeedExport, presTimeNeedExport),
             _ => throw new Exception("Неизвестный тип экспортёра")
         };
