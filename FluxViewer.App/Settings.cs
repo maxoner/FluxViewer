@@ -1,4 +1,4 @@
-﻿namespace FluxViewer.App.Properties {
+﻿namespace FluxViewer.App {
     
     
     // Этот класс позволяет обрабатывать определенные события в классе параметров:

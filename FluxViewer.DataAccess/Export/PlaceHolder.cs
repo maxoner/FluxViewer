@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluxViewer.DataAccess.Models;
 
-namespace FluxViewer.DataAccess.Exporters;
+namespace FluxViewer.DataAccess.Export;
 
 public static class PlaceHolder
 {

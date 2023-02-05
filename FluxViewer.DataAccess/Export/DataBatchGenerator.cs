@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FluxViewer.DataAccess.Models;
 
-namespace FluxViewer.DataAccess.Exporters;
+namespace FluxViewer.DataAccess.Export;
 
 public static class DataBatchGenerator
 {

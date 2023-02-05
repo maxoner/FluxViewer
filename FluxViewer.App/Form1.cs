@@ -1,16 +1,12 @@
 using System.Diagnostics;
-using System.Globalization;
 using System.IO.Ports;
 using System.Text;
-using FluxViewer.DataAccess.Exporters;
 using FluxViewer.DataAccess.LiteDbb;
 using FluxViewer.DataAccess.Models;
 using FluxViewer.DataAccess.Storage;
-using XMLFileSettings;
 using ZedGraph;
 
-
-namespace FluxViewer
+namespace FluxViewer.App
 {
     public partial class Form1 : Form
     {

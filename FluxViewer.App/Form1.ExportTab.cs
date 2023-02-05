@@ -1,7 +1,8 @@
-﻿using FluxViewer.DataAccess.Exporters;
+﻿using FluxViewer.DataAccess.Export;
+using FluxViewer.DataAccess.Exporters;
 using FluxViewer.DataAccess.Storage;
 
-namespace FluxViewer;
+namespace FluxViewer.App;
 
 /// <summary>
 /// UI-логика, связанная с вкладкой "ЭКСПОРТ"

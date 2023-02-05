@@ -1,4 +1,4 @@
-﻿namespace FluxViewer
+﻿namespace FluxViewer.App
 {
     partial class Form1
     {
