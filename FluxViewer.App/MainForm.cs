@@ -8,7 +8,7 @@ using ZedGraph;
 
 namespace FluxViewer.App
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private static readonly SerialPort SerialPort = new();
 
@@ -57,7 +57,7 @@ namespace FluxViewer.App
         private long _positionFirmware = 0;
         private long _sizeWirmware = 0;
 
-        public Form1()
+        public MainForm()
         {
             _data[0] = new RollingPointPairList(Capacity);
             _data[1] = new RollingPointPairList(Capacity);

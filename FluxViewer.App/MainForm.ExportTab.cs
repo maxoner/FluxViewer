@@ -7,7 +7,7 @@ namespace FluxViewer.App;
 /// <summary>
 /// UI-логика, связанная с вкладкой "ЭКСПОРТ"
 /// </summary>
-partial class Form1
+partial class MainForm
 {
     private void beginExportDate_ValueChanged(object sender, EventArgs e)
     {
