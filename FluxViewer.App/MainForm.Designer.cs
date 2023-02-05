@@ -960,6 +960,7 @@
             this.endExportDate.Name = "endExportDate";
             this.endExportDate.Size = new System.Drawing.Size(200, 25);
             this.endExportDate.TabIndex = 6;
+            this.endExportDate.ValueChanged += new System.EventHandler(this.endExportDate_ValueChanged);
             // 
             // convertorLabel
             // 

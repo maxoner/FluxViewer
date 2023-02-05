@@ -1,4 +1,5 @@
-﻿using FluxViewer.DataAccess.Export;
+﻿using System.Media;
+using FluxViewer.DataAccess.Export;
 using FluxViewer.DataAccess.Export.Exporters;
 using FluxViewer.DataAccess.Storage;
 
@@ -9,22 +10,47 @@ namespace FluxViewer.App;
 /// </summary>
 partial class MainForm
 {
+    // 
     private void beginExportDate_ValueChanged(object sender, EventArgs e)
     {
-        var beginDate = new DateTime(beginExportDate.Value.Year, beginExportDate.Value.Month, beginExportDate.Value.Day,
-            00, 00, 00, 000);
-        var endDate = new DateTime(endExportDate.Value.Year, endExportDate.Value.Month, endExportDate.Value.Day, 23, 59,
-            59, 999);
-
-        var dataCount = _storage.GetDataCountBetweenTwoDates(beginDate, endDate);
-        exportDataCountTextBox.Text = $"{dataCount} шт.";
-        exportButton.Enabled = (dataCount != 0);
-
-        var allDatesWithData = _storage.GetAllDatesWithDataBetweenTwoDates(beginDate, endDate);
-        firstExportDateTextBox.Text = allDatesWithData.First().ToString("d");
-        lastExportDateTextBox.Text = allDatesWithData.Last().ToString("d");
+        CheckAndChangeDates();
+        ExportDate_Value_Changed();
     }
 
+    private void endExportDate_ValueChanged(object sender, EventArgs e)
+    {
+        CheckAndChangeDates();
+        ExportDate_Value_Changed();
+    }
+
+    private void CheckAndChangeDates()
+    {
+        var beginDate = beginExportDate.Value.Date;
+        var endDate = endExportDate.Value.Date;
+        if (beginDate <= endDate)
+            return;
+        
+        // Не даём пользователю начальную дату сделать большей, чем конечную
+        SystemSounds.Beep.Play();
+        beginExportDate.Value = endDate;
+    }
+    
+    private void ExportDate_Value_Changed()
+    {
+        var beginDate = new DateTime(beginExportDate.Value.Year, beginExportDate.Value.Month, beginExportDate.Value.Day, 00, 00, 00, 000);
+        var endDate = new DateTime(endExportDate.Value.Year, endExportDate.Value.Month, endExportDate.Value.Day, 23, 59, 59, 999);
+
+        var dataCount = _storage.GetDataCountBetweenTwoDates(beginDate, endDate);
+        exportButton.Enabled = (dataCount != 0);    // Деактивируем кнопку "Экспорт", если нечего экспортировать
+
+        var allDatesWithData = _storage.GetAllDatesWithDataBetweenTwoDates(beginDate, endDate);
+        exportDataCountTextBox.Text = $"{dataCount} шт.";   // Выводим кол-во точек
+        firstExportDateTextBox.Text = allDatesWithData.First().ToString("d");   // Выводим первую фактическую дату 
+        lastExportDateTextBox.Text = allDatesWithData.Last().ToString("d");  // Выводим последнюю фактическую дату 
+    }
+    
+    
+    
     private void exportButton_Click(object sender, EventArgs e)
     {
         var saveFileDialog = new SaveFileDialog();
