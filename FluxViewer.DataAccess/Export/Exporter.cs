@@ -11,7 +11,6 @@ public class Exporter
     private readonly DateTime _beginDate;
     private readonly DateTime _endDate;
     private readonly IStorage _storage;
-    private readonly FileExporter _fileExporter;
     private readonly bool _fillHoles;
     
     /// <summary>
@@ -20,14 +19,12 @@ public class Exporter
     /// <param name="beginDate">Дата начала, с которой начинается экспорт показаний прибора</param>
     /// <param name="endDate">Дата конца, по которую происходит экспорт показаний прибора</param>
     /// <param name="storage">Хранилище, из которого происходит экспорт</param>
-    /// <param name="fileExporter">Экспортёр, при помощи которого показания будут записываться в файл</param>
     /// <param name="fillHoles">Заполнять ли пробелы в процессе экспорта?</param>
-    public Exporter(DateTime beginDate, DateTime endDate, IStorage storage, FileExporter fileExporter, bool fillHoles)
+    public Exporter(DateTime beginDate, DateTime endDate, IStorage storage, bool fillHoles)
     {
         _beginDate = beginDate;
         _endDate = endDate;
         _storage = storage;
-        _fileExporter = fileExporter;
         _fillHoles = fillHoles;
     }
 
@@ -42,10 +39,29 @@ public class Exporter
     }
     
     /// <summary>
+    /// Получить кол-во точек, доступное для экспорта между заданным диапазоном дат.
+    /// </summary>
+    /// <returns>Количество точек</returns>
+    public int GetDataCount()
+    {
+        return _storage.GetDataCountBetweenTwoDates(_beginDate, _endDate);
+    }
+    
+    /// <summary>
+    /// Получить все даты, в которые прибор записывал показания
+    /// </summary>
+    /// <returns>Количество точек</returns>
+    public List<DateTime> GetAllDatesWithData()
+    {
+        return _storage.GetAllDatesWithDataBetweenTwoDates(_beginDate, _endDate);
+    }
+    
+    /// <summary>
     /// Экспорт показаний прибора в файл.
     /// </summary>
+    /// <param name="fileExporter">Экспортёр, которым показания прибора будут конвертироваться в файл</param>
     /// <returns>В процессе (пока длится экспорт) будут возвращаться итерации экспорта.</returns>
-    public IEnumerable<int> Export()
+    public IEnumerable<int> Export(FileExporter fileExporter)
     {
         var allDatesWithData = _storage.GetAllDatesWithDataBetweenTwoDates(_beginDate, _endDate);
         var currentDate = new DateTime(_beginDate.Year, _beginDate.Month, _beginDate.Day, 00, 00, 00);
@@ -55,7 +71,7 @@ public class Exporter
             if (_storage.HasDataForThisDate(currentDate))
             {
                 var dataBatch = _storage.GetDataBatchByDate(currentDate);
-                _fileExporter.Export(_fillHoles ? PlaceHolder.FillHoles(dataBatch) : dataBatch);
+                fileExporter.Export(_fillHoles ? PlaceHolder.FillHoles(dataBatch) : dataBatch);
             }
             else
             {
@@ -75,7 +91,7 @@ public class Exporter
                             (prevDataBatch.Last().PressureSensorData + nextDataBatch.First().PressureSensorData) / 2,
                             (prevDataBatch.Last().HumiditySensorData + nextDataBatch.First().HumiditySensorData) / 2
                         );
-                        _fileExporter.Export(_fillHoles ? PlaceHolder.FillHoles(dataBatch) : dataBatch);
+                        fileExporter.Export(_fillHoles ? PlaceHolder.FillHoles(dataBatch) : dataBatch);
                     }
                     catch (PrevDataBatchNotFoundException exception)
                     {
