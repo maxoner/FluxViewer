@@ -18,4 +18,10 @@
     <ProjectReference Include="..\FluxViewer.DataAccess\FluxViewer.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Form1.ExportTab.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>
