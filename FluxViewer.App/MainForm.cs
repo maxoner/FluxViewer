@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Text;
+using FluxViewer.App.Enums;
 using FluxViewer.DataAccess.LiteDbb;
 using FluxViewer.DataAccess.Models;
 using FluxViewer.DataAccess.Storage;
@@ -71,6 +72,8 @@ namespace FluxViewer.App
             SetSettings();
             DrawGraph();
 
+            InitExportTypeComboBox();
+            
             dataGridView1.Rows.Add();
             dataGridView1.Rows.Add();
 
@@ -102,8 +105,7 @@ namespace FluxViewer.App
             // ƒата начала и окончани€ по умолчанию текущие
             dateTimePicker1.Value = DateTime.Now;
             dateTimePicker2.Value = DateTime.Now;
-
-            convertorComboBox.SelectedIndex = 0;
+            
             dateFormatComboBox.SelectedIndex = 0;
         }
         
@@ -128,6 +130,15 @@ namespace FluxViewer.App
             {
                 _props.WriteXml();
             }
+        }
+
+        private void InitExportTypeComboBox()
+        {
+            foreach (var exportType in Enum.GetValues<ExportType>())
+            {
+                exportTypeComboBox.Items.Add(ExportTypeHelper.ToString(exportType));
+            }
+            exportTypeComboBox.SelectedIndex = 0;
         }
         
         private void DrawGraph_dot()

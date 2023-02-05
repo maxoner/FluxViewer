@@ -87,8 +87,8 @@
             this.beginExportDate = new System.Windows.Forms.DateTimePicker();
             this.endExportDateLabel = new System.Windows.Forms.Label();
             this.endExportDate = new System.Windows.Forms.DateTimePicker();
-            this.convertorLabel = new System.Windows.Forms.Label();
-            this.convertorComboBox = new System.Windows.Forms.ComboBox();
+            this.exportTypeLabel = new System.Windows.Forms.Label();
+            this.exportTypeComboBox = new System.Windows.Forms.ComboBox();
             this.exportFieldsGroupBox = new System.Windows.Forms.GroupBox();
             this.dateTimeForExportCheckBox = new System.Windows.Forms.CheckBox();
             this.fluxForExportCheckBox = new System.Windows.Forms.CheckBox();
@@ -839,8 +839,8 @@
             this.exportGroupBox.Controls.Add(this.beginExportDate);
             this.exportGroupBox.Controls.Add(this.endExportDateLabel);
             this.exportGroupBox.Controls.Add(this.endExportDate);
-            this.exportGroupBox.Controls.Add(this.convertorLabel);
-            this.exportGroupBox.Controls.Add(this.convertorComboBox);
+            this.exportGroupBox.Controls.Add(this.exportTypeLabel);
+            this.exportGroupBox.Controls.Add(this.exportTypeComboBox);
             this.exportGroupBox.Controls.Add(this.exportFieldsGroupBox);
             this.exportGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.exportGroupBox.Location = new System.Drawing.Point(21, 19);
@@ -962,27 +962,23 @@
             this.endExportDate.TabIndex = 6;
             this.endExportDate.ValueChanged += new System.EventHandler(this.endExportDate_ValueChanged);
             // 
-            // convertorLabel
+            // exportTypeLabel
             // 
-            this.convertorLabel.AutoSize = true;
-            this.convertorLabel.Location = new System.Drawing.Point(33, 120);
-            this.convertorLabel.Name = "convertorLabel";
-            this.convertorLabel.Size = new System.Drawing.Size(126, 19);
-            this.convertorLabel.TabIndex = 0;
-            this.convertorLabel.Text = "Выходной формат";
+            this.exportTypeLabel.AutoSize = true;
+            this.exportTypeLabel.Location = new System.Drawing.Point(33, 120);
+            this.exportTypeLabel.Name = "exportTypeLabel";
+            this.exportTypeLabel.Size = new System.Drawing.Size(126, 19);
+            this.exportTypeLabel.TabIndex = 0;
+            this.exportTypeLabel.Text = "Выходной формат";
             // 
-            // convertorComboBox
+            // exportTypeComboBox
             // 
-            this.convertorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.convertorComboBox.FormattingEnabled = true;
-            this.convertorComboBox.Items.AddRange(new object[] {
-            "Plain Text",
-            "CSV",
-            "JSON"});
-            this.convertorComboBox.Location = new System.Drawing.Point(383, 120);
-            this.convertorComboBox.Name = "convertorComboBox";
-            this.convertorComboBox.Size = new System.Drawing.Size(200, 25);
-            this.convertorComboBox.TabIndex = 1;
+            this.exportTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.exportTypeComboBox.FormattingEnabled = true;
+            this.exportTypeComboBox.Location = new System.Drawing.Point(383, 120);
+            this.exportTypeComboBox.Name = "exportTypeComboBox";
+            this.exportTypeComboBox.Size = new System.Drawing.Size(200, 25);
+            this.exportTypeComboBox.TabIndex = 1;
             // 
             // exportFieldsGroupBox
             // 
@@ -2777,8 +2773,8 @@
         private GroupBox exportFieldsGroupBox;
         private CheckBox fluxForExportCheckBox;
         private CheckBox dateTimeForExportCheckBox;
-        private ComboBox convertorComboBox;
-        private Label convertorLabel;
+        private ComboBox exportTypeComboBox;
+        private Label exportTypeLabel;
         private Label endExportDateLabel;
         private Label beginExportDateLabel;
         private DateTimePicker endExportDate;
