@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <Compile Update="MainForm.ExportTab.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
   </ItemGroup>
 
