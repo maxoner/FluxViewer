@@ -9,7 +9,13 @@ namespace FluxViewer.App;
 /// UI-логика, связанная с вкладкой "ЭКСПОРТ"
 /// </summary>
 partial class MainForm
-{
+{   
+    // Фокус на вкладке "ЭКСПОРТ"
+    private void exportTabPage_Enter(object sender, EventArgs e)
+    {
+        UpdateExportInfo();
+    }
+    
     // Изменили "Дата начала"
     private void beginExportDate_ValueChanged(object sender, EventArgs e)
     {
