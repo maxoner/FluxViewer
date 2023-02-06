@@ -28,6 +28,31 @@ partial class MainForm
     private void dateTimeForExportCheckBox_CheckedChanged(object sender, EventArgs e)
     {
         dateFormatComboBox.Enabled = dateTimeForExportCheckBox.Checked;
+        CheckAllCheckboxes();
+    }
+    
+    // Нажали на флажок "Электростатическое поле"
+    private void fluxForExportCheckBox_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckAllCheckboxes();
+    }
+    
+    // Нажали на флажок "Температура"
+    private void tempForExportCheckBox_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckAllCheckboxes();
+    }
+
+    // Нажали на флажок "Давление"
+    private void presForExportCheckBox_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckAllCheckboxes();
+    }
+    
+    // Нажали на флажок "Влажность"
+    private void hummForExportCheckBox_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckAllCheckboxes();
     }
     
     // Нажали кнопку "Экспорт"
@@ -84,8 +109,17 @@ partial class MainForm
             firstExportDateTextBox.Text = "";
             lastExportDateTextBox.Text = "";
         }
-            
     }
+
+    private void CheckAllCheckboxes()
+    {
+        // Пока хотя бы 1 флажок активен - кнопка "Экспорт" активна, иначе - неактивна.
+        exportButton.Enabled = dateTimeForExportCheckBox.Checked || 
+                               fluxForExportCheckBox.Checked ||
+                               tempForExportCheckBox.Checked ||
+                               hummForExportCheckBox.Checked || 
+                               presForExportCheckBox.Checked;
+    }    
     
     private string SaveDialogFilterByExporterType()
     {

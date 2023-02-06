@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -1018,6 +1018,7 @@
             this.fluxForExportCheckBox.TabIndex = 1;
             this.fluxForExportCheckBox.Text = "Электростатическое поле";
             this.fluxForExportCheckBox.UseVisualStyleBackColor = true;
+            this.fluxForExportCheckBox.CheckedChanged += new System.EventHandler(this.fluxForExportCheckBox_CheckedChanged);
             // 
             // tempForExportCheckBox
             // 
@@ -1030,6 +1031,7 @@
             this.tempForExportCheckBox.TabIndex = 2;
             this.tempForExportCheckBox.Text = "Температура";
             this.tempForExportCheckBox.UseVisualStyleBackColor = true;
+            this.tempForExportCheckBox.CheckedChanged += new System.EventHandler(this.tempForExportCheckBox_CheckedChanged);
             // 
             // hummForExportCheckBox
             // 
@@ -1042,6 +1044,7 @@
             this.hummForExportCheckBox.TabIndex = 4;
             this.hummForExportCheckBox.Text = "Влажность";
             this.hummForExportCheckBox.UseVisualStyleBackColor = true;
+            this.hummForExportCheckBox.CheckedChanged += new System.EventHandler(this.hummForExportCheckBox_CheckedChanged);
             // 
             // presForExportCheckBox
             // 
@@ -1054,6 +1057,7 @@
             this.presForExportCheckBox.TabIndex = 3;
             this.presForExportCheckBox.Text = "Давление";
             this.presForExportCheckBox.UseVisualStyleBackColor = true;
+            this.presForExportCheckBox.CheckedChanged += new System.EventHandler(this.presForExportCheckBox_CheckedChanged);
             // 
             // exportInfoGroupBox
             // 
@@ -2199,13 +2203,13 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 29;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
