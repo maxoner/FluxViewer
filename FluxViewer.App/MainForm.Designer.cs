@@ -911,9 +911,6 @@
             // 
             this.dateFormatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.dateFormatComboBox.FormattingEnabled = true;
-            this.dateFormatComboBox.Items.AddRange(new object[] {
-            "MM/dd/yyyy HH:mm:ss",
-            "yyyy’-‘MM’-‘dd’T’HH’:’mm’:’ss"});
             this.dateFormatComboBox.Location = new System.Drawing.Point(383, 163);
             this.dateFormatComboBox.Name = "dateFormatComboBox";
             this.dateFormatComboBox.Size = new System.Drawing.Size(200, 25);

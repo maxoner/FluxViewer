@@ -142,7 +142,8 @@ partial class MainForm
 
     private FileExporter ProvideFileExporterByExporterType(string pathToFile)
     {
-        var dateTimeFormat = dateFormatComboBox.SelectedItem.ToString();
+        var dateTimeExample = dateFormatComboBox.SelectedItem.ToString();
+        var dateTimeFormat = ExportDateTypeHelper.FromExample(dateTimeExample).ToString();
         var dateTimeNeedExport = dateTimeForExportCheckBox.Checked;
         var fluxNeedExport = fluxForExportCheckBox.Checked;
         var tempNeedExport = tempForExportCheckBox.Checked;

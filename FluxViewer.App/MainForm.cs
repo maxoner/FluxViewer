@@ -73,6 +73,7 @@ namespace FluxViewer.App
             DrawGraph();
 
             InitExportTypeComboBox();
+            InitDateFormatComboBox();
             
             dataGridView1.Rows.Add();
             dataGridView1.Rows.Add();
@@ -139,6 +140,15 @@ namespace FluxViewer.App
                 exportTypeComboBox.Items.Add(ExportTypeHelper.ToString(exportType));
             }
             exportTypeComboBox.SelectedIndex = 0;
+        }
+        
+        private void InitDateFormatComboBox()
+        {
+            foreach (var exportDateType in Enum.GetValues<ExportDateType>())
+            {
+                dateFormatComboBox.Items.Add(ExportDateTypeHelper.ExampleByType(exportDateType));
+            }
+            dateFormatComboBox.SelectedIndex = 0;
         }
         
         private void DrawGraph_dot()
