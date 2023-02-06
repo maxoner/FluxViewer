@@ -30,14 +30,14 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.mainTabControl = new System.Windows.Forms.TabControl();
             this.registrarTabPage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
@@ -223,7 +223,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.statusStrip1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.mainTabControl.SuspendLayout();
             this.registrarTabPage.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -320,24 +320,24 @@
             this.imageList1.Images.SetKeyName(0, "disconect.png");
             this.imageList1.Images.SetKeyName(1, "connect.png");
             // 
-            // tabControl1
+            // mainTabControl
             // 
-            this.tabControl1.Appearance = System.Windows.Forms.TabAppearance.Buttons;
-            this.tabControl1.CausesValidation = false;
-            this.tabControl1.Controls.Add(this.registrarTabPage);
-            this.tabControl1.Controls.Add(this.dataArchiveTabPage);
-            this.tabControl1.Controls.Add(this.exportTabPage);
-            this.tabControl1.Controls.Add(this.settingsTabPage);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.tabControl1.ItemSize = new System.Drawing.Size(200, 50);
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1284, 589);
-            this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.tabControl1.TabIndex = 3;
+            this.mainTabControl.Appearance = System.Windows.Forms.TabAppearance.Buttons;
+            this.mainTabControl.CausesValidation = false;
+            this.mainTabControl.Controls.Add(this.registrarTabPage);
+            this.mainTabControl.Controls.Add(this.dataArchiveTabPage);
+            this.mainTabControl.Controls.Add(this.exportTabPage);
+            this.mainTabControl.Controls.Add(this.settingsTabPage);
+            this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainTabControl.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.mainTabControl.ItemSize = new System.Drawing.Size(200, 50);
+            this.mainTabControl.Location = new System.Drawing.Point(0, 0);
+            this.mainTabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.mainTabControl.Name = "mainTabControl";
+            this.mainTabControl.SelectedIndex = 0;
+            this.mainTabControl.Size = new System.Drawing.Size(1284, 589);
+            this.mainTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.mainTabControl.TabIndex = 3;
             // 
             // registrarTabPage
             // 
@@ -2203,13 +2203,13 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 29;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -2531,7 +2531,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1284, 615);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.statusStrip1);
             this.Name = "MainForm";
             this.Text = "FluxViewer";
@@ -2540,7 +2540,7 @@
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
+            this.mainTabControl.ResumeLayout(false);
             this.registrarTabPage.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -2617,7 +2617,7 @@
         private ImageList imageList1;
         private ToolStripStatusLabel toolStripStatusLabel3;
         private ToolStripStatusLabel toolStripStatusLabel4;
-        private TabControl tabControl1;
+        private TabControl mainTabControl;
         private TabPage registrarTabPage;
         private TableLayoutPanel tableLayoutPanel1;
         private ZedGraph.ZedGraphControl zedGraphControl1;

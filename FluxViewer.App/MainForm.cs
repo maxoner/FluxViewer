@@ -1244,7 +1244,7 @@ namespace FluxViewer.App
                     _pane[j].Title.FontSpec.FontColor = Color.Teal; // Установим цвет заголовка над графиком
                 }
             }
-            tabControl1.SelectedIndex = 0;
+            mainTabControl.SelectedIndex = 0;
             DrawUpdate();
         }
 
