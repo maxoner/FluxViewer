@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluxViewer.DataAccess.Export;
 using FluxViewer.DataAccess.Export.Exporters;
+using FluxViewer.DataAccess.Models;
 using FluxViewer.DataAccess.Storage;
 
 namespace FluxViewer.DataAccess.Controllers;
@@ -71,12 +72,17 @@ public class ExportController
         var allDatesWithData = _storage.GetAllDatesWithDataBetweenTwoDates(_beginDate, _endDate);
         var currentDate = new DateTime(_beginDate.Year, _beginDate.Month, _beginDate.Day, 00, 00, 00);
         var iteration = 0;
+        List<NewData> prevDataBatch = null;
+
         while (currentDate <= _endDate)
         {
             if (_storage.HasDataForThisDate(currentDate))
             {
                 var dataBatch = _storage.GetDataBatchByDate(currentDate);
                 fileExporter.Export(_fillHoles ? PlaceHolder.FillHoles(dataBatch) : dataBatch);
+
+                if (_fillHoles)     // Сохраняем батч, дабы опять его не запрашивать!
+                    prevDataBatch = dataBatch;
             }
             else
             {
@@ -86,11 +92,14 @@ public class ExportController
                 {
                     try
                     {
-                        var prevDataBatch = _storage.GetPrevDataBatchAfterThisDate(currentDate);
                         var nextDataBatch = _storage.GetNextDataBatchAfterThisDate(currentDate);
+
+                        var firstTimeShift = PlaceHolder.GetMeanTimeShift(prevDataBatch);
+                        var secondTimeShift = PlaceHolder.GetMeanTimeShift(nextDataBatch);
+                        
                         var dataBatch = DataBatchGenerator.GenerateDataBatch(
                             currentDate,
-                            250, // TODO: высчитывать на основе двух батчей
+                            (float) (firstTimeShift + secondTimeShift) / 2,
                             (prevDataBatch.Last().FluxSensorData + nextDataBatch.First().FluxSensorData) / 2,
                             (prevDataBatch.Last().TempSensorData + nextDataBatch.First().TempSensorData) / 2,
                             (prevDataBatch.Last().PressureSensorData + nextDataBatch.First().PressureSensorData) / 2,
