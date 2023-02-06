@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluxViewer.DataAccess.Export;
 using FluxViewer.DataAccess.Export.Exporters;
 using FluxViewer.DataAccess.Storage;
 
-namespace FluxViewer.DataAccess.Export;
+namespace FluxViewer.DataAccess.Controllers;
 
-public class Exporter
+/// <summary>
+/// Класс с бизнес-логикой, отвечающей за экспорт показаний прибора в файл,
+/// обладающий дополнительными полезными методами.
+/// </summary>
+public class ExportController
 {
     private readonly DateTime _beginDate;
     private readonly DateTime _endDate;
@@ -20,7 +25,7 @@ public class Exporter
     /// <param name="endDate">Дата конца, по которую происходит экспорт показаний прибора</param>
     /// <param name="storage">Хранилище, из которого происходит экспорт</param>
     /// <param name="fillHoles">Заполнять ли пробелы в процессе экспорта?</param>
-    public Exporter(DateTime beginDate, DateTime endDate, IStorage storage, bool fillHoles)
+    public ExportController(DateTime beginDate, DateTime endDate, IStorage storage, bool fillHoles)
     {
         _beginDate = beginDate;
         _endDate = endDate;

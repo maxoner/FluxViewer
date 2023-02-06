@@ -1,6 +1,6 @@
 ﻿using System.Media;
 using FluxViewer.App.Enums;
-using FluxViewer.DataAccess.Export;
+using FluxViewer.DataAccess.Controllers;
 using FluxViewer.DataAccess.Export.Exporters;
 
 namespace FluxViewer.App;
@@ -72,12 +72,12 @@ partial class MainForm
         if (saveFileDialog.ShowDialog() != DialogResult.OK)
             return;
         
-        var exporter = GetExporter();
-        exportProgressBar.Maximum = exporter.NumberOfExportIterations();
+        var exportController = GetExportController();
+        exportProgressBar.Maximum = exportController.NumberOfExportIterations();
         exportProgressBar.Step = 1;
         
         var fileExporter = ProvideFileExporterByExporterType(saveFileDialog.FileName);
-        foreach (var _ in exporter.Export(fileExporter))
+        foreach (var _ in exportController.Export(fileExporter))
         {
             exportProgressBar.PerformStep();
         }
@@ -99,12 +99,12 @@ partial class MainForm
     
     private void UpdateExportInfo()
     {
-        var exporter = GetExporter();
-        var dataCount = exporter.GetDataCount();
+        var exportController = GetExportController();
+        var dataCount = exportController.GetDataCount();
         exportButton.Enabled = (dataCount != 0);    // Деактивируем кнопку "Экспорт", если нечего экспортировать
         
         exportDataCountTextBox.Text = $"{dataCount} шт.";   // Выводим кол-во точек
-        var allDatesWithData = exporter.GetAllDatesWithData();
+        var allDatesWithData = exportController.GetAllDatesWithData();
         if (allDatesWithData.Any())
         {
             firstExportDateTextBox.Text = allDatesWithData.First().ToString("d"); // Выводим первую фактическую дату 
@@ -164,9 +164,9 @@ partial class MainForm
         };
     }
 
-    private Exporter GetExporter()
+    private ExportController GetExportController()
     {
-        return new Exporter(
+        return new ExportController(
             new DateTime(beginExportDate.Value.Year, beginExportDate.Value.Month, beginExportDate.Value.Day, 00, 00, 00, 000),
             new DateTime(endExportDate.Value.Year, endExportDate.Value.Month, endExportDate.Value.Day, 23, 59, 59, 999),
             _storage,
