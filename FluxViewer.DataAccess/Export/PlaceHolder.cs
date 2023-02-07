@@ -41,8 +41,13 @@ public static class PlaceHolder
         foreach (var tailData in GenerateTail(lastData, timeShift))
             yield return tailData;
     }
-
-    private static double GetMeanTimeShift(IReadOnlyList<NewData> dataBatch)
+    
+    /// <summary>
+    /// Получить среднее время (в мс.) между двумя показаниями прибора в наборе показаний.
+    /// </summary>
+    /// <param name="dataBatch">Набор показаний прибора</param>
+    /// <returns>Среднее время между двумя показаниями</returns>
+    public static double GetMeanTimeShift(IReadOnlyList<NewData> dataBatch)
     {
         double meanTimeShift = 0; // Полученная средняя дельта между двумя показаниями
         var num = 0; // Кол-во показаний, которые учитывались для рассчёта средней дельты
