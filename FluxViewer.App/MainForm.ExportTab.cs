@@ -9,11 +9,15 @@ namespace FluxViewer.App;
 /// UI-логика, связанная с вкладкой "ЭКСПОРТ"
 /// </summary>
 partial class MainForm
-{   
+{
+    private int _dataCount;     // Кол-во показний прибора за выбранный промежуток дат
+    
+
     // Фокус на вкладке "ЭКСПОРТ"
     private void exportTabPage_Enter(object sender, EventArgs e)
     {
         UpdateExportInfo();
+        ChangeExportButtonState();
     }
     
     // Изменили "Дата начала"
@@ -21,6 +25,7 @@ partial class MainForm
     {
         CheckAndChangeDates();
         UpdateExportInfo();
+        ChangeExportButtonState();
     }
     
     // Изменили "Дата конца"
@@ -28,37 +33,38 @@ partial class MainForm
     {
         CheckAndChangeDates();
         UpdateExportInfo();
+        ChangeExportButtonState();
     }
     
     // Нажали на флажок "Дата и время"
     private void dateTimeForExportCheckBox_CheckedChanged(object sender, EventArgs e)
     {
         dateFormatComboBox.Enabled = dateTimeForExportCheckBox.Checked;
-        CheckAllCheckboxes();
+        ChangeExportButtonState();
     }
     
     // Нажали на флажок "Электростатическое поле"
     private void fluxForExportCheckBox_CheckedChanged(object sender, EventArgs e)
     {
-        CheckAllCheckboxes();
+        ChangeExportButtonState();
     }
     
     // Нажали на флажок "Температура"
     private void tempForExportCheckBox_CheckedChanged(object sender, EventArgs e)
     {
-        CheckAllCheckboxes();
+        ChangeExportButtonState();
     }
 
     // Нажали на флажок "Давление"
     private void presForExportCheckBox_CheckedChanged(object sender, EventArgs e)
     {
-        CheckAllCheckboxes();
+        ChangeExportButtonState();
     }
     
     // Нажали на флажок "Влажность"
     private void hummForExportCheckBox_CheckedChanged(object sender, EventArgs e)
     {
-        CheckAllCheckboxes();
+        ChangeExportButtonState();
     }
     
     // Нажали кнопку "Экспорт"
@@ -100,10 +106,9 @@ partial class MainForm
     private void UpdateExportInfo()
     {
         var exportController = GetExportController();
-        var dataCount = exportController.GetDataCount();
-        exportButton.Enabled = (dataCount != 0);    // Деактивируем кнопку "Экспорт", если нечего экспортировать
-        
-        exportDataCountTextBox.Text = $"{dataCount} шт.";   // Выводим кол-во точек
+        _dataCount = exportController.GetDataCount();
+
+        exportDataCountTextBox.Text = $"{_dataCount} шт.";   // Выводим кол-во точек
         var allDatesWithData = exportController.GetAllDatesWithData();
         if (allDatesWithData.Any())
         {
@@ -117,16 +122,24 @@ partial class MainForm
         }
     }
 
-    private void CheckAllCheckboxes()
+    private void ChangeExportButtonState()
     {
-        // Пока хотя бы 1 флажок активен - кнопка "Экспорт" активна, иначе - неактивна.
-        exportButton.Enabled = dateTimeForExportCheckBox.Checked || 
-                               fluxForExportCheckBox.Checked ||
-                               tempForExportCheckBox.Checked ||
-                               hummForExportCheckBox.Checked || 
-                               presForExportCheckBox.Checked;
-    }    
-    
+        // Если есть что экспортировать и выбран хотя бы 1 параметр экспорта, то активируем кнопку экспорта
+        if (_dataCount > 0 &&
+            (dateTimeForExportCheckBox.Checked ||
+             fluxForExportCheckBox.Checked ||
+             tempForExportCheckBox.Checked ||
+             hummForExportCheckBox.Checked ||
+             presForExportCheckBox.Checked))
+        {
+            exportButton.Enabled = true;
+        }
+        else    // Иначе декативируем её!
+        {
+            exportButton.Enabled = false;
+        }
+    }
+
     private string SaveDialogFilterByExporterType()
     {
         var exporterString = exportTypeComboBox.SelectedItem.ToString();
