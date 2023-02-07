@@ -62,6 +62,21 @@ public interface IStorage
     /// <returns>Все показания прибора, полученные в текущую дату</returns>
     public List<NewData> GetDataBatchByDate(DateTime date);
 
+
+    /// <summary>
+    /// Получение конкретного количества показаний прибора в данном промежутке дат.
+    /// Пример: Между 01.02.2021 и 02.02.2021 записано 10000 показаний.
+    ///      GetDataBatchBetweenTwoDates(01.02.2021, 02.02.2021, 100) вернёт каждое 100-е показание
+    ///      GetDataBatchBetweenTwoDates(01.02.2021, 02.02.2021, 5000) вернёт каждое 2-е показание
+    ///      GetDataBatchBetweenTwoDates(01.02.2021, 02.02.2021, 10000) вернёт каждое 1-е показание
+    ///      GetDataBatchBetweenTwoDates(01.02.2021, 02.02.2021, 30000) вернёт ТАКЖЕ каждое 1-е показание
+    /// </summary>
+    /// <param name="beginDate">Дата начала, с которой происходит поиск показаний прибора</param>
+    /// <param name="endDate">Дата конца, по которую происходит поиск показаний прибора</param>
+    /// <param name="batchSize">Количество точек из данного диапазона, которое хочется получить</param>
+    /// <returns>Выборочные показания прибора (в зависимости от размера 'batchSize') в данном диапазоне дат</returns>
+    public List<NewData> GetDataBatchBetweenTwoDates(DateTime beginDate, DateTime endDate, int batchSize);
+    
     /// <summary>
     /// Получить показания прибора за следующую дату после переданной.
     /// Например:

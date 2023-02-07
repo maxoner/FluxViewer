@@ -88,6 +88,33 @@ public class FileSystemStorage : IStorage
         }
     }
 
+    public List<NewData> GetDataBatchBetweenTwoDates(DateTime beginDate, DateTime endDate, int batchSize)
+    {
+        var dataCount = GetDataCountBetweenTwoDates(beginDate, endDate);
+        var skip = (dataCount > batchSize)? dataCount / batchSize - 1 : 0;  // Сколько значений пропускать после 1 успешной записи
+
+        var dataBatch = new List<NewData>(); 
+        foreach (var pathToFile in GetFilePathsBetweenTwoDates(beginDate, endDate))
+        {
+            using var file = new FileStream(pathToFile, FileMode.Open, FileAccess.Read);
+            var buffer = new byte[NewData.ByteLenght];
+            while (true)
+            {
+                var numOfReadBytes = file.Read(buffer);
+                if (numOfReadBytes == 0)
+                    break;
+                
+                if (dataBatch.Count >= batchSize)
+                    break;
+
+                dataBatch.Add(NewData.Deserialize(buffer));     // Записали одно показание
+                if (skip != 0)
+                    file.Seek(skip * NewData.ByteLenght, SeekOrigin.Current);  // и пропустили несколько
+            }
+        }
+        return dataBatch;
+    }
+
     public List<NewData> GetNextDataBatchAfterThisDate(DateTime date) 
     {
         var allFilePaths = Directory.GetFiles(_pathToStorageDir);
@@ -115,7 +142,7 @@ public class FileSystemStorage : IStorage
         throw new PrevDataBatchNotFoundException();
     }
 
-    private List<string> GetFilePathsBetweenTwoDates(DateTime beginDate, DateTime endDate, int? step = null)
+    private List<string> GetFilePathsBetweenTwoDates(DateTime beginDate, DateTime endDate)
     {
         var goalPaths = new List<string>();
         foreach (var fullPath in GetFilePaths())
