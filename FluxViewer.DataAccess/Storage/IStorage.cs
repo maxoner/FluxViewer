@@ -56,7 +56,7 @@ public interface IStorage
     public bool HasDataForThisDate(DateTime date);
 
     /// <summary>
-    /// Получение показаний прибора между за конкретную дату.
+    /// Получение показаний прибора за конкретную дату.
     /// </summary>
     /// <param name="date">Дата в которую следует искать показания</param>
     /// <returns>Все показания прибора, полученные в текущую дату</returns>
