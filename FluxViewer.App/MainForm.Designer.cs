@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -53,25 +53,25 @@
             this.btn_stop = new System.Windows.Forms.Button();
             this.btn_start = new System.Windows.Forms.Button();
             this.dataArchiveTabPage = new System.Windows.Forms.TabPage();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.btn_achive_down = new System.Windows.Forms.Button();
-            this.btn_achive_up = new System.Windows.Forms.Button();
-            this.btn_achive_minus = new System.Windows.Forms.Button();
-            this.btn_achive_plus = new System.Windows.Forms.Button();
-            this.btn_achive_autozoom = new System.Windows.Forms.Button();
-            this.zedGraphControl5 = new ZedGraph.ZedGraphControl();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.groupBox17 = new System.Windows.Forms.GroupBox();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.daXAutoscalingCheckBox = new System.Windows.Forms.CheckBox();
+            this.daGrapDownButton = new System.Windows.Forms.Button();
+            this.daGrapUpButton = new System.Windows.Forms.Button();
+            this.daReduceGrapButton = new System.Windows.Forms.Button();
+            this.daZoomGrapButton = new System.Windows.Forms.Button();
+            this.daAutoZoomButton = new System.Windows.Forms.Button();
+            this.daMainZedGraphControl = new ZedGraph.ZedGraphControl();
+            this.daMenuPanel = new System.Windows.Forms.Panel();
+            this.daNumOfPointsGroupBox = new System.Windows.Forms.GroupBox();
+            this.daNumOfPointsTrackBar = new System.Windows.Forms.TrackBar();
+            this.daMathematicalAnalysisGroupBox = new System.Windows.Forms.GroupBox();
+            this.daSpectraButton = new System.Windows.Forms.Button();
+            this.daHistogramsButton = new System.Windows.Forms.Button();
+            this.daChannelNameGroupBox = new System.Windows.Forms.GroupBox();
+            this.daChannelNameComboBox = new System.Windows.Forms.ComboBox();
+            this.daEndDateGroupBox = new System.Windows.Forms.GroupBox();
+            this.daEndDateDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.daBeginDateGroupBox = new System.Windows.Forms.GroupBox();
+            this.daBeginDateDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.exportTabPage = new System.Windows.Forms.TabPage();
             this.exportMainGroupBox = new System.Windows.Forms.GroupBox();
             this.exportGroupBox = new System.Windows.Forms.GroupBox();
@@ -229,12 +229,13 @@
             this.panel1.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.dataArchiveTabPage.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.groupBox17.SuspendLayout();
-            this.groupBox11.SuspendLayout();
-            this.groupBox10.SuspendLayout();
-            this.groupBox9.SuspendLayout();
-            this.groupBox8.SuspendLayout();
+            this.daMenuPanel.SuspendLayout();
+            this.daNumOfPointsGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.daNumOfPointsTrackBar)).BeginInit();
+            this.daMathematicalAnalysisGroupBox.SuspendLayout();
+            this.daChannelNameGroupBox.SuspendLayout();
+            this.daEndDateGroupBox.SuspendLayout();
+            this.daBeginDateGroupBox.SuspendLayout();
             this.exportTabPage.SuspendLayout();
             this.exportMainGroupBox.SuspendLayout();
             this.exportGroupBox.SuspendLayout();
@@ -554,14 +555,14 @@
             // 
             // dataArchiveTabPage
             // 
-            this.dataArchiveTabPage.Controls.Add(this.checkBox3);
-            this.dataArchiveTabPage.Controls.Add(this.btn_achive_down);
-            this.dataArchiveTabPage.Controls.Add(this.btn_achive_up);
-            this.dataArchiveTabPage.Controls.Add(this.btn_achive_minus);
-            this.dataArchiveTabPage.Controls.Add(this.btn_achive_plus);
-            this.dataArchiveTabPage.Controls.Add(this.btn_achive_autozoom);
-            this.dataArchiveTabPage.Controls.Add(this.zedGraphControl5);
-            this.dataArchiveTabPage.Controls.Add(this.panel2);
+            this.dataArchiveTabPage.Controls.Add(this.daXAutoscalingCheckBox);
+            this.dataArchiveTabPage.Controls.Add(this.daGrapDownButton);
+            this.dataArchiveTabPage.Controls.Add(this.daGrapUpButton);
+            this.dataArchiveTabPage.Controls.Add(this.daReduceGrapButton);
+            this.dataArchiveTabPage.Controls.Add(this.daZoomGrapButton);
+            this.dataArchiveTabPage.Controls.Add(this.daAutoZoomButton);
+            this.dataArchiveTabPage.Controls.Add(this.daMainZedGraphControl);
+            this.dataArchiveTabPage.Controls.Add(this.daMenuPanel);
             this.dataArchiveTabPage.Location = new System.Drawing.Point(4, 54);
             this.dataArchiveTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataArchiveTabPage.Name = "dataArchiveTabPage";
@@ -571,238 +572,236 @@
             this.dataArchiveTabPage.Text = "АРХИВ ДАННЫХ";
             this.dataArchiveTabPage.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // daXAutoscalingCheckBox
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(195, 84);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(157, 23);
-            this.checkBox3.TabIndex = 1;
-            this.checkBox3.Text = "Автомасштаб по X";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.daXAutoscalingCheckBox.AutoSize = true;
+            this.daXAutoscalingCheckBox.Location = new System.Drawing.Point(194, 114);
+            this.daXAutoscalingCheckBox.Name = "daXAutoscalingCheckBox";
+            this.daXAutoscalingCheckBox.Size = new System.Drawing.Size(157, 23);
+            this.daXAutoscalingCheckBox.TabIndex = 1;
+            this.daXAutoscalingCheckBox.Text = "Автомасштаб по X";
+            this.daXAutoscalingCheckBox.UseVisualStyleBackColor = true;
             // 
-            // btn_achive_down
+            // daGrapDownButton
             // 
-            this.btn_achive_down.Location = new System.Drawing.Point(158, 81);
-            this.btn_achive_down.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_achive_down.Name = "btn_achive_down";
-            this.btn_achive_down.Size = new System.Drawing.Size(31, 26);
-            this.btn_achive_down.TabIndex = 8;
-            this.btn_achive_down.Text = "▼";
-            this.btn_achive_down.UseVisualStyleBackColor = true;
-            this.btn_achive_down.Click += new System.EventHandler(this.btn_achive_down_Click);
+            this.daGrapDownButton.Location = new System.Drawing.Point(157, 111);
+            this.daGrapDownButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daGrapDownButton.Name = "daGrapDownButton";
+            this.daGrapDownButton.Size = new System.Drawing.Size(31, 26);
+            this.daGrapDownButton.TabIndex = 8;
+            this.daGrapDownButton.Text = "▼";
+            this.daGrapDownButton.UseVisualStyleBackColor = true;
+            this.daGrapDownButton.Click += new System.EventHandler(this.btn_achive_down_Click);
             // 
-            // btn_achive_up
+            // daGrapUpButton
             // 
-            this.btn_achive_up.Location = new System.Drawing.Point(122, 81);
-            this.btn_achive_up.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_achive_up.Name = "btn_achive_up";
-            this.btn_achive_up.Size = new System.Drawing.Size(31, 26);
-            this.btn_achive_up.TabIndex = 7;
-            this.btn_achive_up.Text = "▲";
-            this.btn_achive_up.UseVisualStyleBackColor = true;
-            this.btn_achive_up.Click += new System.EventHandler(this.btn_achive_up_Click);
+            this.daGrapUpButton.Location = new System.Drawing.Point(120, 111);
+            this.daGrapUpButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daGrapUpButton.Name = "daGrapUpButton";
+            this.daGrapUpButton.Size = new System.Drawing.Size(31, 26);
+            this.daGrapUpButton.TabIndex = 7;
+            this.daGrapUpButton.Text = "▲";
+            this.daGrapUpButton.UseVisualStyleBackColor = true;
+            this.daGrapUpButton.Click += new System.EventHandler(this.btn_achive_up_Click);
             // 
-            // btn_achive_minus
+            // daReduceGrapButton
             // 
-            this.btn_achive_minus.Location = new System.Drawing.Point(86, 81);
-            this.btn_achive_minus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_achive_minus.Name = "btn_achive_minus";
-            this.btn_achive_minus.Size = new System.Drawing.Size(31, 26);
-            this.btn_achive_minus.TabIndex = 6;
-            this.btn_achive_minus.Text = "-";
-            this.btn_achive_minus.UseVisualStyleBackColor = true;
-            this.btn_achive_minus.Click += new System.EventHandler(this.btn_achive_minus_Click);
+            this.daReduceGrapButton.Location = new System.Drawing.Point(83, 111);
+            this.daReduceGrapButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daReduceGrapButton.Name = "daReduceGrapButton";
+            this.daReduceGrapButton.Size = new System.Drawing.Size(31, 26);
+            this.daReduceGrapButton.TabIndex = 6;
+            this.daReduceGrapButton.Text = "-";
+            this.daReduceGrapButton.UseVisualStyleBackColor = true;
+            this.daReduceGrapButton.Click += new System.EventHandler(this.btn_achive_minus_Click);
             // 
-            // btn_achive_plus
+            // daZoomGrapButton
             // 
-            this.btn_achive_plus.Location = new System.Drawing.Point(50, 81);
-            this.btn_achive_plus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_achive_plus.Name = "btn_achive_plus";
-            this.btn_achive_plus.Size = new System.Drawing.Size(31, 26);
-            this.btn_achive_plus.TabIndex = 5;
-            this.btn_achive_plus.Text = "+";
-            this.btn_achive_plus.UseVisualStyleBackColor = true;
-            this.btn_achive_plus.Click += new System.EventHandler(this.btn_achive_plus_Click);
+            this.daZoomGrapButton.Location = new System.Drawing.Point(46, 111);
+            this.daZoomGrapButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daZoomGrapButton.Name = "daZoomGrapButton";
+            this.daZoomGrapButton.Size = new System.Drawing.Size(31, 26);
+            this.daZoomGrapButton.TabIndex = 5;
+            this.daZoomGrapButton.Text = "+";
+            this.daZoomGrapButton.UseVisualStyleBackColor = true;
+            this.daZoomGrapButton.Click += new System.EventHandler(this.btn_achive_plus_Click);
             // 
-            // btn_achive_autozoom
+            // daAutoZoomButton
             // 
-            this.btn_achive_autozoom.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btn_achive_autozoom.Location = new System.Drawing.Point(14, 81);
-            this.btn_achive_autozoom.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_achive_autozoom.Name = "btn_achive_autozoom";
-            this.btn_achive_autozoom.Size = new System.Drawing.Size(31, 26);
-            this.btn_achive_autozoom.TabIndex = 4;
-            this.btn_achive_autozoom.Text = "az";
-            this.btn_achive_autozoom.UseVisualStyleBackColor = true;
-            this.btn_achive_autozoom.Click += new System.EventHandler(this.btn_achive_autozoom_Click);
+            this.daAutoZoomButton.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.daAutoZoomButton.Location = new System.Drawing.Point(9, 111);
+            this.daAutoZoomButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daAutoZoomButton.Name = "daAutoZoomButton";
+            this.daAutoZoomButton.Size = new System.Drawing.Size(31, 26);
+            this.daAutoZoomButton.TabIndex = 4;
+            this.daAutoZoomButton.Text = "az";
+            this.daAutoZoomButton.UseVisualStyleBackColor = true;
+            this.daAutoZoomButton.Click += new System.EventHandler(this.btn_achive_autozoom_Click);
             // 
-            // zedGraphControl5
+            // daMainZedGraphControl
             // 
-            this.zedGraphControl5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zedGraphControl5.Location = new System.Drawing.Point(3, 77);
-            this.zedGraphControl5.Margin = new System.Windows.Forms.Padding(5);
-            this.zedGraphControl5.Name = "zedGraphControl5";
-            this.zedGraphControl5.ScrollGrace = 0D;
-            this.zedGraphControl5.ScrollMaxX = 0D;
-            this.zedGraphControl5.ScrollMaxY = 0D;
-            this.zedGraphControl5.ScrollMaxY2 = 0D;
-            this.zedGraphControl5.ScrollMinX = 0D;
-            this.zedGraphControl5.ScrollMinY = 0D;
-            this.zedGraphControl5.ScrollMinY2 = 0D;
-            this.zedGraphControl5.Size = new System.Drawing.Size(1270, 452);
-            this.zedGraphControl5.TabIndex = 1;
-            this.zedGraphControl5.UseExtendedPrintDialog = true;
-            this.zedGraphControl5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.zedGraphControl5_MouseClick);
+            this.daMainZedGraphControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.daMainZedGraphControl.Location = new System.Drawing.Point(3, 107);
+            this.daMainZedGraphControl.Margin = new System.Windows.Forms.Padding(5);
+            this.daMainZedGraphControl.Name = "daMainZedGraphControl";
+            this.daMainZedGraphControl.ScrollGrace = 0D;
+            this.daMainZedGraphControl.ScrollMaxX = 0D;
+            this.daMainZedGraphControl.ScrollMaxY = 0D;
+            this.daMainZedGraphControl.ScrollMaxY2 = 0D;
+            this.daMainZedGraphControl.ScrollMinX = 0D;
+            this.daMainZedGraphControl.ScrollMinY = 0D;
+            this.daMainZedGraphControl.ScrollMinY2 = 0D;
+            this.daMainZedGraphControl.Size = new System.Drawing.Size(1270, 422);
+            this.daMainZedGraphControl.TabIndex = 1;
+            this.daMainZedGraphControl.UseExtendedPrintDialog = true;
+            this.daMainZedGraphControl.MouseClick += new System.Windows.Forms.MouseEventHandler(this.zedGraphControl5_MouseClick);
             // 
-            // panel2
+            // daMenuPanel
             // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.groupBox17);
-            this.panel2.Controls.Add(this.groupBox11);
-            this.panel2.Controls.Add(this.groupBox10);
-            this.panel2.Controls.Add(this.groupBox9);
-            this.panel2.Controls.Add(this.groupBox8);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(3, 2);
-            this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1270, 75);
-            this.panel2.TabIndex = 0;
+            this.daMenuPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.daMenuPanel.Controls.Add(this.daBeginDateGroupBox);
+            this.daMenuPanel.Controls.Add(this.daEndDateGroupBox);
+            this.daMenuPanel.Controls.Add(this.daChannelNameGroupBox);
+            this.daMenuPanel.Controls.Add(this.daNumOfPointsGroupBox);
+            this.daMenuPanel.Controls.Add(this.daMathematicalAnalysisGroupBox);
+            this.daMenuPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.daMenuPanel.Location = new System.Drawing.Point(3, 2);
+            this.daMenuPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daMenuPanel.Name = "daMenuPanel";
+            this.daMenuPanel.Size = new System.Drawing.Size(1270, 105);
+            this.daMenuPanel.TabIndex = 0;
             // 
-            // groupBox17
+            // daNumOfPointsGroupBox
             // 
-            this.groupBox17.Controls.Add(this.button5);
-            this.groupBox17.Controls.Add(this.button4);
-            this.groupBox17.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox17.Location = new System.Drawing.Point(841, 4);
-            this.groupBox17.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox17.Size = new System.Drawing.Size(284, 59);
-            this.groupBox17.TabIndex = 5;
-            this.groupBox17.TabStop = false;
-            this.groupBox17.Text = "Математический анализ";
+            this.daNumOfPointsGroupBox.Controls.Add(this.daNumOfPointsTrackBar);
+            this.daNumOfPointsGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.daNumOfPointsGroupBox.Location = new System.Drawing.Point(587, 12);
+            this.daNumOfPointsGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daNumOfPointsGroupBox.Name = "daNumOfPointsGroupBox";
+            this.daNumOfPointsGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daNumOfPointsGroupBox.Size = new System.Drawing.Size(347, 79);
+            this.daNumOfPointsGroupBox.TabIndex = 3;
+            this.daNumOfPointsGroupBox.TabStop = false;
+            this.daNumOfPointsGroupBox.Text = "Количество точек на графике";
             // 
-            // button5
+            // daNumOfPointsTrackBar
             // 
-            this.button5.Location = new System.Drawing.Point(143, 24);
-            this.button5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(117, 28);
-            this.button5.TabIndex = 1;
-            this.button5.Text = "Спектры";
-            this.button5.UseVisualStyleBackColor = true;
+            this.daNumOfPointsTrackBar.Location = new System.Drawing.Point(6, 24);
+            this.daNumOfPointsTrackBar.Name = "daNumOfPointsTrackBar";
+            this.daNumOfPointsTrackBar.Size = new System.Drawing.Size(335, 45);
+            this.daNumOfPointsTrackBar.TabIndex = 0;
             // 
-            // button4
+            // daMathematicalAnalysisGroupBox
             // 
-            this.button4.Location = new System.Drawing.Point(11, 24);
-            this.button4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(117, 28);
-            this.button4.TabIndex = 0;
-            this.button4.Text = "Гистограммы";
-            this.button4.UseVisualStyleBackColor = true;
+            this.daMathematicalAnalysisGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.daMathematicalAnalysisGroupBox.Controls.Add(this.daHistogramsButton);
+            this.daMathematicalAnalysisGroupBox.Controls.Add(this.daSpectraButton);
+            this.daMathematicalAnalysisGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.daMathematicalAnalysisGroupBox.Location = new System.Drawing.Point(972, 12);
+            this.daMathematicalAnalysisGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daMathematicalAnalysisGroupBox.Name = "daMathematicalAnalysisGroupBox";
+            this.daMathematicalAnalysisGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daMathematicalAnalysisGroupBox.Size = new System.Drawing.Size(284, 79);
+            this.daMathematicalAnalysisGroupBox.TabIndex = 5;
+            this.daMathematicalAnalysisGroupBox.TabStop = false;
+            this.daMathematicalAnalysisGroupBox.Text = "Математический анализ";
             // 
-            // groupBox11
+            // daSpectraButton
             // 
-            this.groupBox11.Controls.Add(this.comboBox2);
-            this.groupBox11.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox11.Location = new System.Drawing.Point(586, 4);
-            this.groupBox11.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox11.Size = new System.Drawing.Size(249, 59);
-            this.groupBox11.TabIndex = 3;
-            this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "База данных";
+            this.daSpectraButton.Enabled = false;
+            this.daSpectraButton.Location = new System.Drawing.Point(148, 41);
+            this.daSpectraButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daSpectraButton.Name = "daSpectraButton";
+            this.daSpectraButton.Size = new System.Drawing.Size(117, 28);
+            this.daSpectraButton.TabIndex = 1;
+            this.daSpectraButton.Text = "Спектры";
+            this.daSpectraButton.UseVisualStyleBackColor = true;
             // 
-            // comboBox2
+            // daHistogramsButton
             // 
-            this.comboBox2.Enabled = false;
-            this.comboBox2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(5, 26);
-            this.comboBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(238, 25);
-            this.comboBox2.TabIndex = 0;
+            this.daHistogramsButton.Enabled = false;
+            this.daHistogramsButton.Location = new System.Drawing.Point(15, 41);
+            this.daHistogramsButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daHistogramsButton.Name = "daHistogramsButton";
+            this.daHistogramsButton.Size = new System.Drawing.Size(117, 28);
+            this.daHistogramsButton.TabIndex = 0;
+            this.daHistogramsButton.Text = "Гистограммы";
+            this.daHistogramsButton.UseVisualStyleBackColor = true;
             // 
-            // groupBox10
+            // daChannelNameGroupBox
             // 
-            this.groupBox10.Controls.Add(this.comboBox1);
-            this.groupBox10.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox10.Location = new System.Drawing.Point(332, 4);
-            this.groupBox10.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox10.Size = new System.Drawing.Size(248, 59);
-            this.groupBox10.TabIndex = 2;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Название канала";
+            this.daChannelNameGroupBox.Controls.Add(this.daChannelNameComboBox);
+            this.daChannelNameGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.daChannelNameGroupBox.Location = new System.Drawing.Point(333, 12);
+            this.daChannelNameGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daChannelNameGroupBox.Name = "daChannelNameGroupBox";
+            this.daChannelNameGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daChannelNameGroupBox.Size = new System.Drawing.Size(248, 79);
+            this.daChannelNameGroupBox.TabIndex = 2;
+            this.daChannelNameGroupBox.TabStop = false;
+            this.daChannelNameGroupBox.Text = "Название канала";
             // 
-            // comboBox1
+            // daChannelNameComboBox
             // 
-            this.comboBox1.Enabled = false;
-            this.comboBox1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.daChannelNameComboBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.daChannelNameComboBox.FormattingEnabled = true;
+            this.daChannelNameComboBox.Items.AddRange(new object[] {
             "электростатическое поле",
             "температура",
             "давление",
             "влажность"});
-            this.comboBox1.Location = new System.Drawing.Point(5, 26);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(238, 25);
-            this.comboBox1.TabIndex = 0;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_1);
+            this.daChannelNameComboBox.Location = new System.Drawing.Point(5, 26);
+            this.daChannelNameComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daChannelNameComboBox.Name = "daChannelNameComboBox";
+            this.daChannelNameComboBox.Size = new System.Drawing.Size(238, 25);
+            this.daChannelNameComboBox.TabIndex = 0;
+            this.daChannelNameComboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_1);
             // 
-            // groupBox9
+            // daEndDateGroupBox
             // 
-            this.groupBox9.Controls.Add(this.dateTimePicker2);
-            this.groupBox9.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox9.Location = new System.Drawing.Point(169, 4);
-            this.groupBox9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox9.Size = new System.Drawing.Size(158, 59);
-            this.groupBox9.TabIndex = 1;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Дата окончания";
+            this.daEndDateGroupBox.Controls.Add(this.daEndDateDateTimePicker);
+            this.daEndDateGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.daEndDateGroupBox.Location = new System.Drawing.Point(170, 12);
+            this.daEndDateGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daEndDateGroupBox.Name = "daEndDateGroupBox";
+            this.daEndDateGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daEndDateGroupBox.Size = new System.Drawing.Size(158, 79);
+            this.daEndDateGroupBox.TabIndex = 1;
+            this.daEndDateGroupBox.TabStop = false;
+            this.daEndDateGroupBox.Text = "Дата окончания";
             // 
-            // dateTimePicker2
+            // daEndDateDateTimePicker
             // 
-            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker2.Location = new System.Drawing.Point(7, 26);
-            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(146, 25);
-            this.dateTimePicker2.TabIndex = 0;
-            this.dateTimePicker2.Value = new System.DateTime(2022, 11, 1, 0, 0, 0, 0);
+            this.daEndDateDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.daEndDateDateTimePicker.Location = new System.Drawing.Point(7, 26);
+            this.daEndDateDateTimePicker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daEndDateDateTimePicker.Name = "daEndDateDateTimePicker";
+            this.daEndDateDateTimePicker.Size = new System.Drawing.Size(146, 25);
+            this.daEndDateDateTimePicker.TabIndex = 0;
+            this.daEndDateDateTimePicker.Value = new System.DateTime(2022, 11, 1, 0, 0, 0, 0);
             // 
-            // groupBox8
+            // daBeginDateGroupBox
             // 
-            this.groupBox8.Controls.Add(this.dateTimePicker1);
-            this.groupBox8.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox8.Location = new System.Drawing.Point(5, 4);
-            this.groupBox8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox8.Size = new System.Drawing.Size(158, 59);
-            this.groupBox8.TabIndex = 0;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Дата начала";
+            this.daBeginDateGroupBox.Controls.Add(this.daBeginDateDateTimePicker);
+            this.daBeginDateGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.daBeginDateGroupBox.Location = new System.Drawing.Point(6, 12);
+            this.daBeginDateGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daBeginDateGroupBox.Name = "daBeginDateGroupBox";
+            this.daBeginDateGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daBeginDateGroupBox.Size = new System.Drawing.Size(158, 79);
+            this.daBeginDateGroupBox.TabIndex = 0;
+            this.daBeginDateGroupBox.TabStop = false;
+            this.daBeginDateGroupBox.Text = "Дата начала";
             // 
-            // dateTimePicker1
+            // daBeginDateDateTimePicker
             // 
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(7, 26);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(145, 25);
-            this.dateTimePicker1.TabIndex = 0;
-            this.dateTimePicker1.Value = new System.DateTime(2022, 11, 1, 0, 0, 0, 0);
+            this.daBeginDateDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.daBeginDateDateTimePicker.Location = new System.Drawing.Point(7, 26);
+            this.daBeginDateDateTimePicker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daBeginDateDateTimePicker.Name = "daBeginDateDateTimePicker";
+            this.daBeginDateDateTimePicker.Size = new System.Drawing.Size(145, 25);
+            this.daBeginDateDateTimePicker.TabIndex = 0;
+            this.daBeginDateDateTimePicker.Value = new System.DateTime(2022, 11, 1, 0, 0, 0, 0);
             // 
             // exportTabPage
             // 
@@ -2202,13 +2201,13 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 29;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -2548,12 +2547,14 @@
             this.groupBox13.PerformLayout();
             this.dataArchiveTabPage.ResumeLayout(false);
             this.dataArchiveTabPage.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.groupBox17.ResumeLayout(false);
-            this.groupBox11.ResumeLayout(false);
-            this.groupBox10.ResumeLayout(false);
-            this.groupBox9.ResumeLayout(false);
-            this.groupBox8.ResumeLayout(false);
+            this.daMenuPanel.ResumeLayout(false);
+            this.daNumOfPointsGroupBox.ResumeLayout(false);
+            this.daNumOfPointsGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.daNumOfPointsTrackBar)).EndInit();
+            this.daMathematicalAnalysisGroupBox.ResumeLayout(false);
+            this.daChannelNameGroupBox.ResumeLayout(false);
+            this.daEndDateGroupBox.ResumeLayout(false);
+            this.daBeginDateGroupBox.ResumeLayout(false);
             this.exportTabPage.ResumeLayout(false);
             this.exportMainGroupBox.ResumeLayout(false);
             this.exportGroupBox.ResumeLayout(false);
@@ -2635,8 +2636,7 @@
         private GroupBox gb_settings;
         private Button btn_writesettings;
         public RichTextBox richTextBox1;
-        private ZedGraph.ZedGraphControl zedGraphControl5;
-        private Panel panel2;
+        private ZedGraph.ZedGraphControl daMainZedGraphControl;
         private Panel panel3;
         private GroupBox groupBox3;
         private Label label7;
@@ -2660,17 +2660,15 @@
         private Button btn_start;
         private Label label8;
         private ComboBox cb_st_speed;
-        private GroupBox groupBox11;
-        private GroupBox groupBox10;
-        private ComboBox comboBox1;
-        private GroupBox groupBox9;
-        private GroupBox groupBox8;
-        private Button btn_achive_down;
-        private Button btn_achive_up;
-        private Button btn_achive_minus;
-        private Button btn_achive_plus;
-        private Button btn_achive_autozoom;
-        private ComboBox comboBox2;
+        private GroupBox daChannelNameGroupBox;
+        private ComboBox daChannelNameComboBox;
+        private GroupBox daEndDateGroupBox;
+        private GroupBox daBeginDateGroupBox;
+        private Button daGrapDownButton;
+        private Button daGrapUpButton;
+        private Button daReduceGrapButton;
+        private Button daZoomGrapButton;
+        private Button daAutoZoomButton;
         private TabPage tabPage9;
         private OpenFileDialog openFileDialog1;
         private GroupBox groupBox13;
@@ -2703,9 +2701,9 @@
         private TextBox textBox1;
         private Button btn_flash_edit;
         private ProgressBar progressBar1;
-        private GroupBox groupBox17;
-        private Button button5;
-        private Button button4;
+        private GroupBox daMathematicalAnalysisGroupBox;
+        private Button daSpectraButton;
+        private Button daHistogramsButton;
         private Panel panel4;
         private Button button14;
         private Button button6;
@@ -2723,8 +2721,8 @@
         private Label label13;
         private Button button16;
         private DataGridView dataGridView1;
-        private DateTimePicker dateTimePicker1;
-        private DateTimePicker dateTimePicker2;
+        private DateTimePicker daBeginDateDateTimePicker;
+        private DateTimePicker daEndDateDateTimePicker;
         private GroupBox groupBox20;
         private NumericUpDown num_linewidth;
         private GroupBox groupBox21;
@@ -2757,7 +2755,7 @@
         private Label label27;
         private Label label28;
         private Label label29;
-        private CheckBox checkBox3;
+        private CheckBox daXAutoscalingCheckBox;
         private System.Windows.Forms.Timer timer1;
         private SaveFileDialog saveFileDialog1;
         private Panel panel5;
@@ -2801,5 +2799,8 @@
         private Label lastExportDateLabel;
         private Label firstExportDateLabel;
         private GroupBox exportMainGroupBox;
+        private Panel daMenuPanel;
+        private GroupBox daNumOfPointsGroupBox;
+        private TrackBar daNumOfPointsTrackBar;
     }
 }
