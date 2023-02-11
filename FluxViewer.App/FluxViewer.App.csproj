@@ -22,6 +22,9 @@
     <Compile Update="MainForm.ExportTab.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Update="MainForm.DataArchiveTab.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

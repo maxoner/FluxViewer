@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -61,17 +61,17 @@
             this.daAutoZoomButton = new System.Windows.Forms.Button();
             this.daMainZedGraphControl = new ZedGraph.ZedGraphControl();
             this.daMenuPanel = new System.Windows.Forms.Panel();
+            this.daBeginDateGroupBox = new System.Windows.Forms.GroupBox();
+            this.daBeginDateDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.daEndDateGroupBox = new System.Windows.Forms.GroupBox();
+            this.daEndDateDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.daChannelNameGroupBox = new System.Windows.Forms.GroupBox();
+            this.daChannelNameComboBox = new System.Windows.Forms.ComboBox();
             this.daNumOfPointsGroupBox = new System.Windows.Forms.GroupBox();
             this.daNumOfPointsTrackBar = new System.Windows.Forms.TrackBar();
             this.daMathematicalAnalysisGroupBox = new System.Windows.Forms.GroupBox();
-            this.daSpectraButton = new System.Windows.Forms.Button();
             this.daHistogramsButton = new System.Windows.Forms.Button();
-            this.daChannelNameGroupBox = new System.Windows.Forms.GroupBox();
-            this.daChannelNameComboBox = new System.Windows.Forms.ComboBox();
-            this.daEndDateGroupBox = new System.Windows.Forms.GroupBox();
-            this.daEndDateDateTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.daBeginDateGroupBox = new System.Windows.Forms.GroupBox();
-            this.daBeginDateDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.daSpectraButton = new System.Windows.Forms.Button();
             this.exportTabPage = new System.Windows.Forms.TabPage();
             this.exportMainGroupBox = new System.Windows.Forms.GroupBox();
             this.exportGroupBox = new System.Windows.Forms.GroupBox();
@@ -230,12 +230,12 @@
             this.groupBox13.SuspendLayout();
             this.dataArchiveTabPage.SuspendLayout();
             this.daMenuPanel.SuspendLayout();
+            this.daBeginDateGroupBox.SuspendLayout();
+            this.daEndDateGroupBox.SuspendLayout();
+            this.daChannelNameGroupBox.SuspendLayout();
             this.daNumOfPointsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.daNumOfPointsTrackBar)).BeginInit();
             this.daMathematicalAnalysisGroupBox.SuspendLayout();
-            this.daChannelNameGroupBox.SuspendLayout();
-            this.daEndDateGroupBox.SuspendLayout();
-            this.daBeginDateGroupBox.SuspendLayout();
             this.exportTabPage.SuspendLayout();
             this.exportMainGroupBox.SuspendLayout();
             this.exportGroupBox.SuspendLayout();
@@ -671,91 +671,28 @@
             this.daMenuPanel.Size = new System.Drawing.Size(1270, 105);
             this.daMenuPanel.TabIndex = 0;
             // 
-            // daNumOfPointsGroupBox
+            // daBeginDateGroupBox
             // 
-            this.daNumOfPointsGroupBox.Controls.Add(this.daNumOfPointsTrackBar);
-            this.daNumOfPointsGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.daNumOfPointsGroupBox.Location = new System.Drawing.Point(587, 12);
-            this.daNumOfPointsGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.daNumOfPointsGroupBox.Name = "daNumOfPointsGroupBox";
-            this.daNumOfPointsGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.daNumOfPointsGroupBox.Size = new System.Drawing.Size(347, 79);
-            this.daNumOfPointsGroupBox.TabIndex = 3;
-            this.daNumOfPointsGroupBox.TabStop = false;
-            this.daNumOfPointsGroupBox.Text = "Количество точек на графике";
+            this.daBeginDateGroupBox.Controls.Add(this.daBeginDateDateTimePicker);
+            this.daBeginDateGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.daBeginDateGroupBox.Location = new System.Drawing.Point(6, 12);
+            this.daBeginDateGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daBeginDateGroupBox.Name = "daBeginDateGroupBox";
+            this.daBeginDateGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daBeginDateGroupBox.Size = new System.Drawing.Size(158, 79);
+            this.daBeginDateGroupBox.TabIndex = 0;
+            this.daBeginDateGroupBox.TabStop = false;
+            this.daBeginDateGroupBox.Text = "Дата начала";
             // 
-            // daNumOfPointsTrackBar
+            // daBeginDateDateTimePicker
             // 
-            this.daNumOfPointsTrackBar.Location = new System.Drawing.Point(6, 24);
-            this.daNumOfPointsTrackBar.Name = "daNumOfPointsTrackBar";
-            this.daNumOfPointsTrackBar.Size = new System.Drawing.Size(335, 45);
-            this.daNumOfPointsTrackBar.TabIndex = 0;
-            // 
-            // daMathematicalAnalysisGroupBox
-            // 
-            this.daMathematicalAnalysisGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.daMathematicalAnalysisGroupBox.Controls.Add(this.daHistogramsButton);
-            this.daMathematicalAnalysisGroupBox.Controls.Add(this.daSpectraButton);
-            this.daMathematicalAnalysisGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.daMathematicalAnalysisGroupBox.Location = new System.Drawing.Point(972, 12);
-            this.daMathematicalAnalysisGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.daMathematicalAnalysisGroupBox.Name = "daMathematicalAnalysisGroupBox";
-            this.daMathematicalAnalysisGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.daMathematicalAnalysisGroupBox.Size = new System.Drawing.Size(284, 79);
-            this.daMathematicalAnalysisGroupBox.TabIndex = 5;
-            this.daMathematicalAnalysisGroupBox.TabStop = false;
-            this.daMathematicalAnalysisGroupBox.Text = "Математический анализ";
-            // 
-            // daSpectraButton
-            // 
-            this.daSpectraButton.Enabled = false;
-            this.daSpectraButton.Location = new System.Drawing.Point(148, 41);
-            this.daSpectraButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.daSpectraButton.Name = "daSpectraButton";
-            this.daSpectraButton.Size = new System.Drawing.Size(117, 28);
-            this.daSpectraButton.TabIndex = 1;
-            this.daSpectraButton.Text = "Спектры";
-            this.daSpectraButton.UseVisualStyleBackColor = true;
-            // 
-            // daHistogramsButton
-            // 
-            this.daHistogramsButton.Enabled = false;
-            this.daHistogramsButton.Location = new System.Drawing.Point(15, 41);
-            this.daHistogramsButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.daHistogramsButton.Name = "daHistogramsButton";
-            this.daHistogramsButton.Size = new System.Drawing.Size(117, 28);
-            this.daHistogramsButton.TabIndex = 0;
-            this.daHistogramsButton.Text = "Гистограммы";
-            this.daHistogramsButton.UseVisualStyleBackColor = true;
-            // 
-            // daChannelNameGroupBox
-            // 
-            this.daChannelNameGroupBox.Controls.Add(this.daChannelNameComboBox);
-            this.daChannelNameGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.daChannelNameGroupBox.Location = new System.Drawing.Point(333, 12);
-            this.daChannelNameGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.daChannelNameGroupBox.Name = "daChannelNameGroupBox";
-            this.daChannelNameGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.daChannelNameGroupBox.Size = new System.Drawing.Size(248, 79);
-            this.daChannelNameGroupBox.TabIndex = 2;
-            this.daChannelNameGroupBox.TabStop = false;
-            this.daChannelNameGroupBox.Text = "Название канала";
-            // 
-            // daChannelNameComboBox
-            // 
-            this.daChannelNameComboBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.daChannelNameComboBox.FormattingEnabled = true;
-            this.daChannelNameComboBox.Items.AddRange(new object[] {
-            "электростатическое поле",
-            "температура",
-            "давление",
-            "влажность"});
-            this.daChannelNameComboBox.Location = new System.Drawing.Point(5, 26);
-            this.daChannelNameComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.daChannelNameComboBox.Name = "daChannelNameComboBox";
-            this.daChannelNameComboBox.Size = new System.Drawing.Size(238, 25);
-            this.daChannelNameComboBox.TabIndex = 0;
-            this.daChannelNameComboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_1);
+            this.daBeginDateDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.daBeginDateDateTimePicker.Location = new System.Drawing.Point(7, 26);
+            this.daBeginDateDateTimePicker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daBeginDateDateTimePicker.Name = "daBeginDateDateTimePicker";
+            this.daBeginDateDateTimePicker.Size = new System.Drawing.Size(145, 25);
+            this.daBeginDateDateTimePicker.TabIndex = 0;
+            this.daBeginDateDateTimePicker.ValueChanged += new System.EventHandler(this.daBeginDateDateTimePicker_ValueChanged);
             // 
             // daEndDateGroupBox
             // 
@@ -778,30 +715,90 @@
             this.daEndDateDateTimePicker.Name = "daEndDateDateTimePicker";
             this.daEndDateDateTimePicker.Size = new System.Drawing.Size(146, 25);
             this.daEndDateDateTimePicker.TabIndex = 0;
-            this.daEndDateDateTimePicker.Value = new System.DateTime(2022, 11, 1, 0, 0, 0, 0);
+            this.daEndDateDateTimePicker.ValueChanged += new System.EventHandler(this.daEndDateDateTimePicker_ValueChanged);
             // 
-            // daBeginDateGroupBox
+            // daChannelNameGroupBox
             // 
-            this.daBeginDateGroupBox.Controls.Add(this.daBeginDateDateTimePicker);
-            this.daBeginDateGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.daBeginDateGroupBox.Location = new System.Drawing.Point(6, 12);
-            this.daBeginDateGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.daBeginDateGroupBox.Name = "daBeginDateGroupBox";
-            this.daBeginDateGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.daBeginDateGroupBox.Size = new System.Drawing.Size(158, 79);
-            this.daBeginDateGroupBox.TabIndex = 0;
-            this.daBeginDateGroupBox.TabStop = false;
-            this.daBeginDateGroupBox.Text = "Дата начала";
+            this.daChannelNameGroupBox.Controls.Add(this.daChannelNameComboBox);
+            this.daChannelNameGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.daChannelNameGroupBox.Location = new System.Drawing.Point(333, 12);
+            this.daChannelNameGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daChannelNameGroupBox.Name = "daChannelNameGroupBox";
+            this.daChannelNameGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daChannelNameGroupBox.Size = new System.Drawing.Size(248, 79);
+            this.daChannelNameGroupBox.TabIndex = 0;
+            this.daChannelNameGroupBox.TabStop = false;
             // 
-            // daBeginDateDateTimePicker
+            // daChannelNameComboBox
             // 
-            this.daBeginDateDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.daBeginDateDateTimePicker.Location = new System.Drawing.Point(7, 26);
-            this.daBeginDateDateTimePicker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.daBeginDateDateTimePicker.Name = "daBeginDateDateTimePicker";
-            this.daBeginDateDateTimePicker.Size = new System.Drawing.Size(145, 25);
-            this.daBeginDateDateTimePicker.TabIndex = 0;
-            this.daBeginDateDateTimePicker.Value = new System.DateTime(2022, 11, 1, 0, 0, 0, 0);
+            this.daChannelNameComboBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.daChannelNameComboBox.FormattingEnabled = true;
+            this.daChannelNameComboBox.Location = new System.Drawing.Point(5, 26);
+            this.daChannelNameComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daChannelNameComboBox.Name = "daChannelNameComboBox";
+            this.daChannelNameComboBox.Size = new System.Drawing.Size(238, 25);
+            this.daChannelNameComboBox.TabIndex = 0;
+            this.daChannelNameComboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_1);
+            // 
+            // daNumOfPointsGroupBox
+            // 
+            this.daNumOfPointsGroupBox.Controls.Add(this.daNumOfPointsTrackBar);
+            this.daNumOfPointsGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.daNumOfPointsGroupBox.Location = new System.Drawing.Point(587, 12);
+            this.daNumOfPointsGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daNumOfPointsGroupBox.Name = "daNumOfPointsGroupBox";
+            this.daNumOfPointsGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daNumOfPointsGroupBox.Size = new System.Drawing.Size(347, 79);
+            this.daNumOfPointsGroupBox.TabIndex = 3;
+            this.daNumOfPointsGroupBox.TabStop = false;
+            this.daNumOfPointsGroupBox.Text = "Количество точек на графике";
+            // 
+            // daNumOfPointsTrackBar
+            // 
+            this.daNumOfPointsTrackBar.Location = new System.Drawing.Point(6, 24);
+            this.daNumOfPointsTrackBar.Minimum = 1;
+            this.daNumOfPointsTrackBar.Name = "daNumOfPointsTrackBar";
+            this.daNumOfPointsTrackBar.Size = new System.Drawing.Size(335, 45);
+            this.daNumOfPointsTrackBar.TabIndex = 0;
+            this.daNumOfPointsTrackBar.Value = 5;
+            this.daNumOfPointsTrackBar.Scroll += new System.EventHandler(this.daNumOfPointsTrackBar_Scroll);
+            // 
+            // daMathematicalAnalysisGroupBox
+            // 
+            this.daMathematicalAnalysisGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.daMathematicalAnalysisGroupBox.Controls.Add(this.daHistogramsButton);
+            this.daMathematicalAnalysisGroupBox.Controls.Add(this.daSpectraButton);
+            this.daMathematicalAnalysisGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.daMathematicalAnalysisGroupBox.Location = new System.Drawing.Point(972, 12);
+            this.daMathematicalAnalysisGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daMathematicalAnalysisGroupBox.Name = "daMathematicalAnalysisGroupBox";
+            this.daMathematicalAnalysisGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daMathematicalAnalysisGroupBox.Size = new System.Drawing.Size(284, 79);
+            this.daMathematicalAnalysisGroupBox.TabIndex = 5;
+            this.daMathematicalAnalysisGroupBox.TabStop = false;
+            this.daMathematicalAnalysisGroupBox.Text = "Математический анализ";
+            // 
+            // daHistogramsButton
+            // 
+            this.daHistogramsButton.Enabled = false;
+            this.daHistogramsButton.Location = new System.Drawing.Point(15, 41);
+            this.daHistogramsButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daHistogramsButton.Name = "daHistogramsButton";
+            this.daHistogramsButton.Size = new System.Drawing.Size(117, 28);
+            this.daHistogramsButton.TabIndex = 0;
+            this.daHistogramsButton.Text = "Гистограммы";
+            this.daHistogramsButton.UseVisualStyleBackColor = true;
+            // 
+            // daSpectraButton
+            // 
+            this.daSpectraButton.Enabled = false;
+            this.daSpectraButton.Location = new System.Drawing.Point(148, 41);
+            this.daSpectraButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.daSpectraButton.Name = "daSpectraButton";
+            this.daSpectraButton.Size = new System.Drawing.Size(117, 28);
+            this.daSpectraButton.TabIndex = 1;
+            this.daSpectraButton.Text = "Спектры";
+            this.daSpectraButton.UseVisualStyleBackColor = true;
             // 
             // exportTabPage
             // 
@@ -2201,13 +2198,13 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 29;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -2548,13 +2545,13 @@
             this.dataArchiveTabPage.ResumeLayout(false);
             this.dataArchiveTabPage.PerformLayout();
             this.daMenuPanel.ResumeLayout(false);
+            this.daBeginDateGroupBox.ResumeLayout(false);
+            this.daEndDateGroupBox.ResumeLayout(false);
+            this.daChannelNameGroupBox.ResumeLayout(false);
             this.daNumOfPointsGroupBox.ResumeLayout(false);
             this.daNumOfPointsGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.daNumOfPointsTrackBar)).EndInit();
             this.daMathematicalAnalysisGroupBox.ResumeLayout(false);
-            this.daChannelNameGroupBox.ResumeLayout(false);
-            this.daEndDateGroupBox.ResumeLayout(false);
-            this.daBeginDateGroupBox.ResumeLayout(false);
             this.exportTabPage.ResumeLayout(false);
             this.exportMainGroupBox.ResumeLayout(false);
             this.exportGroupBox.ResumeLayout(false);

@@ -74,6 +74,7 @@ namespace FluxViewer.App
 
             InitExportTypeComboBox();
             InitDateFormatComboBox();
+            InitChannelNameComboBox();
             
             dataGridView1.Rows.Add();
             dataGridView1.Rows.Add();
@@ -104,10 +105,10 @@ namespace FluxViewer.App
             tableLayoutPanel1.ColumnStyles[1].SizeType = SizeType.Percent;
 
             // Дата начала и окончания по умолчанию текущие
-            dateTimePicker1.Value = DateTime.Now;
-            dateTimePicker2.Value = DateTime.Now;
-            
-            dateFormatComboBox.SelectedIndex = 0;
+            beginExportDate.Value = DateTime.Now;
+            endExportDate.Value = DateTime.Now;
+            daBeginDateDateTimePicker.Value = DateTime.Now;
+            daEndDateDateTimePicker.Value = DateTime.Now;            
         }
         
         /// <summary>
@@ -150,10 +151,19 @@ namespace FluxViewer.App
             }
             dateFormatComboBox.SelectedIndex = 0;
         }
+
+        private void InitChannelNameComboBox()
+        {
+            foreach (var graphType in Enum.GetValues<GraphType>())
+            {
+                daChannelNameComboBox.Items.Add(GraphTypeHelper.ToString(graphType));
+            }
+            daChannelNameComboBox.SelectedIndex = 0;
+        }
         
         private void DrawGraph_dot()
         {
-            _pane[4] = zedGraphControl5.GraphPane;
+            _pane[4] = daMainZedGraphControl.GraphPane;
         }
         /// <summary>
         /// Инициализация графиков
@@ -165,7 +175,7 @@ namespace FluxViewer.App
             _pane[1] = zedGraphControl2.GraphPane;
             _pane[2] = zedGraphControl3.GraphPane;
             _pane[3] = zedGraphControl4.GraphPane;
-            _pane[4] = zedGraphControl5.GraphPane;
+            _pane[4] = daMainZedGraphControl.GraphPane;
 
             // Очистим список кривых на тот случай, если до этого сигналы уже были нарисованы
             /*        pane1.CurveList.Clear();
@@ -524,12 +534,7 @@ namespace FluxViewer.App
             _graphB[2] = float.Parse(_props.Fields.G3B);
             _graphK[3] = float.Parse(_props.Fields.G4K);
             _graphB[3] = float.Parse(_props.Fields.G4B);
-
-            comboBox1.Items.Clear();
-            comboBox1.Items.Add(_graphTitle[0]);
-            comboBox1.Items.Add(_graphTitle[1]);
-            comboBox1.Items.Add(_graphTitle[2]);
-            comboBox1.Items.Add(_graphTitle[3]);
+            
             cb_graphtype.Items.Clear();
             cb_graphtype.Items.Add("все графики");
             cb_graphtype.Items.Add(_graphTitle[0]);
@@ -830,7 +835,7 @@ namespace FluxViewer.App
             // Сюда будет сохранен номер точки кривой, ближайшей к точке клика
             int index;
 
-            GraphPane pane_dot = zedGraphControl5.GraphPane;
+            GraphPane pane_dot = daMainZedGraphControl.GraphPane;
 
             // Максимальное расстояние от точки клика до кривой в пикселях,
             // при котором еще считается, что клик попал в окрестность кривой.
@@ -1092,64 +1097,6 @@ namespace FluxViewer.App
             //метод гауса вычисляем значения
         }
 
-
-        /// <summary>
-        /// Построить график архива
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-            DateTime date1 = new DateTime(dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 00, 00, 00, 000);
-            DateTime date2 = new DateTime (dateTimePicker2.Value.Year, dateTimePicker2.Value.Month, dateTimePicker2.Value.Day, 23, 59, 59, 999);
-           
-            _list.Clear();
-            _list.AddRange(_dataBaseContext.GetDataBetweenTwoDatesColumn(date1, date2, comboBox1.SelectedIndex+1, (int)_baseSize / MaxOutsizeGraph - 1));
-            if (comboBox1.Text == "")
-            {
-                _pane[4].Title.Text ="График";
-            }
-            else
-            {
-                _pane[4].Title.Text = comboBox1.Text;
-            }
-
-            /*           switch (comboBox1.SelectedIndex)
-                       {
-                           case 0:
-                               pane[4].Title.Text = "Электростатическое поле, В/м";
-                               break;
-                           case 1:
-                               pane[4].Title.Text = "Температура, гр. C";
-                               break;
-                           case 2:
-                               pane[4].Title.Text = "Давление, мБар";
-                               break;
-                           case 3:
-                               pane[4].Title.Text = "Влажность, %";
-                               break;
-                       }*/
-            _pane[4].XAxis.Type = AxisType.Date;
-            _pane[4].YAxis.Scale.MinAuto = true;
-            _pane[4].YAxis.Scale.MaxAuto = true;
-            if (checkBox3.Checked)
-            {
-                _pane[4].XAxis.Scale.MinAuto = true;
-                _pane[4].XAxis.Scale.MaxAuto = true;
-            }
-            else
-            {
-                _pane[4].XAxis.Scale.MinAuto = false;
-                _pane[4].XAxis.Scale.MaxAuto = false;
-                _pane[4].XAxis.Scale.Min = new XDate(date1);
-                _pane[4].XAxis.Scale.Max = new XDate(date2);
-            }
-            _pane[4].IsBoundedRanges = true;
-
-            zedGraphControl5.AxisChange();
-            zedGraphControl5.Invalidate();
-        }
-
         /// <summary>
         /// Сохранение настроек графиков и их изменение
         /// </summary>
@@ -1263,8 +1210,8 @@ namespace FluxViewer.App
             double amp = (_pane[4].YAxis.Scale.Max - _pane[4].YAxis.Scale.Min) * 0.1;
             _pane[4].YAxis.Scale.Min = _pane[4].YAxis.Scale.Min + amp;
             _pane[4].YAxis.Scale.Max = _pane[4].YAxis.Scale.Max - amp;
-            zedGraphControl5.AxisChange();
-            zedGraphControl5.Invalidate();
+            daMainZedGraphControl.AxisChange();
+            daMainZedGraphControl.Invalidate();
         }
 
         private void btn_achive_minus_Click(object sender, EventArgs e)
@@ -1272,8 +1219,8 @@ namespace FluxViewer.App
             double amp = (_pane[4].YAxis.Scale.Max - _pane[4].YAxis.Scale.Min) * 0.1;
             _pane[4].YAxis.Scale.Min = _pane[4].YAxis.Scale.Min - amp;
             _pane[4].YAxis.Scale.Max = _pane[4].YAxis.Scale.Max + amp;
-            zedGraphControl5.AxisChange();
-            zedGraphControl5.Invalidate();
+            daMainZedGraphControl.AxisChange();
+            daMainZedGraphControl.Invalidate();
         }
 
         private void btn_achive_up_Click(object sender, EventArgs e)
@@ -1281,8 +1228,8 @@ namespace FluxViewer.App
             double amp = (_pane[4].YAxis.Scale.Max - _pane[4].YAxis.Scale.Min) * 0.1;
             _pane[4].YAxis.Scale.Min = _pane[4].YAxis.Scale.Min - amp;
             _pane[4].YAxis.Scale.Max = _pane[4].YAxis.Scale.Max - amp;
-            zedGraphControl5.AxisChange();
-            zedGraphControl5.Invalidate();
+            daMainZedGraphControl.AxisChange();
+            daMainZedGraphControl.Invalidate();
         }
 
         private void btn_achive_down_Click(object sender, EventArgs e)
@@ -1290,8 +1237,8 @@ namespace FluxViewer.App
             double amp = (_pane[4].YAxis.Scale.Max - _pane[4].YAxis.Scale.Min) * 0.1;
             _pane[4].YAxis.Scale.Min = _pane[4].YAxis.Scale.Min + amp;
             _pane[4].YAxis.Scale.Max = _pane[4].YAxis.Scale.Max + amp;
-            zedGraphControl5.AxisChange();
-            zedGraphControl5.Invalidate();
+            daMainZedGraphControl.AxisChange();
+            daMainZedGraphControl.Invalidate();
         }
 
         private void btn_achive_autozoom_Click(object sender, EventArgs e)
@@ -1301,8 +1248,8 @@ namespace FluxViewer.App
             _pane[4].XAxis.Scale.MinAuto = true;
             _pane[4].XAxis.Scale.MaxAuto = true;
             _pane[4].IsBoundedRanges = true;
-            zedGraphControl5.AxisChange();
-            zedGraphControl5.Invalidate();
+            daMainZedGraphControl.AxisChange();
+            daMainZedGraphControl.Invalidate();
         }
 
         private void btn_flash_Click(object sender, EventArgs e)
@@ -1565,7 +1512,6 @@ namespace FluxViewer.App
             }
             return matrix;
         }
-
         
     }
 }

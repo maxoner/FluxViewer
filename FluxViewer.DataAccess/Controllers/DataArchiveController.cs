@@ -10,8 +10,8 @@ namespace FluxViewer.DataAccess.Controllers;
 /// </summary>
 public class DataArchiveController
 {
-    private readonly DateTime _beginDate;
-    private readonly DateTime _endDate;
+    public DateTime beginDate { get; }
+    public DateTime endDate { get; }
     private readonly IStorage _storage;
 
     /// <summary>
@@ -22,8 +22,8 @@ public class DataArchiveController
     /// <param name="storage">Хранилище, из которого происходит экспорт</param>
     public DataArchiveController(DateTime beginDate, DateTime endDate, IStorage storage)
     {
-        _beginDate = beginDate;
-        _endDate = endDate;
+        this.beginDate = beginDate;
+        this.endDate = endDate;
         _storage = storage;
     }
 
@@ -33,7 +33,7 @@ public class DataArchiveController
     /// <returns>true, если есть показания в данном диапазоне, иначе - false</returns>
     public bool HasDataBetweenTwoDates()
     {
-        return _storage.GetDataCountBetweenTwoDates(_beginDate, _endDate) != 0;
+        return _storage.GetDataCountBetweenTwoDates(beginDate, endDate) != 0;
     }
 
     /// <summary>
@@ -44,6 +44,6 @@ public class DataArchiveController
     /// <returns>Нужное кол-вол показания прибора в данном диапазоне дат</returns>
     public List<NewData> GetDataBetweenTwoDates(int numOfPoint)
     {
-        return _storage.GetDataBatchBetweenTwoDates(_beginDate, _endDate, numOfPoint);
+        return _storage.GetDataBatchBetweenTwoDates(beginDate, endDate, numOfPoint);
     }
 }
