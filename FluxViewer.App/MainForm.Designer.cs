@@ -844,7 +844,7 @@
             this.exportGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.exportGroupBox.Location = new System.Drawing.Point(21, 19);
             this.exportGroupBox.Name = "exportGroupBox";
-            this.exportGroupBox.Size = new System.Drawing.Size(623, 498);
+            this.exportGroupBox.Size = new System.Drawing.Size(613, 486);
             this.exportGroupBox.TabIndex = 0;
             this.exportGroupBox.TabStop = false;
             this.exportGroupBox.Text = "Настройки экспорта";
@@ -854,7 +854,7 @@
             this.fillHolesCheckBox.AutoSize = true;
             this.fillHolesCheckBox.Checked = true;
             this.fillHolesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.fillHolesCheckBox.Location = new System.Drawing.Point(33, 202);
+            this.fillHolesCheckBox.Location = new System.Drawing.Point(33, 197);
             this.fillHolesCheckBox.Name = "fillHolesCheckBox";
             this.fillHolesCheckBox.Size = new System.Drawing.Size(213, 23);
             this.fillHolesCheckBox.TabIndex = 12;
@@ -863,7 +863,7 @@
             // 
             // exportProgressBar
             // 
-            this.exportProgressBar.Location = new System.Drawing.Point(33, 469);
+            this.exportProgressBar.Location = new System.Drawing.Point(33, 449);
             this.exportProgressBar.Name = "exportProgressBar";
             this.exportProgressBar.Size = new System.Drawing.Size(550, 23);
             this.exportProgressBar.TabIndex = 2;
@@ -871,7 +871,7 @@
             // secondsLabel
             // 
             this.secondsLabel.AutoSize = true;
-            this.secondsLabel.Location = new System.Drawing.Point(551, 242);
+            this.secondsLabel.Location = new System.Drawing.Point(551, 226);
             this.secondsLabel.Name = "secondsLabel";
             this.secondsLabel.Size = new System.Drawing.Size(32, 19);
             this.secondsLabel.TabIndex = 11;
@@ -880,7 +880,7 @@
             // exportIntervalsTextBox
             // 
             this.exportIntervalsTextBox.Enabled = false;
-            this.exportIntervalsTextBox.Location = new System.Drawing.Point(383, 236);
+            this.exportIntervalsTextBox.Location = new System.Drawing.Point(383, 220);
             this.exportIntervalsTextBox.Name = "exportIntervalsTextBox";
             this.exportIntervalsTextBox.Size = new System.Drawing.Size(162, 25);
             this.exportIntervalsTextBox.TabIndex = 10;
@@ -889,7 +889,7 @@
             // 
             this.filterApplyingCheckBox.AutoSize = true;
             this.filterApplyingCheckBox.Enabled = false;
-            this.filterApplyingCheckBox.Location = new System.Drawing.Point(33, 238);
+            this.filterApplyingCheckBox.Location = new System.Drawing.Point(33, 222);
             this.filterApplyingCheckBox.Name = "filterApplyingCheckBox";
             this.filterApplyingCheckBox.Size = new System.Drawing.Size(293, 23);
             this.filterApplyingCheckBox.TabIndex = 5;
@@ -917,7 +917,7 @@
             // exportButton
             // 
             this.exportButton.Enabled = false;
-            this.exportButton.Location = new System.Drawing.Point(406, 421);
+            this.exportButton.Location = new System.Drawing.Point(406, 402);
             this.exportButton.Name = "exportButton";
             this.exportButton.Size = new System.Drawing.Size(177, 42);
             this.exportButton.TabIndex = 7;
@@ -984,7 +984,7 @@
             this.exportFieldsGroupBox.Controls.Add(this.tempForExportCheckBox);
             this.exportFieldsGroupBox.Controls.Add(this.hummForExportCheckBox);
             this.exportFieldsGroupBox.Controls.Add(this.presForExportCheckBox);
-            this.exportFieldsGroupBox.Location = new System.Drawing.Point(33, 270);
+            this.exportFieldsGroupBox.Location = new System.Drawing.Point(33, 251);
             this.exportFieldsGroupBox.Name = "exportFieldsGroupBox";
             this.exportFieldsGroupBox.Size = new System.Drawing.Size(253, 193);
             this.exportFieldsGroupBox.TabIndex = 2;
@@ -1067,7 +1067,7 @@
             this.exportInfoGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.exportInfoGroupBox.Location = new System.Drawing.Point(697, 19);
             this.exportInfoGroupBox.Name = "exportInfoGroupBox";
-            this.exportInfoGroupBox.Size = new System.Drawing.Size(555, 182);
+            this.exportInfoGroupBox.Size = new System.Drawing.Size(528, 165);
             this.exportInfoGroupBox.TabIndex = 1;
             this.exportInfoGroupBox.TabStop = false;
             this.exportInfoGroupBox.Text = "Данные экспорта";
