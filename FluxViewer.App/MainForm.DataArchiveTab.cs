@@ -12,6 +12,13 @@ namespace FluxViewer.App;
 /// </summary>
 partial class MainForm
 {
+    // Первый раз рендерится блок "Детализация"
+    private void daNumOfPointsGroupBox_Layout(object sender, LayoutEventArgs e)
+    {
+        var numOfPoints = CalculateNumOfPoint();
+        daNumOfPointsGroupBox.Text = $@"Детализация: {numOfPoints} точек";
+    }
+    
     // Изменили "Дата начала"
     private void daBeginDateDateTimePicker_ValueChanged(object sender, EventArgs e)
     {
@@ -35,9 +42,11 @@ partial class MainForm
     // Изменили ползунок "Количество точек"
     private void daNumOfPointsTrackBar_Scroll(object sender, EventArgs e)
     {
+        var numOfPoints = CalculateNumOfPoint();
+        daNumOfPointsGroupBox.Text = $@"Детализация: {numOfPoints} точек";
         RedrawGraph();
     }
-    
+
     private void CheckAndChangeDatesInDataArchiveTab()
     {
         var beginDate = daBeginDateDateTimePicker.Value.Date;
@@ -57,8 +66,7 @@ partial class MainForm
 
         if (controller.HasDataBetweenTwoDates())
         {
-            var normalizePosition = daNumOfPointsTrackBar.Value;
-            var numOfPoints = 100000 / daNumOfPointsTrackBar.Maximum * normalizePosition;
+            var numOfPoints = CalculateNumOfPoint();
             dataBatch.AddRange(controller.GetDataBetweenTwoDates(numOfPoints));
         }
 
@@ -68,15 +76,7 @@ partial class MainForm
         _list.Clear();
         _list.AddRange(points);
 
-        if (daChannelNameComboBox.Text == "")
-        {
-            _pane[4].Title.Text = "График";
-        }
-        else
-        {
-            _pane[4].Title.Text = daChannelNameComboBox.Text;
-        }
-
+        _pane[4].Title.Text = daChannelNameComboBox.Text;
         _pane[4].XAxis.Type = AxisType.Date;
         _pane[4].YAxis.Scale.MinAuto = true;
         _pane[4].YAxis.Scale.MaxAuto = true;
@@ -112,6 +112,12 @@ partial class MainForm
                 daEndDateDateTimePicker.Value.Day, 23, 59, 59, 999),
             _storage
         );
+    }
+
+    private int CalculateNumOfPoint()
+    {
+        var normalizePosition = daNumOfPointsTrackBar.Value;
+        return 100000 / daNumOfPointsTrackBar.Maximum * normalizePosition;  // TODO: 100000 в константы!
     }
 
     private static IEnumerable<PointPair> GetGraphPointsFromDataBatchByGraphType(List<NewData> dataBatch, GraphType graphType)

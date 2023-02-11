@@ -751,10 +751,11 @@
             this.daNumOfPointsGroupBox.Size = new System.Drawing.Size(347, 79);
             this.daNumOfPointsGroupBox.TabIndex = 3;
             this.daNumOfPointsGroupBox.TabStop = false;
-            this.daNumOfPointsGroupBox.Text = "Количество точек на графике";
+            this.daNumOfPointsGroupBox.Layout += new System.Windows.Forms.LayoutEventHandler(this.daNumOfPointsGroupBox_Layout);
             // 
             // daNumOfPointsTrackBar
             // 
+            this.daNumOfPointsTrackBar.LargeChange = 1;
             this.daNumOfPointsTrackBar.Location = new System.Drawing.Point(6, 24);
             this.daNumOfPointsTrackBar.Minimum = 1;
             this.daNumOfPointsTrackBar.Name = "daNumOfPointsTrackBar";
