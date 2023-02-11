@@ -732,6 +732,7 @@
             // 
             // daChannelNameComboBox
             // 
+            this.daChannelNameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.daChannelNameComboBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.daChannelNameComboBox.FormattingEnabled = true;
             this.daChannelNameComboBox.Location = new System.Drawing.Point(5, 26);
