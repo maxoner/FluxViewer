@@ -1,6 +1,7 @@
 ﻿using System.Media;
 using FluxViewer.App.Enums;
 using FluxViewer.DataAccess.Controllers;
+using FluxViewer.DataAccess.GraphThemes;
 using FluxViewer.DataAccess.Models;
 using ZedGraph;
 using static System.String;
@@ -12,13 +13,41 @@ namespace FluxViewer.App;
 /// </summary>
 partial class MainForm
 {
-    // Первый раз рендерится блок "Детализация"
-    private void daNumOfPointsGroupBox_Layout(object sender, LayoutEventArgs e)
+    private GraphController _daGraphController;     // Контроллер, отвечающий за график на данной вкладке
+    private PointPairList _daGraphPoints; // Точки графика
+
+    private void InitDataArchiveTab()
     {
-        var numOfPoints = CalculateNumOfPoint();
-        daNumOfPointsGroupBox.Text = $@"Детализация: {numOfPoints} точек";
+        _daGraphController = new GraphController(daMainZedGraphControl.GraphPane);
+        _daGraphController.SetXAxisTitle("Время мм:cc");
+        _daGraphController.SetLineWidth((int) num_linewidth.Value);
+        if (check_grid.Checked)
+            _daGraphController.ShowGrid();
+        if (rb_templot_1.Checked)
+            _daGraphController.SetGraphTheme(new WhiteGraphTheme());
+        if (rb_templot_2.Checked)
+            _daGraphController.SetGraphTheme(new BlackGraphTheme());
+
+        InitChannelNameComboBox(); // Выставляем все доступные виды каналов для постройки графиков
+
+        // Выставляем даты текущими по умолчанию
+        daBeginDateDateTimePicker.Value = DateTime.Now.Date;
+        daEndDateDateTimePicker.Value = DateTime.Now.Date;
+
+        // Генерим заголовок над крутилкой точек        
+        daNumOfPointsGroupBox.Text = $@"Детализация: {CalculateNumOfPoint()} точек";
     }
-    
+
+    private void InitChannelNameComboBox()
+    {
+        foreach (var graphType in Enum.GetValues<GraphType>())
+        {
+            daChannelNameComboBox.Items.Add(GraphTypeHelper.ToString(graphType));
+        }
+
+        daChannelNameComboBox.SelectedIndex = 0;
+    }
+
     // Изменили "Дата начала"
     private void daBeginDateDateTimePicker_ValueChanged(object sender, EventArgs e)
     {
@@ -46,71 +75,59 @@ partial class MainForm
         daNumOfPointsGroupBox.Text = $@"Детализация: {numOfPoints} точек";
         RedrawGraph();
     }
-    
+
     // Нажали кнопку "Автозум"
     private void btn_achive_autozoom_Click(object sender, EventArgs e)
     {
-        _daGraphPanels[4].YAxis.Scale.MinAuto = true;
-        _daGraphPanels[4].YAxis.Scale.MaxAuto = true;
-        _daGraphPanels[4].XAxis.Scale.MinAuto = true;
-        _daGraphPanels[4].XAxis.Scale.MaxAuto = true;
-        _daGraphPanels[4].IsBoundedRanges = true;
+        _daGraphController.Autozoom();
         daMainZedGraphControl.AxisChange();
         daMainZedGraphControl.Invalidate();
     }
-    
+
     // Нажали кнопку "Приблизить"
     private void btn_achive_plus_Click(object sender, EventArgs e)
     {
-        var amp = (_daGraphPanels[4].YAxis.Scale.Max - _daGraphPanels[4].YAxis.Scale.Min) * 0.1;
-        _daGraphPanels[4].YAxis.Scale.Min += amp;
-        _daGraphPanels[4].YAxis.Scale.Max -= amp;
+        _daGraphController.ZoomYAxis();
         daMainZedGraphControl.AxisChange();
         daMainZedGraphControl.Invalidate();
     }
-    
+
     // Нажали кнопку "Отдалить"
     private void btn_achive_minus_Click(object sender, EventArgs e)
     {
-        var amp = (_daGraphPanels[4].YAxis.Scale.Max - _daGraphPanels[4].YAxis.Scale.Min) * 0.1;
-        _daGraphPanels[4].YAxis.Scale.Min -= amp;
-        _daGraphPanels[4].YAxis.Scale.Max += amp;
+        _daGraphController.ReduceYAxis();
         daMainZedGraphControl.AxisChange();
         daMainZedGraphControl.Invalidate();
     }
-    
+
     // Нажали кнопку "Вверх"
     private void btn_achive_up_Click(object sender, EventArgs e)
     {
-        var amp = (_daGraphPanels[4].YAxis.Scale.Max - _daGraphPanels[4].YAxis.Scale.Min) * 0.1;
-        _daGraphPanels[4].YAxis.Scale.Min -= amp;
-        _daGraphPanels[4].YAxis.Scale.Max -= amp;
+        _daGraphController.ScrollUpYAxis();
         daMainZedGraphControl.AxisChange();
         daMainZedGraphControl.Invalidate();
     }
-    
+
     // Нажали кнопку "Вниз"
     private void btn_achive_down_Click(object sender, EventArgs e)
     {
-        var amp = (_daGraphPanels[4].YAxis.Scale.Max - _daGraphPanels[4].YAxis.Scale.Min) * 0.1;
-        _daGraphPanels[4].YAxis.Scale.Min = _daGraphPanels[4].YAxis.Scale.Min + amp;
-        _daGraphPanels[4].YAxis.Scale.Max = _daGraphPanels[4].YAxis.Scale.Max + amp;
+        _daGraphController.ScrollDownYAxis();
         daMainZedGraphControl.AxisChange();
         daMainZedGraphControl.Invalidate();
     }
-    
+
     private void CheckAndChangeDatesInDataArchiveTab()
     {
         var beginDate = daBeginDateDateTimePicker.Value.Date;
         var endDate = daEndDateDateTimePicker.Value.Date;
         if (beginDate <= endDate)
             return;
-        
+
         // Не даём пользователю начальную дату сделать большей, чем конечную
         SystemSounds.Beep.Play();
         daBeginDateDateTimePicker.Value = endDate;
     }
-    
+
     private void RedrawGraph()
     {
         var controller = GetDataArchiveController();
@@ -125,27 +142,19 @@ partial class MainForm
         var channelName = daChannelNameComboBox.SelectedItem.ToString();
         var graphType = GraphTypeHelper.FromString(channelName ?? Empty);
         var points = GetGraphPointsFromDataBatchByGraphType(dataBatch, graphType);
-        _daGraphPoints.Clear();
-        _daGraphPoints.AddRange(points);
 
-        _daGraphPanels[4].Title.Text = daChannelNameComboBox.Text;
-        _daGraphPanels[4].XAxis.Type = AxisType.Date;
-        _daGraphPanels[4].YAxis.Scale.MinAuto = true;
-        _daGraphPanels[4].YAxis.Scale.MaxAuto = true;
+        _daGraphController.ClearPoints();
+        _daGraphController.AddPoints(points);
+        _daGraphController.SetGraphTitle(daChannelNameComboBox.Text);
+        _daGraphController.AutozoomY();
         if (daXAutoscalingCheckBox.Checked)
         {
-            _daGraphPanels[4].XAxis.Scale.MinAuto = true;
-            _daGraphPanels[4].XAxis.Scale.MaxAuto = true;
+            _daGraphController.AutozoomX();
         }
         else
         {
-            _daGraphPanels[4].XAxis.Scale.MinAuto = false;
-            _daGraphPanels[4].XAxis.Scale.MaxAuto = false;
-            _daGraphPanels[4].XAxis.Scale.Min = new XDate(controller.beginDate);
-            _daGraphPanels[4].XAxis.Scale.Max = new XDate(controller.endDate);
+            _daGraphController.ManuallySetXAxis(controller.beginDate, controller.endDate);
         }
-
-        _daGraphPanels[4].IsBoundedRanges = true;
 
         daMainZedGraphControl.AxisChange();
         daMainZedGraphControl.Invalidate();
@@ -169,10 +178,11 @@ partial class MainForm
     private int CalculateNumOfPoint()
     {
         var normalizePosition = daNumOfPointsTrackBar.Value;
-        return 100000 / daNumOfPointsTrackBar.Maximum * normalizePosition;  // TODO: 100000 в константы!
+        return 100000 / daNumOfPointsTrackBar.Maximum * normalizePosition; // TODO: 100000 в константы!
     }
 
-    private static IEnumerable<PointPair> GetGraphPointsFromDataBatchByGraphType(List<NewData> dataBatch, GraphType graphType)
+    private static IEnumerable<PointPair> GetGraphPointsFromDataBatchByGraphType(List<NewData> dataBatch,
+        GraphType graphType)
     {
         var points = new List<PointPair>();
         foreach (var data in dataBatch)

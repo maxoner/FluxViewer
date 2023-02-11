@@ -27,10 +27,9 @@ namespace FluxViewer.App
         private float _pres;
         private float _humm;
         
-        private readonly PointPairList _daGraphPoints;  // Точки графика
         private readonly RollingPointPairList[] _daGraphData = new RollingPointPairList[4]; // Сами графики
-        private readonly GraphPane[] _daGraphPanels = new GraphPane[5];
-        private readonly LineItem[] _daGraphCurves = new LineItem[5];
+        private readonly GraphPane[] _daGraphPanels = new GraphPane[4];
+        private readonly LineItem[] _daGraphCurves = new LineItem[4];
 
         private bool _isGraduateMode; // Вкладка градуировка, пишем данные в таблицу
         private float _averageDataflux; // Среднее значение измерений в режиме градуировки TODO: зачем это поле???
@@ -63,13 +62,14 @@ namespace FluxViewer.App
             _daGraphData[1] = new RollingPointPairList(Capacity);
             _daGraphData[2] = new RollingPointPairList(Capacity);
             _daGraphData[3] = new RollingPointPairList(Capacity);
-            _daGraphPoints = new PointPairList();
 
             InitializeComponent();
             OpenStorage();
             PrepareSettings();
             SetSettings();
             InitDataArchiveGraphs();
+            
+            InitDataArchiveTab();
 
             InitExportTypeComboBox();
             InitDateFormatComboBox();
@@ -106,8 +106,6 @@ namespace FluxViewer.App
             // Дата начала и окончания по умолчанию текущие
             beginExportDate.Value = DateTime.Now;
             endExportDate.Value = DateTime.Now;
-            daBeginDateDateTimePicker.Value = DateTime.Now;
-            daEndDateDateTimePicker.Value = DateTime.Now;            
         }
         
         /// <summary>
@@ -151,20 +149,6 @@ namespace FluxViewer.App
             dateFormatComboBox.SelectedIndex = 0;
         }
 
-        private void InitChannelNameComboBox()
-        {
-            foreach (var graphType in Enum.GetValues<GraphType>())
-            {
-                daChannelNameComboBox.Items.Add(GraphTypeHelper.ToString(graphType));
-            }
-            daChannelNameComboBox.SelectedIndex = 0;
-        }
-        
-        private void DrawGraph_dot()
-        {
-            _daGraphPanels[4] = daMainZedGraphControl.GraphPane;
-        }
-        
         private void InitDataArchiveGraphs()
         {
             // Получим панель для рисования
@@ -172,16 +156,11 @@ namespace FluxViewer.App
             _daGraphPanels[1] = zedGraphControl2.GraphPane;
             _daGraphPanels[2] = zedGraphControl3.GraphPane;
             _daGraphPanels[3] = zedGraphControl4.GraphPane;
-            _daGraphPanels[4] = daMainZedGraphControl.GraphPane;
             
             // Добавим кривую пока еще без каких-либо точек
-            for (var i = 0; i < 5; i++)
+            for (var i = 0; i < 4; i++)
             {
-                if (i < 4)
-                    _daGraphCurves[i] = _daGraphPanels[i].AddCurve("", _daGraphData[i], Color.Blue, SymbolType.None);
-                else
-                    _daGraphCurves[i] = _daGraphPanels[i].AddCurve("", _daGraphPoints, Color.Blue, SymbolType.None);
-
+                _daGraphCurves[i] = _daGraphPanels[i].AddCurve("", _daGraphData[i], Color.Blue, SymbolType.None);
                 _daGraphCurves[i].Line.Width = (float)num_linewidth.Value; //2.0F;
                 _daGraphPanels[i].XAxis.Title.Text = "Время мм:cc";
             }
@@ -1095,7 +1074,7 @@ namespace FluxViewer.App
         {
             if (check_grid.Checked)
             {
-                for (int j = 0; j < 5; j++)
+                for (int j = 0; j < 4; j++)
                 {
 
                     _daGraphPanels[j].XAxis.MajorGrid.IsVisible = true;
@@ -1124,7 +1103,7 @@ namespace FluxViewer.App
             }
             else
             {
-                for (int j = 0; j < 5; j++)
+                for (int j = 0; j < 4; j++)
                 {
                     _daGraphPanels[j].XAxis.MajorGrid.IsVisible = false;
                     _daGraphPanels[j].YAxis.MajorGrid.IsVisible = false;
@@ -1134,13 +1113,10 @@ namespace FluxViewer.App
             }
             if (rb_templot_1.Checked == true)
             {
-                for (int j = 0; j < 5; j++)
+                for (int j = 0; j < 4; j++)
                 {
                     _daGraphPanels[j].CurveList.RemoveAt(0);
-                    if (j < 4)
-                        _daGraphCurves[j] = _daGraphPanels[j].AddCurve("", _daGraphData[j], Color.Blue, SymbolType.None);
-                    else
-                        _daGraphCurves[j] = _daGraphPanels[j].AddCurve("", _daGraphPoints, Color.Blue, SymbolType.None);
+                    _daGraphCurves[j] = _daGraphPanels[j].AddCurve("", _daGraphData[j], Color.Blue, SymbolType.None);
 
                     _daGraphCurves[j].Line.Width = (float)num_linewidth.Value;
                     _daGraphPanels[j].Border.Color = Color.Black;// Установим цвет рамки для всего компонента                 
@@ -1164,13 +1140,10 @@ namespace FluxViewer.App
             }
             else if (rb_templot_2.Checked == true)
             {
-                for (int j = 0; j < 5; j++)
+                for (int j = 0; j < 4; j++)
                 {
                     _daGraphPanels[j].CurveList.RemoveAt(0);
-                    if (j < 4)
-                        _daGraphCurves[j] = _daGraphPanels[j].AddCurve("", _daGraphData[j], Color.Yellow, SymbolType.None);
-                    else
-                        _daGraphCurves[j] = _daGraphPanels[j].AddCurve("", _daGraphPoints, Color.Yellow, SymbolType.None);
+                    _daGraphCurves[j] = _daGraphPanels[j].AddCurve("", _daGraphData[j], Color.Yellow, SymbolType.None);
 
                     _daGraphCurves[j].Line.Width = (float)num_linewidth.Value;
                     _daGraphPanels[j].Border.Color = Color.Black;// Установим цвет рамки для всего компонента                 

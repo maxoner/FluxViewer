@@ -751,7 +751,6 @@
             this.daNumOfPointsGroupBox.Size = new System.Drawing.Size(347, 79);
             this.daNumOfPointsGroupBox.TabIndex = 3;
             this.daNumOfPointsGroupBox.TabStop = false;
-            this.daNumOfPointsGroupBox.Layout += new System.Windows.Forms.LayoutEventHandler(this.daNumOfPointsGroupBox_Layout);
             // 
             // daNumOfPointsTrackBar
             // 
