@@ -23,7 +23,7 @@ partial class MainForm
     // Изменили "Дата начала"
     private void beginExportDate_ValueChanged(object sender, EventArgs e)
     {
-        CheckAndChangeDates();
+        CheckAndChangeDatesInExportTab();
         UpdateExportInfo();
         ChangeExportButtonState();
     }
@@ -31,7 +31,7 @@ partial class MainForm
     // Изменили "Дата конца"
     private void endExportDate_ValueChanged(object sender, EventArgs e)
     {
-        CheckAndChangeDates();
+        CheckAndChangeDatesInExportTab();
         UpdateExportInfo();
         ChangeExportButtonState();
     }
@@ -91,7 +91,7 @@ partial class MainForm
         exportProgressBar.Value = 0;
     }
     
-    private void CheckAndChangeDates()
+    private void CheckAndChangeDatesInExportTab()
     {
         var beginDate = beginExportDate.Value.Date;
         var endDate = endExportDate.Value.Date;
