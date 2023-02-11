@@ -48,9 +48,9 @@ partial class MainForm
         daChannelNameComboBox.SelectedIndex = 0;
     }
 
-    private void DaSetGraphTheme(GrapTheme grapTheme)
+    private void DaSetGraphTheme(GraphTheme graphTheme)
     {
-        _daGraphController.SetGraphTheme(grapTheme);
+        _daGraphController.SetGraphTheme(graphTheme);
     } 
     
     // Изменили "Дата начала"
@@ -164,8 +164,17 @@ partial class MainForm
         var graphType = GraphTypeHelper.FromString(channelName ?? Empty);
         var points = GetGraphPointsFromDataBatchByGraphType(dataBatch, graphType);
 
-        _daGraphController.ClearPoints();
-        _daGraphController.AddPoints(points);
+        if (points.Count == 0)
+        {
+            _daGraphController.MakeGraphInactive();
+        }
+        else
+        {
+            _daGraphController.MakeGraphActive();
+            _daGraphController.ClearPoints();
+            _daGraphController.AddPoints(points);
+        }
+        
         _daGraphController.SetGraphTitle(daChannelNameComboBox.Text);
         _daGraphController.AutozoomY();
         if (daXAutoscalingCheckBox.Checked)
@@ -202,7 +211,7 @@ partial class MainForm
         return 100000 / daNumOfPointsTrackBar.Maximum * normalizePosition; // TODO: 100000 в константы!
     }
 
-    private static IEnumerable<PointPair> GetGraphPointsFromDataBatchByGraphType(List<NewData> dataBatch,
+    private static List<PointPair> GetGraphPointsFromDataBatchByGraphType(List<NewData> dataBatch,
         GraphType graphType)
     {
         var points = new List<PointPair>();

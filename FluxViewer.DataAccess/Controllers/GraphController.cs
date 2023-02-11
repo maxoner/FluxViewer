@@ -14,7 +14,8 @@ public class GraphController
     private readonly GraphPane _graphPane; // Панель с графиком
     private readonly LineItem _graphCurve; // Кривая на графике
     private readonly PointPairList _graphPoints; // Точки графика
-
+    private GraphTheme _graphTheme;
+    
     /// <summary>
     /// Конструктор класса
     /// </summary>
@@ -87,35 +88,57 @@ public class GraphController
     /// <summary>
     /// Установить цветовую тему графика.
     /// </summary>
-    /// <param name="grapTheme">Цветовая тема графика, которая будет применена</param>
-    public void SetGraphTheme(GrapTheme grapTheme)
+    /// <param name="graphTheme">Цветовая тема графика, которая будет применена</param>
+    public void SetGraphTheme(GraphTheme graphTheme)
     {
-        _graphPane.Border.Color = grapTheme.BorderColor;
-        _graphPane.Chart.Border.Color = grapTheme.ChartBorderColor;
+        _graphTheme = graphTheme;
+        
+        _graphPane.Border.Color = graphTheme.BorderColor;
+        _graphPane.Chart.Border.Color = graphTheme.ChartBorderColor;
 
         _graphPane.Fill.Type = FillType.Solid;
-        _graphPane.Fill.Color = grapTheme.FillColor;
+        _graphPane.Fill.Color = graphTheme.FillColor;
 
         _graphPane.Chart.Fill.Type = FillType.Solid;
-        _graphPane.Chart.Fill.Color = grapTheme.ChartFillColor;
+        _graphPane.Chart.Fill.Color = graphTheme.ActiveChartFillColor;
 
-        _graphCurve.Line.Color = grapTheme.CurveColor;
+        _graphCurve.Line.Color = graphTheme.CurveColor;
 
-        _graphPane.XAxis.Color = grapTheme.XAxisColor;
-        _graphPane.YAxis.Color = grapTheme.YAxisColor;
+        _graphPane.XAxis.Color = graphTheme.XAxisColor;
+        _graphPane.YAxis.Color = graphTheme.YAxisColor;
 
         _graphPane.XAxis.MajorGrid.IsZeroLine = true;
         _graphPane.YAxis.MajorGrid.IsZeroLine = true;
-        _graphPane.XAxis.MajorGrid.Color = grapTheme.XAxisMajorGridColor;
-        _graphPane.YAxis.MajorGrid.Color = grapTheme.YAxisMajorGridColor;
+        _graphPane.XAxis.MajorGrid.Color = graphTheme.XAxisMajorGridColor;
+        _graphPane.YAxis.MajorGrid.Color = graphTheme.YAxisMajorGridColor;
 
-        _graphPane.XAxis.Title.FontSpec.FontColor = grapTheme.XAxisTitleFontSpecFontColor;
-        _graphPane.YAxis.Title.FontSpec.FontColor = grapTheme.YAxisTitleFontSpecFontColor;
+        _graphPane.XAxis.Title.FontSpec.FontColor = graphTheme.XAxisTitleFontSpecFontColor;
+        _graphPane.YAxis.Title.FontSpec.FontColor = graphTheme.YAxisTitleFontSpecFontColor;
 
-        _graphPane.XAxis.Scale.FontSpec.FontColor = grapTheme.XAxisScaleFontSpecFontColor;
-        _graphPane.YAxis.Scale.FontSpec.FontColor = grapTheme.YAxisScaleFontSpecFontColor;
+        _graphPane.XAxis.Scale.FontSpec.FontColor = graphTheme.XAxisScaleFontSpecFontColor;
+        _graphPane.YAxis.Scale.FontSpec.FontColor = graphTheme.YAxisScaleFontSpecFontColor;
 
-        _graphPane.Title.FontSpec.FontColor = grapTheme.TitleFontSpecFontColor;
+        _graphPane.Title.FontSpec.FontColor = graphTheme.TitleFontSpecFontColor;
+    }
+
+    /// <summary>
+    /// Сделать график активным
+    /// </summary>
+    public void MakeGraphActive()
+    {
+        if (_graphTheme == null)
+            throw new GraphThemeNotFoundException("Не задана тема графика");
+        _graphPane.Chart.Fill.Color = _graphTheme.ActiveChartFillColor;
+    }
+    
+    /// <summary>
+    /// Сделать график неактивным
+    /// </summary>
+    public void MakeGraphInactive()
+    {
+        if (_graphTheme == null)
+            throw new GraphThemeNotFoundException("Не задана тема графика");
+        _graphPane.Chart.Fill.Color = _graphTheme.InactiveChartFillColor;
     }
 
     /// <summary>
@@ -229,5 +252,13 @@ public class GraphController
         var amp = (_graphPane.YAxis.Scale.Max - _graphPane.YAxis.Scale.Min) * 0.1;
         _graphPane.YAxis.Scale.Min -= amp;
         _graphPane.YAxis.Scale.Max -= amp;
+    }
+}
+
+
+public class GraphThemeNotFoundException : Exception
+{
+    public GraphThemeNotFoundException(string message) : base(message)
+    {
     }
 }

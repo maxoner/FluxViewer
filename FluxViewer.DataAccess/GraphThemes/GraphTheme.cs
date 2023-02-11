@@ -2,7 +2,7 @@
 
 namespace FluxViewer.DataAccess.GraphThemes;
 
-public abstract class GrapTheme
+public abstract class GraphTheme
 {
     /// <summary>
     /// Цвет рамки для всего компонента
@@ -20,9 +20,14 @@ public abstract class GrapTheme
     public Color ChartBorderColor;
 
     /// <summary>
-    ///  Цвет заливки рамки вокруг графика
+    ///  Цвет заливки рамки графика (когда график активен)
     /// </summary>
-    public Color ChartFillColor;
+    public Color ActiveChartFillColor;
+    
+    /// <summary>
+    ///  Цвет заливки рамки графика (когда график неактивен)
+    /// </summary>
+    public Color InactiveChartFillColor;
     
     /// <summary>
     /// Цвет линии графика

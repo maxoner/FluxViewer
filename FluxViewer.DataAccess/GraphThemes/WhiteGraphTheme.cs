@@ -2,7 +2,7 @@
 
 namespace FluxViewer.DataAccess.GraphThemes;
 
-public class WhiteGraphTheme : GrapTheme
+public class WhiteGraphTheme : GraphTheme
 {
     /// <summary>
     /// Светлая тема графика
@@ -13,7 +13,8 @@ public class WhiteGraphTheme : GrapTheme
         FillColor = Color.White;
 
         ChartBorderColor = Color.Black;
-        ChartFillColor = Color.White;
+        ActiveChartFillColor = Color.White;
+        InactiveChartFillColor = Color.Beige;
         
         CurveColor = Color.Blue;
         
