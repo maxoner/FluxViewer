@@ -46,7 +46,59 @@ partial class MainForm
         daNumOfPointsGroupBox.Text = $@"Детализация: {numOfPoints} точек";
         RedrawGraph();
     }
-
+    
+    // Нажали кнопку "Автозум"
+    private void btn_achive_autozoom_Click(object sender, EventArgs e)
+    {
+        _daGraphPanels[4].YAxis.Scale.MinAuto = true;
+        _daGraphPanels[4].YAxis.Scale.MaxAuto = true;
+        _daGraphPanels[4].XAxis.Scale.MinAuto = true;
+        _daGraphPanels[4].XAxis.Scale.MaxAuto = true;
+        _daGraphPanels[4].IsBoundedRanges = true;
+        daMainZedGraphControl.AxisChange();
+        daMainZedGraphControl.Invalidate();
+    }
+    
+    // Нажали кнопку "Приблизить"
+    private void btn_achive_plus_Click(object sender, EventArgs e)
+    {
+        var amp = (_daGraphPanels[4].YAxis.Scale.Max - _daGraphPanels[4].YAxis.Scale.Min) * 0.1;
+        _daGraphPanels[4].YAxis.Scale.Min += amp;
+        _daGraphPanels[4].YAxis.Scale.Max -= amp;
+        daMainZedGraphControl.AxisChange();
+        daMainZedGraphControl.Invalidate();
+    }
+    
+    // Нажали кнопку "Отдалить"
+    private void btn_achive_minus_Click(object sender, EventArgs e)
+    {
+        var amp = (_daGraphPanels[4].YAxis.Scale.Max - _daGraphPanels[4].YAxis.Scale.Min) * 0.1;
+        _daGraphPanels[4].YAxis.Scale.Min -= amp;
+        _daGraphPanels[4].YAxis.Scale.Max += amp;
+        daMainZedGraphControl.AxisChange();
+        daMainZedGraphControl.Invalidate();
+    }
+    
+    // Нажали кнопку "Вверх"
+    private void btn_achive_up_Click(object sender, EventArgs e)
+    {
+        var amp = (_daGraphPanels[4].YAxis.Scale.Max - _daGraphPanels[4].YAxis.Scale.Min) * 0.1;
+        _daGraphPanels[4].YAxis.Scale.Min -= amp;
+        _daGraphPanels[4].YAxis.Scale.Max -= amp;
+        daMainZedGraphControl.AxisChange();
+        daMainZedGraphControl.Invalidate();
+    }
+    
+    // Нажали кнопку "Вниз"
+    private void btn_achive_down_Click(object sender, EventArgs e)
+    {
+        var amp = (_daGraphPanels[4].YAxis.Scale.Max - _daGraphPanels[4].YAxis.Scale.Min) * 0.1;
+        _daGraphPanels[4].YAxis.Scale.Min = _daGraphPanels[4].YAxis.Scale.Min + amp;
+        _daGraphPanels[4].YAxis.Scale.Max = _daGraphPanels[4].YAxis.Scale.Max + amp;
+        daMainZedGraphControl.AxisChange();
+        daMainZedGraphControl.Invalidate();
+    }
+    
     private void CheckAndChangeDatesInDataArchiveTab()
     {
         var beginDate = daBeginDateDateTimePicker.Value.Date;
@@ -73,27 +125,27 @@ partial class MainForm
         var channelName = daChannelNameComboBox.SelectedItem.ToString();
         var graphType = GraphTypeHelper.FromString(channelName ?? Empty);
         var points = GetGraphPointsFromDataBatchByGraphType(dataBatch, graphType);
-        _list.Clear();
-        _list.AddRange(points);
+        _daGraphPoints.Clear();
+        _daGraphPoints.AddRange(points);
 
-        _pane[4].Title.Text = daChannelNameComboBox.Text;
-        _pane[4].XAxis.Type = AxisType.Date;
-        _pane[4].YAxis.Scale.MinAuto = true;
-        _pane[4].YAxis.Scale.MaxAuto = true;
+        _daGraphPanels[4].Title.Text = daChannelNameComboBox.Text;
+        _daGraphPanels[4].XAxis.Type = AxisType.Date;
+        _daGraphPanels[4].YAxis.Scale.MinAuto = true;
+        _daGraphPanels[4].YAxis.Scale.MaxAuto = true;
         if (daXAutoscalingCheckBox.Checked)
         {
-            _pane[4].XAxis.Scale.MinAuto = true;
-            _pane[4].XAxis.Scale.MaxAuto = true;
+            _daGraphPanels[4].XAxis.Scale.MinAuto = true;
+            _daGraphPanels[4].XAxis.Scale.MaxAuto = true;
         }
         else
         {
-            _pane[4].XAxis.Scale.MinAuto = false;
-            _pane[4].XAxis.Scale.MaxAuto = false;
-            _pane[4].XAxis.Scale.Min = new XDate(controller.beginDate);
-            _pane[4].XAxis.Scale.Max = new XDate(controller.endDate);
+            _daGraphPanels[4].XAxis.Scale.MinAuto = false;
+            _daGraphPanels[4].XAxis.Scale.MaxAuto = false;
+            _daGraphPanels[4].XAxis.Scale.Min = new XDate(controller.beginDate);
+            _daGraphPanels[4].XAxis.Scale.Max = new XDate(controller.endDate);
         }
 
-        _pane[4].IsBoundedRanges = true;
+        _daGraphPanels[4].IsBoundedRanges = true;
 
         daMainZedGraphControl.AxisChange();
         daMainZedGraphControl.Invalidate();

@@ -26,12 +26,11 @@ namespace FluxViewer.App
         private float _temp;
         private float _pres;
         private float _humm;
-
-        private readonly RollingPointPairList[] _data = new RollingPointPairList[4]; // Данные на графиках
-        private readonly PointPairList _list; // Создадим список точек для графика архива
-
-        private readonly GraphPane[] _pane = new GraphPane[5];
-        private readonly LineItem[] _myCurve = new LineItem[5];
+        
+        private readonly PointPairList _daGraphPoints;  // Точки графика
+        private readonly RollingPointPairList[] _daGraphData = new RollingPointPairList[4]; // Сами графики
+        private readonly GraphPane[] _daGraphPanels = new GraphPane[5];
+        private readonly LineItem[] _daGraphCurves = new LineItem[5];
 
         private bool _isGraduateMode; // Вкладка градуировка, пишем данные в таблицу
         private float _averageDataflux; // Среднее значение измерений в режиме градуировки TODO: зачем это поле???
@@ -60,17 +59,17 @@ namespace FluxViewer.App
 
         public MainForm()
         {
-            _data[0] = new RollingPointPairList(Capacity);
-            _data[1] = new RollingPointPairList(Capacity);
-            _data[2] = new RollingPointPairList(Capacity);
-            _data[3] = new RollingPointPairList(Capacity);
-            _list = new PointPairList();
+            _daGraphData[0] = new RollingPointPairList(Capacity);
+            _daGraphData[1] = new RollingPointPairList(Capacity);
+            _daGraphData[2] = new RollingPointPairList(Capacity);
+            _daGraphData[3] = new RollingPointPairList(Capacity);
+            _daGraphPoints = new PointPairList();
 
             InitializeComponent();
             OpenStorage();
             PrepareSettings();
             SetSettings();
-            DrawGraph();
+            InitDataArchiveGraphs();
 
             InitExportTypeComboBox();
             InitDateFormatComboBox();
@@ -163,50 +162,42 @@ namespace FluxViewer.App
         
         private void DrawGraph_dot()
         {
-            _pane[4] = daMainZedGraphControl.GraphPane;
+            _daGraphPanels[4] = daMainZedGraphControl.GraphPane;
         }
-        /// <summary>
-        /// Инициализация графиков
-        /// </summary>
-        private void DrawGraph()
+        
+        private void InitDataArchiveGraphs()
         {
             // Получим панель для рисования
-            _pane[0] = zedGraphControl1.GraphPane;
-            _pane[1] = zedGraphControl2.GraphPane;
-            _pane[2] = zedGraphControl3.GraphPane;
-            _pane[3] = zedGraphControl4.GraphPane;
-            _pane[4] = daMainZedGraphControl.GraphPane;
-
-            // Очистим список кривых на тот случай, если до этого сигналы уже были нарисованы
-            /*        pane1.CurveList.Clear();
-                    pane2.CurveList.Clear();
-                    pane3.CurveList.Clear();
-                    pane4.CurveList.Clear();*/
-
+            _daGraphPanels[0] = zedGraphControl1.GraphPane;
+            _daGraphPanels[1] = zedGraphControl2.GraphPane;
+            _daGraphPanels[2] = zedGraphControl3.GraphPane;
+            _daGraphPanels[3] = zedGraphControl4.GraphPane;
+            _daGraphPanels[4] = daMainZedGraphControl.GraphPane;
+            
             // Добавим кривую пока еще без каких-либо точек
-            for (int i = 0; i < 5; i++)
+            for (var i = 0; i < 5; i++)
             {
                 if (i < 4)
-                    _myCurve[i] = _pane[i].AddCurve("", _data[i], Color.Blue, SymbolType.None);
+                    _daGraphCurves[i] = _daGraphPanels[i].AddCurve("", _daGraphData[i], Color.Blue, SymbolType.None);
                 else
-                    _myCurve[i] = _pane[i].AddCurve("", _list, Color.Blue, SymbolType.None);
+                    _daGraphCurves[i] = _daGraphPanels[i].AddCurve("", _daGraphPoints, Color.Blue, SymbolType.None);
 
-                _myCurve[i].Line.Width = (float)num_linewidth.Value;//2.0F;
-                _pane[i].XAxis.Title.Text = "Время мм:cc";
+                _daGraphCurves[i].Line.Width = (float)num_linewidth.Value; //2.0F;
+                _daGraphPanels[i].XAxis.Title.Text = "Время мм:cc";
             }
-            _pane[0].Title.Text = _graphTitle[0];
-            _pane[1].Title.Text = _graphTitle[1];
-            _pane[2].Title.Text = _graphTitle[2];
-            _pane[3].Title.Text = _graphTitle[3];
+            _daGraphPanels[0].Title.Text = _graphTitle[0];
+            _daGraphPanels[1].Title.Text = _graphTitle[1];
+            _daGraphPanels[2].Title.Text = _graphTitle[2];
+            _daGraphPanels[3].Title.Text = _graphTitle[3];
 
-            _pane[0].YAxis.Scale.Min = -5000;
-            _pane[0].YAxis.Scale.Max = 5000;
-            _pane[1].YAxis.Scale.Min = -40;
-            _pane[1].YAxis.Scale.Max = 60;
-            _pane[2].YAxis.Scale.Min = -10;
-            _pane[2].YAxis.Scale.Max = 1200;
-            _pane[3].YAxis.Scale.Min = 0;
-            _pane[3].YAxis.Scale.Max = 100;
+            _daGraphPanels[0].YAxis.Scale.Min = -5000;
+            _daGraphPanels[0].YAxis.Scale.Max = 5000;
+            _daGraphPanels[1].YAxis.Scale.Min = -40;
+            _daGraphPanels[1].YAxis.Scale.Max = 60;
+            _daGraphPanels[2].YAxis.Scale.Min = -10;
+            _daGraphPanels[2].YAxis.Scale.Max = 1200;
+            _daGraphPanels[3].YAxis.Scale.Min = 0;
+            _daGraphPanels[3].YAxis.Scale.Max = 100;
 
             DrawUpdate();
         }
@@ -342,10 +333,10 @@ namespace FluxViewer.App
                     return;
                 }
                 //XDate valueX = new XDate(date1);
-                _data[0].Add(_currentX, _flux);
-                _data[1].Add(_currentX, _temp);
-                _data[2].Add(_currentX, _pres);
-                _data[3].Add(_currentX, _humm);
+                _daGraphData[0].Add(_currentX, _flux);
+                _daGraphData[1].Add(_currentX, _temp);
+                _daGraphData[2].Add(_currentX, _pres);
+                _daGraphData[3].Add(_currentX, _humm);
                 _currentX += Step;
 
                 // Рассчитаем интервал по оси X, который нужно отобразить на графике
@@ -354,8 +345,8 @@ namespace FluxViewer.App
 
                 for (int j = 0; j < 4; j++)
                 {
-                    _pane[j].XAxis.Scale.Min = xmin;
-                    _pane[j].XAxis.Scale.Max = xmax;
+                    _daGraphPanels[j].XAxis.Scale.Min = xmin;
+                    _daGraphPanels[j].XAxis.Scale.Max = xmax;
                 }
 
                 //Сохранить данные в базу
@@ -659,18 +650,18 @@ namespace FluxViewer.App
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    _pane[j].YAxis.Scale.MinAuto = true;
-                    _pane[j].YAxis.Scale.MaxAuto = true;
-                    _pane[j].IsBoundedRanges = true;
+                    _daGraphPanels[j].YAxis.Scale.MinAuto = true;
+                    _daGraphPanels[j].YAxis.Scale.MaxAuto = true;
+                    _daGraphPanels[j].IsBoundedRanges = true;
                 }
             }
             else
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    _pane[j].YAxis.Scale.MinAuto = false;
-                    _pane[j].YAxis.Scale.MaxAuto = false;
-                    _pane[j].IsBoundedRanges = false;
+                    _daGraphPanels[j].YAxis.Scale.MinAuto = false;
+                    _daGraphPanels[j].YAxis.Scale.MaxAuto = false;
+                    _daGraphPanels[j].IsBoundedRanges = false;
                 }
             }
             DrawUpdate();
@@ -882,15 +873,15 @@ namespace FluxViewer.App
         {
             if (_selectPane == 0)
             {
-                _pane[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
                 _selectPane = 255;
             }
             else
             {
-                _pane[0].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
-                _pane[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                _pane[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                _pane[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[0].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
+                _daGraphPanels[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
                 _selectPane = 0;
             }
             DrawUpdate();
@@ -899,15 +890,15 @@ namespace FluxViewer.App
         {
             if (_selectPane == 1)
             {
-                _pane[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
                 _selectPane = 255;
             }
             else
             {
-                _pane[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                _pane[1].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
-                _pane[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                _pane[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[1].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
+                _daGraphPanels[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
                 _selectPane = 1;
             }
             DrawUpdate();
@@ -916,15 +907,15 @@ namespace FluxViewer.App
         {
             if (_selectPane == 2)
             {
-                _pane[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
                 _selectPane = 255;
             }
             else
             {
-                _pane[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                _pane[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                _pane[2].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
-                _pane[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[2].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
+                _daGraphPanels[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
                 _selectPane = 2;
             }
             DrawUpdate();
@@ -933,15 +924,15 @@ namespace FluxViewer.App
         {
             if (_selectPane == 3)
             {
-                _pane[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
                 _selectPane = 255;
             }
             else
             {
-                _pane[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                _pane[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                _pane[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
-                _pane[3].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
+                _daGraphPanels[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[3].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
                 _selectPane = 3;
             }
             DrawUpdate();
@@ -956,9 +947,9 @@ namespace FluxViewer.App
         {
             if (_selectPane == 255)
                 return;
-            double amp = (_pane[_selectPane].YAxis.Scale.Max - _pane[_selectPane].YAxis.Scale.Min) * 0.1;
-            _pane[_selectPane].YAxis.Scale.Min = _pane[_selectPane].YAxis.Scale.Min + amp;
-            _pane[_selectPane].YAxis.Scale.Max = _pane[_selectPane].YAxis.Scale.Max - amp;
+            double amp = (_daGraphPanels[_selectPane].YAxis.Scale.Max - _daGraphPanels[_selectPane].YAxis.Scale.Min) * 0.1;
+            _daGraphPanels[_selectPane].YAxis.Scale.Min = _daGraphPanels[_selectPane].YAxis.Scale.Min + amp;
+            _daGraphPanels[_selectPane].YAxis.Scale.Max = _daGraphPanels[_selectPane].YAxis.Scale.Max - amp;
             DrawUpdate();
         }
 
@@ -971,9 +962,9 @@ namespace FluxViewer.App
         {
             if (_selectPane == 255)
                 return;
-            double amp = (_pane[_selectPane].YAxis.Scale.Max - _pane[_selectPane].YAxis.Scale.Min) * 0.1;
-            _pane[_selectPane].YAxis.Scale.Min = _pane[_selectPane].YAxis.Scale.Min - amp;
-            _pane[_selectPane].YAxis.Scale.Max = _pane[_selectPane].YAxis.Scale.Max + amp;
+            double amp = (_daGraphPanels[_selectPane].YAxis.Scale.Max - _daGraphPanels[_selectPane].YAxis.Scale.Min) * 0.1;
+            _daGraphPanels[_selectPane].YAxis.Scale.Min = _daGraphPanels[_selectPane].YAxis.Scale.Min - amp;
+            _daGraphPanels[_selectPane].YAxis.Scale.Max = _daGraphPanels[_selectPane].YAxis.Scale.Max + amp;
             DrawUpdate();
         }
 
@@ -1107,149 +1098,102 @@ namespace FluxViewer.App
                 for (int j = 0; j < 5; j++)
                 {
 
-                    _pane[j].XAxis.MajorGrid.IsVisible = true;
+                    _daGraphPanels[j].XAxis.MajorGrid.IsVisible = true;
                     // Длина штрихов равна 10 пикселям, ...
-                    _pane[j].XAxis.MajorGrid.DashOn = 10;
+                    _daGraphPanels[j].XAxis.MajorGrid.DashOn = 10;
                     // затем 5 пикселей - пропуск
-                    _pane[j].XAxis.MajorGrid.DashOff = 5;
+                    _daGraphPanels[j].XAxis.MajorGrid.DashOff = 5;
                     // Включаем отображение сетки напротив крупных рисок по оси Y
-                    _pane[j].YAxis.MajorGrid.IsVisible = true;
+                    _daGraphPanels[j].YAxis.MajorGrid.IsVisible = true;
                     // Аналогично задаем вид пунктирной линии для крупных рисок по оси Y
-                    _pane[j].YAxis.MajorGrid.DashOn = 10;
-                    _pane[j].YAxis.MajorGrid.DashOff = 5;
+                    _daGraphPanels[j].YAxis.MajorGrid.DashOn = 10;
+                    _daGraphPanels[j].YAxis.MajorGrid.DashOff = 5;
                     // Включаем отображение сетки напротив мелких рисок по оси X
-                    _pane[j].YAxis.MinorGrid.IsVisible = true;
+                    _daGraphPanels[j].YAxis.MinorGrid.IsVisible = true;
                     // Задаем вид пунктирной линии для крупных рисок по оси Y:
                     // Длина штрихов равна одному пикселю, ...
-                    _pane[j].YAxis.MinorGrid.DashOn = 1;
+                    _daGraphPanels[j].YAxis.MinorGrid.DashOn = 1;
                     // затем 2 пикселя - пропуск
-                    _pane[j].YAxis.MinorGrid.DashOff = 2;
+                    _daGraphPanels[j].YAxis.MinorGrid.DashOff = 2;
                     // Включаем отображение сетки напротив мелких рисок по оси Y
-                    _pane[j].XAxis.MinorGrid.IsVisible = true;
+                    _daGraphPanels[j].XAxis.MinorGrid.IsVisible = true;
                     // Аналогично задаем вид пунктирной линии для крупных рисок по оси Y
-                    _pane[j].XAxis.MinorGrid.DashOn = 1;
-                    _pane[j].XAxis.MinorGrid.DashOff = 2;
+                    _daGraphPanels[j].XAxis.MinorGrid.DashOn = 1;
+                    _daGraphPanels[j].XAxis.MinorGrid.DashOff = 2;
                 }
             }
             else
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    _pane[j].XAxis.MajorGrid.IsVisible = false;
-                    _pane[j].YAxis.MajorGrid.IsVisible = false;
-                    _pane[j].YAxis.MinorGrid.IsVisible = false;
-                    _pane[j].XAxis.MinorGrid.IsVisible = false;
+                    _daGraphPanels[j].XAxis.MajorGrid.IsVisible = false;
+                    _daGraphPanels[j].YAxis.MajorGrid.IsVisible = false;
+                    _daGraphPanels[j].YAxis.MinorGrid.IsVisible = false;
+                    _daGraphPanels[j].XAxis.MinorGrid.IsVisible = false;
                 }
             }
             if (rb_templot_1.Checked == true)
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    _pane[j].CurveList.RemoveAt(0);
+                    _daGraphPanels[j].CurveList.RemoveAt(0);
                     if (j < 4)
-                        _myCurve[j] = _pane[j].AddCurve("", _data[j], Color.Blue, SymbolType.None);
+                        _daGraphCurves[j] = _daGraphPanels[j].AddCurve("", _daGraphData[j], Color.Blue, SymbolType.None);
                     else
-                        _myCurve[j] = _pane[j].AddCurve("", _list, Color.Blue, SymbolType.None);
+                        _daGraphCurves[j] = _daGraphPanels[j].AddCurve("", _daGraphPoints, Color.Blue, SymbolType.None);
 
-                    _myCurve[j].Line.Width = (float)num_linewidth.Value;
-                    _pane[j].Border.Color = Color.Black;// Установим цвет рамки для всего компонента                 
-                    _pane[j].Chart.Border.Color = Color.Black; // Установим цвет рамки вокруг графика                                      
-                    _pane[j].Fill.Type = FillType.Solid;// Закрасим фон всего компонента ZedGraph
-                    _pane[j].Fill.Color = Color.White;// Заливка будет сплошная                   
-                    _pane[j].Chart.Fill.Type = FillType.Solid; // Закрасим область графика (его фон) в черный цвет
-                    _pane[j].Chart.Fill.Color = Color.White;
-                    _pane[j].XAxis.MajorGrid.IsZeroLine = true;// Включим показ оси на уровне X = 0 и Y = 0, чтобы видеть цвет осей
-                    _pane[j].YAxis.MajorGrid.IsZeroLine = true;
-                    _pane[j].XAxis.Color = Color.Black; // Установим цвет осей
-                    _pane[j].YAxis.Color = Color.Black;
-                    _pane[j].XAxis.MajorGrid.Color = Color.Black;// Установим цвет для сетки
-                    _pane[j].YAxis.MajorGrid.Color = Color.Black;
-                    _pane[j].XAxis.Title.FontSpec.FontColor = Color.Black;// Установим цвет для подписей рядом с осями
-                    _pane[j].YAxis.Title.FontSpec.FontColor = Color.Black;
-                    _pane[j].XAxis.Scale.FontSpec.FontColor = Color.Black;// Установим цвет подписей под метками
-                    _pane[j].YAxis.Scale.FontSpec.FontColor = Color.Black;
-                    _pane[j].Title.FontSpec.FontColor = Color.Black; // Установим цвет заголовка над графиком                    
+                    _daGraphCurves[j].Line.Width = (float)num_linewidth.Value;
+                    _daGraphPanels[j].Border.Color = Color.Black;// Установим цвет рамки для всего компонента                 
+                    _daGraphPanels[j].Chart.Border.Color = Color.Black; // Установим цвет рамки вокруг графика                                      
+                    _daGraphPanels[j].Fill.Type = FillType.Solid;// Закрасим фон всего компонента ZedGraph
+                    _daGraphPanels[j].Fill.Color = Color.White;// Заливка будет сплошная                   
+                    _daGraphPanels[j].Chart.Fill.Type = FillType.Solid; // Закрасим область графика (его фон) в черный цвет
+                    _daGraphPanels[j].Chart.Fill.Color = Color.White;
+                    _daGraphPanels[j].XAxis.MajorGrid.IsZeroLine = true;// Включим показ оси на уровне X = 0 и Y = 0, чтобы видеть цвет осей
+                    _daGraphPanels[j].YAxis.MajorGrid.IsZeroLine = true;
+                    _daGraphPanels[j].XAxis.Color = Color.Black; // Установим цвет осей
+                    _daGraphPanels[j].YAxis.Color = Color.Black;
+                    _daGraphPanels[j].XAxis.MajorGrid.Color = Color.Black;// Установим цвет для сетки
+                    _daGraphPanels[j].YAxis.MajorGrid.Color = Color.Black;
+                    _daGraphPanels[j].XAxis.Title.FontSpec.FontColor = Color.Black;// Установим цвет для подписей рядом с осями
+                    _daGraphPanels[j].YAxis.Title.FontSpec.FontColor = Color.Black;
+                    _daGraphPanels[j].XAxis.Scale.FontSpec.FontColor = Color.Black;// Установим цвет подписей под метками
+                    _daGraphPanels[j].YAxis.Scale.FontSpec.FontColor = Color.Black;
+                    _daGraphPanels[j].Title.FontSpec.FontColor = Color.Black; // Установим цвет заголовка над графиком                    
                 }
             }
             else if (rb_templot_2.Checked == true)
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    _pane[j].CurveList.RemoveAt(0);
+                    _daGraphPanels[j].CurveList.RemoveAt(0);
                     if (j < 4)
-                        _myCurve[j] = _pane[j].AddCurve("", _data[j], Color.Yellow, SymbolType.None);
+                        _daGraphCurves[j] = _daGraphPanels[j].AddCurve("", _daGraphData[j], Color.Yellow, SymbolType.None);
                     else
-                        _myCurve[j] = _pane[j].AddCurve("", _list, Color.Yellow, SymbolType.None);
+                        _daGraphCurves[j] = _daGraphPanels[j].AddCurve("", _daGraphPoints, Color.Yellow, SymbolType.None);
 
-                    _myCurve[j].Line.Width = (float)num_linewidth.Value;
-                    _pane[j].Border.Color = Color.Black;// Установим цвет рамки для всего компонента                 
-                    _pane[j].Chart.Border.Color = Color.Green; // Установим цвет рамки вокруг графика                                      
-                    _pane[j].Fill.Type = FillType.Solid;// Закрасим фон всего компонента ZedGraph
-                    _pane[j].Fill.Color = Color.Silver;// Заливка будет сплошная                   
-                    _pane[j].Chart.Fill.Type = FillType.Solid; // Закрасим область графика (его фон) в черный цвет
-                    _pane[j].Chart.Fill.Color = Color.Black;
-                    _pane[j].XAxis.MajorGrid.IsZeroLine = true;// Включим показ оси на уровне X = 0 и Y = 0, чтобы видеть цвет осей
-                    _pane[j].YAxis.MajorGrid.IsZeroLine = true;
-                    _pane[j].XAxis.Color = Color.Gray; // Установим цвет осей
-                    _pane[j].YAxis.Color = Color.Gray;
-                    _pane[j].XAxis.MajorGrid.Color = Color.Cyan;// Установим цвет для сетки
-                    _pane[j].YAxis.MajorGrid.Color = Color.Cyan;
-                    _pane[j].XAxis.Title.FontSpec.FontColor = Color.Teal;// Установим цвет для подписей рядом с осями
-                    _pane[j].YAxis.Title.FontSpec.FontColor = Color.Teal;
-                    _pane[j].XAxis.Scale.FontSpec.FontColor = Color.Black;// Установим цвет подписей под метками
-                    _pane[j].YAxis.Scale.FontSpec.FontColor = Color.Black;
-                    _pane[j].Title.FontSpec.FontColor = Color.Teal; // Установим цвет заголовка над графиком
+                    _daGraphCurves[j].Line.Width = (float)num_linewidth.Value;
+                    _daGraphPanels[j].Border.Color = Color.Black;// Установим цвет рамки для всего компонента                 
+                    _daGraphPanels[j].Chart.Border.Color = Color.Green; // Установим цвет рамки вокруг графика                                      
+                    _daGraphPanels[j].Fill.Type = FillType.Solid;// Закрасим фон всего компонента ZedGraph
+                    _daGraphPanels[j].Fill.Color = Color.Silver;// Заливка будет сплошная                   
+                    _daGraphPanels[j].Chart.Fill.Type = FillType.Solid; // Закрасим область графика (его фон) в черный цвет
+                    _daGraphPanels[j].Chart.Fill.Color = Color.Black;
+                    _daGraphPanels[j].XAxis.MajorGrid.IsZeroLine = true;// Включим показ оси на уровне X = 0 и Y = 0, чтобы видеть цвет осей
+                    _daGraphPanels[j].YAxis.MajorGrid.IsZeroLine = true;
+                    _daGraphPanels[j].XAxis.Color = Color.Gray; // Установим цвет осей
+                    _daGraphPanels[j].YAxis.Color = Color.Gray;
+                    _daGraphPanels[j].XAxis.MajorGrid.Color = Color.Cyan;// Установим цвет для сетки
+                    _daGraphPanels[j].YAxis.MajorGrid.Color = Color.Cyan;
+                    _daGraphPanels[j].XAxis.Title.FontSpec.FontColor = Color.Teal;// Установим цвет для подписей рядом с осями
+                    _daGraphPanels[j].YAxis.Title.FontSpec.FontColor = Color.Teal;
+                    _daGraphPanels[j].XAxis.Scale.FontSpec.FontColor = Color.Black;// Установим цвет подписей под метками
+                    _daGraphPanels[j].YAxis.Scale.FontSpec.FontColor = Color.Black;
+                    _daGraphPanels[j].Title.FontSpec.FontColor = Color.Teal; // Установим цвет заголовка над графиком
                 }
             }
             mainTabControl.SelectedIndex = 0;
             DrawUpdate();
-        }
-
-        private void btn_achive_plus_Click(object sender, EventArgs e)
-        {
-            double amp = (_pane[4].YAxis.Scale.Max - _pane[4].YAxis.Scale.Min) * 0.1;
-            _pane[4].YAxis.Scale.Min = _pane[4].YAxis.Scale.Min + amp;
-            _pane[4].YAxis.Scale.Max = _pane[4].YAxis.Scale.Max - amp;
-            daMainZedGraphControl.AxisChange();
-            daMainZedGraphControl.Invalidate();
-        }
-
-        private void btn_achive_minus_Click(object sender, EventArgs e)
-        {
-            double amp = (_pane[4].YAxis.Scale.Max - _pane[4].YAxis.Scale.Min) * 0.1;
-            _pane[4].YAxis.Scale.Min = _pane[4].YAxis.Scale.Min - amp;
-            _pane[4].YAxis.Scale.Max = _pane[4].YAxis.Scale.Max + amp;
-            daMainZedGraphControl.AxisChange();
-            daMainZedGraphControl.Invalidate();
-        }
-
-        private void btn_achive_up_Click(object sender, EventArgs e)
-        {
-            double amp = (_pane[4].YAxis.Scale.Max - _pane[4].YAxis.Scale.Min) * 0.1;
-            _pane[4].YAxis.Scale.Min = _pane[4].YAxis.Scale.Min - amp;
-            _pane[4].YAxis.Scale.Max = _pane[4].YAxis.Scale.Max - amp;
-            daMainZedGraphControl.AxisChange();
-            daMainZedGraphControl.Invalidate();
-        }
-
-        private void btn_achive_down_Click(object sender, EventArgs e)
-        {
-            double amp = (_pane[4].YAxis.Scale.Max - _pane[4].YAxis.Scale.Min) * 0.1;
-            _pane[4].YAxis.Scale.Min = _pane[4].YAxis.Scale.Min + amp;
-            _pane[4].YAxis.Scale.Max = _pane[4].YAxis.Scale.Max + amp;
-            daMainZedGraphControl.AxisChange();
-            daMainZedGraphControl.Invalidate();
-        }
-
-        private void btn_achive_autozoom_Click(object sender, EventArgs e)
-        {
-            _pane[4].YAxis.Scale.MinAuto = true;
-            _pane[4].YAxis.Scale.MaxAuto = true;
-            _pane[4].XAxis.Scale.MinAuto = true;
-            _pane[4].XAxis.Scale.MaxAuto = true;
-            _pane[4].IsBoundedRanges = true;
-            daMainZedGraphControl.AxisChange();
-            daMainZedGraphControl.Invalidate();
         }
 
         private void btn_flash_Click(object sender, EventArgs e)
