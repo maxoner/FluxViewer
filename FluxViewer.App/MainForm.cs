@@ -74,7 +74,6 @@ namespace FluxViewer.App
 
             InitExportTypeComboBox();
             InitDateFormatComboBox();
-            InitChannelNameComboBox();
             
             dataGridView1.Rows.Add();
             dataGridView1.Rows.Add();
