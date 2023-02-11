@@ -48,6 +48,11 @@ partial class MainForm
         daChannelNameComboBox.SelectedIndex = 0;
     }
 
+    private void DaSetGraphTheme(GrapTheme grapTheme)
+    {
+        _daGraphController.SetGraphTheme(grapTheme);
+    } 
+    
     // Изменили "Дата начала"
     private void daBeginDateDateTimePicker_ValueChanged(object sender, EventArgs e)
     {

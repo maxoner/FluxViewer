@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.IO.Ports;
 using System.Text;
 using FluxViewer.App.Enums;
+using FluxViewer.DataAccess.GraphThemes;
 using FluxViewer.DataAccess.LiteDbb;
 using FluxViewer.DataAccess.Models;
 using FluxViewer.DataAccess.Storage;
@@ -1113,6 +1114,7 @@ namespace FluxViewer.App
             }
             if (rb_templot_1.Checked == true)
             {
+                DaSetGraphTheme(new WhiteGraphTheme());     // TODO: временное решение
                 for (int j = 0; j < 4; j++)
                 {
                     _daGraphPanels[j].CurveList.RemoveAt(0);
@@ -1140,6 +1142,7 @@ namespace FluxViewer.App
             }
             else if (rb_templot_2.Checked == true)
             {
+                DaSetGraphTheme(new BlackGraphTheme());   // TODO: временное решение
                 for (int j = 0; j < 4; j++)
                 {
                     _daGraphPanels[j].CurveList.RemoveAt(0);
