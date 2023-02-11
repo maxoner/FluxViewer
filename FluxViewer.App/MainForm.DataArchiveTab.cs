@@ -120,7 +120,23 @@ partial class MainForm
         daMainZedGraphControl.AxisChange();
         daMainZedGraphControl.Invalidate();
     }
-
+    
+    // Нажали на флажок "Автомасштаб по X"
+    private void daXAutoscalingCheckBox_CheckedChanged(object sender, EventArgs e)
+    {
+        var controller = GetDataArchiveController();
+        if (daXAutoscalingCheckBox.Checked)
+        {
+            _daGraphController.AutozoomX();
+        }
+        else
+        {
+            _daGraphController.ManuallySetXAxis(controller.beginDate, controller.endDate);
+        }
+        daMainZedGraphControl.AxisChange();
+        daMainZedGraphControl.Invalidate();
+    }
+    
     private void CheckAndChangeDatesInDataArchiveTab()
     {
         var beginDate = daBeginDateDateTimePicker.Value.Date;

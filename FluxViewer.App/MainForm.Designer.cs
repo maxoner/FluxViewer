@@ -581,6 +581,7 @@
             this.daXAutoscalingCheckBox.TabIndex = 1;
             this.daXAutoscalingCheckBox.Text = "Автомасштаб по X";
             this.daXAutoscalingCheckBox.UseVisualStyleBackColor = true;
+            this.daXAutoscalingCheckBox.CheckedChanged += new System.EventHandler(this.daXAutoscalingCheckBox_CheckedChanged);
             // 
             // daGrapDownButton
             // 
