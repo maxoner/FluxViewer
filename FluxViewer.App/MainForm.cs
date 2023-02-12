@@ -1074,6 +1074,7 @@ namespace FluxViewer.App
         {
             if (check_grid.Checked)
             {
+                _daGraphController.ShowGrid();
                 for (int j = 0; j < 4; j++)
                 {
 
@@ -1103,6 +1104,7 @@ namespace FluxViewer.App
             }
             else
             {
+                _daGraphController.HideGrid();
                 for (int j = 0; j < 4; j++)
                 {
                     _daGraphPanels[j].XAxis.MajorGrid.IsVisible = false;
@@ -1113,7 +1115,7 @@ namespace FluxViewer.App
             }
             if (rb_templot_1.Checked == true)
             {
-                DaSetGraphTheme(new WhiteGraphTheme());     // TODO: временное решение
+                _daGraphController.SetGraphTheme(new WhiteGraphTheme());
                 for (int j = 0; j < 4; j++)
                 {
                     _daGraphPanels[j].CurveList.RemoveAt(0);
@@ -1141,7 +1143,7 @@ namespace FluxViewer.App
             }
             else if (rb_templot_2.Checked == true)
             {
-                DaSetGraphTheme(new BlackGraphTheme());   // TODO: временное решение
+                _daGraphController.SetGraphTheme(new BlackGraphTheme());
                 for (int j = 0; j < 4; j++)
                 {
                     _daGraphPanels[j].CurveList.RemoveAt(0);
@@ -1167,6 +1169,7 @@ namespace FluxViewer.App
                     _daGraphPanels[j].Title.FontSpec.FontColor = Color.Teal; // Установим цвет заголовка над графиком
                 }
             }
+            _daGraphController.SetLineWidth((int) num_linewidth.Value);
             mainTabControl.SelectedIndex = 0;
             DrawUpdate();
         }
