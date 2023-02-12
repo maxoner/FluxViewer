@@ -13,7 +13,6 @@ namespace FluxViewer.App
         public bool IsPcTime = true;
         public string ComNum = @"";
         public string ComSpeed = @"115200";
-        public double MaxGbRam = 2.5;
 
         // Параметры, связанные с графиками
         public decimal LineWidth = 1;
