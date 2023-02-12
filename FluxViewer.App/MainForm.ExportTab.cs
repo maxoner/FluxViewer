@@ -11,32 +11,33 @@ namespace FluxViewer.App;
 partial class MainForm
 {
     private int _dataCount; // Кол-во показний прибора за выбранный промежуток дат
-    
+
     private void InitExportTab()
     {
         InitExportTypeComboBox();
         InitDateFormatComboBox();
-        
+
         UpdateExportInfo();
         ChangeExportButtonState();
     }
-    
-    
+
     private void InitExportTypeComboBox()
     {
         foreach (var exportType in Enum.GetValues<FileExporterType>())
         {
             eExportTypeComboBox.Items.Add(FileExporterTypeHelper.ToString(exportType));
         }
+
         eExportTypeComboBox.SelectedIndex = 0;
     }
-        
+
     private void InitDateFormatComboBox()
     {
         foreach (var exportDateType in Enum.GetValues<ExportDateType>())
         {
             eDateFormatComboBox.Items.Add(ExportDateTypeHelper.ExampleByType(exportDateType));
         }
+
         eDateFormatComboBox.SelectedIndex = 0;
     }
 
@@ -108,7 +109,7 @@ partial class MainForm
         eExportProgressBar.Maximum = exportController.NumberOfExportIterations();
         eExportProgressBar.Step = 1;
 
-        foreach (var _ in exportController.Export(saveFileDialog.FileName, ProvideFileExporterType()))
+        foreach (var _ in exportController.Export(saveFileDialog.FileName))
         {
             eExportProgressBar.PerformStep();
         }
@@ -134,10 +135,8 @@ partial class MainForm
         var exportController = GetExportController();
         _dataCount = exportController.GetDataCount();
 
-        if (eFillHolesCheckBox.Checked)
-            eExportDataCountTextBox.Text = $"> {_dataCount} шт."; // Выводим кол-во точек
-        else
-            eExportDataCountTextBox.Text = $"{_dataCount} шт."; // Выводим кол-во точек
+        var numOfPoints = NumOfPointToHumanFormat(_dataCount);
+        eExportDataCountTextBox.Text = (eFillHolesCheckBox.Checked) ? $"> {numOfPoints}" : $"~ {numOfPoints}"; 
 
         var allDatesWithData = exportController.GetAllDatesWithData();
         if (allDatesWithData.Any())
@@ -150,6 +149,10 @@ partial class MainForm
             eFirstExportDateTextBox.Text = "";
             eLastExportDateTextBox.Text = "";
         }
+
+        var approximatExportSize = BytesToHumanFormat(exportController.GetApproximateExportSizeInBytes());
+        eApproximateExportSizeTextBox.Text =
+            (eFillHolesCheckBox.Checked) ? $"> {approximatExportSize}" : $"~ {approximatExportSize}";
     }
 
     private void ChangeExportButtonState()
@@ -182,12 +185,6 @@ partial class MainForm
         };
     }
 
-    private FileExporterType ProvideFileExporterType()
-    {
-        var fileExporterString = eExportTypeComboBox.SelectedItem.ToString();
-        return FileExporterTypeHelper.FromString(fileExporterString ?? string.Empty);
-    }
-
     private ExportController GetExportController()
     {
         var dateTimeExample = eDateFormatComboBox.SelectedItem.ToString();
@@ -204,6 +201,7 @@ partial class MainForm
             new DateTime(eEndExportDate.Value.Year, eEndExportDate.Value.Month, eEndExportDate.Value.Day, 23, 59, 59,
                 999),
             _storage,
+            ProvideFileExporterType(),
             eFillHolesCheckBox.Checked,
             dateTimeFormat,
             dateTimeNeedExport,
@@ -212,5 +210,44 @@ partial class MainForm
             presTimeNeedExport,
             hummNeedExport
         );
+    }
+    
+    private FileExporterType ProvideFileExporterType()
+    {
+        var fileExporterString = eExportTypeComboBox.SelectedItem.ToString();
+        return FileExporterTypeHelper.FromString(fileExporterString ?? string.Empty);
+    }
+    
+    private static string NumOfPointToHumanFormat(long numOfPoints)
+    {
+        if (numOfPoints < 10000)
+            return $"{numOfPoints}";
+        var numOfThousand = (float) numOfPoints / 1000;
+        if (numOfThousand < 1000)
+            return $"{Math.Round(numOfThousand, 2)} тыс.";
+        var numOfMillions = numOfThousand / 1000;
+        if (numOfMillions < 1000)
+            return $"{Math.Round(numOfMillions, 2)} млн.";
+        var numOfBillion = numOfMillions / 1000;
+        return $"{Math.Round(numOfBillion, 2)} млрд.";   // Ну уж больше чем 999млрд. не будет же? :D
+        
+    }
+    
+    private static string BytesToHumanFormat(long numOfBytes)
+    {
+        if (numOfBytes < 1024)
+            return $"{numOfBytes} байт";
+        var numOfKb = (float) numOfBytes / 1024;
+        if (numOfKb < 1024)
+            return $"{Math.Round(numOfKb, 2)} Кб";
+        var numOfMb = numOfKb / 1024;
+        if (numOfMb < 1024)
+            return $"{Math.Round(numOfMb, 2)} Мб";
+        var numOfGb = numOfMb / 1024;
+        if (numOfGb < 1024)
+            return $"{Math.Round(numOfGb, 2)} Гб";
+        var numOfTb = numOfGb / 1024;   // До этого же никогда не дойдёт? Так ведь? :D
+        return $"{Math.Round(numOfTb, 2)} Тб";
+        
     }
 }

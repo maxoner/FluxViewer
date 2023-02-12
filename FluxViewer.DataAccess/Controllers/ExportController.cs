@@ -16,6 +16,7 @@ public class ExportController
     private readonly DateTime _beginDate;
     private readonly DateTime _endDate;
     private readonly IStorage _storage;
+    private readonly FileExporterType _fileExporterType;
     private readonly bool _fillHoles;
     private readonly string _dateTimeFormat;
     private readonly bool _dateTimeConvert;
@@ -30,6 +31,7 @@ public class ExportController
     /// <param name="beginDate">Дата начала, с которой начинается экспорт показаний прибора</param>
     /// <param name="endDate">Дата конца, по которую происходит экспорт показаний прибора</param>
     /// <param name="storage">Хранилище, из которого происходит экспорт</param>
+    /// <param name="fileExporterType">Тип экспортёра, который будет экспортировать показания</param>
     /// <param name="fillHoles">Заполнять ли пробелы в процессе экспорта?</param>
     /// <param name="dateTimeFormat">Формат даты и времени</param>
     /// <param name="dateTimeConvert">Нужно ли экспортировать дату и время?</param>
@@ -37,13 +39,14 @@ public class ExportController
     /// <param name="tempConvert">Нужно ли экспортировать температуру?</param>
     /// <param name="presConvert">Нужно ли экспортировать давление?</param>
     /// <param name="hummConvert">Нужно ли экспортировать влажность?</param>
-    public ExportController(DateTime beginDate, DateTime endDate, IStorage storage, bool fillHoles,
-        string dateTimeFormat, bool dateTimeConvert, bool fluxConvert, bool tempConvert,
+    public ExportController(DateTime beginDate, DateTime endDate, IStorage storage, FileExporterType fileExporterType,
+        bool fillHoles, string dateTimeFormat, bool dateTimeConvert, bool fluxConvert, bool tempConvert,
         bool presConvert, bool hummConvert)
     {
         _beginDate = beginDate;
         _endDate = endDate;
         _storage = storage;
+        _fileExporterType = fileExporterType;
         _fillHoles = fillHoles;
         _dateTimeFormat = dateTimeFormat;
         _dateTimeConvert = dateTimeConvert;
@@ -80,21 +83,32 @@ public class ExportController
     {
         return _storage.GetAllDatesWithDataBetweenTwoDates(_beginDate, _endDate);
     }
-
+    
+    
+    /// <summary>
+    /// Рассчитать ориентировочный размер файла (в байтах) после экспорта 
+    /// </summary>
+    /// <returns>Ориентировочное кол-во байт, которое займёт файл после экспорта</returns>
+    public long GetApproximateExportSizeInBytes()
+    {
+        var fileExporter = FileExporterFabric.GetFileExporterByType(_fileExporterType, _dateTimeFormat,
+            _dateTimeConvert, _fluxConvert, _tempConvert, _presConvert, _hummConvert);
+        return fileExporter.CalculateApproximateExportSizeInBytes(GetDataCount());
+    }
+    
     /// <summary>
     /// Экспорт показаний прибора в файл.
     /// </summary>
     /// <param name="pathToFile">Путь до файла, в который будет произвёден экспорт</param>
-    /// <param name="fileExporterType">Тип экспортёра, при помощи которого будет производиться экспорт</param>
     /// <returns>В процессе (пока длится экспорт) будут возвращаться итерации экспорта.</returns>
-    public IEnumerable<int> Export(string pathToFile, FileExporterType fileExporterType)
+    public IEnumerable<int> Export(string pathToFile)
     {
         var allDatesWithData = _storage.GetAllDatesWithDataBetweenTwoDates(_beginDate, _endDate);
         var currentDate = new DateTime(_beginDate.Year, _beginDate.Month, _beginDate.Day, 00, 00, 00);
         var iteration = 0;
         List<NewData> prevDataBatch = null;
 
-        var fileExporter = FileExporterFabric.GetFileExporterByType(fileExporterType, _dateTimeFormat,
+        var fileExporter = FileExporterFabric.GetFileExporterByType(_fileExporterType, _dateTimeFormat,
             _dateTimeConvert, _fluxConvert, _tempConvert, _presConvert, _hummConvert);
         fileExporter.Open(pathToFile);
 
