@@ -26,7 +26,7 @@ public class PlainTextFileExporter : FileExporter
         }
     }
 
-    public override long CalculateApproximateExportSizeInBytes(int numOfPoint)
+    public override long CalculateApproximateExportSizeInBytes(long numOfPoint)
     {
         long numOfBytesInOneElement = 0;
         // Всё берём по максимуму

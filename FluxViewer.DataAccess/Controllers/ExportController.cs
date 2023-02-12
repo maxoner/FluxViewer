@@ -70,7 +70,7 @@ public class ExportController
     /// Получить кол-во точек, доступное для экспорта между заданным диапазоном дат.
     /// </summary>
     /// <returns>Количество точек</returns>
-    public int GetDataCount()
+    public long GetDataCount()
     {
         return _storage.GetDataCountBetweenTwoDates(_beginDate, _endDate);
     }

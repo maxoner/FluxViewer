@@ -35,13 +35,13 @@ public class FileSystemStorage : IStorage
         file.Write(data.Serialize());
     }
 
-    public int GetDataCount()
+    public long GetDataCount()
     {
         var paths = GetFilePaths();
         return paths.Sum(GetDataCountFromFile);
     }
 
-    public int GetDataCountBetweenTwoDates(DateTime beginDate, DateTime endDate) 
+    public long GetDataCountBetweenTwoDates(DateTime beginDate, DateTime endDate) 
     {
         var paths = GetFilePathsBetweenTwoDates(beginDate, endDate);
         return paths.Sum(GetDataCountFromFile);

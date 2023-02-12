@@ -31,7 +31,7 @@ public class JsonFileExporter : FileExporter
         FileExporterStream.Write(Encoding.ASCII.GetBytes("\n}\n"));
     }
 
-    public override long CalculateApproximateExportSizeInBytes(int numOfPoint)
+    public override long CalculateApproximateExportSizeInBytes(long numOfPoint)
     {
         long numOfBytesInOneElement = 0; // Главные скобочки и переносы кареток
         // Всё берём по максимуму

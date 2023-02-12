@@ -75,7 +75,7 @@ public abstract class FileExporter
     /// </summary>
     /// <param name="numOfPoint">Кол-во показаний, которое будет учавствовать в экспорте</param>
     /// <returns>Ориентировочное кол-во байт, которое займёт файл после экспорта</returns>
-    public abstract long CalculateApproximateExportSizeInBytes(int numOfPoint);
+    public abstract long CalculateApproximateExportSizeInBytes(long numOfPoint);
 
     /// <summary>
     /// Закрыть экспортёр после успешного экспорта

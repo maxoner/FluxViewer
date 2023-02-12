@@ -10,7 +10,7 @@ namespace FluxViewer.App;
 /// </summary>
 partial class MainForm
 {
-    private int _dataCount; // Кол-во показний прибора за выбранный промежуток дат
+    private long _dataCount; // Кол-во показний прибора за выбранный промежуток дат
 
     private void InitExportTab()
     {
@@ -136,7 +136,7 @@ partial class MainForm
         _dataCount = exportController.GetDataCount();
 
         var numOfPoints = NumOfPointToHumanFormat(_dataCount);
-        eExportDataCountTextBox.Text = (eFillHolesCheckBox.Checked) ? $"> {numOfPoints}" : $"~ {numOfPoints}"; 
+        eExportDataCountTextBox.Text = (eFillHolesCheckBox.Checked) ? $"> {numOfPoints}" : $"~ {numOfPoints}";
 
         var allDatesWithData = exportController.GetAllDatesWithData();
         if (allDatesWithData.Any())
@@ -211,33 +211,32 @@ partial class MainForm
             hummNeedExport
         );
     }
-    
+
     private FileExporterType ProvideFileExporterType()
     {
         var fileExporterString = eExportTypeComboBox.SelectedItem.ToString();
         return FileExporterTypeHelper.FromString(fileExporterString ?? string.Empty);
     }
-    
+
     private static string NumOfPointToHumanFormat(long numOfPoints)
     {
         if (numOfPoints < 10000)
             return $"{numOfPoints}";
-        var numOfThousand = (float) numOfPoints / 1000;
+        var numOfThousand = (float)numOfPoints / 1000;
         if (numOfThousand < 1000)
             return $"{Math.Round(numOfThousand, 2)} тыс.";
         var numOfMillions = numOfThousand / 1000;
         if (numOfMillions < 1000)
             return $"{Math.Round(numOfMillions, 2)} млн.";
         var numOfBillion = numOfMillions / 1000;
-        return $"{Math.Round(numOfBillion, 2)} млрд.";   // Ну уж больше чем 999млрд. не будет же? :D
-        
+        return $"{Math.Round(numOfBillion, 2)} млрд."; // Ну уж больше чем 999млрд. не будет же? :D
     }
-    
+
     private static string BytesToHumanFormat(long numOfBytes)
     {
         if (numOfBytes < 1024)
             return $"{numOfBytes} байт";
-        var numOfKb = (float) numOfBytes / 1024;
+        var numOfKb = (float)numOfBytes / 1024;
         if (numOfKb < 1024)
             return $"{Math.Round(numOfKb, 2)} Кб";
         var numOfMb = numOfKb / 1024;
@@ -246,8 +245,7 @@ partial class MainForm
         var numOfGb = numOfMb / 1024;
         if (numOfGb < 1024)
             return $"{Math.Round(numOfGb, 2)} Гб";
-        var numOfTb = numOfGb / 1024;   // До этого же никогда не дойдёт? Так ведь? :D
+        var numOfTb = numOfGb / 1024; // До этого же никогда не дойдёт? Так ведь? :D
         return $"{Math.Round(numOfTb, 2)} Тб";
-        
     }
 }

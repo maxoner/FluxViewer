@@ -30,7 +30,7 @@ public interface IStorage
     /// Получение количества всех показаний, записанных за всё время.
     /// </summary>
     /// <returns>Количество показаний прибора</returns>
-    public int GetDataCount();
+    public long GetDataCount();
 
     /// <summary>
     /// Получение количества показаний между двумя датами.
@@ -38,8 +38,8 @@ public interface IStorage
     /// <param name="beginDate">Дата начала, с которой считаются показания</param>
     /// <param name="endDate">Дата конца, по которую считаются показания</param>
     /// <returns>Количество показаний прибора</returns>
-    public int GetDataCountBetweenTwoDates(DateTime beginDate, DateTime endDate);
-    
+    public long GetDataCountBetweenTwoDates(DateTime beginDate, DateTime endDate);
+
     /// <summary>
     /// Получить все даты в диапазоне двух дат, в которые прибор записывал показания.
     /// </summary>
@@ -47,7 +47,7 @@ public interface IStorage
     /// <param name="endDate">Дата окончания, по которую идёт поиск</param>
     /// <returns>Список дат, в которые прибор записывал показания</returns>
     public List<DateTime> GetAllDatesWithDataBetweenTwoDates(DateTime beginDate, DateTime endDate);
-    
+
     /// <summary>
     /// Записывал ли прибор показания прибора в данную дату?
     /// </summary>
@@ -76,7 +76,7 @@ public interface IStorage
     /// <param name="batchSize">Количество точек из данного диапазона, которое хочется получить</param>
     /// <returns>Выборочные показания прибора (в зависимости от размера 'batchSize') в данном диапазоне дат</returns>
     public List<NewData> GetDataBatchBetweenTwoDates(DateTime beginDate, DateTime endDate, int batchSize);
-    
+
     /// <summary>
     /// Получить показания прибора за следующую дату после переданной.
     /// Например:
@@ -104,11 +104,9 @@ public interface IStorage
     public List<NewData> GetPrevDataBatchAfterThisDate(DateTime date);
 }
 
-
 public class NextDataBatchNotFoundException : Exception
 {
 }
-
 
 public class PrevDataBatchNotFoundException : Exception
 {
