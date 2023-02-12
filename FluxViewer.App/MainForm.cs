@@ -104,8 +104,8 @@ namespace FluxViewer.App
             tableLayoutPanel1.ColumnStyles[1].SizeType = SizeType.Percent;
 
             // ƒата начала и окончани€ по умолчанию текущие
-            beginExportDate.Value = DateTime.Now;
-            endExportDate.Value = DateTime.Now;
+            eBeginExportDate.Value = DateTime.Now;
+            eEndExportDate.Value = DateTime.Now;
         }
         
         /// <summary>
@@ -135,18 +135,18 @@ namespace FluxViewer.App
         {
             foreach (var exportType in Enum.GetValues<ExportType>())
             {
-                exportTypeComboBox.Items.Add(ExportTypeHelper.ToString(exportType));
+                eExportTypeComboBox.Items.Add(ExportTypeHelper.ToString(exportType));
             }
-            exportTypeComboBox.SelectedIndex = 0;
+            eExportTypeComboBox.SelectedIndex = 0;
         }
         
         private void InitDateFormatComboBox()
         {
             foreach (var exportDateType in Enum.GetValues<ExportDateType>())
             {
-                dateFormatComboBox.Items.Add(ExportDateTypeHelper.ExampleByType(exportDateType));
+                eDateFormatComboBox.Items.Add(ExportDateTypeHelper.ExampleByType(exportDateType));
             }
-            dateFormatComboBox.SelectedIndex = 0;
+            eDateFormatComboBox.SelectedIndex = 0;
         }
 
         private void InitDataArchiveGraphs()
