@@ -14,7 +14,6 @@ namespace FluxViewer.App;
 partial class MainForm
 {
     private GraphController _daGraphController;     // Контроллер, отвечающий за график на данной вкладке
-    private PointPairList _daGraphPoints; // Точки графика
 
     private void InitDataArchiveTab()
     {
