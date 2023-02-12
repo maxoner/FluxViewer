@@ -1,7 +1,7 @@
 ﻿using System.Media;
 using FluxViewer.App.Enums;
 using FluxViewer.DataAccess.Controllers;
-using FluxViewer.DataAccess.Export.Exporters;
+using FluxViewer.DataAccess.Export;
 
 namespace FluxViewer.App;
 
@@ -10,8 +10,8 @@ namespace FluxViewer.App;
 /// </summary>
 partial class MainForm
 {
-    private int _dataCount;     // Кол-во показний прибора за выбранный промежуток дат
-    
+    private int _dataCount; // Кол-во показний прибора за выбранный промежуток дат
+
 
     // Фокус на вкладке "ЭКСПОРТ"
     private void exportTabPage_Enter(object sender, EventArgs e)
@@ -19,7 +19,7 @@ partial class MainForm
         UpdateExportInfo();
         ChangeExportButtonState();
     }
-    
+
     // Изменили "Дата начала"
     private void beginExportDate_ValueChanged(object sender, EventArgs e)
     {
@@ -27,7 +27,7 @@ partial class MainForm
         UpdateExportInfo();
         ChangeExportButtonState();
     }
-    
+
     // Изменили "Дата конца"
     private void endExportDate_ValueChanged(object sender, EventArgs e)
     {
@@ -35,26 +35,26 @@ partial class MainForm
         UpdateExportInfo();
         ChangeExportButtonState();
     }
-    
+
     // Нажали на флажок "Заполнять пробелы средним"
     private void fillHolesCheckBox_CheckedChanged(object sender, EventArgs e)
     {
         UpdateExportInfo();
     }
-    
+
     // Нажали на флажок "Дата и время"
     private void dateTimeForExportCheckBox_CheckedChanged(object sender, EventArgs e)
     {
         eDateFormatComboBox.Enabled = dateTimeForExportCheckBox.Checked;
         ChangeExportButtonState();
     }
-    
+
     // Нажали на флажок "Электростатическое поле"
     private void fluxForExportCheckBox_CheckedChanged(object sender, EventArgs e)
     {
         ChangeExportButtonState();
     }
-    
+
     // Нажали на флажок "Температура"
     private void tempForExportCheckBox_CheckedChanged(object sender, EventArgs e)
     {
@@ -66,13 +66,13 @@ partial class MainForm
     {
         ChangeExportButtonState();
     }
-    
+
     // Нажали на флажок "Влажность"
     private void hummForExportCheckBox_CheckedChanged(object sender, EventArgs e)
     {
         ChangeExportButtonState();
     }
-    
+
     // Нажали кнопку "Экспорт"
     private void exportButton_Click(object sender, EventArgs e)
     {
@@ -83,42 +83,42 @@ partial class MainForm
         saveFileDialog.Title = "Сохранить выбраный отрезок как";
         if (saveFileDialog.ShowDialog() != DialogResult.OK)
             return;
-        
+
         var exportController = GetExportController();
         eExportProgressBar.Maximum = exportController.NumberOfExportIterations();
         eExportProgressBar.Step = 1;
-        
-        var fileExporter = ProvideFileExporterByExporterType(saveFileDialog.FileName);
-        foreach (var _ in exportController.Export(fileExporter))
+
+        foreach (var _ in exportController.Export(saveFileDialog.FileName, ProvideFileExporterType()))
         {
             eExportProgressBar.PerformStep();
         }
+
         SystemSounds.Exclamation.Play();
         eExportProgressBar.Value = 0;
     }
-    
+
     private void CheckAndChangeDatesInExportTab()
     {
         var beginDate = eBeginExportDate.Value.Date;
         var endDate = eEndExportDate.Value.Date;
         if (beginDate <= endDate)
             return;
-        
+
         // Не даём пользователю начальную дату сделать большей, чем конечную
         SystemSounds.Beep.Play();
         eBeginExportDate.Value = endDate;
     }
-    
+
     private void UpdateExportInfo()
     {
         var exportController = GetExportController();
         _dataCount = exportController.GetDataCount();
 
         if (eFillHolesCheckBox.Checked)
-            eExportDataCountTextBox.Text = $"> {_dataCount} шт.";   // Выводим кол-во точек
+            eExportDataCountTextBox.Text = $"> {_dataCount} шт."; // Выводим кол-во точек
         else
-            eExportDataCountTextBox.Text = $"{_dataCount} шт.";   // Выводим кол-во точек
-        
+            eExportDataCountTextBox.Text = $"{_dataCount} шт."; // Выводим кол-во точек
+
         var allDatesWithData = exportController.GetAllDatesWithData();
         if (allDatesWithData.Any())
         {
@@ -144,7 +144,7 @@ partial class MainForm
         {
             eExportButton.Enabled = true;
         }
-        else    // Иначе декативируем её!
+        else // Иначе декативируем её!
         {
             eExportButton.Enabled = false;
         }
@@ -152,48 +152,45 @@ partial class MainForm
 
     private string SaveDialogFilterByExporterType()
     {
-        var exporterString = eExportTypeComboBox.SelectedItem.ToString();
-        var exporterType = ExportTypeHelper.FromString(exporterString ?? string.Empty);
-        return exporterType switch
+        var fileExporterType = ProvideFileExporterType();
+        return fileExporterType switch
         {
-            ExportType.PlainText => "TXT|*.txt",
-            ExportType.Csv => "CSV|*.csv",
-            ExportType.Json => "JSON|*.json",
+            FileExporterType.PlainTextExporter => "TXT|*.txt",
+            FileExporterType.CsvExporter => "CSV|*.csv",
+            FileExporterType.JsonExporter => "JSON|*.json",
             _ => throw new Exception("Неизвестный тип экспортёра")
         };
     }
 
-    private FileExporter ProvideFileExporterByExporterType(string pathToFile)
+    private FileExporterType ProvideFileExporterType()
+    {
+        var fileExporterString = eExportTypeComboBox.SelectedItem.ToString();
+        return FileExporterTypeHelper.FromString(fileExporterString ?? string.Empty);
+    }
+
+    private ExportController GetExportController()
     {
         var dateTimeExample = eDateFormatComboBox.SelectedItem.ToString();
         var dateTimeFormat = ExportDateTypeHelper.FromExample(dateTimeExample).ToString();
         var dateTimeNeedExport = dateTimeForExportCheckBox.Checked;
         var fluxNeedExport = fluxForExportCheckBox.Checked;
         var tempNeedExport = tempForExportCheckBox.Checked;
-        var hummNeedExport = hummForExportCheckBox.Checked;
         var presTimeNeedExport = presForExportCheckBox.Checked;
+        var hummNeedExport = hummForExportCheckBox.Checked;
 
-        var exporterString = eExportTypeComboBox.SelectedItem.ToString();
-        var exporterType = ExportTypeHelper.FromString(exporterString ?? string.Empty);
-        return exporterType switch
-        {
-            ExportType.PlainText => new PlainTextFileExporter(pathToFile, dateTimeFormat, dateTimeNeedExport,
-                fluxNeedExport, tempNeedExport, hummNeedExport, presTimeNeedExport),
-            ExportType.Csv => new CsvFileExporter(pathToFile, dateTimeFormat, dateTimeNeedExport, fluxNeedExport,
-                tempNeedExport, hummNeedExport, presTimeNeedExport),
-            ExportType.Json => new JsonFileExporter(pathToFile, dateTimeFormat, dateTimeNeedExport, fluxNeedExport,
-                tempNeedExport, hummNeedExport, presTimeNeedExport),
-            _ => throw new Exception("Неизвестный тип экспортёра")
-        };
-    }
-
-    private ExportController GetExportController()
-    {
         return new ExportController(
-            new DateTime(eBeginExportDate.Value.Year, eBeginExportDate.Value.Month, eBeginExportDate.Value.Day, 00, 00, 00, 000),
-            new DateTime(eEndExportDate.Value.Year, eEndExportDate.Value.Month, eEndExportDate.Value.Day, 23, 59, 59, 999),
+            new DateTime(eBeginExportDate.Value.Year, eBeginExportDate.Value.Month, eBeginExportDate.Value.Day, 00, 00,
+                00, 000),
+            new DateTime(eEndExportDate.Value.Year, eEndExportDate.Value.Month, eEndExportDate.Value.Day, 23, 59, 59,
+                999),
             _storage,
-            eFillHolesCheckBox.Checked
+            eFillHolesCheckBox.Checked,
+            dateTimeFormat,
+            dateTimeNeedExport,
+            fluxNeedExport,
+            tempNeedExport,
+            presTimeNeedExport,
+            hummNeedExport
         );
     }
 }

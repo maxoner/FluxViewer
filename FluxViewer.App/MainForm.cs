@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.IO.Ports;
 using System.Text;
 using FluxViewer.App.Enums;
+using FluxViewer.DataAccess.Export;
 using FluxViewer.DataAccess.GraphThemes;
 using FluxViewer.DataAccess.LiteDbb;
 using FluxViewer.DataAccess.Models;
@@ -133,9 +134,9 @@ namespace FluxViewer.App
 
         private void InitExportTypeComboBox()
         {
-            foreach (var exportType in Enum.GetValues<ExportType>())
+            foreach (var exportType in Enum.GetValues<FileExporterType>())
             {
-                eExportTypeComboBox.Items.Add(ExportTypeHelper.ToString(exportType));
+                eExportTypeComboBox.Items.Add(FileExporterTypeHelper.ToString(exportType));
             }
             eExportTypeComboBox.SelectedIndex = 0;
         }

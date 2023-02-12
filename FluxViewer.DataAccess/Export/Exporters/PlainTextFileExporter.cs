@@ -1,33 +1,43 @@
 ﻿using System.Collections.Generic;
-using System.IO;
+using System.Text;
 using FluxViewer.DataAccess.Models;
 
 namespace FluxViewer.DataAccess.Export.Exporters;
 
-public class PlainTextFileExporter: FileExporter
+public class PlainTextFileExporter : FileExporter
 {
     public PlainTextFileExporter(
-        string pathToFile,
         string dateTimeFormat,
         bool dateTimeConvert,
         bool fluxConvert,
         bool tempConvert,
         bool presConvert,
         bool hummConvert) :
-        base(pathToFile, dateTimeFormat, dateTimeConvert, fluxConvert, tempConvert, presConvert, hummConvert)
+        base(dateTimeFormat, dateTimeConvert, fluxConvert, tempConvert, presConvert, hummConvert)
     {
     }
 
-    public override void Export(IEnumerable<NewData> dataBatch)
+    protected override void WriteDataBatch(IEnumerable<NewData> dataBatch)
     {
-        using var stream = new StreamWriter(PathToFile, true);
         foreach (var record in dataBatch)
         {
             var exportLine = GetExportLine(record);
-            stream.WriteLine(exportLine);
+            FileExporterStream.Write(Encoding.ASCII.GetBytes(exportLine));
         }
     }
-    
+
+    public override long CalculateApproximateExportSizeInBytes(int numOfPoint)
+    {
+        long numOfBytesInOneElement = 0;
+        // Всё берём по максимуму
+        if (DateTimeConvert) numOfBytesInOneElement += 28;
+        if (FluxConvert) numOfBytesInOneElement += 10;  
+        if (TempConvert) numOfBytesInOneElement += 10;
+        if (PresConvert) numOfBytesInOneElement += 10;
+        if (HummConvert) numOfBytesInOneElement += 10;
+        return numOfBytesInOneElement * numOfPoint;
+    }
+
     private string GetExportLine(NewData data)
     {
         var plainTextLine = "";
@@ -36,6 +46,6 @@ public class PlainTextFileExporter: FileExporter
         if (TempConvert) plainTextLine += $"{data.TempSensorData}\t";
         if (PresConvert) plainTextLine += $"{data.PressureSensorData}\t";
         if (HummConvert) plainTextLine += $"{data.HumiditySensorData}\t";
-        return plainTextLine[..^1]; // Удаляем последний '\t'
+        return plainTextLine[..^1] + '\n'; // Удаляем последнюю ';' и добавляем '\n'
     }
 }
