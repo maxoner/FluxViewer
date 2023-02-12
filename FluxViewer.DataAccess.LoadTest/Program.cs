@@ -1,8 +1,6 @@
-﻿using FluxViewer.DataAccess.Exporters;
-using FluxViewer.DataAccess.Models;
-using FluxViewer.DataAccess.Storage;
+﻿using FluxViewer.DataAccess.Models;
 
-void CreateDataFiles(DateTime beginDate, DateTime endDate, float timeDeltaMilliseconds)
+void CreatePlausibleDataFiles(DateTime beginDate, DateTime endDate, float timeDeltaMilliseconds)
 {
     var random = new Random();
     var pathToStorageDir = Path.Combine(Directory.GetCurrentDirectory(), "data");
@@ -19,12 +17,14 @@ void CreateDataFiles(DateTime beginDate, DateTime endDate, float timeDeltaMillis
         var nextDate = currentDate.AddDays(1);
         while (currentDate < nextDate)
         {
+            var value = (double)(currentDate.Hour * 60 * 60 * 100 + currentDate.Minute * 60 * 100 +
+                                 currentDate.Millisecond) / 1000000;
             file.Write(new NewData(
                     currentDate,
-                    (float)(random.NextInt64(1, 30) * random.NextDouble()),
-                    (float)(random.NextInt64(1, 30) * random.NextDouble()),
-                    (float)(random.NextInt64(1, 30) * random.NextDouble()),
-                    (float)(random.NextInt64(1, 30) * random.NextDouble())
+                    (float)(Math.Sin(value) + Math.Cos(value)),
+                    (float)(Math.Cos(value) - Math.Sin(value)),
+                    (float)Math.Sin(value),
+                    (float)Math.Cos(value)
                 ).Serialize()
             );
             currentDate = currentDate.AddMilliseconds(timeDeltaMilliseconds);
@@ -34,9 +34,5 @@ void CreateDataFiles(DateTime beginDate, DateTime endDate, float timeDeltaMillis
 
 
 var beginDate = new DateTime(2022, 11, 24);
-var endDate = new DateTime(2023, 01, 15);
-CreateDataFiles(beginDate, endDate, 400);
-// var storage = new FileSystemStorage();
-// storage.Open();
-// Console.WriteLine(storage.GetDataCountBetweenTwoDates(new DateTime(2022, 11, 24), new DateTime(2022, 11, 24)));
-// storage.Close();
+var endDate = new DateTime(2022, 12, 1);
+CreatePlausibleDataFiles(beginDate, endDate, 400);
