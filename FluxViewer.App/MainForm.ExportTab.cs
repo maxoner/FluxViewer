@@ -36,6 +36,12 @@ partial class MainForm
         ChangeExportButtonState();
     }
     
+    // Нажали на флажок "Заполнять пробелы средним"
+    private void fillHolesCheckBox_CheckedChanged(object sender, EventArgs e)
+    {
+        UpdateExportInfo();
+    }
+    
     // Нажали на флажок "Дата и время"
     private void dateTimeForExportCheckBox_CheckedChanged(object sender, EventArgs e)
     {
@@ -108,7 +114,11 @@ partial class MainForm
         var exportController = GetExportController();
         _dataCount = exportController.GetDataCount();
 
-        exportDataCountTextBox.Text = $"{_dataCount} шт.";   // Выводим кол-во точек
+        if (fillHolesCheckBox.Checked)
+            exportDataCountTextBox.Text = $"> {_dataCount} шт.";   // Выводим кол-во точек
+        else
+            exportDataCountTextBox.Text = $"{_dataCount} шт.";   // Выводим кол-во точек
+        
         var allDatesWithData = exportController.GetAllDatesWithData();
         if (allDatesWithData.Any())
         {

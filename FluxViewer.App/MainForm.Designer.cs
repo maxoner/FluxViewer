@@ -860,6 +860,7 @@
             this.fillHolesCheckBox.TabIndex = 12;
             this.fillHolesCheckBox.Text = "Заполнять пробелы средним";
             this.fillHolesCheckBox.UseVisualStyleBackColor = true;
+            this.fillHolesCheckBox.CheckedChanged += new System.EventHandler(this.fillHolesCheckBox_CheckedChanged);
             // 
             // exportProgressBar
             // 
