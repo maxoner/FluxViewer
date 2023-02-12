@@ -1,8 +1,6 @@
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Text;
-using FluxViewer.App.Enums;
-using FluxViewer.DataAccess.Export;
 using FluxViewer.DataAccess.GraphThemes;
 using FluxViewer.DataAccess.LiteDbb;
 using FluxViewer.DataAccess.Models;
@@ -72,10 +70,8 @@ namespace FluxViewer.App
             InitDataArchiveGraphs();
             
             InitDataArchiveTab();
+            InitExportTab();
 
-            InitExportTypeComboBox();
-            InitDateFormatComboBox();
-            
             dataGridView1.Rows.Add();
             dataGridView1.Rows.Add();
 
@@ -103,10 +99,6 @@ namespace FluxViewer.App
             tableLayoutPanel1.RowStyles[1].SizeType = SizeType.Percent;
             tableLayoutPanel1.ColumnStyles[0].SizeType = SizeType.Percent;
             tableLayoutPanel1.ColumnStyles[1].SizeType = SizeType.Percent;
-
-            // ƒата начала и окончани€ по умолчанию текущие
-            eBeginExportDate.Value = DateTime.Now;
-            eEndExportDate.Value = DateTime.Now;
         }
         
         /// <summary>
@@ -130,24 +122,6 @@ namespace FluxViewer.App
             {
                 _props.WriteXml();
             }
-        }
-
-        private void InitExportTypeComboBox()
-        {
-            foreach (var exportType in Enum.GetValues<FileExporterType>())
-            {
-                eExportTypeComboBox.Items.Add(FileExporterTypeHelper.ToString(exportType));
-            }
-            eExportTypeComboBox.SelectedIndex = 0;
-        }
-        
-        private void InitDateFormatComboBox()
-        {
-            foreach (var exportDateType in Enum.GetValues<ExportDateType>())
-            {
-                eDateFormatComboBox.Items.Add(ExportDateTypeHelper.ExampleByType(exportDateType));
-            }
-            eDateFormatComboBox.SelectedIndex = 0;
         }
 
         private void InitDataArchiveGraphs()

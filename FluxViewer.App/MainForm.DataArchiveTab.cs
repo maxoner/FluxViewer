@@ -29,10 +29,6 @@ partial class MainForm
 
         InitChannelNameComboBox(); // Выставляем все доступные виды каналов для постройки графиков
 
-        // Выставляем даты текущими по умолчанию
-        daBeginDateDateTimePicker.Value = DateTime.Now.Date;
-        daEndDateDateTimePicker.Value = DateTime.Now.Date;
-
         // Генерим заголовок над крутилкой точек        
         daNumOfPointsGroupBox.Text = $@"Детализация: {CalculateNumOfPoint()} точек";
     }

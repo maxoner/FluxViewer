@@ -695,6 +695,7 @@
             this.daBeginDateDateTimePicker.Name = "daBeginDateDateTimePicker";
             this.daBeginDateDateTimePicker.Size = new System.Drawing.Size(145, 25);
             this.daBeginDateDateTimePicker.TabIndex = 0;
+            this.daBeginDateDateTimePicker.Value = DateTime.Now;
             this.daBeginDateDateTimePicker.ValueChanged += new System.EventHandler(this.daBeginDateDateTimePicker_ValueChanged);
             // 
             // daEndDateGroupBox
@@ -718,6 +719,7 @@
             this.daEndDateDateTimePicker.Name = "daEndDateDateTimePicker";
             this.daEndDateDateTimePicker.Size = new System.Drawing.Size(146, 25);
             this.daEndDateDateTimePicker.TabIndex = 0;
+            this.daEndDateDateTimePicker.Value = DateTime.Now;
             this.daEndDateDateTimePicker.ValueChanged += new System.EventHandler(this.daEndDateDateTimePicker_ValueChanged);
             // 
             // daChannelNameGroupBox
@@ -813,7 +815,6 @@
             this.exportTabPage.TabIndex = 3;
             this.exportTabPage.Text = "ЭКСПОРТ";
             this.exportTabPage.UseVisualStyleBackColor = true;
-            this.exportTabPage.Enter += new System.EventHandler(this.exportTabPage_Enter);
             // 
             // eMainGroupBox
             // 
@@ -943,6 +944,7 @@
             this.eBeginExportDate.Name = "eBeginExportDate";
             this.eBeginExportDate.Size = new System.Drawing.Size(200, 25);
             this.eBeginExportDate.TabIndex = 5;
+            this.eBeginExportDate.Value = DateTime.Now;
             this.eBeginExportDate.ValueChanged += new System.EventHandler(this.beginExportDate_ValueChanged);
             // 
             // eEndExportDateLabel
@@ -960,6 +962,7 @@
             this.eEndExportDate.Name = "eEndExportDate";
             this.eEndExportDate.Size = new System.Drawing.Size(200, 25);
             this.eEndExportDate.TabIndex = 6;
+            this.eEndExportDate.Value = DateTime.Now;
             this.eEndExportDate.ValueChanged += new System.EventHandler(this.endExportDate_ValueChanged);
             // 
             // eExportTypeLabel

@@ -11,13 +11,33 @@ namespace FluxViewer.App;
 partial class MainForm
 {
     private int _dataCount; // Кол-во показний прибора за выбранный промежуток дат
-
-
-    // Фокус на вкладке "ЭКСПОРТ"
-    private void exportTabPage_Enter(object sender, EventArgs e)
+    
+    private void InitExportTab()
     {
+        InitExportTypeComboBox();
+        InitDateFormatComboBox();
+        
         UpdateExportInfo();
         ChangeExportButtonState();
+    }
+    
+    
+    private void InitExportTypeComboBox()
+    {
+        foreach (var exportType in Enum.GetValues<FileExporterType>())
+        {
+            eExportTypeComboBox.Items.Add(FileExporterTypeHelper.ToString(exportType));
+        }
+        eExportTypeComboBox.SelectedIndex = 0;
+    }
+        
+    private void InitDateFormatComboBox()
+    {
+        foreach (var exportDateType in Enum.GetValues<ExportDateType>())
+        {
+            eDateFormatComboBox.Items.Add(ExportDateTypeHelper.ExampleByType(exportDateType));
+        }
+        eDateFormatComboBox.SelectedIndex = 0;
     }
 
     // Изменили "Дата начала"
