@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluxViewer.DataAccess.Export;
-using FluxViewer.DataAccess.Models;
 using FluxViewer.DataAccess.Storage;
 
 namespace FluxViewer.DataAccess.Controllers;

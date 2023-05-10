@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.IO.Ports;
 using System.Text;
 using FluxViewer.DataAccess.GraphThemes;
-using FluxViewer.DataAccess.Models;
 using FluxViewer.DataAccess.Storage;
 using ZedGraph;
 
