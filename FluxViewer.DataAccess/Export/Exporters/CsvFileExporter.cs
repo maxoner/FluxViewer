@@ -19,7 +19,7 @@ public class CsvFileExporter : FileExporter
     {
     }
 
-    protected override void WriteDataBatch(IEnumerable<NewData> dataBatch)
+    protected override void WriteDataBatch(IEnumerable<Data> dataBatch)
     {
         if (_isFirstLine)
         {
@@ -58,7 +58,7 @@ public class CsvFileExporter : FileExporter
         return csvTitle[..^1] + '\n'; // Удаляем последнюю ';' и добавляем '\n'
     }
 
-    private string GetExportLine(NewData data)
+    private string GetExportLine(Data data)
     {
         var csvLine = "";
         if (DateTimeConvert) csvLine += $"{data.DateTime.ToString(DateTimeFormat)};";

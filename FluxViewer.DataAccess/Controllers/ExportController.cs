@@ -106,7 +106,7 @@ public class ExportController
         var allDatesWithData = _storage.GetAllDatesWithDataBetweenTwoDates(_beginDate, _endDate);
         var currentDate = new DateTime(_beginDate.Year, _beginDate.Month, _beginDate.Day, 00, 00, 00);
         var iteration = 0;
-        List<NewData> prevDataBatch = null;
+        List<Data> prevDataBatch = null;
 
         var fileExporter = FileExporterFabric.GetFileExporterByType(_fileExporterType, _dateTimeFormat,
             _dateTimeConvert, _fluxConvert, _tempConvert, _presConvert, _hummConvert);

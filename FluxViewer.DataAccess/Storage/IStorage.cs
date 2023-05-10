@@ -24,7 +24,7 @@ public interface IStorage
     /// Добавление показания прибора в хранилище.
     /// </summary>
     /// <param name="data">Структура, описывающая 1 показание прибора</param>
-    void WriteData(NewData data);
+    void WriteData(Data data);
 
     /// <summary>
     /// Получение количества всех показаний, записанных за всё время.
@@ -60,7 +60,7 @@ public interface IStorage
     /// </summary>
     /// <param name="date">Дата в которую следует искать показания</param>
     /// <returns>Все показания прибора, полученные в текущую дату</returns>
-    public List<NewData> GetDataBatchByDate(DateTime date);
+    public List<Data> GetDataBatchByDate(DateTime date);
 
 
     /// <summary>
@@ -75,7 +75,7 @@ public interface IStorage
     /// <param name="endDate">Дата конца, по которую происходит поиск показаний прибора</param>
     /// <param name="batchSize">Количество точек из данного диапазона, которое хочется получить</param>
     /// <returns>Выборочные показания прибора (в зависимости от размера 'batchSize') в данном диапазоне дат</returns>
-    public List<NewData> GetDataBatchBetweenTwoDates(DateTime beginDate, DateTime endDate, int batchSize);
+    public List<Data> GetDataBatchBetweenTwoDates(DateTime beginDate, DateTime endDate, int batchSize);
 
     /// <summary>
     /// Получить показания прибора за следующую дату после переданной.
@@ -88,7 +88,7 @@ public interface IStorage
     /// <param name="date">Дата, от которой ищется следующая дата, в которую прибор записывал показания</param>
     /// <exception cref="NextDataBatchNotFoundException">Порождается, если следующая за текущей дата не найдена</exception>
     /// <returns>Показания прибора, если нашлась дата, позже переданной, иначе - ошибка</returns>
-    public List<NewData> GetNextDataBatchAfterThisDate(DateTime date);
+    public List<Data> GetNextDataBatchAfterThisDate(DateTime date);
 
     /// <summary>
     /// Получить показания прибора за предыдущую дату после переданной.
@@ -101,7 +101,7 @@ public interface IStorage
     /// <param name="date">Дата, от которой ищется предыдущая дата, в которую прибор записывал показания</param>
     /// /// <exception cref="PrevDataBatchNotFoundException">Порождается, если следующая за текущей дата не найдена</exception>
     /// <returns>Показания прибора, если нашлась дата, раньше переданной, иначе - ошибка</returns>
-    public List<NewData> GetPrevDataBatchAfterThisDate(DateTime date);
+    public List<Data> GetPrevDataBatchAfterThisDate(DateTime date);
 }
 
 public class NextDataBatchNotFoundException : Exception

@@ -17,7 +17,7 @@ public class PlainTextFileExporter : FileExporter
     {
     }
 
-    protected override void WriteDataBatch(IEnumerable<NewData> dataBatch)
+    protected override void WriteDataBatch(IEnumerable<Data> dataBatch)
     {
         foreach (var record in dataBatch)
         {
@@ -38,7 +38,7 @@ public class PlainTextFileExporter : FileExporter
         return numOfBytesInOneElement * numOfPoint;
     }
 
-    private string GetExportLine(NewData data)
+    private string GetExportLine(Data data)
     {
         var plainTextLine = "";
         if (DateTimeConvert) plainTextLine += $"{data.DateTime.ToString(DateTimeFormat)}\t";

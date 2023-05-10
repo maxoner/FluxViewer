@@ -142,7 +142,7 @@ partial class MainForm
     private void RedrawGraph()
     {
         var controller = GetDataArchiveController();
-        var dataBatch = new List<NewData>();
+        var dataBatch = new List<Data>();
 
         if (controller.HasDataBetweenTwoDates())
         {
@@ -201,7 +201,7 @@ partial class MainForm
         return 100000 / daNumOfPointsTrackBar.Maximum * normalizePosition; // TODO: 100000 в константы!
     }
 
-    private static List<PointPair> GetGraphPointsFromDataBatchByGraphType(List<NewData> dataBatch,
+    private static List<PointPair> GetGraphPointsFromDataBatchByGraphType(List<Data> dataBatch,
         GraphType graphType)
     {
         var points = new List<PointPair>();

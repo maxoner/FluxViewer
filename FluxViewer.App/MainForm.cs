@@ -303,7 +303,7 @@ namespace FluxViewer.App
 
                 //Сохранить данные в базу
                 // TODO: Убираем ID, т.к. не можем его контроллировать!
-                _storage.WriteData(new NewData(DateTime.Now, _flux, _temp, _pres, _humm));
+                _storage.WriteData(new Data(DateTime.Now, _flux, _temp, _pres, _humm));
 
 
                 this.BeginInvoke((MethodInvoker)delegate { DrawUpdate(); });

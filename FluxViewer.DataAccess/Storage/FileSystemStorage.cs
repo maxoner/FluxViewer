@@ -24,7 +24,7 @@ public class FileSystemStorage : IStorage
         // Для файловой системы никакое закрытие не требуется.
     }
 
-    public void WriteData(NewData data)
+    public void WriteData(Data data)
     {
         var filename = DateTime.Today.ToString(FilenameDateFormat) + "." + FilenameExtension;
         var pathToCurrentFile = Path.Combine(_pathToStorageDir, filename);
@@ -59,7 +59,7 @@ public class FileSystemStorage : IStorage
         return File.Exists(pathToFile);
     }
 
-    public List<NewData> GetDataBatchByDate(DateTime date)
+    public List<Data> GetDataBatchByDate(DateTime date)
     {
         var filename = date.ToString(FilenameDateFormat) + "." + FilenameExtension;
         var pathToFile = Path.Combine(_pathToStorageDir, filename);
@@ -67,15 +67,15 @@ public class FileSystemStorage : IStorage
         try
         {
             using var file = new FileStream(pathToFile, FileMode.Open, FileAccess.Read);
-            var data = new List<NewData>();
-            var buffer = new byte[NewData.ByteLenght];
+            var data = new List<Data>();
+            var buffer = new byte[Data.ByteLenght];
             while (true)
             {
                 var numOfReadBytes = file.Read(buffer);
                 if (numOfReadBytes == 0)
                     break;
 
-                data.Add(NewData.Deserialize(buffer));
+                data.Add(Data.Deserialize(buffer));
             }
 
             return data;
@@ -86,17 +86,17 @@ public class FileSystemStorage : IStorage
         }
     }
 
-    public List<NewData> GetDataBatchBetweenTwoDates(DateTime beginDate, DateTime endDate, int batchSize)
+    public List<Data> GetDataBatchBetweenTwoDates(DateTime beginDate, DateTime endDate, int batchSize)
     {
         var dataCount = GetDataCountBetweenTwoDates(beginDate, endDate);
         // Сколько значений пропускать после 1 успешной записи?
         var skip = (dataCount > batchSize) ? dataCount / batchSize - 1 : 0;
 
-        var dataBatch = new List<NewData>();
+        var dataBatch = new List<Data>();
         foreach (var pathToFile in GetFilePathsBetweenTwoDates(beginDate, endDate))
         {
             using var file = new FileStream(pathToFile, FileMode.Open, FileAccess.Read);
-            var buffer = new byte[NewData.ByteLenght];
+            var buffer = new byte[Data.ByteLenght];
             while (true)
             {
                 var numOfReadBytes = file.Read(buffer);
@@ -106,16 +106,16 @@ public class FileSystemStorage : IStorage
                 if (dataBatch.Count >= batchSize)
                     break;
 
-                dataBatch.Add(NewData.Deserialize(buffer)); // Записали одно показание
+                dataBatch.Add(Data.Deserialize(buffer)); // Записали одно показание
                 if (skip != 0)
-                    file.Seek(skip * NewData.ByteLenght, SeekOrigin.Current); // и пропустили несколько
+                    file.Seek(skip * Data.ByteLenght, SeekOrigin.Current); // и пропустили несколько
             }
         }
 
         return dataBatch;
     }
 
-    public List<NewData> GetNextDataBatchAfterThisDate(DateTime date)
+    public List<Data> GetNextDataBatchAfterThisDate(DateTime date)
     {
         var allFilePaths = Directory.GetFiles(_pathToStorageDir);
         foreach (var fullPath in allFilePaths)
@@ -129,7 +129,7 @@ public class FileSystemStorage : IStorage
         throw new NextDataBatchNotFoundException();
     }
 
-    public List<NewData> GetPrevDataBatchAfterThisDate(DateTime date)
+    public List<Data> GetPrevDataBatchAfterThisDate(DateTime date)
     {
         var allFilePaths = Directory.GetFiles(_pathToStorageDir);
         foreach (var fullPath in allFilePaths)
@@ -179,6 +179,6 @@ public class FileSystemStorage : IStorage
 
     private static int GetDataCountFromFile(string pathToFile)
     {
-        return (int)(new FileInfo(pathToFile).Length / NewData.ByteLenght);
+        return (int)(new FileInfo(pathToFile).Length / Data.ByteLenght);
     }
 }

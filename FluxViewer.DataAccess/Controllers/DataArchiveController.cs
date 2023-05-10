@@ -42,7 +42,7 @@ public class DataArchiveController
     /// <param name="numOfPoint">Количество показаний прибора, которое надо предоставить. Вернёт или данное
     /// количество, или меньше (в случае, если в данном диапазоне дат реальных показаний не так много)</param>
     /// <returns>Нужное кол-вол показания прибора в данном диапазоне дат</returns>
-    public List<NewData> GetDataBetweenTwoDates(int numOfPoint)
+    public List<Data> GetDataBetweenTwoDates(int numOfPoint)
     {
         return _storage.GetDataBatchBetweenTwoDates(beginDate, endDate, numOfPoint);
     }

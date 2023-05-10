@@ -17,15 +17,15 @@ public static class DataBatchGenerator
     /// <param name="fixedPres">Фиксированное давление</param>
     /// <param name="fixedHumm">Фиксированная влажность</param>
     /// <returns></returns>
-    public static List<NewData> GenerateDataBatch(DateTime date, float timeShift, float fixedFlux,
+    public static List<Data> GenerateDataBatch(DateTime date, float timeShift, float fixedFlux,
         float fixedTemp, float fixedPres, float fixedHumm)
     {
-        var dataBatch = new List<NewData>();
+        var dataBatch = new List<Data>();
         var currentDate = new DateTime(date.Year, date.Month, date.Day, 00, 00, 00);
         var finishDate = currentDate.AddDays(1);
         while (currentDate < finishDate)
         {
-            dataBatch.Add(new NewData(currentDate, fixedFlux, fixedTemp, fixedPres, fixedHumm));
+            dataBatch.Add(new Data(currentDate, fixedFlux, fixedTemp, fixedPres, fixedHumm));
             currentDate = currentDate.AddMilliseconds(timeShift);
         }
 

@@ -1,45 +1,78 @@
 ﻿using System;
+using System.Linq;
 
-namespace FluxViewer.DataAccess.Models
+namespace FluxViewer.DataAccess.Models;
+
+public struct Data
 {
     /// <summary>
-    /// Информация с прибора. Созданный и инициализированный бъект весит ~ 80 байт
+    /// DateTime (8 байт) + FluxSensorData (4 байта) + TempSensorData (4 байта) +
+    /// PressureSensorData (4 байта) + HumiditySensorData (4 байта) = 24 байта
     /// </summary>
-    public class Data
+    public const int ByteLenght = 24;
+
+    /// <summary>
+    /// Дата и время с миллисекундами
+    /// </summary>
+    public DateTime DateTime;
+
+    /// <summary>
+    /// Информация с датчиков флюкс метра
+    /// </summary>
+    public readonly float FluxSensorData;
+
+    /// <summary>
+    /// Информация с датчиков температуры
+    /// </summary>
+    public readonly float TempSensorData;
+
+    /// <summary>
+    /// Информация с датчиков давления
+    /// </summary>
+    public readonly float PressureSensorData;
+
+    /// <summary>
+    /// Информация с датчиков влажности
+    /// </summary>
+    public readonly float HumiditySensorData;
+
+    public Data(DateTime dateTime, float fluxSensorData, float tempSensorData, float pressureSensorData,
+        float humiditySensorData)
     {
-        /// <summary>
-        /// Идентификатор
-        /// </summary>
-        public int Id { get; set; }
+        DateTime = dateTime;
+        FluxSensorData = fluxSensorData;
+        TempSensorData = tempSensorData;
+        PressureSensorData = pressureSensorData;
+        HumiditySensorData = humiditySensorData;
+    }
 
-        /// <summary>
-        /// Дата и время с миллисекундами
-        /// </summary>
-        public DateTime DateTime { get; set; } = DateTime.Now;
+    public byte[] Serialize()
+    {
+        return BitConverter.GetBytes(((DateTimeOffset)DateTime).ToUnixTimeMilliseconds()).Concat(
+            BitConverter.GetBytes(FluxSensorData).Concat(
+                BitConverter.GetBytes(TempSensorData).Concat(
+                    BitConverter.GetBytes(PressureSensorData).Concat(
+                        BitConverter.GetBytes(HumiditySensorData))))).ToArray();
+    }
 
-        /// <summary>
-        /// Информация с датчиков флюкс метра
-        /// </summary>
-        public float FluxSensorData {get;set;}
+    public static Data Deserialize(byte[] bytes)
+    {
+        var dateTimeBytes = new byte[8];
+        Array.Copy(bytes, 0, dateTimeBytes, 0, 8);
+        var fluxSensorDataBytes = new byte[4];
+        Array.Copy(bytes, 8, fluxSensorDataBytes, 0, 4);
+        var tempSensorDataDataBytes = new byte[4];
+        Array.Copy(bytes, 12, tempSensorDataDataBytes, 0, 4);
+        var pressureSensorDataBytes = new byte[4];
+        Array.Copy(bytes, 16, pressureSensorDataBytes, 0, 4);
+        var humiditySensorDataBytes = new byte[4];
+        Array.Copy(bytes, 20, humiditySensorDataBytes, 0, 4);
 
-        /// <summary>
-        /// Информация с датчиков температуры
-        /// </summary>
-        public float TempSensorData {get;set;}
-
-        /// <summary>
-        /// Информация с датчиков давления
-        /// </summary>
-        public float PressureSensorData { get;set;}
-
-        /// <summary>
-        /// Информация с датчиков влажности
-        /// </summary>
-        public float HumiditySensorData { get;set;}
-
-        public override string ToString()
-        {
-            return $"{Id}\t{DateTime}\t{FluxSensorData}\t{TempSensorData}\t{PressureSensorData}\t{HumiditySensorData}";
-        }
+        return new Data(
+            DateTimeOffset.FromUnixTimeMilliseconds(BitConverter.ToInt64(dateTimeBytes)).LocalDateTime,
+            BitConverter.ToSingle(fluxSensorDataBytes),
+            BitConverter.ToSingle(tempSensorDataDataBytes),
+            BitConverter.ToSingle(pressureSensorDataBytes),
+            BitConverter.ToSingle(humiditySensorDataBytes));
     }
 }

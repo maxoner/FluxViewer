@@ -19,7 +19,7 @@ public class JsonFileExporter : FileExporter
     {
     }
 
-    protected override void WriteDataBatch(IEnumerable<NewData> dataBatch)
+    protected override void WriteDataBatch(IEnumerable<Data> dataBatch)
     {
         FileExporterStream.Write(Encoding.ASCII.GetBytes("{\n"));
         foreach (var record in dataBatch)
@@ -43,7 +43,7 @@ public class JsonFileExporter : FileExporter
         return 4 + numOfBytesInOneElement * numOfPoint; // Где '4' - главные скобки + переносы кареток
     }
 
-    private string GetExportLine(NewData data)
+    private string GetExportLine(Data data)
     {
         var jsonLine = "";
         if (_isFirstLine)

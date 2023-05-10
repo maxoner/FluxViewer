@@ -59,7 +59,7 @@ public abstract class FileExporter
     /// Экспортировать коллекцию с показаниями прибора в файл.
     /// </summary>
     /// <param name="dataBatch">Коллекция с показаниями прибора, которые будут экспортированы</param>
-    public void Export(IEnumerable<NewData> dataBatch)
+    public void Export(IEnumerable<Data> dataBatch)
     {
         // Каждый раз переоткрываем файл, потому что только так буфер сбрасывается на диск:( 
         // .Flush() эффекта почему то не даёт
@@ -68,7 +68,7 @@ public abstract class FileExporter
         FileExporterStream.Close();
     }
 
-    protected abstract void WriteDataBatch(IEnumerable<NewData> dataBatch);
+    protected abstract void WriteDataBatch(IEnumerable<Data> dataBatch);
 
     /// <summary>
     /// Рассчитать ориентировочный размер файла (в байтах) после экспорта по кол-ву показаний 

@@ -23,7 +23,7 @@ public static class PlaceHolder
     /// </summary>
     /// <param name="dataBatch">Набор показаний прибора</param>
     /// <returns>Все показания прибора, но уже с заполненными пробелами.</returns>
-    public static IEnumerable<NewData> FillHoles(List<NewData> dataBatch)
+    public static IEnumerable<Data> FillHoles(List<Data> dataBatch)
     {
         var timeShift = GetMeanTimeShift(dataBatch); // Время (в мс.) между двумя показаниями (т.н. timedelta)
         var firstData = dataBatch.First();
@@ -47,7 +47,7 @@ public static class PlaceHolder
     /// </summary>
     /// <param name="dataBatch">Набор показаний прибора</param>
     /// <returns>Среднее время между двумя показаниями</returns>
-    public static double GetMeanTimeShift(IReadOnlyList<NewData> dataBatch)
+    public static double GetMeanTimeShift(IReadOnlyList<Data> dataBatch)
     {
         double meanTimeShift = 0; // Полученная средняя дельта между двумя показаниями
         var num = 0; // Кол-во показаний, которые учитывались для рассчёта средней дельты
@@ -66,7 +66,7 @@ public static class PlaceHolder
         return meanTimeShift / num;
     }
 
-    private static IEnumerable<NewData> GenerateHead(NewData firstData, double timeShift)
+    private static IEnumerable<Data> GenerateHead(Data firstData, double timeShift)
     {
         var firstDateTime = firstData.DateTime;
         if (firstDateTime.Hour == 0 && firstDateTime.Minute == 0 && firstDateTime.Second == 0)
@@ -74,7 +74,7 @@ public static class PlaceHolder
         var currentTime = new DateTime(firstDateTime.Year, firstDateTime.Month, firstDateTime.Day, 0, 0, 0);
         while (currentTime < firstDateTime)
         {
-            yield return new NewData(
+            yield return new Data(
                 currentTime,
                 firstData.FluxSensorData,
                 firstData.TempSensorData,
@@ -85,7 +85,7 @@ public static class PlaceHolder
         }
     }
 
-    private static IEnumerable<NewData> GenerateBatchWithoutHolder(IReadOnlyList<NewData> dataBatch, double timeShift)
+    private static IEnumerable<Data> GenerateBatchWithoutHolder(IReadOnlyList<Data> dataBatch, double timeShift)
     {
         // 'dataBatch.Count - 2' - потому что 'lastData' вернём за пределами метода
         for (var i = 0; i < dataBatch.Count - 2; i++)
@@ -103,7 +103,7 @@ public static class PlaceHolder
                 var meanHumiditySensorData = (startData.HumiditySensorData + endData.HumiditySensorData) / 2;
                 while (currentDateTime < endData.DateTime)
                 {
-                    yield return new NewData(
+                    yield return new Data(
                         currentDateTime,
                         meanFluxSensorData,
                         meanTempSensorData,
@@ -120,7 +120,7 @@ public static class PlaceHolder
         }
     }
 
-    private static IEnumerable<NewData> GenerateTail(NewData lastData, double timeShift)
+    private static IEnumerable<Data> GenerateTail(Data lastData, double timeShift)
     {
         var lastDateTime = lastData.DateTime;
         if (lastDateTime.Hour == 23 && lastDateTime.Minute == 59 && lastDateTime.Second == 59)
@@ -130,7 +130,7 @@ public static class PlaceHolder
         var currentTime = lastDateTime.AddMilliseconds(timeShift);
         while (currentTime <= requiredEndDateTime)
         {
-            yield return new NewData(
+            yield return new Data(
                 currentTime,
                 lastData.FluxSensorData,
                 lastData.TempSensorData,
