@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.IO.Ports;
 using System.Text;
 using FluxViewer.DataAccess.GraphThemes;
-using FluxViewer.DataAccess.LiteDbb;
 using FluxViewer.DataAccess.Models;
 using FluxViewer.DataAccess.Storage;
 using ZedGraph;
@@ -44,7 +43,6 @@ namespace FluxViewer.App
         private int _baseSize; // Размер строк в базе между указанными датами TODO: выпилить данное поле
 
         // База данных
-        private ILiteDbService _dataBaseContext; // TODO: выпилить БД
         private IStorage _storage;
 
         private Props _props;

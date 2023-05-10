@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LiteDB" Version="5.0.12" />
     <PackageReference Include="ZedGraph" Version="5.1.7" />
   </ItemGroup>
 
