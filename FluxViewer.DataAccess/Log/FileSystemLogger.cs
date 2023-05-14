@@ -3,12 +3,12 @@ using System.IO;
 
 namespace FluxViewer.DataAccess.Log;
 
-public class FileSystemLogger : ILogger
+public static class FileSystemLogger
 {
     private const string FilenameDateFormat = "yyyy_MM_dd";
     private const string FilenameExtension = "log";
 
-    public void WriteLog(LogLevel logLevel, LogInitiator logInitiator, string message)
+    public static void WriteLog(LogLevel logLevel, LogInitiator logInitiator, string message)
     {
         var pathToStorageDir = Path.Combine(Directory.GetCurrentDirectory(), "logs");
         if (!Directory.Exists(pathToStorageDir))
@@ -20,7 +20,7 @@ public class FileSystemLogger : ILogger
         file.WriteLine(MakeLogMessage(logLevel, logInitiator, message));
     }
 
-    public bool HasLogsForThisData(DateTime date)
+    public static bool HasLogsForThisData(DateTime date)
     {
         var pathToStorageDir = Path.Combine(Directory.GetCurrentDirectory(), "logs");
         var filename = date.ToString(FilenameDateFormat) + "." + FilenameExtension;
@@ -28,7 +28,7 @@ public class FileSystemLogger : ILogger
         return File.Exists(pathToFile);
     }
 
-    public string[] GetLogsByDate(DateTime date)
+    public static string[] GetLogsByDate(DateTime date)
     {
         var pathToStorageDir = Path.Combine(Directory.GetCurrentDirectory(), "logs");
         if (!Directory.Exists(pathToStorageDir))
