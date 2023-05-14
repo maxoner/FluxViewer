@@ -16,6 +16,12 @@ public interface ILogger
     /// <param name="message">Сообщение лога</param>
     void WriteLog(LogLevel logLevel, LogInitiator logInitiator, string message);
 
+    /// <summary>
+    /// Проверка на наличие логов за текущую дату?
+    /// </summary>
+    /// <param name="date">Дата, за которую необходимо проверить естль ли логи</param>
+    /// <returns>true - если логи найдены, иначе - false</returns>
+    bool HasLogsForThisData(DateTime date);
 
     /// <summary>
     /// Получить все логи за определённую дату

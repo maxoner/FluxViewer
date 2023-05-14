@@ -20,6 +20,14 @@ public class FileSystemLogger : ILogger
         file.WriteLine(MakeLogMessage(logLevel, logInitiator, message));
     }
 
+    public bool HasLogsForThisData(DateTime date)
+    {
+        var pathToStorageDir = Path.Combine(Directory.GetCurrentDirectory(), "logs");
+        var filename = date.ToString(FilenameDateFormat) + "." + FilenameExtension;
+        var pathToFile = Path.Combine(pathToStorageDir, filename);
+        return File.Exists(pathToFile);
+    }
+
     public string[] GetLogsByDate(DateTime date)
     {
         var pathToStorageDir = Path.Combine(Directory.GetCurrentDirectory(), "logs");
