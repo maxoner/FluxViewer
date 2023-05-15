@@ -223,7 +223,8 @@
             this.label30 = new System.Windows.Forms.Label();
             this.logsTabPage = new System.Windows.Forms.TabPage();
             this.logsGroupBox = new System.Windows.Forms.GroupBox();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.logsDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.logsListBox = new System.Windows.Forms.ListBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
@@ -2551,11 +2552,13 @@
             this.logsTabPage.TabIndex = 7;
             this.logsTabPage.Text = "Журнал регистрации";
             this.logsTabPage.UseVisualStyleBackColor = true;
+            this.logsTabPage.Enter += new System.EventHandler(this.logsTabPage_Enter);
             // 
             // logsGroupBox
             // 
             this.logsGroupBox.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.logsGroupBox.Controls.Add(this.listView1);
+            this.logsGroupBox.Controls.Add(this.logsDateTimePicker);
+            this.logsGroupBox.Controls.Add(this.logsListBox);
             this.logsGroupBox.Location = new System.Drawing.Point(22, 17);
             this.logsGroupBox.Name = "logsGroupBox";
             this.logsGroupBox.Size = new System.Drawing.Size(930, 488);
@@ -2563,13 +2566,22 @@
             this.logsGroupBox.TabStop = false;
             this.logsGroupBox.Text = "Журнал регистрации";
             // 
-            // listView1
+            // logsDateTimePicker
             // 
-            this.listView1.Location = new System.Drawing.Point(14, 25);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(902, 447);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.logsDateTimePicker.Location = new System.Drawing.Point(14, 24);
+            this.logsDateTimePicker.Name = "logsDateTimePicker";
+            this.logsDateTimePicker.Size = new System.Drawing.Size(200, 25);
+            this.logsDateTimePicker.TabIndex = 1;
+            this.logsDateTimePicker.ValueChanged += new System.EventHandler(this.logsDateTimePicker_ValueChanged);
+            // 
+            // logsListBox
+            // 
+            this.logsListBox.FormattingEnabled = true;
+            this.logsListBox.ItemHeight = 17;
+            this.logsListBox.Location = new System.Drawing.Point(14, 59);
+            this.logsListBox.Name = "logsListBox";
+            this.logsListBox.Size = new System.Drawing.Size(903, 412);
+            this.logsListBox.TabIndex = 0;
             // 
             // openFileDialog1
             // 
@@ -2867,6 +2879,7 @@
         private Label eApproximateExportSizeLabel;
         private TabPage logsTabPage;
         private GroupBox logsGroupBox;
-        private ListView listView1;
+        private ListBox logsListBox;
+        private DateTimePicker logsDateTimePicker;
     }
 }

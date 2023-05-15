@@ -25,6 +25,9 @@
     <Compile Update="MainForm.DataArchiveTab.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Update="MainForm.SettingsTab.LogsTab.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
