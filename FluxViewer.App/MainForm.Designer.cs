@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -75,33 +75,35 @@
             this.exportTabPage = new System.Windows.Forms.TabPage();
             this.eMainGroupBox = new System.Windows.Forms.GroupBox();
             this.eGroupBox = new System.Windows.Forms.GroupBox();
-            this.eFillHolesCheckBox = new System.Windows.Forms.CheckBox();
-            this.eExportProgressBar = new System.Windows.Forms.ProgressBar();
-            this.eSecondsLabel = new System.Windows.Forms.Label();
-            this.eExportIntervalsTextBox = new System.Windows.Forms.TextBox();
-            this.eFilterApplyingCheckBox = new System.Windows.Forms.CheckBox();
-            this.eDateFormatLabel = new System.Windows.Forms.Label();
-            this.eDateFormatComboBox = new System.Windows.Forms.ComboBox();
-            this.eExportButton = new System.Windows.Forms.Button();
             this.eBeginExportDateLabel = new System.Windows.Forms.Label();
             this.eBeginExportDate = new System.Windows.Forms.DateTimePicker();
             this.eEndExportDateLabel = new System.Windows.Forms.Label();
             this.eEndExportDate = new System.Windows.Forms.DateTimePicker();
             this.eExportTypeLabel = new System.Windows.Forms.Label();
             this.eExportTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.eDateFormatLabel = new System.Windows.Forms.Label();
+            this.eDateFormatComboBox = new System.Windows.Forms.ComboBox();
+            this.eFillHolesCheckBox = new System.Windows.Forms.CheckBox();
+            this.eFilterApplyingCheckBox = new System.Windows.Forms.CheckBox();
+            this.eExportIntervalsTextBox = new System.Windows.Forms.TextBox();
+            this.eSecondsLabel = new System.Windows.Forms.Label();
             this.eExportFieldsGroupBox = new System.Windows.Forms.GroupBox();
             this.dateTimeForExportCheckBox = new System.Windows.Forms.CheckBox();
             this.fluxForExportCheckBox = new System.Windows.Forms.CheckBox();
             this.tempForExportCheckBox = new System.Windows.Forms.CheckBox();
             this.hummForExportCheckBox = new System.Windows.Forms.CheckBox();
             this.presForExportCheckBox = new System.Windows.Forms.CheckBox();
+            this.eExportButton = new System.Windows.Forms.Button();
+            this.eExportProgressBar = new System.Windows.Forms.ProgressBar();
             this.eInfoGroupBox = new System.Windows.Forms.GroupBox();
-            this.eLastExportDateTextBox = new System.Windows.Forms.TextBox();
+            this.eExportDataCountLabel = new System.Windows.Forms.Label();
+            this.eExportDataCountTextBox = new System.Windows.Forms.TextBox();
+            this.eFirstExportDateLabel = new System.Windows.Forms.Label();
             this.eFirstExportDateTextBox = new System.Windows.Forms.TextBox();
             this.eLastExportDateLabel = new System.Windows.Forms.Label();
-            this.eFirstExportDateLabel = new System.Windows.Forms.Label();
-            this.eExportDataCountTextBox = new System.Windows.Forms.TextBox();
-            this.eExportDataCountLabel = new System.Windows.Forms.Label();
+            this.eLastExportDateTextBox = new System.Windows.Forms.TextBox();
+            this.eApproximateExportSizeLabel = new System.Windows.Forms.Label();
+            this.eApproximateExportSizeTextBox = new System.Windows.Forms.TextBox();
             this.settingsTabPage = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -219,11 +221,12 @@
             this.label32 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
+            this.logsTabPage = new System.Windows.Forms.TabPage();
+            this.logsGroupBox = new System.Windows.Forms.GroupBox();
+            this.listView1 = new System.Windows.Forms.ListView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.eApproximateExportSizeTextBox = new System.Windows.Forms.TextBox();
-            this.eApproximateExportSizeLabel = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.registrarTabPage.SuspendLayout();
@@ -272,6 +275,8 @@
             this.groupBox16.SuspendLayout();
             this.tabPage9.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.logsTabPage.SuspendLayout();
+            this.logsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -695,7 +700,7 @@
             this.daBeginDateDateTimePicker.Name = "daBeginDateDateTimePicker";
             this.daBeginDateDateTimePicker.Size = new System.Drawing.Size(145, 25);
             this.daBeginDateDateTimePicker.TabIndex = 0;
-            this.daBeginDateDateTimePicker.Value = DateTime.Now;
+            this.daBeginDateDateTimePicker.Value = new System.DateTime(2023, 5, 15, 10, 11, 6, 525);
             this.daBeginDateDateTimePicker.ValueChanged += new System.EventHandler(this.daBeginDateDateTimePicker_ValueChanged);
             // 
             // daEndDateGroupBox
@@ -719,7 +724,7 @@
             this.daEndDateDateTimePicker.Name = "daEndDateDateTimePicker";
             this.daEndDateDateTimePicker.Size = new System.Drawing.Size(146, 25);
             this.daEndDateDateTimePicker.TabIndex = 0;
-            this.daEndDateDateTimePicker.Value = DateTime.Now;
+            this.daEndDateDateTimePicker.Value = new System.DateTime(2023, 5, 15, 10, 11, 6, 528);
             this.daEndDateDateTimePicker.ValueChanged += new System.EventHandler(this.daEndDateDateTimePicker_ValueChanged);
             // 
             // daChannelNameGroupBox
@@ -852,83 +857,6 @@
             this.eGroupBox.TabStop = false;
             this.eGroupBox.Text = "Настройки экспорта";
             // 
-            // eFillHolesCheckBox
-            // 
-            this.eFillHolesCheckBox.AutoSize = true;
-            this.eFillHolesCheckBox.Checked = true;
-            this.eFillHolesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.eFillHolesCheckBox.Location = new System.Drawing.Point(33, 197);
-            this.eFillHolesCheckBox.Name = "eFillHolesCheckBox";
-            this.eFillHolesCheckBox.Size = new System.Drawing.Size(213, 23);
-            this.eFillHolesCheckBox.TabIndex = 12;
-            this.eFillHolesCheckBox.Text = "Заполнять пробелы средним";
-            this.eFillHolesCheckBox.UseVisualStyleBackColor = true;
-            this.eFillHolesCheckBox.CheckedChanged += new System.EventHandler(this.fillHolesCheckBox_CheckedChanged);
-            // 
-            // eExportProgressBar
-            // 
-            this.eExportProgressBar.Location = new System.Drawing.Point(33, 449);
-            this.eExportProgressBar.Name = "eExportProgressBar";
-            this.eExportProgressBar.Size = new System.Drawing.Size(550, 23);
-            this.eExportProgressBar.TabIndex = 2;
-            // 
-            // eSecondsLabel
-            // 
-            this.eSecondsLabel.AutoSize = true;
-            this.eSecondsLabel.Location = new System.Drawing.Point(551, 226);
-            this.eSecondsLabel.Name = "eSecondsLabel";
-            this.eSecondsLabel.Size = new System.Drawing.Size(32, 19);
-            this.eSecondsLabel.TabIndex = 11;
-            this.eSecondsLabel.Text = "сек.";
-            // 
-            // eExportIntervalsTextBox
-            // 
-            this.eExportIntervalsTextBox.Enabled = false;
-            this.eExportIntervalsTextBox.Location = new System.Drawing.Point(383, 220);
-            this.eExportIntervalsTextBox.Name = "eExportIntervalsTextBox";
-            this.eExportIntervalsTextBox.Size = new System.Drawing.Size(162, 25);
-            this.eExportIntervalsTextBox.TabIndex = 10;
-            // 
-            // eFilterApplyingCheckBox
-            // 
-            this.eFilterApplyingCheckBox.AutoSize = true;
-            this.eFilterApplyingCheckBox.Enabled = false;
-            this.eFilterApplyingCheckBox.Location = new System.Drawing.Point(33, 222);
-            this.eFilterApplyingCheckBox.Name = "eFilterApplyingCheckBox";
-            this.eFilterApplyingCheckBox.Size = new System.Drawing.Size(293, 23);
-            this.eFilterApplyingCheckBox.TabIndex = 5;
-            this.eFilterApplyingCheckBox.Text = "Экспортировать равными промежутками";
-            this.eFilterApplyingCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // eDateFormatLabel
-            // 
-            this.eDateFormatLabel.AutoSize = true;
-            this.eDateFormatLabel.Location = new System.Drawing.Point(33, 163);
-            this.eDateFormatLabel.Name = "eDateFormatLabel";
-            this.eDateFormatLabel.Size = new System.Drawing.Size(93, 19);
-            this.eDateFormatLabel.TabIndex = 8;
-            this.eDateFormatLabel.Text = "Формат даты";
-            // 
-            // eDateFormatComboBox
-            // 
-            this.eDateFormatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.eDateFormatComboBox.FormattingEnabled = true;
-            this.eDateFormatComboBox.Location = new System.Drawing.Point(383, 163);
-            this.eDateFormatComboBox.Name = "eDateFormatComboBox";
-            this.eDateFormatComboBox.Size = new System.Drawing.Size(200, 25);
-            this.eDateFormatComboBox.TabIndex = 9;
-            // 
-            // eExportButton
-            // 
-            this.eExportButton.Enabled = false;
-            this.eExportButton.Location = new System.Drawing.Point(406, 402);
-            this.eExportButton.Name = "eExportButton";
-            this.eExportButton.Size = new System.Drawing.Size(177, 42);
-            this.eExportButton.TabIndex = 7;
-            this.eExportButton.Text = "Экспорт";
-            this.eExportButton.UseVisualStyleBackColor = true;
-            this.eExportButton.Click += new System.EventHandler(this.exportButton_Click);
-            // 
             // eBeginExportDateLabel
             // 
             this.eBeginExportDateLabel.AutoSize = true;
@@ -944,7 +872,7 @@
             this.eBeginExportDate.Name = "eBeginExportDate";
             this.eBeginExportDate.Size = new System.Drawing.Size(200, 25);
             this.eBeginExportDate.TabIndex = 5;
-            this.eBeginExportDate.Value = DateTime.Now;
+            this.eBeginExportDate.Value = new System.DateTime(2023, 5, 15, 10, 11, 6, 598);
             this.eBeginExportDate.ValueChanged += new System.EventHandler(this.beginExportDate_ValueChanged);
             // 
             // eEndExportDateLabel
@@ -962,7 +890,7 @@
             this.eEndExportDate.Name = "eEndExportDate";
             this.eEndExportDate.Size = new System.Drawing.Size(200, 25);
             this.eEndExportDate.TabIndex = 6;
-            this.eEndExportDate.Value = DateTime.Now;
+            this.eEndExportDate.Value = new System.DateTime(2023, 5, 15, 10, 11, 6, 600);
             this.eEndExportDate.ValueChanged += new System.EventHandler(this.endExportDate_ValueChanged);
             // 
             // eExportTypeLabel
@@ -982,6 +910,65 @@
             this.eExportTypeComboBox.Name = "eExportTypeComboBox";
             this.eExportTypeComboBox.Size = new System.Drawing.Size(200, 25);
             this.eExportTypeComboBox.TabIndex = 1;
+            // 
+            // eDateFormatLabel
+            // 
+            this.eDateFormatLabel.AutoSize = true;
+            this.eDateFormatLabel.Location = new System.Drawing.Point(33, 163);
+            this.eDateFormatLabel.Name = "eDateFormatLabel";
+            this.eDateFormatLabel.Size = new System.Drawing.Size(93, 19);
+            this.eDateFormatLabel.TabIndex = 8;
+            this.eDateFormatLabel.Text = "Формат даты";
+            // 
+            // eDateFormatComboBox
+            // 
+            this.eDateFormatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.eDateFormatComboBox.FormattingEnabled = true;
+            this.eDateFormatComboBox.Location = new System.Drawing.Point(383, 163);
+            this.eDateFormatComboBox.Name = "eDateFormatComboBox";
+            this.eDateFormatComboBox.Size = new System.Drawing.Size(200, 25);
+            this.eDateFormatComboBox.TabIndex = 9;
+            // 
+            // eFillHolesCheckBox
+            // 
+            this.eFillHolesCheckBox.AutoSize = true;
+            this.eFillHolesCheckBox.Checked = true;
+            this.eFillHolesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.eFillHolesCheckBox.Location = new System.Drawing.Point(33, 197);
+            this.eFillHolesCheckBox.Name = "eFillHolesCheckBox";
+            this.eFillHolesCheckBox.Size = new System.Drawing.Size(213, 23);
+            this.eFillHolesCheckBox.TabIndex = 12;
+            this.eFillHolesCheckBox.Text = "Заполнять пробелы средним";
+            this.eFillHolesCheckBox.UseVisualStyleBackColor = true;
+            this.eFillHolesCheckBox.CheckedChanged += new System.EventHandler(this.fillHolesCheckBox_CheckedChanged);
+            // 
+            // eFilterApplyingCheckBox
+            // 
+            this.eFilterApplyingCheckBox.AutoSize = true;
+            this.eFilterApplyingCheckBox.Enabled = false;
+            this.eFilterApplyingCheckBox.Location = new System.Drawing.Point(33, 222);
+            this.eFilterApplyingCheckBox.Name = "eFilterApplyingCheckBox";
+            this.eFilterApplyingCheckBox.Size = new System.Drawing.Size(293, 23);
+            this.eFilterApplyingCheckBox.TabIndex = 5;
+            this.eFilterApplyingCheckBox.Text = "Экспортировать равными промежутками";
+            this.eFilterApplyingCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // eExportIntervalsTextBox
+            // 
+            this.eExportIntervalsTextBox.Enabled = false;
+            this.eExportIntervalsTextBox.Location = new System.Drawing.Point(383, 220);
+            this.eExportIntervalsTextBox.Name = "eExportIntervalsTextBox";
+            this.eExportIntervalsTextBox.Size = new System.Drawing.Size(162, 25);
+            this.eExportIntervalsTextBox.TabIndex = 10;
+            // 
+            // eSecondsLabel
+            // 
+            this.eSecondsLabel.AutoSize = true;
+            this.eSecondsLabel.Location = new System.Drawing.Point(551, 226);
+            this.eSecondsLabel.Name = "eSecondsLabel";
+            this.eSecondsLabel.Size = new System.Drawing.Size(32, 19);
+            this.eSecondsLabel.TabIndex = 11;
+            this.eSecondsLabel.Text = "сек.";
             // 
             // eExportFieldsGroupBox
             // 
@@ -1062,6 +1049,24 @@
             this.presForExportCheckBox.UseVisualStyleBackColor = true;
             this.presForExportCheckBox.CheckedChanged += new System.EventHandler(this.presForExportCheckBox_CheckedChanged);
             // 
+            // eExportButton
+            // 
+            this.eExportButton.Enabled = false;
+            this.eExportButton.Location = new System.Drawing.Point(406, 402);
+            this.eExportButton.Name = "eExportButton";
+            this.eExportButton.Size = new System.Drawing.Size(177, 42);
+            this.eExportButton.TabIndex = 7;
+            this.eExportButton.Text = "Экспорт";
+            this.eExportButton.UseVisualStyleBackColor = true;
+            this.eExportButton.Click += new System.EventHandler(this.exportButton_Click);
+            // 
+            // eExportProgressBar
+            // 
+            this.eExportProgressBar.Location = new System.Drawing.Point(33, 449);
+            this.eExportProgressBar.Name = "eExportProgressBar";
+            this.eExportProgressBar.Size = new System.Drawing.Size(550, 23);
+            this.eExportProgressBar.TabIndex = 2;
+            // 
             // eInfoGroupBox
             // 
             this.eInfoGroupBox.Controls.Add(this.eExportDataCountLabel);
@@ -1080,13 +1085,31 @@
             this.eInfoGroupBox.TabStop = false;
             this.eInfoGroupBox.Text = "Данные экспорта";
             // 
-            // eLastExportDateTextBox
+            // eExportDataCountLabel
             // 
-            this.eLastExportDateTextBox.Location = new System.Drawing.Point(332, 123);
-            this.eLastExportDateTextBox.Name = "eLastExportDateTextBox";
-            this.eLastExportDateTextBox.ReadOnly = true;
-            this.eLastExportDateTextBox.Size = new System.Drawing.Size(183, 25);
-            this.eLastExportDateTextBox.TabIndex = 5;
+            this.eExportDataCountLabel.AutoSize = true;
+            this.eExportDataCountLabel.Location = new System.Drawing.Point(49, 51);
+            this.eExportDataCountLabel.Name = "eExportDataCountLabel";
+            this.eExportDataCountLabel.Size = new System.Drawing.Size(153, 19);
+            this.eExportDataCountLabel.TabIndex = 0;
+            this.eExportDataCountLabel.Text = "Количество показаний";
+            // 
+            // eExportDataCountTextBox
+            // 
+            this.eExportDataCountTextBox.Location = new System.Drawing.Point(332, 42);
+            this.eExportDataCountTextBox.Name = "eExportDataCountTextBox";
+            this.eExportDataCountTextBox.ReadOnly = true;
+            this.eExportDataCountTextBox.Size = new System.Drawing.Size(183, 25);
+            this.eExportDataCountTextBox.TabIndex = 1;
+            // 
+            // eFirstExportDateLabel
+            // 
+            this.eFirstExportDateLabel.AutoSize = true;
+            this.eFirstExportDateLabel.Location = new System.Drawing.Point(49, 85);
+            this.eFirstExportDateLabel.Name = "eFirstExportDateLabel";
+            this.eFirstExportDateLabel.Size = new System.Drawing.Size(199, 19);
+            this.eFirstExportDateLabel.TabIndex = 2;
+            this.eFirstExportDateLabel.Text = "Дата с первыми показаниями";
             // 
             // eFirstExportDateTextBox
             // 
@@ -1105,31 +1128,30 @@
             this.eLastExportDateLabel.TabIndex = 3;
             this.eLastExportDateLabel.Text = "Дата с последними показаниями";
             // 
-            // eFirstExportDateLabel
+            // eLastExportDateTextBox
             // 
-            this.eFirstExportDateLabel.AutoSize = true;
-            this.eFirstExportDateLabel.Location = new System.Drawing.Point(49, 85);
-            this.eFirstExportDateLabel.Name = "eFirstExportDateLabel";
-            this.eFirstExportDateLabel.Size = new System.Drawing.Size(199, 19);
-            this.eFirstExportDateLabel.TabIndex = 2;
-            this.eFirstExportDateLabel.Text = "Дата с первыми показаниями";
+            this.eLastExportDateTextBox.Location = new System.Drawing.Point(332, 123);
+            this.eLastExportDateTextBox.Name = "eLastExportDateTextBox";
+            this.eLastExportDateTextBox.ReadOnly = true;
+            this.eLastExportDateTextBox.Size = new System.Drawing.Size(183, 25);
+            this.eLastExportDateTextBox.TabIndex = 5;
             // 
-            // eExportDataCountTextBox
+            // eApproximateExportSizeLabel
             // 
-            this.eExportDataCountTextBox.Location = new System.Drawing.Point(332, 42);
-            this.eExportDataCountTextBox.Name = "eExportDataCountTextBox";
-            this.eExportDataCountTextBox.ReadOnly = true;
-            this.eExportDataCountTextBox.Size = new System.Drawing.Size(183, 25);
-            this.eExportDataCountTextBox.TabIndex = 1;
+            this.eApproximateExportSizeLabel.AutoSize = true;
+            this.eApproximateExportSizeLabel.Location = new System.Drawing.Point(49, 166);
+            this.eApproximateExportSizeLabel.Name = "eApproximateExportSizeLabel";
+            this.eApproximateExportSizeLabel.Size = new System.Drawing.Size(179, 19);
+            this.eApproximateExportSizeLabel.TabIndex = 6;
+            this.eApproximateExportSizeLabel.Text = "Примерный размер файла";
             // 
-            // eExportDataCountLabel
+            // eApproximateExportSizeTextBox
             // 
-            this.eExportDataCountLabel.AutoSize = true;
-            this.eExportDataCountLabel.Location = new System.Drawing.Point(49, 51);
-            this.eExportDataCountLabel.Name = "eExportDataCountLabel";
-            this.eExportDataCountLabel.Size = new System.Drawing.Size(153, 19);
-            this.eExportDataCountLabel.TabIndex = 0;
-            this.eExportDataCountLabel.Text = "Количество показаний";
+            this.eApproximateExportSizeTextBox.Location = new System.Drawing.Point(332, 163);
+            this.eApproximateExportSizeTextBox.Name = "eApproximateExportSizeTextBox";
+            this.eApproximateExportSizeTextBox.ReadOnly = true;
+            this.eApproximateExportSizeTextBox.Size = new System.Drawing.Size(183, 25);
+            this.eApproximateExportSizeTextBox.TabIndex = 7;
             // 
             // settingsTabPage
             // 
@@ -1152,6 +1174,7 @@
             this.tabControl2.Controls.Add(this.tabPage10);
             this.tabControl2.Controls.Add(this.tabPage8);
             this.tabControl2.Controls.Add(this.tabPage9);
+            this.tabControl2.Controls.Add(this.logsTabPage);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.tabControl2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -2208,13 +2231,13 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 29;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -2519,6 +2542,35 @@
             this.label30.TabIndex = 0;
             this.label30.Text = "для электростатического флюксметра ПЧЕЛА-Д";
             // 
+            // logsTabPage
+            // 
+            this.logsTabPage.Controls.Add(this.logsGroupBox);
+            this.logsTabPage.Location = new System.Drawing.Point(304, 4);
+            this.logsTabPage.Name = "logsTabPage";
+            this.logsTabPage.Size = new System.Drawing.Size(968, 523);
+            this.logsTabPage.TabIndex = 7;
+            this.logsTabPage.Text = "Журнал регистрации";
+            this.logsTabPage.UseVisualStyleBackColor = true;
+            // 
+            // logsGroupBox
+            // 
+            this.logsGroupBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.logsGroupBox.Controls.Add(this.listView1);
+            this.logsGroupBox.Location = new System.Drawing.Point(22, 17);
+            this.logsGroupBox.Name = "logsGroupBox";
+            this.logsGroupBox.Size = new System.Drawing.Size(930, 488);
+            this.logsGroupBox.TabIndex = 0;
+            this.logsGroupBox.TabStop = false;
+            this.logsGroupBox.Text = "Журнал регистрации";
+            // 
+            // listView1
+            // 
+            this.listView1.Location = new System.Drawing.Point(14, 25);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(902, 447);
+            this.listView1.TabIndex = 0;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
@@ -2530,23 +2582,6 @@
             // saveFileDialog1
             // 
             this.saveFileDialog1.Filter = "Текстовый файл (*.txt)|*.txt|Таблица|*.csv";
-            // 
-            // eApproximateExportSizeTextBox
-            // 
-            this.eApproximateExportSizeTextBox.Location = new System.Drawing.Point(332, 163);
-            this.eApproximateExportSizeTextBox.Name = "eApproximateExportSizeTextBox";
-            this.eApproximateExportSizeTextBox.ReadOnly = true;
-            this.eApproximateExportSizeTextBox.Size = new System.Drawing.Size(183, 25);
-            this.eApproximateExportSizeTextBox.TabIndex = 7;
-            // 
-            // eApproximateExportSizeLabel
-            // 
-            this.eApproximateExportSizeLabel.AutoSize = true;
-            this.eApproximateExportSizeLabel.Location = new System.Drawing.Point(49, 166);
-            this.eApproximateExportSizeLabel.Name = "eApproximateExportSizeLabel";
-            this.eApproximateExportSizeLabel.Size = new System.Drawing.Size(179, 19);
-            this.eApproximateExportSizeLabel.TabIndex = 6;
-            this.eApproximateExportSizeLabel.Text = "Примерный размер файла";
             // 
             // MainForm
             // 
@@ -2628,6 +2663,8 @@
             this.tabPage9.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.logsTabPage.ResumeLayout(false);
+            this.logsGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2828,5 +2865,8 @@
         private TrackBar daNumOfPointsTrackBar;
         private TextBox eApproximateExportSizeTextBox;
         private Label eApproximateExportSizeLabel;
+        private TabPage logsTabPage;
+        private GroupBox logsGroupBox;
+        private ListView listView1;
     }
 }
