@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.IO.Ports;
 using System.Text;
 using FluxViewer.DataAccess.GraphThemes;
+using FluxViewer.DataAccess.Log;
 using FluxViewer.DataAccess.Storage;
 using ZedGraph;
 
@@ -55,6 +56,7 @@ namespace FluxViewer.App
 
         public MainForm()
         {
+            FileSystemLogger.WriteLog(LogLevel.Info, LogInitiator.Application, "Приложение запущено!");
             _daGraphData[0] = new RollingPointPairList(Capacity);
             _daGraphData[1] = new RollingPointPairList(Capacity);
             _daGraphData[2] = new RollingPointPairList(Capacity);
@@ -105,6 +107,8 @@ namespace FluxViewer.App
         {
             _storage = new FileSystemStorage();
             _storage.Open();
+            FileSystemLogger.WriteLog(LogLevel.Info, LogInitiator.Application,
+                "Успешно открыто хранилище для записи показаний прибора");
         }
         
         /// <summary>
@@ -118,6 +122,8 @@ namespace FluxViewer.App
             if (!File.Exists(pathToXmlSettingsFile))
             {
                 _props.WriteXml();
+                FileSystemLogger.WriteLog(LogLevel.Info, LogInitiator.Application,
+                    $"Создан файл с настройками по пути: `{pathToXmlSettingsFile}`");
             }
         }
 
@@ -489,6 +495,8 @@ namespace FluxViewer.App
             num_linewidth.Value = _props.Fields.LineWidth;
             rb_templot_2.Checked = _props.Fields.IsBlackTheme;
             check_grid.Checked = _props.Fields.IsGrid;
+            FileSystemLogger.WriteLog(LogLevel.Info, LogInitiator.Application,
+                "Все найстройки из файла успешно выставлены");
         }
 
         /// <summary>
