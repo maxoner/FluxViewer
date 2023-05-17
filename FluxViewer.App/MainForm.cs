@@ -570,10 +570,10 @@ namespace FluxViewer.App
             Brush _textBrush;
 
             // Get the item from the collection.
-            TabPage _tabPage = tabControl2.TabPages[e.Index];
+            TabPage _tabPage = leftMenuTabPage.TabPages[e.Index];
 
             // Get the real bounds for the tab rectangle.
-            Rectangle _tabBounds = tabControl2.GetTabRect(e.Index);
+            Rectangle _tabBounds = leftMenuTabPage.GetTabRect(e.Index);
 
             if (e.State == DrawItemState.Selected)
             {

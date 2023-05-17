@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -105,7 +105,7 @@
             this.eApproximateExportSizeLabel = new System.Windows.Forms.Label();
             this.eApproximateExportSizeTextBox = new System.Windows.Forms.TextBox();
             this.settingsTabPage = new System.Windows.Forms.TabPage();
-            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.leftMenuTabPage = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
@@ -248,7 +248,7 @@
             this.eExportFieldsGroupBox.SuspendLayout();
             this.eInfoGroupBox.SuspendLayout();
             this.settingsTabPage.SuspendLayout();
-            this.tabControl2.SuspendLayout();
+            this.leftMenuTabPage.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox15.SuspendLayout();
             this.groupBox7.SuspendLayout();
@@ -1156,7 +1156,7 @@
             // 
             // settingsTabPage
             // 
-            this.settingsTabPage.Controls.Add(this.tabControl2);
+            this.settingsTabPage.Controls.Add(this.leftMenuTabPage);
             this.settingsTabPage.Location = new System.Drawing.Point(4, 54);
             this.settingsTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.settingsTabPage.Name = "settingsTabPage";
@@ -1165,32 +1165,32 @@
             this.settingsTabPage.Text = "НАСТРОЙКИ";
             this.settingsTabPage.UseVisualStyleBackColor = true;
             // 
-            // tabControl2
+            // leftMenuTabPage
             // 
-            this.tabControl2.Alignment = System.Windows.Forms.TabAlignment.Left;
-            this.tabControl2.Controls.Add(this.tabPage5);
-            this.tabControl2.Controls.Add(this.tabPage4);
-            this.tabControl2.Controls.Add(this.tabPage6);
-            this.tabControl2.Controls.Add(this.tabPage7);
-            this.tabControl2.Controls.Add(this.tabPage10);
-            this.tabControl2.Controls.Add(this.tabPage8);
-            this.tabControl2.Controls.Add(this.tabPage9);
-            this.tabControl2.Controls.Add(this.logsTabPage);
-            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl2.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-            this.tabControl2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.tabControl2.ItemSize = new System.Drawing.Size(50, 300);
-            this.tabControl2.Location = new System.Drawing.Point(0, 0);
-            this.tabControl2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabControl2.Multiline = true;
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.RightToLeftLayout = true;
-            this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(1276, 531);
-            this.tabControl2.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.tabControl2.TabIndex = 1;
-            this.tabControl2.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl2_DrawItem);
-            this.tabControl2.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl2_Selecting);
+            this.leftMenuTabPage.Alignment = System.Windows.Forms.TabAlignment.Left;
+            this.leftMenuTabPage.Controls.Add(this.tabPage5);
+            this.leftMenuTabPage.Controls.Add(this.tabPage4);
+            this.leftMenuTabPage.Controls.Add(this.tabPage6);
+            this.leftMenuTabPage.Controls.Add(this.tabPage7);
+            this.leftMenuTabPage.Controls.Add(this.tabPage10);
+            this.leftMenuTabPage.Controls.Add(this.tabPage8);
+            this.leftMenuTabPage.Controls.Add(this.tabPage9);
+            this.leftMenuTabPage.Controls.Add(this.logsTabPage);
+            this.leftMenuTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.leftMenuTabPage.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+            this.leftMenuTabPage.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.leftMenuTabPage.ItemSize = new System.Drawing.Size(50, 300);
+            this.leftMenuTabPage.Location = new System.Drawing.Point(0, 0);
+            this.leftMenuTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.leftMenuTabPage.Multiline = true;
+            this.leftMenuTabPage.Name = "leftMenuTabPage";
+            this.leftMenuTabPage.RightToLeftLayout = true;
+            this.leftMenuTabPage.SelectedIndex = 0;
+            this.leftMenuTabPage.Size = new System.Drawing.Size(1276, 531);
+            this.leftMenuTabPage.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.leftMenuTabPage.TabIndex = 1;
+            this.leftMenuTabPage.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl2_DrawItem);
+            this.leftMenuTabPage.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl2_Selecting);
             // 
             // tabPage5
             // 
@@ -2232,13 +2232,13 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 29;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -2635,7 +2635,7 @@
             this.eInfoGroupBox.ResumeLayout(false);
             this.eInfoGroupBox.PerformLayout();
             this.settingsTabPage.ResumeLayout(false);
-            this.tabControl2.ResumeLayout(false);
+            this.leftMenuTabPage.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.groupBox15.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
@@ -2700,7 +2700,7 @@
         private Panel panel1;
         private TabPage dataArchiveTabPage;
         private TabPage settingsTabPage;
-        public TabControl tabControl2;
+        public TabControl leftMenuTabPage;
         private TabPage tabPage4;
         private TabPage tabPage5;
         private TabPage tabPage6;
