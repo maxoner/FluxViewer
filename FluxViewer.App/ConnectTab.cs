@@ -22,6 +22,23 @@ partial class MainForm
         SystemSounds.Beep.Play();
     }
     
+    /// <summary>
+    /// Нажали кнопку "Подключиться"
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>								
+    private void connectButton_Click(object sender, EventArgs e)
+    {
+        if(SerialPort.IsOpen)
+        {
+            SerialPort.Close();
+        }
+        _isTestButton = true;
+        timer1.Interval = 1000;
+        timer1.Enabled = true;
+        connect_flux();
+    }
+    
     private void UpdateComPorts()
     {
         comNameComboBox.Items.Clear();
