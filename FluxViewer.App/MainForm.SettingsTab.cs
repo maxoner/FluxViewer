@@ -13,14 +13,22 @@ partial class MainForm
     /// </summary>
     private void leftMenuTabPage_Selecting(object sender, TabControlCancelEventArgs e)
     {
-        if (e.TabPage == connectTabPage) //настройка устройства
+        if (e.TabPage == connectTabPage) // Выбрана вкладка "Подключение"
         {
             ConnectTabHasBeenSelected();
         }
-        else if (e.TabPageIndex == 1) //настройка программы
+        else if (e.TabPage == deviceSettignsTabPage) // Выбрана вкладка "Настройки устройства"
             if (SerialPort.IsOpen)
             {
-                com_send_cmd(0x1b); // Настройки устройства
+                if (_isDataStartFlux)   // TODO: зарефактори это
+                {
+                    MessageBox.Show(
+                        "Для просмотра и изменения настроек, необходимо сначала отключить запись показаний прибора!");
+                }
+                else
+                {
+                    com_send_cmd(0x1b); // Настройки устройства    
+                }
             }
             else
             {
