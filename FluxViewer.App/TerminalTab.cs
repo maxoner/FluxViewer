@@ -9,7 +9,8 @@ partial class MainForm
     {
         if (_isDataStartFlux)
         {
-            MessageBox.Show("Для начала необходимо отключить запись показаний прибора!");
+            MessageBox.Show("Для начала необходимо отключить запись показаний прибора!", "Предупреждение",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
             
         }

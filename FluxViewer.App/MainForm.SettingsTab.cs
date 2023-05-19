@@ -20,10 +20,11 @@ partial class MainForm
         else if (e.TabPage == deviceSettignsTabPage) // Выбрана вкладка "Настройки устройства"
             if (SerialPort.IsOpen)
             {
-                if (_isDataStartFlux)   // TODO: зарефактори это
+                if (_isDataStartFlux) // TODO: зарефактори это
                 {
                     MessageBox.Show(
-                        "Для просмотра и изменения настроек, необходимо сначала отключить запись показаний прибора!");
+                        "Для просмотра и изменения настроек, необходимо сначала отключить запись показаний прибора!",
+                        "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
                 {
