@@ -10,7 +10,15 @@ partial class MainForm
         UpdateComPorts();
         UpdateConnectButtonState();
     }
-    
+
+    /// <summary>
+    /// Была выбрана вкладка "Подключение"
+    /// </summary>
+    private void ConnectTabHasBeenSelected()
+    {
+        UpdateComPorts();
+        UpdateConnectButtonState();
+    }
     
     /// <summary>
     /// Нажали на кнопку "Обновить список портов"

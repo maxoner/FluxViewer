@@ -15,6 +15,7 @@ partial class MainForm
     {
         if (e.TabPage == connectTabPage) //настройка устройства
         {
+            ConnectTabHasBeenSelected();
         }
         else if (e.TabPageIndex == 1) //настройка программы
             if (SerialPort.IsOpen)
