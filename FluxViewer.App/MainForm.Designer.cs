@@ -106,7 +106,7 @@
             this.eApproximateExportSizeTextBox = new System.Windows.Forms.TextBox();
             this.settingsTabPage = new System.Windows.Forms.TabPage();
             this.leftMenuTabPage = new System.Windows.Forms.TabControl();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.connectTabPage = new System.Windows.Forms.TabPage();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.rb_isFluxclock = new System.Windows.Forms.RadioButton();
@@ -249,7 +249,7 @@
             this.eInfoGroupBox.SuspendLayout();
             this.settingsTabPage.SuspendLayout();
             this.leftMenuTabPage.SuspendLayout();
-            this.tabPage5.SuspendLayout();
+            this.connectTabPage.SuspendLayout();
             this.groupBox15.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -1168,7 +1168,7 @@
             // leftMenuTabPage
             // 
             this.leftMenuTabPage.Alignment = System.Windows.Forms.TabAlignment.Left;
-            this.leftMenuTabPage.Controls.Add(this.tabPage5);
+            this.leftMenuTabPage.Controls.Add(this.connectTabPage);
             this.leftMenuTabPage.Controls.Add(this.tabPage4);
             this.leftMenuTabPage.Controls.Add(this.tabPage6);
             this.leftMenuTabPage.Controls.Add(this.tabPage7);
@@ -1192,17 +1192,17 @@
             this.leftMenuTabPage.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl2_DrawItem);
             this.leftMenuTabPage.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl2_Selecting);
             // 
-            // tabPage5
+            // connectTabPage
             // 
-            this.tabPage5.Controls.Add(this.groupBox15);
-            this.tabPage5.Location = new System.Drawing.Point(304, 4);
-            this.tabPage5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage5.Size = new System.Drawing.Size(968, 523);
-            this.tabPage5.TabIndex = 1;
-            this.tabPage5.Text = "Настройка программы";
-            this.tabPage5.UseVisualStyleBackColor = true;
+            this.connectTabPage.Controls.Add(this.groupBox15);
+            this.connectTabPage.Location = new System.Drawing.Point(304, 4);
+            this.connectTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.connectTabPage.Name = "connectTabPage";
+            this.connectTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.connectTabPage.Size = new System.Drawing.Size(968, 523);
+            this.connectTabPage.TabIndex = 1;
+            this.connectTabPage.Text = "Подключение";
+            this.connectTabPage.UseVisualStyleBackColor = true;
             // 
             // groupBox15
             // 
@@ -1285,10 +1285,10 @@
             // connectButton
             // 
             this.connectButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.connectButton.Location = new System.Drawing.Point(452, 46);
+            this.connectButton.Location = new System.Drawing.Point(396, 34);
             this.connectButton.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
             this.connectButton.Name = "connectButton";
-            this.connectButton.Size = new System.Drawing.Size(122, 40);
+            this.connectButton.Size = new System.Drawing.Size(167, 33);
             this.connectButton.TabIndex = 15;
             this.connectButton.Text = "Подключиться";
             this.connectButton.UseVisualStyleBackColor = true;
@@ -1322,11 +1322,11 @@
             // updatePortsButton
             // 
             this.updatePortsButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.updatePortsButton.Location = new System.Drawing.Point(385, 46);
+            this.updatePortsButton.Location = new System.Drawing.Point(396, 71);
             this.updatePortsButton.Name = "updatePortsButton";
-            this.updatePortsButton.Size = new System.Drawing.Size(44, 40);
+            this.updatePortsButton.Size = new System.Drawing.Size(167, 31);
             this.updatePortsButton.TabIndex = 11;
-            this.updatePortsButton.Text = "upd";
+            this.updatePortsButton.Text = "Обновить список портов";
             this.updatePortsButton.UseVisualStyleBackColor = true;
             this.updatePortsButton.Click += new System.EventHandler(this.updatePortsButton_Click);
             // 
@@ -2641,7 +2641,7 @@
             this.eInfoGroupBox.PerformLayout();
             this.settingsTabPage.ResumeLayout(false);
             this.leftMenuTabPage.ResumeLayout(false);
-            this.tabPage5.ResumeLayout(false);
+            this.connectTabPage.ResumeLayout(false);
             this.groupBox15.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
@@ -2707,7 +2707,7 @@
         private TabPage settingsTabPage;
         public TabControl leftMenuTabPage;
         private TabPage tabPage4;
-        private TabPage tabPage5;
+        private TabPage connectTabPage;
         private TabPage tabPage6;
         private TabPage tabPage7;
         private TabPage tabPage8;

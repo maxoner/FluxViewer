@@ -1,9 +1,16 @@
 ﻿using System.IO.Ports;
+using System.Media;
 
 namespace FluxViewer.App;
 
 partial class MainForm
 {
+    private void InitConnectTab()
+    {
+        UpdateComPorts();
+        UpdateConnectButtonState();
+    }
+    
     
     /// <summary>
     /// Нажали на кнопку "Обновить список портов"
@@ -12,6 +19,7 @@ partial class MainForm
     {
         UpdateComPorts();
         UpdateConnectButtonState();
+        SystemSounds.Beep.Play();
     }
     
     private void UpdateComPorts()

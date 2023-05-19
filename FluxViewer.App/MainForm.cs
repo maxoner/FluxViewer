@@ -70,7 +70,8 @@ namespace FluxViewer.App
             
             InitDataArchiveTab();
             InitExportTab();
-
+            InitSettingsTab();
+            
             dataGridView1.Rows.Add();
             dataGridView1.Rows.Add();
 
