@@ -15,34 +15,34 @@ namespace FluxViewer.App
         private const int Capacity = 50;
         private const int PosAverageMax = 10;
         private const int MaxOutsizeGraph = 600000;
-        private const int MaxReadsizeBase = 600000; // TODO: ����� ��� ����???
+        private const int MaxReadsizeBase = 600000; // TODO: зачем это поле???
         private const double Step = 1;
 
         private double _currentX;
         
-        // ���������� ���������� ������ �������
+        // Переданные измеренные данные прибора
         private float _flux;
         private float _temp;
         private float _pres;
         private float _humm;
         
-        private readonly RollingPointPairList[] _daGraphData = new RollingPointPairList[4]; // ���� �������
+        private readonly RollingPointPairList[] _daGraphData = new RollingPointPairList[4]; // Сами графики
         private readonly GraphPane[] _daGraphPanels = new GraphPane[4];
         private readonly LineItem[] _daGraphCurves = new LineItem[4];
 
-        private bool _isGraduateMode; // ������� �����������, ����� ������ � �������
-        private float _averageDataflux; // ������� �������� ��������� � ������ ����������� TODO: ����� ��� ����???
-        private int _posAverage; // ���������� �������
+        private bool _isGraduateMode; // Вкладка градуировка, пишем данные в таблицу
+        private float _averageDataflux; // Среднее значение измерений в режиме градуировки TODO: зачем это поле???
+        private int _posAverage; // Колическво средних
 
         private bool _isDataStartFlux;
-        private bool _isTestButton; // ������ ���������� � ������ ������������ �����
-        private bool _isAsciiConsole; // ������ ������ ������� ������ � �������?
+        private bool _isTestButton; // Запрос информации с кнопки тестирования связи
+        private bool _isAsciiConsole; // Нажата кнопка вывести данные в консоль?
 
-        private byte _selectPane = 255; // ������� ��������� ������
+        private byte _selectPane = 255; // Текущий выбранный график
 
-        private int _baseSize; // ������ ����� � ���� ����� ���������� ������ TODO: �������� ������ ����
+        private int _baseSize; // Размер строк в базе между указанными датами TODO: выпилить данное поле
 
-        // ���� ������
+        // База данных
         private IStorage _storage;
 
         private Props _props;
@@ -56,7 +56,7 @@ namespace FluxViewer.App
 
         public MainForm()
         {
-            FileSystemLogger.WriteLog(LogLevel.Info, LogInitiator.Application, "���������� ��������!");
+            FileSystemLogger.WriteLog(LogLevel.Info, LogInitiator.Application, "Приложение запущено!");
             _daGraphData[0] = new RollingPointPairList(Capacity);
             _daGraphData[1] = new RollingPointPairList(Capacity);
             _daGraphData[2] = new RollingPointPairList(Capacity);
@@ -102,46 +102,46 @@ namespace FluxViewer.App
         }
         
         /// <summary>
-        /// ������ � ��������� ���������, ���� ����� ������������ ������ ������� 
+        /// Создаём и открываем хранилище, куда будут записываться данные прибора 
         /// </summary>
         private void OpenStorage()
         {
             _storage = new FileSystemStorage();
             _storage.Open();
             FileSystemLogger.WriteLog(LogLevel.Info, LogInitiator.Application,
-                "������� ������� ��������� ��� ������ ��������� �������");
+                "Успешно открыто хранилище для записи показаний прибора");
         }
         
         /// <summary>
-        /// �������������� ��������� ���������� � ���� �� �� ����������, �� ������ ���� � ������������ �����������
+        /// Инициализируем настройки приложения и если их не существует, то создаём файл с стандартными настройками
         /// </summary>
         private void PrepareSettings()
         {
             var pathToXmlSettingsFile = Environment.CurrentDirectory + "\\settings.xml";
             _props = new Props(pathToXmlSettingsFile);
-            // ���� ����� � ����������� �� ����������, �� ��������� ��������� � ������ ���� ����
+            // Если файла с настройками не существует, то дополняем найстроки и создаём этот файл
             if (!File.Exists(pathToXmlSettingsFile))
             {
                 _props.WriteXml();
                 FileSystemLogger.WriteLog(LogLevel.Info, LogInitiator.Application,
-                    $"������ ���� � ����������� �� ����: `{pathToXmlSettingsFile}`");
+                    $"Создан файл с настройками по пути: `{pathToXmlSettingsFile}`");
             }
         }
 
         private void InitDataArchiveGraphs()
         {
-            // ������� ������ ��� ���������
+            // Получим панель для рисования
             _daGraphPanels[0] = zedGraphControl1.GraphPane;
             _daGraphPanels[1] = zedGraphControl2.GraphPane;
             _daGraphPanels[2] = zedGraphControl3.GraphPane;
             _daGraphPanels[3] = zedGraphControl4.GraphPane;
             
-            // ������� ������ ���� ��� ��� �����-���� �����
+            // Добавим кривую пока еще без каких-либо точек
             for (var i = 0; i < 4; i++)
             {
                 _daGraphCurves[i] = _daGraphPanels[i].AddCurve("", _daGraphData[i], Color.Blue, SymbolType.None);
                 _daGraphCurves[i].Line.Width = (float)num_linewidth.Value; //2.0F;
-                _daGraphPanels[i].XAxis.Title.Text = "����� ��:cc";
+                _daGraphPanels[i].XAxis.Title.Text = "Время мм:cc";
             }
             _daGraphPanels[0].Title.Text = _graphTitle[0];
             _daGraphPanels[1].Title.Text = _graphTitle[1];
@@ -161,17 +161,17 @@ namespace FluxViewer.App
         }
         
         /// <summary>
-        /// ���������� �������� �����������
+        /// Обновление графиков регистрации
         /// </summary>
         private void DrawUpdate()
         {
-            // �������� ����� AxisChange (), ����� �������� ������ �� ����.
+            // Вызываем метод AxisChange (), чтобы обновить данные об осях.
             zedGraphControl1.AxisChange();
             zedGraphControl2.AxisChange();
             zedGraphControl3.AxisChange();
             zedGraphControl4.AxisChange();
 
-            // ��������� ������
+            // Обновляем график
             zedGraphControl1.Invalidate();
             zedGraphControl2.Invalidate();
             zedGraphControl3.Invalidate();
@@ -184,7 +184,7 @@ namespace FluxViewer.App
         }
         
         /// <summary>
-        /// ����������� ����� ��������� ������
+        /// контрольная сумма принятого пакета
         /// </summary>
         /// <param name="data"></param>
         /// <param name="lenght"></param>
@@ -192,7 +192,7 @@ namespace FluxViewer.App
         private byte checksum(byte[] data, byte lenght)
         {
             int sum = 0;
-            for (byte i = 2; i < lenght + 2; i++) // ���������� ���������
+            for (byte i = 2; i < lenght + 2; i++) // побайтовая обработка
             {
                 sum ^= (byte)data[i];
             }
@@ -200,7 +200,7 @@ namespace FluxViewer.App
         }
 
         /// <summary>
-        /// ������� ������ ������ �� COM �����
+        /// Событие принят данные по COM порту
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -224,7 +224,7 @@ namespace FluxViewer.App
             {
                 rx_buf[0] = (byte)sp.ReadByte();
                 rx_buf[1] = (byte)sp.ReadByte();
-                if (rx_buf[0] != 0xFF && rx_buf[1] != 0xFF) //��������� 2 ��������� ���� //� CRC �� ��������
+                if (rx_buf[0] != 0xFF && rx_buf[1] != 0xFF) //Проверяем 2 стартовых байт //в CRC не беруться
                 { return; }
                 rx_buf[2] = (byte)sp.ReadByte(); //ID
                 rx_buf[3] = (byte)sp.ReadByte(); //Size
@@ -244,14 +244,14 @@ namespace FluxViewer.App
             {
                 return;
             }
-            if (rx_buf[2] == 0x1A)// ����� ������
+            if (rx_buf[2] == 0x1A)// Режим данных
             {
                 if (!_isDataStartFlux)
                 {
-                    _isDataStartFlux = true;//�������������� ��������
+                    _isDataStartFlux = true;//преобразование запущено
                     this.BeginInvoke((MethodInvoker)delegate
                     {
-                        toolStripStatusLabel2.Text = "����������";
+                        toolStripStatusLabel2.Text = "Подключено";
                         toolStripStatusLabel2.BackColor = Color.Green;
                         btn_start.Enabled = false;
                         btn_stop.Enabled = true;
@@ -259,9 +259,9 @@ namespace FluxViewer.App
                     });
                 }
                 DateTime date1;
-                if (rb_isFluxclock.Checked == true)//�����
+                if (rb_isFluxclock.Checked == true)//время
                 {
-                    date1 = new DateTime(rx_buf[4] + 2000, rx_buf[5], rx_buf[6], rx_buf[7], rx_buf[8], rx_buf[9], rx_buf[10] << 8 | rx_buf[11]); // ��� - ����� - ���� - ��� - ������ - ������� - ��������
+                    date1 = new DateTime(rx_buf[4] + 2000, rx_buf[5], rx_buf[6], rx_buf[7], rx_buf[8], rx_buf[9], rx_buf[10] << 8 | rx_buf[11]); // год - месяц - день - час - минута - секунда - миллисек
                 }
                 else
                 {
@@ -272,7 +272,7 @@ namespace FluxViewer.App
                 _pres = BitConverter.ToSingle(rx_buf, 20) * float.Parse(textBox13.Text) + float.Parse(textBox12.Text);
                 _humm = BitConverter.ToSingle(rx_buf, 24) * float.Parse(textBox16.Text) + float.Parse(textBox15.Text);
 
-                //����� �����������
+                //режим градуировки
                 if (_isGraduateMode)
                 {
                     _averageDataflux += _flux / 2;
@@ -281,7 +281,7 @@ namespace FluxViewer.App
                         this.BeginInvoke((MethodInvoker)delegate
                         {
                             dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value = _flux.ToString();
-                            btn_stop_Click(sender, e);// ��������� ��������������
+                            btn_stop_Click(sender, e);// отключить преобразование
                         });
                         _posAverage = 0;
                         _isGraduateMode = false;
@@ -297,7 +297,7 @@ namespace FluxViewer.App
                 _daGraphData[3].Add(_currentX, _humm);
                 _currentX += Step;
 
-                // ���������� �������� �� ��� X, ������� ����� ���������� �� �������
+                // Рассчитаем интервал по оси X, который нужно отобразить на графике
                 double xmin = _currentX - Capacity * Step;
                 double xmax = _currentX;
 
@@ -307,14 +307,14 @@ namespace FluxViewer.App
                     _daGraphPanels[j].XAxis.Scale.Max = xmax;
                 }
 
-                //��������� ������ � ����
-                // TODO: ������� ID, �.�. �� ����� ��� ���������������!
+                //Сохранить данные в базу
+                // TODO: Убираем ID, т.к. не можем его контроллировать!
                 _storage.WriteData(new Data(DateTime.Now, _flux, _temp, _pres, _humm));
 
 
                 this.BeginInvoke((MethodInvoker)delegate { DrawUpdate(); });
             }
-            else if (rx_buf[2] == 0x1B)// ����� ����������� ��������                    is_TestButton = false;
+            else if (rx_buf[2] == 0x1B)// Режим считыванием настроек                    is_TestButton = false;
             {
                 this.BeginInvoke((MethodInvoker)delegate
                 {
@@ -335,13 +335,13 @@ namespace FluxViewer.App
                         checkBox1.Checked = false;
                 });
             }
-            /*          else if (rx_buf[2] == 0x1C)// ������ ��������
+            /*          else if (rx_buf[2] == 0x1C)// версия прошивки
                       {
                           string mas = Encoding.UTF8.GetString(rx_buf, 2, 14);
                       }*/
-            else if (rx_buf[2] == 0x2e)// ������ ��������
+            else if (rx_buf[2] == 0x2e)// версия прошивки
             {
-                String info = "������ ��������\n" + Encoding.UTF8.GetString(rx_buf, 18, 10);
+                String info = "Версия прошивки\n" + Encoding.UTF8.GetString(rx_buf, 18, 10);
 
 
                 StringBuilder hex = new StringBuilder(10 * 2);
@@ -351,22 +351,22 @@ namespace FluxViewer.App
                 }
                 this.BeginInvoke((MethodInvoker)delegate
                 {
-                    label27.Text = "������ ��������: " + Encoding.UTF8.GetString(rx_buf, 18, 10);
-                    label11.Text = "UIN �����������: 0x" + hex.ToString();
-                    label12.Text = "������ ������: " + (rx_buf[16] | (rx_buf[17] << 8)).ToString();
-                    toolStripStatusLabel2.Text = "����������";
+                    label27.Text = "Версия прошивки: " + Encoding.UTF8.GetString(rx_buf, 18, 10);
+                    label11.Text = "UIN контроллера: 0x" + hex.ToString();
+                    label12.Text = "Размер памяти: " + (rx_buf[16] | (rx_buf[17] << 8)).ToString();
+                    toolStripStatusLabel2.Text = "Подключено";
                     toolStripStatusLabel2.BackColor = Color.Green;
                     toolStripStatusLabel4.Text = Encoding.UTF8.GetString(rx_buf, 18, 10);
                     if (_isTestButton)
                     {
                         timer1.Enabled = false;                        
-                        MessageBox.Show(info, "������� ����������", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                        MessageBox.Show(info, "Успешно подключено", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                         _isTestButton = false;
 
                     }
                 });
             }
-            else if (rx_buf[2] == 0x5b)//������������
+            else if (rx_buf[2] == 0x5b)//Перепрошивка
             {
                 if (_positionFirmware == 0)
                 {                   
@@ -374,7 +374,7 @@ namespace FluxViewer.App
                     _positionFirmware = 200;
                     this.BeginInvoke((MethodInvoker)delegate { 
                         progressBar1.Maximum = (int)_sizeWirmware; 
-                        label29.Text = "�������� ������ � ����������";
+                        label29.Text = "Передача данных в устройство";
                         progressBar1.Value = (int)_positionFirmware;
                     });
                     com_send(0x5b, _wirmvareData, 200);
@@ -396,30 +396,30 @@ namespace FluxViewer.App
                         com_send(0x5b, arr, (int)(_sizeWirmware - _positionFirmware));
                         _positionFirmware += _sizeWirmware - _positionFirmware;
                         this.BeginInvoke((MethodInvoker)delegate { 
-                        label29.Text = "�������������������� ����������";
+                        label29.Text = "Перепрограммирование устройства";
                             Thread.Sleep(3000);
                         btn_stop_Click(sender, e);
                          });
                         SerialPort.Close();
-                    //com_send_cmd(0x5a); //������������� ����������
+                    //com_send_cmd(0x5a); //перезагружаем устроцство
                 }
                 }
 /*                else
                 {
                     position_firmware = 0;
                     this.BeginInvoke((MethodInvoker)delegate { progressBar1.Value = (int)size_wirmware; });
-                    MessageBox.Show("�������� ��������� �������", "���������", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    MessageBox.Show("Прошивка обновлена успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 }*/
             }
-            else if (rx_buf[2] == 0x5c)//������������ ������� ���������
+            else if (rx_buf[2] == 0x5c)//Перепрошивка успешно выполнена
             {
                 this.BeginInvoke((MethodInvoker)delegate { progressBar1.Value = 0; });
-                MessageBox.Show("�������� ��������� �������", "���������", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
+                MessageBox.Show("Прошивка обновлена успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
             }
         }
 
         /// <summary>
-        /// ��������� ��������� COM �����
+        /// Проверяем доступные COM Порты
         /// </summary>
         /// <returns></returns>
         public string SetPortName()
@@ -427,7 +427,7 @@ namespace FluxViewer.App
             string portName = "";
             foreach (string portname in SerialPort.GetPortNames())
             {
-                comNameComboBox.Items.Add(portname); //�������� ���� � ������    
+                comNameComboBox.Items.Add(portname); //добавить порт в список    
             }
             if (comNameComboBox.Items.Count > 0)
             {
@@ -436,17 +436,17 @@ namespace FluxViewer.App
             }
             else
             {
-                portName = "��� ������";
-                comNameComboBox.Text = "��� ������";
+                portName = "нет портов";
+                comNameComboBox.Text = "нет портов";
             }
-            //     string[] myPort; //������� ������ �����
-            //    myPort = System.IO.Ports.SerialPort.GetPortNames(); // � ������ �������� ��������� �����
-            //     comboBox1.Items.AddRange(myPort); //������ ���� ������ ������� � ������(comboBox) 
-            return portName; //���������� ���� �� ���������
+            //     string[] myPort; //создаем массив строк
+            //    myPort = System.IO.Ports.SerialPort.GetPortNames(); // в массив помещаем доступные порты
+            //     comboBox1.Items.AddRange(myPort); //теперь этот массив заносим в список(comboBox) 
+            return portName; //возвращает порт по умолчанию
         }
         
         /// <summary>
-        /// ��������� ��������� �� ����� � ��������� ��
+        /// Считываем настройки из файла и применяем их
         /// </summary>
         public void SetSettings()
         {
@@ -485,32 +485,32 @@ namespace FluxViewer.App
             _graphB[3] = float.Parse(_props.Fields.G4B);
             
             cb_graphtype.Items.Clear();
-            cb_graphtype.Items.Add("��� �������");
+            cb_graphtype.Items.Add("все графики");
             cb_graphtype.Items.Add(_graphTitle[0]);
             cb_graphtype.Items.Add(_graphTitle[1]);
             cb_graphtype.Items.Add(_graphTitle[2]);
             cb_graphtype.Items.Add(_graphTitle[3]);
             cb_graphtype.SelectedIndex = 0;
 
-            //������� ���������
+            //вкладка графифики
             num_linewidth.Value = _props.Fields.LineWidth;
             rb_templot_2.Checked = _props.Fields.IsBlackTheme;
             check_grid.Checked = _props.Fields.IsGrid;
             FileSystemLogger.WriteLog(LogLevel.Info, LogInitiator.Application,
-                "��� ���������� �� ����� ������� ����������");
+                "Все найстройки из файла успешно выставлены");
         }
 
         /// <summary>
-        /// ��������� ��������� ����������
+        /// Сохранить настройки приложения
         /// </summary>
         public void SaveSettings()
         {
-            //������� ���������
+            //вкладка программа
             _props.Fields.IsPcTime = rb_isPCclock.Checked;
             _props.Fields.ComNum = comNameComboBox.Text;
             _props.Fields.ComSpeed = com_speed.Text;
 
-            //������� ���������
+            //вкладка графифики
             _props.Fields.LineWidth = num_linewidth.Value;
             _props.Fields.IsBlackTheme = rb_templot_2.Checked;
             _props.Fields.IsGrid = check_grid.Checked;
@@ -531,7 +531,7 @@ namespace FluxViewer.App
         }
         
         /// <summary>
-        /// ������������� �����
+        /// Инициализация формы
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -542,46 +542,7 @@ namespace FluxViewer.App
         }
 
         /// <summary>
-        /// ����� ����� ��������
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void leftMenuTabPage_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            Graphics g = e.Graphics;
-            Brush _textBrush;
-
-            // Get the item from the collection.
-            TabPage _tabPage = leftMenuTabPage.TabPages[e.Index];
-
-            // Get the real bounds for the tab rectangle.
-            Rectangle _tabBounds = leftMenuTabPage.GetTabRect(e.Index);
-
-            if (e.State == DrawItemState.Selected)
-            {
-
-                // Draw a different background color, and don't paint a focus rectangle.
-                _textBrush = new SolidBrush(Color.Yellow);
-                g.FillRectangle(Brushes.Gray, e.Bounds);
-            }
-            else
-            {
-                _textBrush = new SolidBrush(e.ForeColor);
-                e.DrawBackground();
-            }
-
-            // Use our own font.
-            Font _tabFont = new Font("Arial", (float)14.0, FontStyle.Bold, GraphicsUnit.Pixel);
-
-            // Draw string. Center the text.
-            StringFormat _stringFlags = new StringFormat();
-            _stringFlags.Alignment = StringAlignment.Center;
-            _stringFlags.LineAlignment = StringAlignment.Center;
-            g.DrawString(_tabPage.Text, _tabFont, _textBrush, _tabBounds, new StringFormat(_stringFlags));
-        }
-
-        /// <summary>
-        /// �������������� ������� �������� �����������
+        /// Автоматический масштаб графиков регистрации
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -609,7 +570,7 @@ namespace FluxViewer.App
         }
         
         /// <summary>
-        /// �������� � COM ���� �������
+        /// Посылаем в COM порт команду
         /// </summary>
         /// <param name="cmd"></param>
         private void send_command(byte cmd)
@@ -627,7 +588,7 @@ namespace FluxViewer.App
         }
         
         /// <summary>
-        /// �������� ����� � COM ����
+        /// Посылаем пакет в COM порт
         /// </summary>
         /// <param name="id"></param>
         /// <param name="data_send"></param>
@@ -648,7 +609,7 @@ namespace FluxViewer.App
             SerialPort.Write(buf, 0, lenght + 5);
         }
         
-        //�������� �������
+        //посылаем команду
         private void com_send_cmd(byte id)
         {
             byte[] temp = new byte[1];
@@ -656,7 +617,7 @@ namespace FluxViewer.App
         }
         
         /// <summary>
-        /// �������� � COM ����� ����� ��������� �������
+        /// Посылаем в COM Порта новые настройки прибора
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -690,12 +651,12 @@ namespace FluxViewer.App
             buf[20] = checksum(buf, (byte)(buf.Length - 3));
             SerialPort.Write(buf, 0, buf.Length);
 
-            DialogResult result = MessageBox.Show("��������� �������� � ����������\n��� ���������� ���������� ������������� ����������\n�������������?", "���������", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+            DialogResult result = MessageBox.Show("Настройки записаны в устройство\nдля применение необходимо перезагрузить устройство\nПерезагрузить?", "Сообщение", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
             if (result == DialogResult.Yes)
             {
                 Thread.Sleep(500);
                 btn_stop_Click(sender,e);
-                //������� ������������
+                //команда перезагрузки
                 Thread.Sleep(500);
                 com_send_cmd(0x5a);
                 SerialPort.Close();
@@ -704,7 +665,7 @@ namespace FluxViewer.App
         }
        
         /// <summary>
-        /// ������ �������� �����������
+        /// Кнопка запутить регистрацию
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -719,72 +680,51 @@ namespace FluxViewer.App
             if (SerialPort.IsOpen)
             {
                 Thread.Sleep(400);
-                com_send_cmd(0x2a);// ����� ��������������
+                com_send_cmd(0x2a);// Старт преобразования
             }
         }
         /*
-          ������ ��������� ������������� �������
+          Кнопка выполнить синхронизацию времени
          */
 
         private void button1_Click(object sender, EventArgs e)
         {
-            com_send_cmd(0x1b);// ����� ��������������
+            com_send_cmd(0x1b);// Старт преобразования
         }
 
-        private void leftMenuTabPage_Selecting(object sender, TabControlCancelEventArgs e)
-        {
-            if (e.TabPageIndex == 1) //��������� ����������
-            {
-                if (SerialPort.IsOpen)
-                {
-                    com_send_cmd(0x1b);// ��������� ����������
-                }
-                else
-                {
-                    gb_settings.Enabled = false;
-                }
-            }
-            else if (e.TabPageIndex == 0)//��������� ���������
-            { }
-            else if (e.TabPageIndex == 2)
-            { }
-            else if (e.TabPageIndex == 3)
-            { }
-            else if (e.TabPageIndex == 4)
-            { }
-        }
+        
 
         /// <summary>
-        /// ���������� ����� �� ������� ������ �� �����
+        /// построение точки на графике архива по клику
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void zedGraphControl5_MouseClick(object sender, MouseEventArgs e)
         {
-            // ���� ����� ��������� ������, ����� � ������� ��� ���������� ����
+            // Сюда будет сохранена кривая, рядом с которой был произведен клик
             CurveItem curve;
 
-            // ���� ����� �������� ����� ����� ������, ��������� � ����� �����
+            // Сюда будет сохранен номер точки кривой, ближайшей к точке клика
             int index;
 
             GraphPane pane_dot = daMainZedGraphControl.GraphPane;
 
-            // ������������ ���������� �� ����� ����� �� ������ � ��������,
-            // ��� ������� ��� ���������, ��� ���� ����� � ����������� ������.
+            // Максимальное расстояние от точки клика до кривой в пикселях,
+            // при котором еще считается, что клик попал в окрестность кривой.
             GraphPane.Default.NearestTol = 10;
 
             bool result = pane_dot.FindNearestPoint(e.Location, out curve, out index);
 
             if (result)
             {
-                // ����������� ���������� �� ����� ����� �� ������ �� ��������� NearestTol
+                // Максимально расстояние от точки клика до кривой не превысило NearestTol
 
-                // ������� ����� �� ������, ������ ������� ��������� ����
+                // Добавим точку на график, вблизи которой произошел клик
                 PointPairList point = new PointPairList();
 
                 point.Add(curve[index]);
 
-                // ������, ��������� �� ����� �����. ����� ����� �������� ����� ������
+                // Кривая, состоящая из одной точки. Точка будет отмечена синим кругом
                 LineItem curvePount = pane_dot.AddCurve("",
                     new double[] { curve[index].X },
                     new double[] { curve[index].Y },
@@ -794,19 +734,19 @@ namespace FluxViewer.App
                 //
                 curvePount.Line.IsVisible = false;
 
-                // ���� ���������� ����� - �������
+                // Цвет заполнения круга - колубой
                 curvePount.Symbol.Fill.Color = Color.Blue;
 
-                // ��� ���������� - �������� �������
+                // Тип заполнения - сплошная заливка
                 curvePount.Symbol.Fill.Type = FillType.Solid;
 
-                // ������ �����
+                // Размер круга
                 curvePount.Symbol.Size = 6;
             }
         }
 
         /// <summary>
-        /// �������� ������ ����������� ��� �����
+        /// Выделяем график регистрации при клике
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -814,15 +754,15 @@ namespace FluxViewer.App
         {
             if (_selectPane == 0)
             {
-                _daGraphPanels[0].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������
+                _daGraphPanels[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
                 _selectPane = 255;
             }
             else
             {
-                _daGraphPanels[0].Border.Color = Color.Red;// ��������� ���� ����� ��� ����� ����������
-                _daGraphPanels[1].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������
-                _daGraphPanels[2].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������
-                _daGraphPanels[3].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������
+                _daGraphPanels[0].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
+                _daGraphPanels[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
                 _selectPane = 0;
             }
             DrawUpdate();
@@ -831,15 +771,15 @@ namespace FluxViewer.App
         {
             if (_selectPane == 1)
             {
-                _daGraphPanels[1].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������
+                _daGraphPanels[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
                 _selectPane = 255;
             }
             else
             {
-                _daGraphPanels[0].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������
-                _daGraphPanels[1].Border.Color = Color.Red;// ��������� ���� ����� ��� ����� ����������
-                _daGraphPanels[2].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������
-                _daGraphPanels[3].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������
+                _daGraphPanels[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[1].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
+                _daGraphPanels[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
                 _selectPane = 1;
             }
             DrawUpdate();
@@ -848,15 +788,15 @@ namespace FluxViewer.App
         {
             if (_selectPane == 2)
             {
-                _daGraphPanels[2].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������
+                _daGraphPanels[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
                 _selectPane = 255;
             }
             else
             {
-                _daGraphPanels[0].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������
-                _daGraphPanels[1].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������
-                _daGraphPanels[2].Border.Color = Color.Red;// ��������� ���� ����� ��� ����� ����������
-                _daGraphPanels[3].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������
+                _daGraphPanels[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[2].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
+                _daGraphPanels[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
                 _selectPane = 2;
             }
             DrawUpdate();
@@ -865,22 +805,22 @@ namespace FluxViewer.App
         {
             if (_selectPane == 3)
             {
-                _daGraphPanels[3].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������
+                _daGraphPanels[3].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
                 _selectPane = 255;
             }
             else
             {
-                _daGraphPanels[0].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������
-                _daGraphPanels[1].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������
-                _daGraphPanels[2].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������
-                _daGraphPanels[3].Border.Color = Color.Red;// ��������� ���� ����� ��� ����� ����������
+                _daGraphPanels[0].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[1].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[2].Border.Color = Color.Black;// Установим цвет рамки для всего компонента
+                _daGraphPanels[3].Border.Color = Color.Red;// Установим цвет рамки для всего компонента
                 _selectPane = 3;
             }
             DrawUpdate();
         }
 
         /// <summary>
-        /// ���������� �������� �������� �����������
+        /// Увеличение масштаба графиков регистрации
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -895,7 +835,7 @@ namespace FluxViewer.App
         }
 
         /// <summary>
-        /// ���������� �������� �������� �����������
+        /// Уменьшение масштаба графиков регистрации
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -910,7 +850,7 @@ namespace FluxViewer.App
         }
 
         /// <summary>
-        /// ������ �������������������� ����������
+        /// кнопка перепрограммирование устройства
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -937,7 +877,7 @@ namespace FluxViewer.App
         }
 
         /// <summary>
-        /// ����� ������������� ������� ����������
+        /// Выбор отображаемого графика регисрации
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -983,9 +923,9 @@ namespace FluxViewer.App
 
         private void btn_stop_Click(object sender, EventArgs e)
         {
-            toolStripStatusLabel2.Text = "�����������";
+            toolStripStatusLabel2.Text = "Остановлено";
             toolStripStatusLabel2.BackColor = SystemColors.Control;
-            com_send_cmd(0x2b); // ���� ��������������
+            com_send_cmd(0x2b); // стоп преобразования
             //_serialPort.Close();
             btn_stop.Enabled = false;
             btn_start.Enabled = true;
@@ -1001,24 +941,24 @@ namespace FluxViewer.App
                 dataGridView1.Rows.Add();
         }
         /// <summary>
-        /// ������ �������� � �������� �������� � �������������� ������� �������������
+        /// Кнопка измерить и записать значение в градуировочную таблицу напряженности
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void button17_Click(object sender, EventArgs e)
         {
             _isGraduateMode = true;
-            if (!_isDataStartFlux) btn_start_Click(sender, e); // ������ ���������
+            if (!_isDataStartFlux) btn_start_Click(sender, e); // запуск измерения
         }
         /// <summary>
-        /// ������ ������������
+        /// Кнопка апроксимации
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void button16_Click(object sender, EventArgs e)
         {
             double[,] table = new double[2, dataGridView1.Rows.Count];
-            for (int i = 0; i < 2; i++)//��������� ������ �� �������
+            for (int i = 0; i < 2; i++)//заполняем массив из таблицы
             {
                 for (int j = 0; j < dataGridView1.Rows.Count; j++)
                 {
@@ -1026,11 +966,11 @@ namespace FluxViewer.App
                 }
             }
             double[,] aprox = MakeSystem(table, 2);
-            //����� ����� ��������� ��������
+            //метод гауса вычисляем значения
         }
 
         /// <summary>
-        /// ���������� �������� �������� � �� ���������
+        /// Сохранение настроек графиков и их изменение
         /// </summary>
         private void save_settings_graph()
         {
@@ -1041,25 +981,25 @@ namespace FluxViewer.App
                 {
 
                     _daGraphPanels[j].XAxis.MajorGrid.IsVisible = true;
-                    // ����� ������� ����� 10 ��������, ...
+                    // Длина штрихов равна 10 пикселям, ...
                     _daGraphPanels[j].XAxis.MajorGrid.DashOn = 10;
-                    // ����� 5 �������� - �������
+                    // затем 5 пикселей - пропуск
                     _daGraphPanels[j].XAxis.MajorGrid.DashOff = 5;
-                    // �������� ����������� ����� �������� ������� ����� �� ��� Y
+                    // Включаем отображение сетки напротив крупных рисок по оси Y
                     _daGraphPanels[j].YAxis.MajorGrid.IsVisible = true;
-                    // ���������� ������ ��� ���������� ����� ��� ������� ����� �� ��� Y
+                    // Аналогично задаем вид пунктирной линии для крупных рисок по оси Y
                     _daGraphPanels[j].YAxis.MajorGrid.DashOn = 10;
                     _daGraphPanels[j].YAxis.MajorGrid.DashOff = 5;
-                    // �������� ����������� ����� �������� ������ ����� �� ��� X
+                    // Включаем отображение сетки напротив мелких рисок по оси X
                     _daGraphPanels[j].YAxis.MinorGrid.IsVisible = true;
-                    // ������ ��� ���������� ����� ��� ������� ����� �� ��� Y:
-                    // ����� ������� ����� ������ �������, ...
+                    // Задаем вид пунктирной линии для крупных рисок по оси Y:
+                    // Длина штрихов равна одному пикселю, ...
                     _daGraphPanels[j].YAxis.MinorGrid.DashOn = 1;
-                    // ����� 2 ������� - �������
+                    // затем 2 пикселя - пропуск
                     _daGraphPanels[j].YAxis.MinorGrid.DashOff = 2;
-                    // �������� ����������� ����� �������� ������ ����� �� ��� Y
+                    // Включаем отображение сетки напротив мелких рисок по оси Y
                     _daGraphPanels[j].XAxis.MinorGrid.IsVisible = true;
-                    // ���������� ������ ��� ���������� ����� ��� ������� ����� �� ��� Y
+                    // Аналогично задаем вид пунктирной линии для крупных рисок по оси Y
                     _daGraphPanels[j].XAxis.MinorGrid.DashOn = 1;
                     _daGraphPanels[j].XAxis.MinorGrid.DashOff = 2;
                 }
@@ -1084,23 +1024,23 @@ namespace FluxViewer.App
                     _daGraphCurves[j] = _daGraphPanels[j].AddCurve("", _daGraphData[j], Color.Blue, SymbolType.None);
 
                     _daGraphCurves[j].Line.Width = (float)num_linewidth.Value;
-                    _daGraphPanels[j].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������                 
-                    _daGraphPanels[j].Chart.Border.Color = Color.Black; // ��������� ���� ����� ������ �������                                      
-                    _daGraphPanels[j].Fill.Type = FillType.Solid;// �������� ��� ����� ���������� ZedGraph
-                    _daGraphPanels[j].Fill.Color = Color.White;// ������� ����� ��������                   
-                    _daGraphPanels[j].Chart.Fill.Type = FillType.Solid; // �������� ������� ������� (��� ���) � ������ ����
+                    _daGraphPanels[j].Border.Color = Color.Black;// Установим цвет рамки для всего компонента                 
+                    _daGraphPanels[j].Chart.Border.Color = Color.Black; // Установим цвет рамки вокруг графика                                      
+                    _daGraphPanels[j].Fill.Type = FillType.Solid;// Закрасим фон всего компонента ZedGraph
+                    _daGraphPanels[j].Fill.Color = Color.White;// Заливка будет сплошная                   
+                    _daGraphPanels[j].Chart.Fill.Type = FillType.Solid; // Закрасим область графика (его фон) в черный цвет
                     _daGraphPanels[j].Chart.Fill.Color = Color.White;
-                    _daGraphPanels[j].XAxis.MajorGrid.IsZeroLine = true;// ������� ����� ��� �� ������ X = 0 � Y = 0, ����� ������ ���� ����
+                    _daGraphPanels[j].XAxis.MajorGrid.IsZeroLine = true;// Включим показ оси на уровне X = 0 и Y = 0, чтобы видеть цвет осей
                     _daGraphPanels[j].YAxis.MajorGrid.IsZeroLine = true;
-                    _daGraphPanels[j].XAxis.Color = Color.Black; // ��������� ���� ����
+                    _daGraphPanels[j].XAxis.Color = Color.Black; // Установим цвет осей
                     _daGraphPanels[j].YAxis.Color = Color.Black;
-                    _daGraphPanels[j].XAxis.MajorGrid.Color = Color.Black;// ��������� ���� ��� �����
+                    _daGraphPanels[j].XAxis.MajorGrid.Color = Color.Black;// Установим цвет для сетки
                     _daGraphPanels[j].YAxis.MajorGrid.Color = Color.Black;
-                    _daGraphPanels[j].XAxis.Title.FontSpec.FontColor = Color.Black;// ��������� ���� ��� �������� ����� � �����
+                    _daGraphPanels[j].XAxis.Title.FontSpec.FontColor = Color.Black;// Установим цвет для подписей рядом с осями
                     _daGraphPanels[j].YAxis.Title.FontSpec.FontColor = Color.Black;
-                    _daGraphPanels[j].XAxis.Scale.FontSpec.FontColor = Color.Black;// ��������� ���� �������� ��� �������
+                    _daGraphPanels[j].XAxis.Scale.FontSpec.FontColor = Color.Black;// Установим цвет подписей под метками
                     _daGraphPanels[j].YAxis.Scale.FontSpec.FontColor = Color.Black;
-                    _daGraphPanels[j].Title.FontSpec.FontColor = Color.Black; // ��������� ���� ��������� ��� ��������                    
+                    _daGraphPanels[j].Title.FontSpec.FontColor = Color.Black; // Установим цвет заголовка над графиком                    
                 }
             }
             else if (rb_templot_2.Checked == true)
@@ -1112,23 +1052,23 @@ namespace FluxViewer.App
                     _daGraphCurves[j] = _daGraphPanels[j].AddCurve("", _daGraphData[j], Color.Yellow, SymbolType.None);
 
                     _daGraphCurves[j].Line.Width = (float)num_linewidth.Value;
-                    _daGraphPanels[j].Border.Color = Color.Black;// ��������� ���� ����� ��� ����� ����������                 
-                    _daGraphPanels[j].Chart.Border.Color = Color.Green; // ��������� ���� ����� ������ �������                                      
-                    _daGraphPanels[j].Fill.Type = FillType.Solid;// �������� ��� ����� ���������� ZedGraph
-                    _daGraphPanels[j].Fill.Color = Color.Silver;// ������� ����� ��������                   
-                    _daGraphPanels[j].Chart.Fill.Type = FillType.Solid; // �������� ������� ������� (��� ���) � ������ ����
+                    _daGraphPanels[j].Border.Color = Color.Black;// Установим цвет рамки для всего компонента                 
+                    _daGraphPanels[j].Chart.Border.Color = Color.Green; // Установим цвет рамки вокруг графика                                      
+                    _daGraphPanels[j].Fill.Type = FillType.Solid;// Закрасим фон всего компонента ZedGraph
+                    _daGraphPanels[j].Fill.Color = Color.Silver;// Заливка будет сплошная                   
+                    _daGraphPanels[j].Chart.Fill.Type = FillType.Solid; // Закрасим область графика (его фон) в черный цвет
                     _daGraphPanels[j].Chart.Fill.Color = Color.Black;
-                    _daGraphPanels[j].XAxis.MajorGrid.IsZeroLine = true;// ������� ����� ��� �� ������ X = 0 � Y = 0, ����� ������ ���� ����
+                    _daGraphPanels[j].XAxis.MajorGrid.IsZeroLine = true;// Включим показ оси на уровне X = 0 и Y = 0, чтобы видеть цвет осей
                     _daGraphPanels[j].YAxis.MajorGrid.IsZeroLine = true;
-                    _daGraphPanels[j].XAxis.Color = Color.Gray; // ��������� ���� ����
+                    _daGraphPanels[j].XAxis.Color = Color.Gray; // Установим цвет осей
                     _daGraphPanels[j].YAxis.Color = Color.Gray;
-                    _daGraphPanels[j].XAxis.MajorGrid.Color = Color.Cyan;// ��������� ���� ��� �����
+                    _daGraphPanels[j].XAxis.MajorGrid.Color = Color.Cyan;// Установим цвет для сетки
                     _daGraphPanels[j].YAxis.MajorGrid.Color = Color.Cyan;
-                    _daGraphPanels[j].XAxis.Title.FontSpec.FontColor = Color.Teal;// ��������� ���� ��� �������� ����� � �����
+                    _daGraphPanels[j].XAxis.Title.FontSpec.FontColor = Color.Teal;// Установим цвет для подписей рядом с осями
                     _daGraphPanels[j].YAxis.Title.FontSpec.FontColor = Color.Teal;
-                    _daGraphPanels[j].XAxis.Scale.FontSpec.FontColor = Color.Black;// ��������� ���� �������� ��� �������
+                    _daGraphPanels[j].XAxis.Scale.FontSpec.FontColor = Color.Black;// Установим цвет подписей под метками
                     _daGraphPanels[j].YAxis.Scale.FontSpec.FontColor = Color.Black;
-                    _daGraphPanels[j].Title.FontSpec.FontColor = Color.Teal; // ��������� ���� ��������� ��� ��������
+                    _daGraphPanels[j].Title.FontSpec.FontColor = Color.Teal; // Установим цвет заголовка над графиком
                 }
             }
             _daGraphController.SetLineWidth((int) num_linewidth.Value);
@@ -1147,11 +1087,11 @@ namespace FluxViewer.App
             byte[] data = new byte[2];
             data[0] = (byte)size;
             data[1] = (byte)(size>>8);
-            com_send(0x5b, data, 2);//���� ������� ������� + � ���������� ������ �����
+            com_send(0x5b, data, 2);//шлем команду прошить + и отправляем размер файла
         }
 
         /// <summary>
-        /// ������ ��������� ��������� ��������
+        /// Кнопка сохранить настройки графиков
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1247,19 +1187,19 @@ namespace FluxViewer.App
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (_isTestButton)//��������� �� ������� ������ ������������
+            if (_isTestButton)//Произошло по нажатию кнопки тестирования
             {
                 _isTestButton = false;
                 SerialPort.Close();
-                MessageBox.Show("�� ������� ������������ � ����������.\n���������� ������������� ����������\n��� �������� ��������", "������", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);           
+                MessageBox.Show("Не удалось подключиться к флюксметру.\nПопробуйте перезагрузить устройство\nили изменить настрйки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);           
             }
         }
 
         private void button15_Click(object sender, EventArgs e)
         {
-            if(button15.Text=="��������� ����� ������ � ASCII")
+            if(button15.Text=="Запустить вывод данных в ASCII")
             {
-                button15.Text = "���������� ����� ������ � ASCII";
+                button15.Text = "Остановить вывод данных в ASCII";
                 _isAsciiConsole = true;
                 com_send_cmd(0xc1);
                 if(!_isDataStartFlux)
@@ -1267,7 +1207,7 @@ namespace FluxViewer.App
             }
             else
             {
-                button15.Text = "��������� ����� ������ � ASCII";
+                button15.Text = "Запустить вывод данных в ASCII";
                 com_send_cmd(0xc2);
                 btn_stop_Click(sender, e);
                 _isAsciiConsole = false;
@@ -1276,7 +1216,7 @@ namespace FluxViewer.App
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            string mailto = string.Format("mailto:{0}?Subject={1}&Body={2}", "az@azmotors.ru", "������ �� FluxViewer", "������ ����!");
+            string mailto = string.Format("mailto:{0}?Subject={1}&Body={2}", "az@azmotors.ru", "Запрос по FluxViewer", "Добрый день!");
             //            mailto = Uri.EscapeUriString(mailto);
             Process.Start(new ProcessStartInfo(mailto) { UseShellExecute = true });
         }
@@ -1291,7 +1231,7 @@ namespace FluxViewer.App
         {
             var startInfo = new ProcessStartInfo
             {
-                FileName = Environment.CurrentDirectory + @"\doc\����������� ������������ FluxViewer.pdf",  // ���� � ����������
+                FileName = Environment.CurrentDirectory + @"\doc\Руководство пользователя FluxViewer.pdf",  // Путь к приложению
                 UseShellExecute = true,
                 CreateNoWindow = true
             };
@@ -1302,7 +1242,7 @@ namespace FluxViewer.App
         {
             var startInfo = new ProcessStartInfo
             {
-                FileName = Environment.CurrentDirectory + @"\doc\����������� ������������ ��������� �����-�.pdf",  // ���� � ����������
+                FileName = Environment.CurrentDirectory + @"\doc\Руководство пользователя флюксметр Пчела-Д.pdf",  // Путь к приложению
                 UseShellExecute = true,
                 CreateNoWindow = true
             };
@@ -1322,12 +1262,12 @@ namespace FluxViewer.App
                 SerialPort.WriteTimeout = 500;
                 if (comNameComboBox.Text == "")
                 {
-                    MessageBox.Show("�������� COM ����", "���������", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                    MessageBox.Show("Выберите COM порт", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                     return;
                 }
-                if (comNameComboBox.Text == "��� ������")
+                if (comNameComboBox.Text == "нет портов")
                 {
-                    MessageBox.Show("��� ��������� COM ������", "���������", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                    MessageBox.Show("Нет доступных COM портов", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                     return;
                 }
                 SerialPort.PortName = (string)comNameComboBox.Text;
@@ -1339,16 +1279,16 @@ namespace FluxViewer.App
                 }
                 catch (/*InvalidOperationException*/Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "������ �����������", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                    MessageBox.Show(ex.Message, "Ошибка подключения", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     return;
                 }
             }
             gb_settings.Enabled = true;
-            com_send_cmd(0x2e);// ��������� ����
+            com_send_cmd(0x2e);// запросить инфо
 
         }
         /// <summary>
-        /// ������ �������������� ����������� � ��� �����
+        /// Кнопка протестировать подключение к ком порту
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>								
@@ -1365,7 +1305,7 @@ namespace FluxViewer.App
         }
         
         /// <summary>
-        /// ����������� �������� ��������� �� ������ ���������� ���������
+        /// Составление линейных уравнений из метода наименьших квадратов
         /// </summary>
         /// <param name="xyTable"></param>
         /// <param name="basis"></param>
