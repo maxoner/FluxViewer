@@ -1189,8 +1189,8 @@
             this.leftMenuTabPage.Size = new System.Drawing.Size(1276, 531);
             this.leftMenuTabPage.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.leftMenuTabPage.TabIndex = 1;
-            this.leftMenuTabPage.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl2_DrawItem);
-            this.leftMenuTabPage.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl2_Selecting);
+            this.leftMenuTabPage.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.leftMenuTabPage_DrawItem);
+            this.leftMenuTabPage.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.leftMenuTabPage_Selecting);
             // 
             // connectTabPage
             // 

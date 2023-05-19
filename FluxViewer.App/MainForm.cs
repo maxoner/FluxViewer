@@ -546,7 +546,7 @@ namespace FluxViewer.App
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void tabControl2_DrawItem(object sender, DrawItemEventArgs e)
+        private void leftMenuTabPage_DrawItem(object sender, DrawItemEventArgs e)
         {
             Graphics g = e.Graphics;
             Brush _textBrush;
@@ -731,7 +731,7 @@ namespace FluxViewer.App
             com_send_cmd(0x1b);// ����� ��������������
         }
 
-        private void tabControl2_Selecting(object sender, TabControlCancelEventArgs e)
+        private void leftMenuTabPage_Selecting(object sender, TabControlCancelEventArgs e)
         {
             if (e.TabPageIndex == 1) //��������� ����������
             {
