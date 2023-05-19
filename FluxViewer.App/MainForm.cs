@@ -89,11 +89,11 @@ namespace FluxViewer.App
             groupBox18.Left = (tabPage10.Width - groupBox18.Width) / 2;
             groupBox18.Top = (tabPage10.Height - groupBox18.Height) / 2;
 
-            gb_settings.Left = (tabPage4.Width - gb_settings.Width) / 2;
-            gb_settings.Top = (tabPage4.Height - gb_settings.Height) / 2;
+            gb_settings.Left = (deviceSettignsTabPage.Width - gb_settings.Width) / 2;
+            gb_settings.Top = (deviceSettignsTabPage.Height - gb_settings.Height) / 2;
 
-            panel5.Left = (tabPage4.Width - panel5.Width) / 2;
-            panel5.Top = (tabPage4.Height - panel5.Height) / 2;
+            panel5.Left = (deviceSettignsTabPage.Width - panel5.Width) / 2;
+            panel5.Top = (deviceSettignsTabPage.Height - panel5.Height) / 2;
 
             tableLayoutPanel1.RowStyles[0].SizeType = SizeType.Percent;
             tableLayoutPanel1.RowStyles[1].SizeType = SizeType.Percent;
@@ -1287,23 +1287,7 @@ namespace FluxViewer.App
             com_send_cmd(0x2e);// запросить инфо
 
         }
-        /// <summary>
-        /// Кнопка протестировать подключение к ком порту
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>								
-        private void btn_testconnect_Click(object sender, EventArgs e)
-        {
-            if(SerialPort.IsOpen)
-            {
-                SerialPort.Close();
-            }
-            _isTestButton = true;
-            timer1.Interval = 1000;
-            timer1.Enabled = true;
-            connect_flux();
-        }
-        
+
         /// <summary>
         /// Составление линейных уравнений из метода наименьших квадратов
         /// </summary>

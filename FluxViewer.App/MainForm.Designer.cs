@@ -118,7 +118,7 @@
             this.rb_wifi_con = new System.Windows.Forms.RadioButton();
             this.updatePortsButton = new System.Windows.Forms.Button();
             this.com_speed = new System.Windows.Forms.ComboBox();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.deviceSettignsTabPage = new System.Windows.Forms.TabPage();
             this.gb_settings = new System.Windows.Forms.GroupBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
@@ -177,7 +177,7 @@
             this.btn_graph_settings = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.check_grid = new System.Windows.Forms.CheckBox();
-            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.terminalTabPage = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
             this.button15 = new System.Windows.Forms.Button();
             this.button14 = new System.Windows.Forms.Button();
@@ -253,7 +253,7 @@
             this.groupBox15.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            this.tabPage4.SuspendLayout();
+            this.deviceSettignsTabPage.SuspendLayout();
             this.gb_settings.SuspendLayout();
             this.panel3.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -265,7 +265,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_linewidth)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.tabPage7.SuspendLayout();
+            this.terminalTabPage.SuspendLayout();
             this.panel4.SuspendLayout();
             this.tabPage10.SuspendLayout();
             this.groupBox18.SuspendLayout();
@@ -1169,9 +1169,9 @@
             // 
             this.leftMenuTabPage.Alignment = System.Windows.Forms.TabAlignment.Left;
             this.leftMenuTabPage.Controls.Add(this.connectTabPage);
-            this.leftMenuTabPage.Controls.Add(this.tabPage4);
+            this.leftMenuTabPage.Controls.Add(this.deviceSettignsTabPage);
             this.leftMenuTabPage.Controls.Add(this.tabPage6);
-            this.leftMenuTabPage.Controls.Add(this.tabPage7);
+            this.leftMenuTabPage.Controls.Add(this.terminalTabPage);
             this.leftMenuTabPage.Controls.Add(this.tabPage10);
             this.leftMenuTabPage.Controls.Add(this.tabPage8);
             this.leftMenuTabPage.Controls.Add(this.tabPage9);
@@ -1292,7 +1292,7 @@
             this.connectButton.TabIndex = 15;
             this.connectButton.Text = "Подключиться";
             this.connectButton.UseVisualStyleBackColor = true;
-            this.connectButton.Click += new System.EventHandler(this.btn_testconnect_Click);
+            this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
             // 
             // rb_485_con
             // 
@@ -1345,18 +1345,18 @@
             this.com_speed.Size = new System.Drawing.Size(147, 25);
             this.com_speed.TabIndex = 10;
             // 
-            // tabPage4
+            // deviceSettignsTabPage
             // 
-            this.tabPage4.Controls.Add(this.gb_settings);
-            this.tabPage4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tabPage4.Location = new System.Drawing.Point(304, 4);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage4.Size = new System.Drawing.Size(968, 523);
-            this.tabPage4.TabIndex = 0;
-            this.tabPage4.Text = "Настройка устройства";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.deviceSettignsTabPage.Controls.Add(this.gb_settings);
+            this.deviceSettignsTabPage.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.deviceSettignsTabPage.Location = new System.Drawing.Point(304, 4);
+            this.deviceSettignsTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.deviceSettignsTabPage.Name = "deviceSettignsTabPage";
+            this.deviceSettignsTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.deviceSettignsTabPage.Size = new System.Drawing.Size(968, 523);
+            this.deviceSettignsTabPage.TabIndex = 0;
+            this.deviceSettignsTabPage.Text = "Настройка устройства";
+            this.deviceSettignsTabPage.UseVisualStyleBackColor = true;
             // 
             // gb_settings
             // 
@@ -2022,17 +2022,17 @@
             this.check_grid.Text = "включить сетку";
             this.check_grid.UseVisualStyleBackColor = true;
             // 
-            // tabPage7
+            // terminalTabPage
             // 
-            this.tabPage7.Controls.Add(this.panel4);
-            this.tabPage7.Controls.Add(this.richTextBox1);
-            this.tabPage7.Location = new System.Drawing.Point(304, 4);
-            this.tabPage7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(968, 523);
-            this.tabPage7.TabIndex = 3;
-            this.tabPage7.Text = "Терминал";
-            this.tabPage7.UseVisualStyleBackColor = true;
+            this.terminalTabPage.Controls.Add(this.panel4);
+            this.terminalTabPage.Controls.Add(this.richTextBox1);
+            this.terminalTabPage.Location = new System.Drawing.Point(304, 4);
+            this.terminalTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.terminalTabPage.Name = "terminalTabPage";
+            this.terminalTabPage.Size = new System.Drawing.Size(968, 523);
+            this.terminalTabPage.TabIndex = 3;
+            this.terminalTabPage.Text = "Терминал";
+            this.terminalTabPage.UseVisualStyleBackColor = true;
             // 
             // panel4
             // 
@@ -2647,7 +2647,7 @@
             this.groupBox7.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            this.tabPage4.ResumeLayout(false);
+            this.deviceSettignsTabPage.ResumeLayout(false);
             this.gb_settings.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
@@ -2665,7 +2665,7 @@
             this.groupBox1.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.tabPage7.ResumeLayout(false);
+            this.terminalTabPage.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.tabPage10.ResumeLayout(false);
             this.groupBox18.ResumeLayout(false);
@@ -2706,10 +2706,10 @@
         private TabPage dataArchiveTabPage;
         private TabPage settingsTabPage;
         public TabControl leftMenuTabPage;
-        private TabPage tabPage4;
+        private TabPage deviceSettignsTabPage;
         private TabPage connectTabPage;
         private TabPage tabPage6;
-        private TabPage tabPage7;
+        private TabPage terminalTabPage;
         private TabPage tabPage8;
         private GroupBox gb_settings;
         private Button btn_writesettings;
