@@ -32,6 +32,10 @@
     <Compile Update="LogsTab.cs">
       <DependentUpon>MainForm.SettingsTab.cs</DependentUpon>
     </Compile>
+
+    <Compile Update="ConnectTab.cs">
+      <DependentUpon>MainForm.SettingsTab.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

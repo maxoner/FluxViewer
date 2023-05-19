@@ -112,11 +112,11 @@
             this.rb_isFluxclock = new System.Windows.Forms.RadioButton();
             this.rb_isPCclock = new System.Windows.Forms.RadioButton();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.btn_testconnect = new System.Windows.Forms.Button();
+            this.comNameComboBox = new System.Windows.Forms.ComboBox();
+            this.connectButton = new System.Windows.Forms.Button();
             this.rb_485_con = new System.Windows.Forms.RadioButton();
             this.rb_wifi_con = new System.Windows.Forms.RadioButton();
-            this.com_name = new System.Windows.Forms.ComboBox();
-            this.btn_updateport = new System.Windows.Forms.Button();
+            this.updatePortsButton = new System.Windows.Forms.Button();
             this.com_speed = new System.Windows.Forms.ComboBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.gb_settings = new System.Windows.Forms.GroupBox();
@@ -1256,11 +1256,11 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.btn_testconnect);
+            this.groupBox5.Controls.Add(this.comNameComboBox);
+            this.groupBox5.Controls.Add(this.connectButton);
             this.groupBox5.Controls.Add(this.rb_485_con);
             this.groupBox5.Controls.Add(this.rb_wifi_con);
-            this.groupBox5.Controls.Add(this.com_name);
-            this.groupBox5.Controls.Add(this.btn_updateport);
+            this.groupBox5.Controls.Add(this.updatePortsButton);
             this.groupBox5.Controls.Add(this.com_speed);
             this.groupBox5.Location = new System.Drawing.Point(32, 26);
             this.groupBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -1271,17 +1271,28 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Подключение";
             // 
-            // btn_testconnect
+            // comNameComboBox
             // 
-            this.btn_testconnect.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btn_testconnect.Location = new System.Drawing.Point(452, 46);
-            this.btn_testconnect.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
-            this.btn_testconnect.Name = "btn_testconnect";
-            this.btn_testconnect.Size = new System.Drawing.Size(122, 40);
-            this.btn_testconnect.TabIndex = 15;
-            this.btn_testconnect.Text = "Проверить подключение";
-            this.btn_testconnect.UseVisualStyleBackColor = true;
-            this.btn_testconnect.Click += new System.EventHandler(this.btn_testconnect_Click);
+            this.comNameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comNameComboBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.comNameComboBox.FormattingEnabled = true;
+            this.comNameComboBox.Location = new System.Drawing.Point(24, 55);
+            this.comNameComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.comNameComboBox.Name = "comNameComboBox";
+            this.comNameComboBox.Size = new System.Drawing.Size(164, 25);
+            this.comNameComboBox.TabIndex = 16;
+            // 
+            // connectButton
+            // 
+            this.connectButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.connectButton.Location = new System.Drawing.Point(452, 46);
+            this.connectButton.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+            this.connectButton.Name = "connectButton";
+            this.connectButton.Size = new System.Drawing.Size(122, 40);
+            this.connectButton.TabIndex = 15;
+            this.connectButton.Text = "Подключиться";
+            this.connectButton.UseVisualStyleBackColor = true;
+            this.connectButton.Click += new System.EventHandler(this.btn_testconnect_Click);
             // 
             // rb_485_con
             // 
@@ -1308,26 +1319,20 @@
             this.rb_wifi_con.Text = "Подключение по Wi-Fi";
             this.rb_wifi_con.UseVisualStyleBackColor = true;
             // 
-            // com_name
+            // updatePortsButton
             // 
-            this.com_name.Location = new System.Drawing.Point(28, 55);
-            this.com_name.Name = "com_name";
-            this.com_name.Size = new System.Drawing.Size(164, 25);
-            this.com_name.TabIndex = 8;
-            // 
-            // btn_updateport
-            // 
-            this.btn_updateport.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btn_updateport.Location = new System.Drawing.Point(385, 46);
-            this.btn_updateport.Name = "btn_updateport";
-            this.btn_updateport.Size = new System.Drawing.Size(44, 40);
-            this.btn_updateport.TabIndex = 11;
-            this.btn_updateport.Text = "upd";
-            this.btn_updateport.UseVisualStyleBackColor = true;
-            this.btn_updateport.Click += new System.EventHandler(this.btn_updateport_Click);
+            this.updatePortsButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.updatePortsButton.Location = new System.Drawing.Point(385, 46);
+            this.updatePortsButton.Name = "updatePortsButton";
+            this.updatePortsButton.Size = new System.Drawing.Size(44, 40);
+            this.updatePortsButton.TabIndex = 11;
+            this.updatePortsButton.Text = "upd";
+            this.updatePortsButton.UseVisualStyleBackColor = true;
+            this.updatePortsButton.Click += new System.EventHandler(this.updatePortsButton_Click);
             // 
             // com_speed
             // 
+            this.com_speed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.com_speed.FormattingEnabled = true;
             this.com_speed.Items.AddRange(new object[] {
             "4800",
@@ -2754,11 +2759,10 @@
         private RadioButton rb_isFluxclock;
         private RadioButton rb_isPCclock;
         private GroupBox groupBox5;
-        private Button btn_testconnect;
+        private Button connectButton;
         private RadioButton rb_485_con;
         private RadioButton rb_wifi_con;
-        private ComboBox com_name;
-        private Button btn_updateport;
+        private Button updatePortsButton;
         private ComboBox com_speed;
         private GroupBox groupBox14;
         private GroupBox groupBox1;
@@ -2881,5 +2885,6 @@
         private GroupBox logsGroupBox;
         private ListBox logsListBox;
         private DateTimePicker logsDateTimePicker;
+        private ComboBox comNameComboBox;
     }
 }
