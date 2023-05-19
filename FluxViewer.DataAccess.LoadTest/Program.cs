@@ -1,4 +1,4 @@
-﻿using FluxViewer.DataAccess.Models;
+﻿using FluxViewer.DataAccess.Storage;
 
 void CreatePlausibleDataFiles(DateTime beginDate, DateTime endDate, float timeDeltaMilliseconds)
 {
@@ -19,7 +19,7 @@ void CreatePlausibleDataFiles(DateTime beginDate, DateTime endDate, float timeDe
         {
             var value = (double)(currentDate.Hour * 60 * 60 * 100 + currentDate.Minute * 60 * 100 +
                                  currentDate.Millisecond) / 1000000;
-            file.Write(new NewData(
+            file.Write(new Data(
                     currentDate,
                     (float)(Math.Sin(value) + Math.Cos(value)),
                     (float)(Math.Cos(value) - Math.Sin(value)),
