@@ -1194,25 +1194,7 @@ namespace FluxViewer.App
                 MessageBox.Show("Не удалось подключиться к флюксметру.\nПопробуйте перезагрузить устройство\nили изменить настрйки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);           
             }
         }
-
-        private void button15_Click(object sender, EventArgs e)
-        {
-            if(button15.Text=="Запустить вывод данных в ASCII")
-            {
-                button15.Text = "Остановить вывод данных в ASCII";
-                _isAsciiConsole = true;
-                com_send_cmd(0xc1);
-                if(!_isDataStartFlux)
-                    btn_start_Click(sender, e);
-            }
-            else
-            {
-                button15.Text = "Запустить вывод данных в ASCII";
-                com_send_cmd(0xc2);
-                btn_stop_Click(sender, e);
-                _isAsciiConsole = false;
-            }
-        }
+        
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -1320,6 +1302,7 @@ namespace FluxViewer.App
             }
             return matrix;
         }
-        
+
+
     }
 }

@@ -179,7 +179,7 @@
             this.check_grid = new System.Windows.Forms.CheckBox();
             this.terminalTabPage = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.button15 = new System.Windows.Forms.Button();
+            this.outputToAsciiButton = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.tabPage10 = new System.Windows.Forms.TabPage();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
@@ -2034,7 +2034,7 @@
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.button15);
+            this.panel4.Controls.Add(this.outputToAsciiButton);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel4.Location = new System.Drawing.Point(0, 471);
             this.panel4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -2042,17 +2042,17 @@
             this.panel4.Size = new System.Drawing.Size(968, 52);
             this.panel4.TabIndex = 3;
             // 
-            // button15
+            // outputToAsciiButton
             // 
-            this.button15.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button15.Location = new System.Drawing.Point(16, 10);
-            this.button15.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(262, 33);
-            this.button15.TabIndex = 2;
-            this.button15.Text = "Запустить вывод данных в ASCII";
-            this.button15.UseVisualStyleBackColor = true;
-            this.button15.Click += new System.EventHandler(this.button15_Click);
+            this.outputToAsciiButton.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.outputToAsciiButton.Location = new System.Drawing.Point(16, 10);
+            this.outputToAsciiButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.outputToAsciiButton.Name = "outputToAsciiButton";
+            this.outputToAsciiButton.Size = new System.Drawing.Size(262, 33);
+            this.outputToAsciiButton.TabIndex = 2;
+            this.outputToAsciiButton.Text = "Запустить вывод данных в ASCII";
+            this.outputToAsciiButton.UseVisualStyleBackColor = true;
+            this.outputToAsciiButton.Click += new System.EventHandler(this.outputToAsciiButton_Click);
             // 
             // richTextBox1
             // 
@@ -2754,7 +2754,7 @@
         private Button daSpectraButton;
         private Button daHistogramsButton;
         private Panel panel4;
-        private Button button15;
+        private Button outputToAsciiButton;
         private TabPage tabPage10;
         private GroupBox groupBox18;
         private RadioButton radioButton5;
