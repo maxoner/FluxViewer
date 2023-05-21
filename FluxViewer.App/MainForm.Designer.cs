@@ -1171,10 +1171,10 @@
             this.leftMenuTabPage.Controls.Add(this.deviceSettignsTabPage);
             this.leftMenuTabPage.Controls.Add(this.tabPage6);
             this.leftMenuTabPage.Controls.Add(this.terminalTabPage);
+            this.leftMenuTabPage.Controls.Add(this.logsTabPage);
             this.leftMenuTabPage.Controls.Add(this.tabPage10);
             this.leftMenuTabPage.Controls.Add(this.tabPage8);
             this.leftMenuTabPage.Controls.Add(this.tabPage9);
-            this.leftMenuTabPage.Controls.Add(this.logsTabPage);
             this.leftMenuTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.leftMenuTabPage.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.leftMenuTabPage.ImeMode = System.Windows.Forms.ImeMode.NoControl;
