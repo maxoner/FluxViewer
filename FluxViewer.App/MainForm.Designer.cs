@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -107,15 +107,15 @@
             this.settingsTabPage = new System.Windows.Forms.TabPage();
             this.leftMenuTabPage = new System.Windows.Forms.TabControl();
             this.connectTabPage = new System.Windows.Forms.TabPage();
-            this.groupBox15 = new System.Windows.Forms.GroupBox();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.rb_isFluxclock = new System.Windows.Forms.RadioButton();
-            this.rb_isPCclock = new System.Windows.Forms.RadioButton();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.connectTabGroupBox = new System.Windows.Forms.GroupBox();
+            this.dataSynchronizationGroupBox = new System.Windows.Forms.GroupBox();
+            this.useComputerClockRadioButton = new System.Windows.Forms.RadioButton();
+            this.useFluxClockRadioButton = new System.Windows.Forms.RadioButton();
+            this.connectGroupBox = new System.Windows.Forms.GroupBox();
             this.comNameComboBox = new System.Windows.Forms.ComboBox();
             this.connectButton = new System.Windows.Forms.Button();
-            this.rb_485_con = new System.Windows.Forms.RadioButton();
-            this.rb_wifi_con = new System.Windows.Forms.RadioButton();
+            this.useRS485ConnectionRadioButton = new System.Windows.Forms.RadioButton();
+            this.useWiFiConnectionRadioButton = new System.Windows.Forms.RadioButton();
             this.updatePortsButton = new System.Windows.Forms.Button();
             this.com_speed = new System.Windows.Forms.ComboBox();
             this.deviceSettignsTabPage = new System.Windows.Forms.TabPage();
@@ -181,6 +181,10 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.outputToAsciiButton = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.logsTabPage = new System.Windows.Forms.TabPage();
+            this.logsGroupBox = new System.Windows.Forms.GroupBox();
+            this.logsDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.logsListBox = new System.Windows.Forms.ListBox();
             this.tabPage10 = new System.Windows.Forms.TabPage();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
             this.groupBox19 = new System.Windows.Forms.GroupBox();
@@ -219,10 +223,6 @@
             this.label32 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
-            this.logsTabPage = new System.Windows.Forms.TabPage();
-            this.logsGroupBox = new System.Windows.Forms.GroupBox();
-            this.logsDateTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.logsListBox = new System.Windows.Forms.ListBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
@@ -248,9 +248,9 @@
             this.settingsTabPage.SuspendLayout();
             this.leftMenuTabPage.SuspendLayout();
             this.connectTabPage.SuspendLayout();
-            this.groupBox15.SuspendLayout();
-            this.groupBox7.SuspendLayout();
-            this.groupBox5.SuspendLayout();
+            this.connectTabGroupBox.SuspendLayout();
+            this.dataSynchronizationGroupBox.SuspendLayout();
+            this.connectGroupBox.SuspendLayout();
             this.deviceSettignsTabPage.SuspendLayout();
             this.gb_settings.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -265,6 +265,8 @@
             this.groupBox4.SuspendLayout();
             this.terminalTabPage.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.logsTabPage.SuspendLayout();
+            this.logsGroupBox.SuspendLayout();
             this.tabPage10.SuspendLayout();
             this.groupBox18.SuspendLayout();
             this.groupBox19.SuspendLayout();
@@ -274,8 +276,6 @@
             this.groupBox16.SuspendLayout();
             this.tabPage9.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.logsTabPage.SuspendLayout();
-            this.logsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -1192,7 +1192,7 @@
             // 
             // connectTabPage
             // 
-            this.connectTabPage.Controls.Add(this.groupBox15);
+            this.connectTabPage.Controls.Add(this.connectTabGroupBox);
             this.connectTabPage.Location = new System.Drawing.Point(304, 4);
             this.connectTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.connectTabPage.Name = "connectTabPage";
@@ -1203,72 +1203,72 @@
             this.connectTabPage.UseVisualStyleBackColor = true;
             this.connectTabPage.Enter += new System.EventHandler(this.connectTabPage_Enter);
             // 
-            // groupBox15
+            // connectTabGroupBox
             // 
-            this.groupBox15.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.groupBox15.Controls.Add(this.groupBox7);
-            this.groupBox15.Controls.Add(this.groupBox5);
-            this.groupBox15.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox15.Location = new System.Drawing.Point(188, 29);
-            this.groupBox15.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox15.Name = "groupBox15";
-            this.groupBox15.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox15.Size = new System.Drawing.Size(648, 271);
-            this.groupBox15.TabIndex = 18;
-            this.groupBox15.TabStop = false;
+            this.connectTabGroupBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.connectTabGroupBox.Controls.Add(this.dataSynchronizationGroupBox);
+            this.connectTabGroupBox.Controls.Add(this.connectGroupBox);
+            this.connectTabGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.connectTabGroupBox.Location = new System.Drawing.Point(188, 29);
+            this.connectTabGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.connectTabGroupBox.Name = "connectTabGroupBox";
+            this.connectTabGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.connectTabGroupBox.Size = new System.Drawing.Size(648, 271);
+            this.connectTabGroupBox.TabIndex = 18;
+            this.connectTabGroupBox.TabStop = false;
             // 
-            // groupBox7
+            // dataSynchronizationGroupBox
             // 
-            this.groupBox7.Controls.Add(this.rb_isFluxclock);
-            this.groupBox7.Controls.Add(this.rb_isPCclock);
-            this.groupBox7.Enabled = false;
-            this.groupBox7.Location = new System.Drawing.Point(32, 170);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(585, 81);
-            this.groupBox7.TabIndex = 19;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Синхронизация данных";
+            this.dataSynchronizationGroupBox.Controls.Add(this.useComputerClockRadioButton);
+            this.dataSynchronizationGroupBox.Controls.Add(this.useFluxClockRadioButton);
+            this.dataSynchronizationGroupBox.Enabled = false;
+            this.dataSynchronizationGroupBox.Location = new System.Drawing.Point(32, 170);
+            this.dataSynchronizationGroupBox.Name = "dataSynchronizationGroupBox";
+            this.dataSynchronizationGroupBox.Size = new System.Drawing.Size(585, 81);
+            this.dataSynchronizationGroupBox.TabIndex = 19;
+            this.dataSynchronizationGroupBox.TabStop = false;
+            this.dataSynchronizationGroupBox.Text = "Синхронизация данных";
             // 
-            // rb_isFluxclock
+            // useComputerClockRadioButton
             // 
-            this.rb_isFluxclock.AutoSize = true;
-            this.rb_isFluxclock.Location = new System.Drawing.Point(37, 47);
-            this.rb_isFluxclock.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.rb_isFluxclock.Name = "rb_isFluxclock";
-            this.rb_isFluxclock.Size = new System.Drawing.Size(232, 23);
-            this.rb_isFluxclock.TabIndex = 5;
-            this.rb_isFluxclock.Text = "Использовать часы флюксметра";
-            this.rb_isFluxclock.UseVisualStyleBackColor = true;
+            this.useComputerClockRadioButton.AutoSize = true;
+            this.useComputerClockRadioButton.Checked = true;
+            this.useComputerClockRadioButton.Location = new System.Drawing.Point(37, 23);
+            this.useComputerClockRadioButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.useComputerClockRadioButton.Name = "useComputerClockRadioButton";
+            this.useComputerClockRadioButton.Size = new System.Drawing.Size(232, 23);
+            this.useComputerClockRadioButton.TabIndex = 4;
+            this.useComputerClockRadioButton.TabStop = true;
+            this.useComputerClockRadioButton.Text = "Использовать часы компьютера";
+            this.useComputerClockRadioButton.UseVisualStyleBackColor = true;
             // 
-            // rb_isPCclock
+            // useFluxClockRadioButton
             // 
-            this.rb_isPCclock.AutoSize = true;
-            this.rb_isPCclock.Checked = true;
-            this.rb_isPCclock.Location = new System.Drawing.Point(37, 23);
-            this.rb_isPCclock.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.rb_isPCclock.Name = "rb_isPCclock";
-            this.rb_isPCclock.Size = new System.Drawing.Size(232, 23);
-            this.rb_isPCclock.TabIndex = 4;
-            this.rb_isPCclock.TabStop = true;
-            this.rb_isPCclock.Text = "Использовать часы компьютера";
-            this.rb_isPCclock.UseVisualStyleBackColor = true;
+            this.useFluxClockRadioButton.AutoSize = true;
+            this.useFluxClockRadioButton.Location = new System.Drawing.Point(37, 47);
+            this.useFluxClockRadioButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.useFluxClockRadioButton.Name = "useFluxClockRadioButton";
+            this.useFluxClockRadioButton.Size = new System.Drawing.Size(232, 23);
+            this.useFluxClockRadioButton.TabIndex = 5;
+            this.useFluxClockRadioButton.Text = "Использовать часы флюксметра";
+            this.useFluxClockRadioButton.UseVisualStyleBackColor = true;
             // 
-            // groupBox5
+            // connectGroupBox
             // 
-            this.groupBox5.Controls.Add(this.comNameComboBox);
-            this.groupBox5.Controls.Add(this.connectButton);
-            this.groupBox5.Controls.Add(this.rb_485_con);
-            this.groupBox5.Controls.Add(this.rb_wifi_con);
-            this.groupBox5.Controls.Add(this.updatePortsButton);
-            this.groupBox5.Controls.Add(this.com_speed);
-            this.groupBox5.Location = new System.Drawing.Point(32, 26);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox5.Size = new System.Drawing.Size(585, 130);
-            this.groupBox5.TabIndex = 17;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Подключение";
+            this.connectGroupBox.Controls.Add(this.useRS485ConnectionRadioButton);
+            this.connectGroupBox.Controls.Add(this.comNameComboBox);
+            this.connectGroupBox.Controls.Add(this.com_speed);
+            this.connectGroupBox.Controls.Add(this.connectButton);
+            this.connectGroupBox.Controls.Add(this.updatePortsButton);
+            this.connectGroupBox.Controls.Add(this.useWiFiConnectionRadioButton);
+            this.connectGroupBox.Location = new System.Drawing.Point(32, 26);
+            this.connectGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.connectGroupBox.Name = "connectGroupBox";
+            this.connectGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.connectGroupBox.Size = new System.Drawing.Size(585, 130);
+            this.connectGroupBox.TabIndex = 17;
+            this.connectGroupBox.TabStop = false;
+            this.connectGroupBox.Text = "Подключение";
             // 
             // comNameComboBox
             // 
@@ -1293,30 +1293,30 @@
             this.connectButton.UseVisualStyleBackColor = true;
             this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
             // 
-            // rb_485_con
+            // useRS485ConnectionRadioButton
             // 
-            this.rb_485_con.AutoSize = true;
-            this.rb_485_con.Checked = true;
-            this.rb_485_con.Location = new System.Drawing.Point(9, 22);
-            this.rb_485_con.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.rb_485_con.Name = "rb_485_con";
-            this.rb_485_con.Size = new System.Drawing.Size(179, 23);
-            this.rb_485_con.TabIndex = 14;
-            this.rb_485_con.TabStop = true;
-            this.rb_485_con.Text = "Подключение по RS485";
-            this.rb_485_con.UseVisualStyleBackColor = true;
+            this.useRS485ConnectionRadioButton.AutoSize = true;
+            this.useRS485ConnectionRadioButton.Checked = true;
+            this.useRS485ConnectionRadioButton.Location = new System.Drawing.Point(9, 22);
+            this.useRS485ConnectionRadioButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.useRS485ConnectionRadioButton.Name = "useRS485ConnectionRadioButton";
+            this.useRS485ConnectionRadioButton.Size = new System.Drawing.Size(179, 23);
+            this.useRS485ConnectionRadioButton.TabIndex = 14;
+            this.useRS485ConnectionRadioButton.TabStop = true;
+            this.useRS485ConnectionRadioButton.Text = "Подключение по RS485";
+            this.useRS485ConnectionRadioButton.UseVisualStyleBackColor = true;
             // 
-            // rb_wifi_con
+            // useWiFiConnectionRadioButton
             // 
-            this.rb_wifi_con.AutoSize = true;
-            this.rb_wifi_con.Enabled = false;
-            this.rb_wifi_con.Location = new System.Drawing.Point(9, 97);
-            this.rb_wifi_con.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.rb_wifi_con.Name = "rb_wifi_con";
-            this.rb_wifi_con.Size = new System.Drawing.Size(172, 23);
-            this.rb_wifi_con.TabIndex = 12;
-            this.rb_wifi_con.Text = "Подключение по Wi-Fi";
-            this.rb_wifi_con.UseVisualStyleBackColor = true;
+            this.useWiFiConnectionRadioButton.AutoSize = true;
+            this.useWiFiConnectionRadioButton.Enabled = false;
+            this.useWiFiConnectionRadioButton.Location = new System.Drawing.Point(9, 97);
+            this.useWiFiConnectionRadioButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.useWiFiConnectionRadioButton.Name = "useWiFiConnectionRadioButton";
+            this.useWiFiConnectionRadioButton.Size = new System.Drawing.Size(172, 23);
+            this.useWiFiConnectionRadioButton.TabIndex = 12;
+            this.useWiFiConnectionRadioButton.Text = "Подключение по Wi-Fi";
+            this.useWiFiConnectionRadioButton.UseVisualStyleBackColor = true;
             // 
             // updatePortsButton
             // 
@@ -2070,6 +2070,46 @@
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "";
             // 
+            // logsTabPage
+            // 
+            this.logsTabPage.Controls.Add(this.logsGroupBox);
+            this.logsTabPage.Location = new System.Drawing.Point(304, 4);
+            this.logsTabPage.Name = "logsTabPage";
+            this.logsTabPage.Size = new System.Drawing.Size(968, 523);
+            this.logsTabPage.TabIndex = 7;
+            this.logsTabPage.Text = "Журнал регистрации";
+            this.logsTabPage.UseVisualStyleBackColor = true;
+            this.logsTabPage.Enter += new System.EventHandler(this.logsTabPage_Enter);
+            // 
+            // logsGroupBox
+            // 
+            this.logsGroupBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.logsGroupBox.Controls.Add(this.logsDateTimePicker);
+            this.logsGroupBox.Controls.Add(this.logsListBox);
+            this.logsGroupBox.Location = new System.Drawing.Point(22, 17);
+            this.logsGroupBox.Name = "logsGroupBox";
+            this.logsGroupBox.Size = new System.Drawing.Size(930, 488);
+            this.logsGroupBox.TabIndex = 0;
+            this.logsGroupBox.TabStop = false;
+            this.logsGroupBox.Text = "Журнал регистрации";
+            // 
+            // logsDateTimePicker
+            // 
+            this.logsDateTimePicker.Location = new System.Drawing.Point(14, 24);
+            this.logsDateTimePicker.Name = "logsDateTimePicker";
+            this.logsDateTimePicker.Size = new System.Drawing.Size(200, 25);
+            this.logsDateTimePicker.TabIndex = 1;
+            this.logsDateTimePicker.ValueChanged += new System.EventHandler(this.logsDateTimePicker_ValueChanged);
+            // 
+            // logsListBox
+            // 
+            this.logsListBox.FormattingEnabled = true;
+            this.logsListBox.ItemHeight = 17;
+            this.logsListBox.Location = new System.Drawing.Point(14, 59);
+            this.logsListBox.Name = "logsListBox";
+            this.logsListBox.Size = new System.Drawing.Size(903, 412);
+            this.logsListBox.TabIndex = 0;
+            // 
             // tabPage10
             // 
             this.tabPage10.Controls.Add(this.groupBox18);
@@ -2212,13 +2252,13 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 29;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -2523,46 +2563,6 @@
             this.label30.TabIndex = 0;
             this.label30.Text = "для электростатического флюксметра ПЧЕЛА-Д";
             // 
-            // logsTabPage
-            // 
-            this.logsTabPage.Controls.Add(this.logsGroupBox);
-            this.logsTabPage.Location = new System.Drawing.Point(304, 4);
-            this.logsTabPage.Name = "logsTabPage";
-            this.logsTabPage.Size = new System.Drawing.Size(968, 523);
-            this.logsTabPage.TabIndex = 7;
-            this.logsTabPage.Text = "Журнал регистрации";
-            this.logsTabPage.UseVisualStyleBackColor = true;
-            this.logsTabPage.Enter += new System.EventHandler(this.logsTabPage_Enter);
-            // 
-            // logsGroupBox
-            // 
-            this.logsGroupBox.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.logsGroupBox.Controls.Add(this.logsDateTimePicker);
-            this.logsGroupBox.Controls.Add(this.logsListBox);
-            this.logsGroupBox.Location = new System.Drawing.Point(22, 17);
-            this.logsGroupBox.Name = "logsGroupBox";
-            this.logsGroupBox.Size = new System.Drawing.Size(930, 488);
-            this.logsGroupBox.TabIndex = 0;
-            this.logsGroupBox.TabStop = false;
-            this.logsGroupBox.Text = "Журнал регистрации";
-            // 
-            // logsDateTimePicker
-            // 
-            this.logsDateTimePicker.Location = new System.Drawing.Point(14, 24);
-            this.logsDateTimePicker.Name = "logsDateTimePicker";
-            this.logsDateTimePicker.Size = new System.Drawing.Size(200, 25);
-            this.logsDateTimePicker.TabIndex = 1;
-            this.logsDateTimePicker.ValueChanged += new System.EventHandler(this.logsDateTimePicker_ValueChanged);
-            // 
-            // logsListBox
-            // 
-            this.logsListBox.FormattingEnabled = true;
-            this.logsListBox.ItemHeight = 17;
-            this.logsListBox.Location = new System.Drawing.Point(14, 59);
-            this.logsListBox.Name = "logsListBox";
-            this.logsListBox.Size = new System.Drawing.Size(903, 412);
-            this.logsListBox.TabIndex = 0;
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
@@ -2617,11 +2617,11 @@
             this.settingsTabPage.ResumeLayout(false);
             this.leftMenuTabPage.ResumeLayout(false);
             this.connectTabPage.ResumeLayout(false);
-            this.groupBox15.ResumeLayout(false);
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
+            this.connectTabGroupBox.ResumeLayout(false);
+            this.dataSynchronizationGroupBox.ResumeLayout(false);
+            this.dataSynchronizationGroupBox.PerformLayout();
+            this.connectGroupBox.ResumeLayout(false);
+            this.connectGroupBox.PerformLayout();
             this.deviceSettignsTabPage.ResumeLayout(false);
             this.gb_settings.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
@@ -2642,6 +2642,8 @@
             this.groupBox4.PerformLayout();
             this.terminalTabPage.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
+            this.logsTabPage.ResumeLayout(false);
+            this.logsGroupBox.ResumeLayout(false);
             this.tabPage10.ResumeLayout(false);
             this.groupBox18.ResumeLayout(false);
             this.groupBox18.PerformLayout();
@@ -2655,8 +2657,6 @@
             this.tabPage9.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            this.logsTabPage.ResumeLayout(false);
-            this.logsGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2729,14 +2729,14 @@
         private Button btn_minus_reg;
         private Button bpn_plus_reg;
         private ComboBox cb_graphtype;
-        private GroupBox groupBox15;
-        private GroupBox groupBox7;
-        private RadioButton rb_isFluxclock;
-        private RadioButton rb_isPCclock;
-        private GroupBox groupBox5;
+        private GroupBox connectTabGroupBox;
+        private GroupBox dataSynchronizationGroupBox;
+        private RadioButton useFluxClockRadioButton;
+        private RadioButton useComputerClockRadioButton;
+        private GroupBox connectGroupBox;
         private Button connectButton;
-        private RadioButton rb_485_con;
-        private RadioButton rb_wifi_con;
+        private RadioButton useRS485ConnectionRadioButton;
+        private RadioButton useWiFiConnectionRadioButton;
         private Button updatePortsButton;
         private ComboBox com_speed;
         private GroupBox groupBox14;

@@ -80,8 +80,8 @@ namespace FluxViewer.App
             groupBox14.Left = (tabPage6.Width - groupBox14.Width) / 2;
             groupBox14.Top = (tabPage6.Height - groupBox14.Height) / 2;
 
-            groupBox15.Left = (tabPage6.Width - groupBox15.Width) / 2;
-            groupBox15.Top = (tabPage6.Height - groupBox15.Height) / 2;
+            connectTabGroupBox.Left = (tabPage6.Width - connectTabGroupBox.Width) / 2;
+            connectTabGroupBox.Top = (tabPage6.Height - connectTabGroupBox.Height) / 2;
 
             groupBox16.Left = (tabPage6.Width - groupBox16.Width) / 2;
             groupBox16.Top = (tabPage6.Height - groupBox16.Height) / 2;
@@ -259,7 +259,7 @@ namespace FluxViewer.App
                     });
                 }
                 DateTime date;
-                if (rb_isFluxclock.Checked == true)//время
+                if (useFluxClockRadioButton.Checked == true)//время
                 {
                     date = new DateTime(rx_buf[4] + 2000, rx_buf[5], rx_buf[6], rx_buf[7], rx_buf[8], rx_buf[9], rx_buf[10] << 8 | rx_buf[11]); // год - месяц - день - час - минута - секунда - миллисек
                 }
@@ -452,7 +452,7 @@ namespace FluxViewer.App
         {
             _props.ReadXml();
          
-            rb_isPCclock.Checked = _props.Fields.IsPcTime;
+            useComputerClockRadioButton.Checked = _props.Fields.IsPcTime;
             comNameComboBox.Text = _props.Fields.ComNum.ToString();
             com_speed.Text = _props.Fields.ComSpeed.ToString();
 
@@ -506,7 +506,7 @@ namespace FluxViewer.App
         public void SaveSettings()
         {
             //вкладка программа
-            _props.Fields.IsPcTime = rb_isPCclock.Checked;
+            _props.Fields.IsPcTime = useComputerClockRadioButton.Checked;
             _props.Fields.ComNum = comNameComboBox.Text;
             _props.Fields.ComSpeed = com_speed.Text;
 
