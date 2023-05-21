@@ -258,12 +258,14 @@ namespace FluxViewer.App
 
                     });
                 }
+
                 DateTime date;
-                if (useFluxClockRadioButton.Checked == true)//время
+                if (useFluxClockRadioButton.Checked) // Используем время прибора
                 {
-                    date = new DateTime(rx_buf[4] + 2000, rx_buf[5], rx_buf[6], rx_buf[7], rx_buf[8], rx_buf[9], rx_buf[10] << 8 | rx_buf[11]); // год - месяц - день - час - минута - секунда - миллисек
+                    date = new DateTime(rx_buf[4] + 2000, rx_buf[5], rx_buf[6], rx_buf[7], rx_buf[8], rx_buf[9],
+                        rx_buf[10] << 8 | rx_buf[11]); // год - месяц - день - час - минута - секунда - миллисек
                 }
-                else
+                else // Или время ПК
                 {
                     date = DateTime.Now;
                 }
@@ -614,6 +616,24 @@ namespace FluxViewer.App
         {
             byte[] temp = new byte[1];
             com_send(id, temp, 0);
+        }
+
+
+        /// <summary>
+        /// Отправляем в прибор текущее время с компьютера
+        /// </summary>
+        private void UpdateDateTimeInFlux()
+        {
+            var now = DateTime.Now;
+            // Дату умещаем в 6 байт в формате: ГОД, МЕСЯЦ, ДЕНЬ, ЧАС, МИНУТА, СЕКУНДА
+            var buffer = new byte[6];
+            buffer[0] = (byte)(now.Year % 100); // Год передаём в виде двух цифр (Пример: 2023 --> 23)
+            buffer[1] = (byte)now.Month;
+            buffer[2] = (byte)now.Day;
+            buffer[3] = (byte)now.Hour;
+            buffer[4] = (byte)now.Minute;
+            buffer[5] = (byte)now.Second;
+            com_send(0x1C, buffer, buffer.Length);
         }
         
         /// <summary>
@@ -1267,6 +1287,11 @@ namespace FluxViewer.App
             }
             gb_settings.Enabled = true;
             com_send_cmd(0x2e);// запросить инфо
+
+            if (useFluxClockRadioButton.Checked) // Если необходимо синхронизировать время в приборе
+            {
+                UpdateDateTimeInFlux(); // Тогда синхронизируем его с временем компьютера
+            }
 
         }
 
