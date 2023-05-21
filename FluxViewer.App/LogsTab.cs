@@ -5,12 +5,14 @@ namespace FluxViewer.App;
 
 partial class MainForm
 {
-    // Нажали на вкладку "Журнал регистрации"
+    /// <summary>
+    /// Нажали на вкладку "Журнал регистрации"
+    /// </summary>
     private void logsTabPage_Enter(object sender, EventArgs e)
     {
         UpdateLogs();
     }
-  
+
     // Изменили дату, за которую выбирать лог
     private void logsDateTimePicker_ValueChanged(object sender, EventArgs e)
     {
@@ -25,13 +27,13 @@ partial class MainForm
         {
             // Сообщаем пользователю звуком и цветом, что не найдено необходимых логов
             logsListBox.BackColor = Color.Gray;
-            SystemSounds.Beep.Play();   
+            SystemSounds.Beep.Play();
             return;
-        } 
-        
+        }
+
         logsListBox.BackColor = SystemColors.Window;
         logsListBox.Enabled = true;
-        
+
         var allLogs = FileSystemLogger.GetLogsByDate(date);
         foreach (var log in allLogs)
         {

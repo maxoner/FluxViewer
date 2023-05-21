@@ -14,12 +14,12 @@ partial class MainForm
     /// <summary>
     /// Была выбрана вкладка "Подключение"
     /// </summary>
-    private void ConnectTabHasBeenSelected()
+    private void connectTabPage_Enter(object sender, EventArgs e)
     {
         UpdateComPorts();
         UpdateConnectButtonState();
     }
-    
+
     /// <summary>
     /// Нажали на кнопку "Обновить список портов"
     /// </summary>
@@ -29,7 +29,7 @@ partial class MainForm
         UpdateConnectButtonState();
         SystemSounds.Beep.Play();
     }
-    
+
     /// <summary>
     /// Нажали кнопку "Подключиться"
     /// </summary>
@@ -37,16 +37,17 @@ partial class MainForm
     /// <param name="e"></param>								
     private void connectButton_Click(object sender, EventArgs e)
     {
-        if(SerialPort.IsOpen)
+        if (SerialPort.IsOpen)
         {
             SerialPort.Close();
         }
+
         _isTestButton = true;
         timer1.Interval = 1000;
         timer1.Enabled = true;
         connect_flux();
     }
-    
+
     private void UpdateComPorts()
     {
         comNameComboBox.Items.Clear();

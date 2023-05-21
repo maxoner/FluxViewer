@@ -7,45 +7,14 @@ partial class MainForm
         InitConnectTab();
     }
 
-
     /// <summary>
-    /// Изменили вкладку в блоке "Настройки"
+    /// Перешли на вкладку "Настройки"
     /// </summary>
-    private void leftMenuTabPage_Selecting(object sender, TabControlCancelEventArgs e)
+    private void settingsTabPage_Enter(object sender, EventArgs e)
     {
-        if (e.TabPage == connectTabPage) // Выбрана вкладка "Подключение"
-        {
-            ConnectTabHasBeenSelected();
-        }
-        else if (e.TabPage == deviceSettignsTabPage) // Выбрана вкладка "Настройки устройства"
-            if (SerialPort.IsOpen)
-            {
-                if (_isDataStartFlux) // TODO: зарефактори это
-                {
-                    MessageBox.Show(
-                        "Для просмотра и изменения настроек, необходимо сначала отключить запись показаний прибора!",
-                        "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else
-                {
-                    com_send_cmd(0x1b); // Настройки устройства    
-                }
-            }
-            else
-            {
-                gb_settings.Enabled = false;
-            }
-        else if (e.TabPageIndex == 2)
-        {
-        }
-        else if (e.TabPageIndex == 3)
-        {
-        }
-        else if (e.TabPageIndex == 4)
-        {
-        }
+        leftMenuTabPage.SelectedIndex = 0;  // Всегда показываем первую вкладку!
     }
-
+    
     /// <summary>
     /// Стили табов настроек
     /// </summary>

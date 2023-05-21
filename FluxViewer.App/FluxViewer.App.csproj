@@ -40,6 +40,10 @@
     <Compile Update="TerminalTab.cs">
       <DependentUpon>MainForm.SettingsTab.cs</DependentUpon>
     </Compile>
+
+    <Compile Update="deviseSettingsTab.cs">
+      <DependentUpon>MainForm.SettingsTab.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
