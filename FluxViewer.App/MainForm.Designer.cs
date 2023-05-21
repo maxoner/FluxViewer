@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -112,12 +112,12 @@
             this.useComputerClockRadioButton = new System.Windows.Forms.RadioButton();
             this.useFluxClockRadioButton = new System.Windows.Forms.RadioButton();
             this.connectGroupBox = new System.Windows.Forms.GroupBox();
-            this.comNameComboBox = new System.Windows.Forms.ComboBox();
-            this.connectButton = new System.Windows.Forms.Button();
             this.useRS485ConnectionRadioButton = new System.Windows.Forms.RadioButton();
-            this.useWiFiConnectionRadioButton = new System.Windows.Forms.RadioButton();
-            this.updatePortsButton = new System.Windows.Forms.Button();
+            this.comNameComboBox = new System.Windows.Forms.ComboBox();
             this.com_speed = new System.Windows.Forms.ComboBox();
+            this.connectButton = new System.Windows.Forms.Button();
+            this.updatePortsButton = new System.Windows.Forms.Button();
+            this.useWiFiConnectionRadioButton = new System.Windows.Forms.RadioButton();
             this.deviceSettignsTabPage = new System.Windows.Forms.TabPage();
             this.gb_settings = new System.Windows.Forms.GroupBox();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -1221,7 +1221,6 @@
             // 
             this.dataSynchronizationGroupBox.Controls.Add(this.useComputerClockRadioButton);
             this.dataSynchronizationGroupBox.Controls.Add(this.useFluxClockRadioButton);
-            this.dataSynchronizationGroupBox.Enabled = false;
             this.dataSynchronizationGroupBox.Location = new System.Drawing.Point(32, 170);
             this.dataSynchronizationGroupBox.Name = "dataSynchronizationGroupBox";
             this.dataSynchronizationGroupBox.Size = new System.Drawing.Size(585, 81);
@@ -1270,29 +1269,6 @@
             this.connectGroupBox.TabStop = false;
             this.connectGroupBox.Text = "Подключение";
             // 
-            // comNameComboBox
-            // 
-            this.comNameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comNameComboBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.comNameComboBox.FormattingEnabled = true;
-            this.comNameComboBox.Location = new System.Drawing.Point(24, 55);
-            this.comNameComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.comNameComboBox.Name = "comNameComboBox";
-            this.comNameComboBox.Size = new System.Drawing.Size(164, 25);
-            this.comNameComboBox.TabIndex = 16;
-            // 
-            // connectButton
-            // 
-            this.connectButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.connectButton.Location = new System.Drawing.Point(396, 34);
-            this.connectButton.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
-            this.connectButton.Name = "connectButton";
-            this.connectButton.Size = new System.Drawing.Size(167, 33);
-            this.connectButton.TabIndex = 15;
-            this.connectButton.Text = "Подключиться";
-            this.connectButton.UseVisualStyleBackColor = true;
-            this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
-            // 
             // useRS485ConnectionRadioButton
             // 
             this.useRS485ConnectionRadioButton.AutoSize = true;
@@ -1306,28 +1282,16 @@
             this.useRS485ConnectionRadioButton.Text = "Подключение по RS485";
             this.useRS485ConnectionRadioButton.UseVisualStyleBackColor = true;
             // 
-            // useWiFiConnectionRadioButton
+            // comNameComboBox
             // 
-            this.useWiFiConnectionRadioButton.AutoSize = true;
-            this.useWiFiConnectionRadioButton.Enabled = false;
-            this.useWiFiConnectionRadioButton.Location = new System.Drawing.Point(9, 97);
-            this.useWiFiConnectionRadioButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.useWiFiConnectionRadioButton.Name = "useWiFiConnectionRadioButton";
-            this.useWiFiConnectionRadioButton.Size = new System.Drawing.Size(172, 23);
-            this.useWiFiConnectionRadioButton.TabIndex = 12;
-            this.useWiFiConnectionRadioButton.Text = "Подключение по Wi-Fi";
-            this.useWiFiConnectionRadioButton.UseVisualStyleBackColor = true;
-            // 
-            // updatePortsButton
-            // 
-            this.updatePortsButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.updatePortsButton.Location = new System.Drawing.Point(396, 71);
-            this.updatePortsButton.Name = "updatePortsButton";
-            this.updatePortsButton.Size = new System.Drawing.Size(167, 31);
-            this.updatePortsButton.TabIndex = 11;
-            this.updatePortsButton.Text = "Обновить список портов";
-            this.updatePortsButton.UseVisualStyleBackColor = true;
-            this.updatePortsButton.Click += new System.EventHandler(this.updatePortsButton_Click);
+            this.comNameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comNameComboBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.comNameComboBox.FormattingEnabled = true;
+            this.comNameComboBox.Location = new System.Drawing.Point(24, 55);
+            this.comNameComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.comNameComboBox.Name = "comNameComboBox";
+            this.comNameComboBox.Size = new System.Drawing.Size(164, 25);
+            this.comNameComboBox.TabIndex = 16;
             // 
             // com_speed
             // 
@@ -1343,6 +1307,41 @@
             this.com_speed.Name = "com_speed";
             this.com_speed.Size = new System.Drawing.Size(147, 25);
             this.com_speed.TabIndex = 10;
+            // 
+            // connectButton
+            // 
+            this.connectButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.connectButton.Location = new System.Drawing.Point(396, 34);
+            this.connectButton.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+            this.connectButton.Name = "connectButton";
+            this.connectButton.Size = new System.Drawing.Size(167, 33);
+            this.connectButton.TabIndex = 15;
+            this.connectButton.Text = "Подключиться";
+            this.connectButton.UseVisualStyleBackColor = true;
+            this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+            // 
+            // updatePortsButton
+            // 
+            this.updatePortsButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.updatePortsButton.Location = new System.Drawing.Point(396, 71);
+            this.updatePortsButton.Name = "updatePortsButton";
+            this.updatePortsButton.Size = new System.Drawing.Size(167, 31);
+            this.updatePortsButton.TabIndex = 11;
+            this.updatePortsButton.Text = "Обновить список портов";
+            this.updatePortsButton.UseVisualStyleBackColor = true;
+            this.updatePortsButton.Click += new System.EventHandler(this.updatePortsButton_Click);
+            // 
+            // useWiFiConnectionRadioButton
+            // 
+            this.useWiFiConnectionRadioButton.AutoSize = true;
+            this.useWiFiConnectionRadioButton.Enabled = false;
+            this.useWiFiConnectionRadioButton.Location = new System.Drawing.Point(9, 97);
+            this.useWiFiConnectionRadioButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.useWiFiConnectionRadioButton.Name = "useWiFiConnectionRadioButton";
+            this.useWiFiConnectionRadioButton.Size = new System.Drawing.Size(172, 23);
+            this.useWiFiConnectionRadioButton.TabIndex = 12;
+            this.useWiFiConnectionRadioButton.Text = "Подключение по Wi-Fi";
+            this.useWiFiConnectionRadioButton.UseVisualStyleBackColor = true;
             // 
             // deviceSettignsTabPage
             // 
@@ -2252,13 +2251,13 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 29;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
