@@ -1162,6 +1162,7 @@
             this.settingsTabPage.TabIndex = 2;
             this.settingsTabPage.Text = "НАСТРОЙКИ";
             this.settingsTabPage.UseVisualStyleBackColor = true;
+            this.settingsTabPage.Enter += new System.EventHandler(this.settingsTabPage_Enter);
             // 
             // leftMenuTabPage
             // 
@@ -1188,7 +1189,6 @@
             this.leftMenuTabPage.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.leftMenuTabPage.TabIndex = 1;
             this.leftMenuTabPage.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.leftMenuTabPage_DrawItem);
-            this.leftMenuTabPage.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.leftMenuTabPage_Selecting);
             // 
             // connectTabPage
             // 
@@ -1201,6 +1201,7 @@
             this.connectTabPage.TabIndex = 1;
             this.connectTabPage.Text = "Подключение";
             this.connectTabPage.UseVisualStyleBackColor = true;
+            this.connectTabPage.Enter += new System.EventHandler(this.connectTabPage_Enter);
             // 
             // groupBox15
             // 
@@ -1355,6 +1356,7 @@
             this.deviceSettignsTabPage.TabIndex = 0;
             this.deviceSettignsTabPage.Text = "Настройка устройства";
             this.deviceSettignsTabPage.UseVisualStyleBackColor = true;
+            this.deviceSettignsTabPage.Enter += new System.EventHandler(this.deviceSettingsTabPage_Enter);
             // 
             // gb_settings
             // 
@@ -2031,6 +2033,7 @@
             this.terminalTabPage.TabIndex = 3;
             this.terminalTabPage.Text = "Терминал";
             this.terminalTabPage.UseVisualStyleBackColor = true;
+            this.terminalTabPage.Enter += new System.EventHandler(this.terminalTabPage_Enter);
             // 
             // panel4
             // 
