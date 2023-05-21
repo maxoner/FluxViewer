@@ -258,14 +258,14 @@ namespace FluxViewer.App
 
                     });
                 }
-                DateTime date1;
+                DateTime date;
                 if (rb_isFluxclock.Checked == true)//время
                 {
-                    date1 = new DateTime(rx_buf[4] + 2000, rx_buf[5], rx_buf[6], rx_buf[7], rx_buf[8], rx_buf[9], rx_buf[10] << 8 | rx_buf[11]); // год - месяц - день - час - минута - секунда - миллисек
+                    date = new DateTime(rx_buf[4] + 2000, rx_buf[5], rx_buf[6], rx_buf[7], rx_buf[8], rx_buf[9], rx_buf[10] << 8 | rx_buf[11]); // год - месяц - день - час - минута - секунда - миллисек
                 }
                 else
                 {
-                    date1 = DateTime.Now;
+                    date = DateTime.Now;
                 }
                 _flux = BitConverter.ToSingle(rx_buf, 12) * float.Parse(textBox7.Text) + float.Parse(textBox8.Text);
                 _temp = BitConverter.ToSingle(rx_buf, 16) * float.Parse(textBox10.Text) + float.Parse(textBox9.Text);
@@ -309,7 +309,7 @@ namespace FluxViewer.App
 
                 //Сохранить данные в базу
                 // TODO: Убираем ID, т.к. не можем его контроллировать!
-                _storage.WriteData(new Data(DateTime.Now, _flux, _temp, _pres, _humm));
+                _storage.WriteData(new Data(date, _flux, _temp, _pres, _humm));
 
 
                 this.BeginInvoke((MethodInvoker)delegate { DrawUpdate(); });
