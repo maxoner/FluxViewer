@@ -2540,7 +2540,7 @@
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(334, 19);
             this.label32.TabIndex = 2;
-            this.label32.Text = "Авторские права 2022 ООО \"НПП\" Электростатик\"";
+            this.label32.Text = "Авторские права 2023 ООО \"НПП\" Электростатик\"";
             // 
             // label31
             // 
