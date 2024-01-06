@@ -1,8 +1,8 @@
 ﻿using System.Media;
 using FluxViewer.WindowsClient.Enums;
-using FluxViewer.DataAccess.Controllers;
-using FluxViewer.DataAccess.GraphThemes;
-using FluxViewer.DataAccess.Storage;
+using FluxViewer.Core.Controllers;
+using FluxViewer.Core.GraphThemes;
+using FluxViewer.Core.Storage;
 using ZedGraph;
 using static System.String;
 

@@ -1,7 +1,7 @@
 ﻿using System;
-using FluxViewer.DataAccess.Export.Exporters;
+using FluxViewer.Core.Export.Exporters;
 
-namespace FluxViewer.DataAccess.Export;
+namespace FluxViewer.Core.Export;
 
 public enum FileExporterType
 {

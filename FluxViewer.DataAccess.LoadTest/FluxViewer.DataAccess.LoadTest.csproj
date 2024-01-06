@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FluxViewer.DataAccess\FluxViewer.DataAccess.csproj" />
+    <ProjectReference Include="..\FluxViewer.Core\FluxViewer.Core.csproj" />
   </ItemGroup>
 
 </Project>

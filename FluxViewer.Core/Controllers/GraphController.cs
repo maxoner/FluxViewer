@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using FluxViewer.DataAccess.GraphThemes;
+using FluxViewer.Core.GraphThemes;
 using ZedGraph;
 
-namespace FluxViewer.DataAccess.Controllers;
+namespace FluxViewer.Core.Controllers;
 
 /// <summary>
 /// Класс с бизнес-логикой, отвечающей за любую работу с графиком.

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace FluxViewer.DataAccess.Storage;
+namespace FluxViewer.Core.Storage;
 
 public class FileSystemStorage : IStorage
 {

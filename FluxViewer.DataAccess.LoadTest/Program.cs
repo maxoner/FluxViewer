@@ -1,4 +1,4 @@
-﻿using FluxViewer.DataAccess.Storage;
+﻿using FluxViewer.Core.Storage;
 
 void CreatePlausibleDataFiles(DateTime beginDate, DateTime endDate, float timeDeltaMilliseconds)
 {

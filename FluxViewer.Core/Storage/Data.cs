@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace FluxViewer.DataAccess.Storage;
+namespace FluxViewer.Core.Storage;
 
 public struct Data
 {

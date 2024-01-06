@@ -1,4 +1,4 @@
-﻿using FluxViewer.DataAccess.Export;
+﻿using FluxViewer.Core.Export;
 
 namespace FluxViewer.WindowsClient.Enums;
 

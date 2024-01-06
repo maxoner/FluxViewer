@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.32916.344
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxViewer.DataAccess", "FluxViewer.DataAccess\FluxViewer.DataAccess.csproj", "{82DE6DDF-9BD9-4816-93D1-DF48F06832F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxViewer.Core", "FluxViewer.Core\FluxViewer.Core.csproj", "{82DE6DDF-9BD9-4816-93D1-DF48F06832F9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxViewer.WindowsClient", "FluxViewer.WindowsClient\FluxViewer.WindowsClient.csproj", "{CCDAA35F-0DC3-419C-8B64-D964FD8025FC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{C62B726C-7DAC-44ED-AE9D-DE4B6DEEEDA4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxViewer.DataAccess.LoadTest", "FluxViewer.DataAccess.LoadTest\FluxViewer.DataAccess.LoadTest.csproj", "{16110A2F-8945-4FEA-8F53-2D1784FCBF52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxViewer.Core.LoadTest", "FluxViewer.Core.LoadTest\FluxViewer.Core.LoadTest.csproj", "{16110A2F-8945-4FEA-8F53-2D1784FCBF52}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{19238F9F-057B-45D2-835D-1943B62CCFAE}"
 EndProject

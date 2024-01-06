@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using FluxViewer.DataAccess.Storage;
+using FluxViewer.Core.Storage;
 
-namespace FluxViewer.DataAccess.Export;
+namespace FluxViewer.Core.Export;
 
 public static class DataBatchGenerator
 {

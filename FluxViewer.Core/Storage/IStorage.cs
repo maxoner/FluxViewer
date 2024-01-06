@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FluxViewer.DataAccess.Storage;
+namespace FluxViewer.Core.Storage;
 
 /// <summary>
 /// Интерфейс взаимодействия с хранилищем показаний прибора.

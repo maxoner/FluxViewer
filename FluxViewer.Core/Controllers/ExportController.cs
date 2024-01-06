@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluxViewer.DataAccess.Export;
-using FluxViewer.DataAccess.Storage;
+using FluxViewer.Core.Export;
+using FluxViewer.Core.Storage;
 
-namespace FluxViewer.DataAccess.Controllers;
+namespace FluxViewer.Core.Controllers;
 
 /// <summary>
 /// Класс с бизнес-логикой, отвечающей за экспорт показаний прибора в файл,

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using FluxViewer.DataAccess.Storage;
+using FluxViewer.Core.Storage;
 
-namespace FluxViewer.DataAccess.Export.Exporters;
+namespace FluxViewer.Core.Export.Exporters;
 
 public class PlainTextFileExporter : FileExporter
 {

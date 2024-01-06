@@ -1,5 +1,5 @@
 ﻿using System.Media;
-using FluxViewer.DataAccess.Log;
+using FluxViewer.Core.Log;
 
 namespace FluxViewer.WindowsClient;
 

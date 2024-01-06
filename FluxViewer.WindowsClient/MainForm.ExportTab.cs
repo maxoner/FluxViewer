@@ -1,7 +1,7 @@
 ﻿using System.Media;
 using FluxViewer.WindowsClient.Enums;
-using FluxViewer.DataAccess.Controllers;
-using FluxViewer.DataAccess.Export;
+using FluxViewer.Core.Controllers;
+using FluxViewer.Core.Export;
 
 namespace FluxViewer.WindowsClient;
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluxViewer.DataAccess.Storage;
+using FluxViewer.Core.Storage;
 
-namespace FluxViewer.DataAccess.Export;
+namespace FluxViewer.Core.Export;
 
 public static class PlaceHolder
 {

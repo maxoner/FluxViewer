@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using FluxViewer.DataAccess.Storage;
+using FluxViewer.Core.Storage;
 
-namespace FluxViewer.DataAccess.Controllers;
+namespace FluxViewer.Core.Controllers;
 
 /// <summary>
 /// Класс с бизнес-логикой, отвечающей за отображение архивных данных прибора. 

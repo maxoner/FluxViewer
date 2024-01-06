@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Text;
-using FluxViewer.DataAccess.GraphThemes;
-using FluxViewer.DataAccess.Log;
-using FluxViewer.DataAccess.Storage;
+using FluxViewer.Core.GraphThemes;
+using FluxViewer.Core.Log;
+using FluxViewer.Core.Storage;
 using ZedGraph;
 
 namespace FluxViewer.WindowsClient

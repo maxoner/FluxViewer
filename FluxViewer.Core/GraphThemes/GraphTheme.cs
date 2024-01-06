@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace FluxViewer.DataAccess.GraphThemes;
+namespace FluxViewer.Core.GraphThemes;
 
 public abstract class GraphTheme
 {
