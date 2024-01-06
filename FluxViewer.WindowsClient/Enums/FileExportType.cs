@@ -1,6 +1,6 @@
 ﻿using FluxViewer.DataAccess.Export;
 
-namespace FluxViewer.App.Enums;
+namespace FluxViewer.WindowsClient.Enums;
 
 public static class FileExporterTypeHelper
 {

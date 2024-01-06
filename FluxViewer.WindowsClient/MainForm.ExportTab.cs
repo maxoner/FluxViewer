@@ -1,9 +1,9 @@
 ﻿using System.Media;
-using FluxViewer.App.Enums;
+using FluxViewer.WindowsClient.Enums;
 using FluxViewer.DataAccess.Controllers;
 using FluxViewer.DataAccess.Export;
 
-namespace FluxViewer.App;
+namespace FluxViewer.WindowsClient;
 
 /// <summary>
 /// UI-логика, связанная с вкладкой "ЭКСПОРТ"

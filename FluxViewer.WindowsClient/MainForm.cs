@@ -6,7 +6,7 @@ using FluxViewer.DataAccess.Log;
 using FluxViewer.DataAccess.Storage;
 using ZedGraph;
 
-namespace FluxViewer.App
+namespace FluxViewer.WindowsClient
 {
     public partial class MainForm : Form
     {

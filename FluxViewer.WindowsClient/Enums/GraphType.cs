@@ -1,4 +1,4 @@
-﻿namespace FluxViewer.App.Enums;
+﻿namespace FluxViewer.WindowsClient.Enums;
 
 public enum GraphType
 {

@@ -1,7 +1,7 @@
 ﻿using System.IO.Ports;
 using System.Media;
 
-namespace FluxViewer.App;
+namespace FluxViewer.WindowsClient;
 
 partial class MainForm
 {

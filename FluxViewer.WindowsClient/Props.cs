@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace FluxViewer.App
+namespace FluxViewer.WindowsClient
 {
     /// <summary>
     /// Класс, определяющий настройки программы.

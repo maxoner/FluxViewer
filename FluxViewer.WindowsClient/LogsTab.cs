@@ -1,7 +1,7 @@
 ﻿using System.Media;
 using FluxViewer.DataAccess.Log;
 
-namespace FluxViewer.App;
+namespace FluxViewer.WindowsClient;
 
 partial class MainForm
 {

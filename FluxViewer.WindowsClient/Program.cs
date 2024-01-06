@@ -1,4 +1,4 @@
-namespace FluxViewer.App
+namespace FluxViewer.WindowsClient
 {
     internal static class Program
     {

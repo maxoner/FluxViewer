@@ -1,4 +1,4 @@
-﻿namespace FluxViewer.App {
+﻿namespace FluxViewer.WindowsClient {
     
     
     // Этот класс позволяет обрабатывать определенные события в классе параметров:
