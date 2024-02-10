@@ -7,10 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxViewer.Core", "FluxView
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxViewer.WindowsClient", "FluxViewer.WindowsClient\FluxViewer.WindowsClient.csproj", "{CCDAA35F-0DC3-419C-8B64-D964FD8025FC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{C62B726C-7DAC-44ED-AE9D-DE4B6DEEEDA4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxViewer.Core.LoadTest", "FluxViewer.Core.LoadTest\FluxViewer.Core.LoadTest.csproj", "{16110A2F-8945-4FEA-8F53-2D1784FCBF52}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,16 +21,11 @@ Global
 		{CCDAA35F-0DC3-419C-8B64-D964FD8025FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCDAA35F-0DC3-419C-8B64-D964FD8025FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCDAA35F-0DC3-419C-8B64-D964FD8025FC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{16110A2F-8945-4FEA-8F53-2D1784FCBF52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{16110A2F-8945-4FEA-8F53-2D1784FCBF52}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{16110A2F-8945-4FEA-8F53-2D1784FCBF52}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{16110A2F-8945-4FEA-8F53-2D1784FCBF52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{16110A2F-8945-4FEA-8F53-2D1784FCBF52} = {C62B726C-7DAC-44ED-AE9D-DE4B6DEEEDA4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E0468C4-1555-40AD-BDDD-D7D43B82E098}
