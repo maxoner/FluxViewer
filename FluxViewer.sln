@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{C62B726C-7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxViewer.Core.LoadTest", "FluxViewer.Core.LoadTest\FluxViewer.Core.LoadTest.csproj", "{16110A2F-8945-4FEA-8F53-2D1784FCBF52}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{19238F9F-057B-45D2-835D-1943B62CCFAE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,8 +29,6 @@ Global
 		{16110A2F-8945-4FEA-8F53-2D1784FCBF52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16110A2F-8945-4FEA-8F53-2D1784FCBF52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16110A2F-8945-4FEA-8F53-2D1784FCBF52}.Release|Any CPU.Build.0 = Release|Any CPU
-		{19238F9F-057B-45D2-835D-1943B62CCFAE}.Debug|Any CPU.ActiveCfg = Debug
-		{19238F9F-057B-45D2-835D-1943B62CCFAE}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
