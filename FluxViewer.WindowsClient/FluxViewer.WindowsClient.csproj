@@ -42,7 +42,7 @@
       <DependentUpon>MainForm.SettingsTab.cs</DependentUpon>
     </Compile>
 
-    <Compile Update="deviseSettingsTab.cs">
+    <Compile Update="DeviseSettingsTab.cs">
       <DependentUpon>MainForm.SettingsTab.cs</DependentUpon>
     </Compile>
   </ItemGroup>
