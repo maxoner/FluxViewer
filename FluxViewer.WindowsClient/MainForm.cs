@@ -19,13 +19,13 @@ namespace FluxViewer.WindowsClient
         private const double Step = 1;
 
         private double _currentX;
-        
+
         // Переданные измеренные данные прибора
         private float _flux;
         private float _temp;
         private float _pres;
         private float _humm;
-        
+
         private readonly RollingPointPairList[] _daGraphData = new RollingPointPairList[4]; // Сами графики
         private readonly GraphPane[] _daGraphPanels = new GraphPane[4];
         private readonly LineItem[] _daGraphCurves = new LineItem[4];
@@ -67,11 +67,11 @@ namespace FluxViewer.WindowsClient
             PrepareSettings();
             SetSettings();
             InitDataArchiveGraphs();
-            
+
             InitDataArchiveTab();
             InitExportTab();
             InitSettingsTab();
-            
+
             dataGridView1.Rows.Add();
             dataGridView1.Rows.Add();
 
@@ -100,7 +100,7 @@ namespace FluxViewer.WindowsClient
             tableLayoutPanel1.ColumnStyles[0].SizeType = SizeType.Percent;
             tableLayoutPanel1.ColumnStyles[1].SizeType = SizeType.Percent;
         }
-        
+
         /// <summary>
         /// Создаём и открываем хранилище, куда будут записываться данные прибора 
         /// </summary>
@@ -111,7 +111,7 @@ namespace FluxViewer.WindowsClient
             FileSystemLogger.WriteLog(LogLevel.Info, LogInitiator.Application,
                 "Успешно открыто хранилище для записи показаний прибора");
         }
-        
+
         /// <summary>
         /// Инициализируем настройки приложения и если их не существует, то создаём файл с стандартными настройками
         /// </summary>
@@ -135,7 +135,7 @@ namespace FluxViewer.WindowsClient
             _daGraphPanels[1] = zedGraphControl2.GraphPane;
             _daGraphPanels[2] = zedGraphControl3.GraphPane;
             _daGraphPanels[3] = zedGraphControl4.GraphPane;
-            
+
             // Добавим кривую пока еще без каких-либо точек
             for (var i = 0; i < 4; i++)
             {
@@ -159,7 +159,7 @@ namespace FluxViewer.WindowsClient
 
             DrawUpdate();
         }
-        
+
         /// <summary>
         /// Обновление графиков регистрации
         /// </summary>
@@ -177,12 +177,12 @@ namespace FluxViewer.WindowsClient
             zedGraphControl3.Invalidate();
             zedGraphControl4.Invalidate();
         }
-        
+
         private void com_connect_Click(object sender, EventArgs e)
         {
 
         }
-        
+
         /// <summary>
         /// контрольная сумма принятого пакета
         /// </summary>
@@ -209,7 +209,7 @@ namespace FluxViewer.WindowsClient
             SerialPort sp = (SerialPort)sender;
             if (e.EventType == SerialData.Eof)
                 return;
-            if(_isAsciiConsole)
+            if (_isAsciiConsole)
             {
                 string str = sp.ReadExisting();
                 this.BeginInvoke((MethodInvoker)delegate
@@ -361,7 +361,7 @@ namespace FluxViewer.WindowsClient
                     toolStripStatusLabel4.Text = Encoding.UTF8.GetString(rx_buf, 18, 10);
                     if (_isTestButton)
                     {
-                        timer1.Enabled = false;                        
+                        timer1.Enabled = false;
                         MessageBox.Show(info, "Успешно подключено", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                         _isTestButton = false;
 
@@ -371,11 +371,12 @@ namespace FluxViewer.WindowsClient
             else if (rx_buf[2] == 0x5b)//Перепрошивка
             {
                 if (_positionFirmware == 0)
-                {                   
+                {
                     _sizeWirmware = _wirmvareData.Length;
                     _positionFirmware = 200;
-                    this.BeginInvoke((MethodInvoker)delegate { 
-                        progressBar1.Maximum = (int)_sizeWirmware; 
+                    this.BeginInvoke((MethodInvoker)delegate
+                    {
+                        progressBar1.Maximum = (int)_sizeWirmware;
                         label29.Text = "Передача данных в устройство";
                         progressBar1.Value = (int)_positionFirmware;
                     });
@@ -397,21 +398,22 @@ namespace FluxViewer.WindowsClient
                         Array.Copy(_wirmvareData, (int)_positionFirmware, arr, 0, _sizeWirmware - _positionFirmware);
                         com_send(0x5b, arr, (int)(_sizeWirmware - _positionFirmware));
                         _positionFirmware += _sizeWirmware - _positionFirmware;
-                        this.BeginInvoke((MethodInvoker)delegate { 
-                        label29.Text = "Перепрограммирование устройства";
+                        this.BeginInvoke((MethodInvoker)delegate
+                        {
+                            label29.Text = "Перепрограммирование устройства";
                             Thread.Sleep(3000);
-                        btn_stop_Click(sender, e);
-                         });
+                            btn_stop_Click(sender, e);
+                        });
                         SerialPort.Close();
-                    //com_send_cmd(0x5a); //перезагружаем устроцство
+                        //com_send_cmd(0x5a); //перезагружаем устроцство
+                    }
                 }
-                }
-/*                else
-                {
-                    position_firmware = 0;
-                    this.BeginInvoke((MethodInvoker)delegate { progressBar1.Value = (int)size_wirmware; });
-                    MessageBox.Show("Прошивка обновлена успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                }*/
+                /*                else
+                                {
+                                    position_firmware = 0;
+                                    this.BeginInvoke((MethodInvoker)delegate { progressBar1.Value = (int)size_wirmware; });
+                                    MessageBox.Show("Прошивка обновлена успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                                }*/
             }
             else if (rx_buf[2] == 0x5c)//Перепрошивка успешно выполнена
             {
@@ -446,14 +448,14 @@ namespace FluxViewer.WindowsClient
             //     comboBox1.Items.AddRange(myPort); //теперь этот массив заносим в список(comboBox) 
             return portName; //возвращает порт по умолчанию
         }
-        
+
         /// <summary>
         /// Считываем настройки из файла и применяем их
         /// </summary>
         public void SetSettings()
         {
             _props.ReadXml();
-         
+
             useComputerClockRadioButton.Checked = _props.Fields.IsPcTime;
             comNameComboBox.Text = _props.Fields.ComNum.ToString();
             com_speed.Text = _props.Fields.ComSpeed.ToString();
@@ -485,7 +487,7 @@ namespace FluxViewer.WindowsClient
             _graphB[2] = float.Parse(_props.Fields.G3B);
             _graphK[3] = float.Parse(_props.Fields.G4K);
             _graphB[3] = float.Parse(_props.Fields.G4B);
-            
+
             cb_graphtype.Items.Clear();
             cb_graphtype.Items.Add("все графики");
             cb_graphtype.Items.Add(_graphTitle[0]);
@@ -531,7 +533,7 @@ namespace FluxViewer.WindowsClient
             _props.Fields.G4B = textBox15.Text;
             _props.WriteXml();
         }
-        
+
         /// <summary>
         /// Инициализация формы
         /// </summary>
@@ -570,7 +572,7 @@ namespace FluxViewer.WindowsClient
             }
             DrawUpdate();
         }
-        
+
         /// <summary>
         /// Посылаем в COM порт команду
         /// </summary>
@@ -588,7 +590,7 @@ namespace FluxViewer.WindowsClient
                 SerialPort.Write(data, 0, 5);
             }
         }
-        
+
         /// <summary>
         /// Посылаем пакет в COM порт
         /// </summary>
@@ -610,7 +612,7 @@ namespace FluxViewer.WindowsClient
             buf[i + 4] = checksum(buf, (byte)(lenght + 2));
             SerialPort.Write(buf, 0, lenght + 5);
         }
-        
+
         //посылаем команду
         private void com_send_cmd(byte id)
         {
@@ -635,7 +637,7 @@ namespace FluxViewer.WindowsClient
             buffer[5] = (byte)now.Second;
             com_send(0x1C, buffer, buffer.Length);
         }
-        
+
         /// <summary>
         /// Посылаем в COM Порта новые настройки прибора
         /// </summary>
@@ -675,7 +677,7 @@ namespace FluxViewer.WindowsClient
             if (result == DialogResult.Yes)
             {
                 Thread.Sleep(500);
-                btn_stop_Click(sender,e);
+                btn_stop_Click(sender, e);
                 //команда перезагрузки
                 Thread.Sleep(500);
                 com_send_cmd(0x5a);
@@ -683,14 +685,14 @@ namespace FluxViewer.WindowsClient
 
             }
         }
-       
+
         /// <summary>
         /// Кнопка запутить регистрацию
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-    
-        
+
+
         private void btn_start_Click(object sender, EventArgs e)
         {
             if (!_isDataStartFlux)
@@ -712,7 +714,7 @@ namespace FluxViewer.WindowsClient
             com_send_cmd(0x1b);// Старт преобразования
         }
 
-        
+
 
         /// <summary>
         /// построение точки на графике архива по клику
@@ -1091,7 +1093,7 @@ namespace FluxViewer.WindowsClient
                     _daGraphPanels[j].Title.FontSpec.FontColor = Color.Teal; // Установим цвет заголовка над графиком
                 }
             }
-            _daGraphController.SetLineWidth((int) num_linewidth.Value);
+            _daGraphController.SetLineWidth((int)num_linewidth.Value);
             mainTabControl.SelectedIndex = 0;
             DrawUpdate();
         }
@@ -1106,7 +1108,7 @@ namespace FluxViewer.WindowsClient
 
             byte[] data = new byte[2];
             data[0] = (byte)size;
-            data[1] = (byte)(size>>8);
+            data[1] = (byte)(size >> 8);
             com_send(0x5b, data, 2);//шлем команду прошить + и отправляем размер файла
         }
 
@@ -1122,7 +1124,7 @@ namespace FluxViewer.WindowsClient
 
         private void Form1_FormClosing(object sender, FormClosedEventArgs e)
         {
-           if(SerialPort.IsOpen)
+            if (SerialPort.IsOpen)
             {
                 SerialPort.Close();
             }
@@ -1211,10 +1213,10 @@ namespace FluxViewer.WindowsClient
             {
                 _isTestButton = false;
                 SerialPort.Close();
-                MessageBox.Show("Не удалось подключиться к флюксметру.\nПопробуйте перезагрузить устройство\nили изменить настрйки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);           
+                MessageBox.Show("Не удалось подключиться к флюксметру.\nПопробуйте перезагрузить устройство\nили изменить настрйки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
         }
-        
+
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -1225,7 +1227,7 @@ namespace FluxViewer.WindowsClient
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.linkLabel1.LinkVisited = true;          
+            this.linkLabel1.LinkVisited = true;
             Process.Start(new ProcessStartInfo { FileName = @"http://fluxmeter.ru", UseShellExecute = true });
         }
 

@@ -17,7 +17,7 @@ public class BlackGraphTheme : GraphTheme
         InactiveChartFillColor = Color.DimGray;
 
         CurveColor = Color.Yellow;
-        
+
         XAxisColor = Color.Gray;
         YAxisColor = Color.Gray;
 

@@ -12,7 +12,7 @@ public static class PlaceHolder
     /// Всё, что больше данного значения будет считаться пробелом, и будет в конечном итоге заполнено средним значением!
     /// </summary>
     private const int MaxTimeDeltaBetweenTwoData = 1500; // TODO: скок миллисекунд должно стоять?
-    
+
     /// <summary>
     /// Заполнить пробелы в показаний прибора.
     /// Заполнение происходит так:
@@ -41,7 +41,7 @@ public static class PlaceHolder
         foreach (var tailData in GenerateTail(lastData, timeShift))
             yield return tailData;
     }
-    
+
     /// <summary>
     /// Получить среднее время (в мс.) между двумя показаниями прибора в наборе показаний.
     /// </summary>

@@ -23,17 +23,17 @@ public abstract class GraphTheme
     ///  Цвет заливки рамки графика (когда график активен)
     /// </summary>
     public Color ActiveChartFillColor;
-    
+
     /// <summary>
     ///  Цвет заливки рамки графика (когда график неактивен)
     /// </summary>
     public Color InactiveChartFillColor;
-    
+
     /// <summary>
     /// Цвет линии графика
     /// </summary>
     public Color CurveColor;
-    
+
     /// <summary>
     /// Цвет оси X
     /// </summary>

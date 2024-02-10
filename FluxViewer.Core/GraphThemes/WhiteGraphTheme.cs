@@ -15,9 +15,9 @@ public class WhiteGraphTheme : GraphTheme
         ChartBorderColor = Color.Black;
         ActiveChartFillColor = Color.White;
         InactiveChartFillColor = Color.Beige;
-        
+
         CurveColor = Color.Blue;
-        
+
         XAxisColor = Color.Black;
         YAxisColor = Color.Black;
 

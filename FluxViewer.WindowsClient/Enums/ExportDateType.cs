@@ -25,20 +25,20 @@ public static class ExportDateTypeHelper
     {
         return exportDateType switch
         {
-             ExportDateType.G => "06.01.2022 14:45:20",
-             ExportDateType.g => "06.01.2022 14:45",
-             ExportDateType.d => "06.01.2022",
-             ExportDateType.F => "6 января 2022 г. 14:45:20",
-             ExportDateType.f => "6 января 2022 г. 14:45",
-             ExportDateType.D => "6 января 2022 г.",
-             ExportDateType.M => "6 января",
-             ExportDateType.Y => "январь 2022 г.",
-             ExportDateType.O => "2022-01-06T14:45:20.3942344+04:00",
-             ExportDateType.R => "Thu, 06 Jan 2022 14:45:20 GMT",
-             ExportDateType.s => "2022-01-06T14:45:20",
-             ExportDateType.u => "2022-01-06 14:45:20Z",
-             ExportDateType.T => "14:45:20",
-             ExportDateType.t => "14:45",
+            ExportDateType.G => "06.01.2022 14:45:20",
+            ExportDateType.g => "06.01.2022 14:45",
+            ExportDateType.d => "06.01.2022",
+            ExportDateType.F => "6 января 2022 г. 14:45:20",
+            ExportDateType.f => "6 января 2022 г. 14:45",
+            ExportDateType.D => "6 января 2022 г.",
+            ExportDateType.M => "6 января",
+            ExportDateType.Y => "январь 2022 г.",
+            ExportDateType.O => "2022-01-06T14:45:20.3942344+04:00",
+            ExportDateType.R => "Thu, 06 Jan 2022 14:45:20 GMT",
+            ExportDateType.s => "2022-01-06T14:45:20",
+            ExportDateType.u => "2022-01-06 14:45:20Z",
+            ExportDateType.T => "14:45:20",
+            ExportDateType.t => "14:45",
             _ => throw new ArgumentOutOfRangeException(nameof(exportDateType), exportDateType, null)
         };
     }

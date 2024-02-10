@@ -14,7 +14,7 @@ partial class MainForm
     {
         leftMenuTabPage.SelectedIndex = 0;  // Всегда показываем первую вкладку!
     }
-    
+
     /// <summary>
     /// Стили табов настроек
     /// </summary>

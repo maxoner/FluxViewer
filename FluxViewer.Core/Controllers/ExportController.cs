@@ -82,8 +82,8 @@ public class ExportController
     {
         return _storage.GetAllDatesWithDataBetweenTwoDates(_beginDate, _endDate);
     }
-    
-    
+
+
     /// <summary>
     /// Рассчитать ориентировочный размер файла (в байтах) после экспорта 
     /// </summary>
@@ -94,7 +94,7 @@ public class ExportController
             _dateTimeConvert, _fluxConvert, _tempConvert, _presConvert, _hummConvert);
         return fileExporter.CalculateApproximateExportSizeInBytes(GetDataCount());
     }
-    
+
     /// <summary>
     /// Экспорт показаний прибора в файл.
     /// </summary>

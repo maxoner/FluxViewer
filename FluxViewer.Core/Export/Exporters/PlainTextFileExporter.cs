@@ -31,7 +31,7 @@ public class PlainTextFileExporter : FileExporter
         long numOfBytesInOneElement = 0;
         // Всё берём по максимуму
         if (DateTimeConvert) numOfBytesInOneElement += 28;
-        if (FluxConvert) numOfBytesInOneElement += 10;  
+        if (FluxConvert) numOfBytesInOneElement += 10;
         if (TempConvert) numOfBytesInOneElement += 10;
         if (PresConvert) numOfBytesInOneElement += 10;
         if (HummConvert) numOfBytesInOneElement += 10;

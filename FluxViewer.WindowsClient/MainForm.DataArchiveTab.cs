@@ -19,7 +19,7 @@ partial class MainForm
     {
         _daGraphController = new GraphController(daMainZedGraphControl.GraphPane);
         _daGraphController.SetXAxisTitle("Время мм:cc");
-        _daGraphController.SetLineWidth((int) num_linewidth.Value);
+        _daGraphController.SetLineWidth((int)num_linewidth.Value);
         if (check_grid.Checked)
             _daGraphController.ShowGrid();
         if (rb_templot_1.Checked)
@@ -42,7 +42,7 @@ partial class MainForm
 
         daChannelNameComboBox.SelectedIndex = 0;
     }
-    
+
     // Изменили "Дата начала"
     private void daBeginDateDateTimePicker_ValueChanged(object sender, EventArgs e)
     {
@@ -110,7 +110,7 @@ partial class MainForm
         daMainZedGraphControl.AxisChange();
         daMainZedGraphControl.Invalidate();
     }
-    
+
     // Нажали на флажок "Автомасштаб по X"
     private void daXAutoscalingCheckBox_CheckedChanged(object sender, EventArgs e)
     {
@@ -126,7 +126,7 @@ partial class MainForm
         daMainZedGraphControl.AxisChange();
         daMainZedGraphControl.Invalidate();
     }
-    
+
     private void CheckAndChangeDatesInDataArchiveTab()
     {
         var beginDate = daBeginDateDateTimePicker.Value.Date;
@@ -164,7 +164,7 @@ partial class MainForm
             _daGraphController.ClearPoints();
             _daGraphController.AddPoints(points);
         }
-        
+
         _daGraphController.SetGraphTitle(daChannelNameComboBox.Text);
         _daGraphController.AutozoomY();
         if (daXAutoscalingCheckBox.Checked)

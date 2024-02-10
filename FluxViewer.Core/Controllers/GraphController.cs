@@ -15,7 +15,7 @@ public class GraphController
     private readonly LineItem _graphCurve; // Кривая на графике
     private readonly PointPairList _graphPoints; // Точки графика
     private GraphTheme _graphTheme;
-    
+
     /// <summary>
     /// Конструктор класса
     /// </summary>
@@ -36,7 +36,7 @@ public class GraphController
     {
         _graphPoints.AddRange(pointPairList);
     }
-    
+
     /// <summary>
     /// Очистить все точки на графике
     /// </summary>
@@ -92,7 +92,7 @@ public class GraphController
     public void SetGraphTheme(GraphTheme graphTheme)
     {
         _graphTheme = graphTheme;
-        
+
         _graphPane.Border.Color = graphTheme.BorderColor;
         _graphPane.Chart.Border.Color = graphTheme.ChartBorderColor;
 
@@ -130,7 +130,7 @@ public class GraphController
             throw new GraphThemeNotFoundException("Не задана тема графика");
         _graphPane.Chart.Fill.Color = _graphTheme.ActiveChartFillColor;
     }
-    
+
     /// <summary>
     /// Сделать график неактивным
     /// </summary>
