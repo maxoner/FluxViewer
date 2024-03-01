@@ -948,7 +948,7 @@
             eFilterApplyingCheckBox.TabIndex = 5;
             eFilterApplyingCheckBox.Text = "Децимация равными промежутками каждые";
             eFilterApplyingCheckBox.UseVisualStyleBackColor = true;
-            eFilterApplyingCheckBox.CheckStateChanged += eFilterApplyingCheckBox_CheckStateChanged;
+            eFilterApplyingCheckBox.CheckedChanged += eFilterApplyingCheckBox_CheckedChanged;
             // 
             // eExportIntervalsTextBox
             // 
@@ -983,7 +983,6 @@
             // eFirFilerRadioButton
             // 
             eFirFilerRadioButton.AutoSize = true;
-            eFirFilerRadioButton.Enabled = false;
             eFirFilerRadioButton.Location = new Point(22, 120);
             eFirFilerRadioButton.Name = "eFirFilerRadioButton";
             eFirFilerRadioButton.Size = new Size(103, 23);
@@ -995,7 +994,6 @@
             // eAveragingWithWeightsRadioButton
             // 
             eAveragingWithWeightsRadioButton.AutoSize = true;
-            eAveragingWithWeightsRadioButton.Enabled = false;
             eAveragingWithWeightsRadioButton.Location = new Point(22, 91);
             eAveragingWithWeightsRadioButton.Name = "eAveragingWithWeightsRadioButton";
             eAveragingWithWeightsRadioButton.Size = new Size(161, 23);
@@ -1007,7 +1005,6 @@
             // eAveragingRadioButton
             // 
             eAveragingRadioButton.AutoSize = true;
-            eAveragingRadioButton.Enabled = false;
             eAveragingRadioButton.Location = new Point(22, 62);
             eAveragingRadioButton.Name = "eAveragingRadioButton";
             eAveragingRadioButton.Size = new Size(102, 23);
@@ -1019,7 +1016,6 @@
             // eSubdiscretizationRadioButton
             // 
             eSubdiscretizationRadioButton.AutoSize = true;
-            eSubdiscretizationRadioButton.Enabled = false;
             eSubdiscretizationRadioButton.Location = new Point(22, 33);
             eSubdiscretizationRadioButton.Name = "eSubdiscretizationRadioButton";
             eSubdiscretizationRadioButton.Size = new Size(145, 23);

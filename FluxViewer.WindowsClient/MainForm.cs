@@ -1329,23 +1329,5 @@ namespace FluxViewer.WindowsClient
             }
             return matrix;
         }
-
-        private void eFilterApplyingCheckBox_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (((CheckBox)sender).Checked)
-            {
-                eSubdiscretizationRadioButton.Enabled = true;
-                eAveragingRadioButton.Enabled = true;
-                eAveragingWithWeightsRadioButton.Enabled = true;
-                eFirFilerRadioButton.Enabled = true;
-            }
-            else
-            {
-                eSubdiscretizationRadioButton.Enabled = false;
-                eAveragingRadioButton.Enabled = false;
-                eAveragingWithWeightsRadioButton.Enabled = false;
-                eFirFilerRadioButton.Enabled = false;
-            }
-        }
     }
 }

@@ -19,6 +19,7 @@ partial class MainForm
 
         UpdateExportInfo();
         ChangeExportButtonState();
+        ChangeDecimationAlgorithmRadioButtons();
     }
 
     private void InitExportTypeComboBox()
@@ -62,6 +63,13 @@ partial class MainForm
     {
         UpdateExportInfo();
     }
+    
+    // Нажали на флажок "Децимация равными промежутками каждые"
+    private void eFilterApplyingCheckBox_CheckedChanged(object sender, EventArgs e)
+    {
+        ChangeDecimationAlgorithmRadioButtons();
+    }
+    
 
     // Нажали на флажок "Дата и время"
     private void dateTimeForExportCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -170,6 +178,24 @@ partial class MainForm
         else // Иначе декативируем её!
         {
             eExportButton.Enabled = false;
+        }
+    }
+
+    private void ChangeDecimationAlgorithmRadioButtons()
+    {
+        if (eFilterApplyingCheckBox.Checked)
+        {
+            eSubdiscretizationRadioButton.Enabled = true;
+            eAveragingRadioButton.Enabled = true;
+            eAveragingWithWeightsRadioButton.Enabled = true;
+            eFirFilerRadioButton.Enabled = true;
+        }
+        else
+        {
+            eSubdiscretizationRadioButton.Enabled = false;
+            eAveragingRadioButton.Enabled = false;
+            eAveragingWithWeightsRadioButton.Enabled = false;
+            eFirFilerRadioButton.Enabled = false;
         }
     }
 
