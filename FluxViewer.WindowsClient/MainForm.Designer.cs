@@ -228,9 +228,14 @@
             label32 = new Label();
             label31 = new Label();
             label30 = new Label();
+            channelsTabPage = new TabPage();
+            panel2 = new Panel();
+            removeChannelButton = new Button();
+            addChannelButton = new Button();
             openFileDialog1 = new OpenFileDialog();
             timer1 = new System.Windows.Forms.Timer(components);
             saveFileDialog1 = new SaveFileDialog();
+            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             statusStrip1.SuspendLayout();
             mainTabControl.SuspendLayout();
             registrarTabPage.SuspendLayout();
@@ -282,6 +287,7 @@
             groupBox16.SuspendLayout();
             tabPage9.SuspendLayout();
             panel5.SuspendLayout();
+            channelsTabPage.SuspendLayout();
             SuspendLayout();
             // 
             // statusStrip1
@@ -337,6 +343,7 @@
             mainTabControl.Controls.Add(dataArchiveTabPage);
             mainTabControl.Controls.Add(exportTabPage);
             mainTabControl.Controls.Add(settingsTabPage);
+            mainTabControl.Controls.Add(channelsTabPage);
             mainTabControl.Dock = DockStyle.Fill;
             mainTabControl.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             mainTabControl.ItemSize = new Size(200, 50);
@@ -2559,6 +2566,52 @@
             label30.TabIndex = 0;
             label30.Text = "для электростатического флюксметра ПЧЕЛА-Д";
             // 
+            // channelsTabPage
+            // 
+            channelsTabPage.Controls.Add(panel2);
+            channelsTabPage.Controls.Add(removeChannelButton);
+            channelsTabPage.Controls.Add(addChannelButton);
+            channelsTabPage.Location = new Point(4, 54);
+            channelsTabPage.Name = "channelsTabPage";
+            channelsTabPage.Padding = new Padding(3);
+            channelsTabPage.Size = new Size(1276, 531);
+            channelsTabPage.TabIndex = 4;
+            channelsTabPage.Text = "КАНАЛЫ";
+            channelsTabPage.UseVisualStyleBackColor = true;
+            // 
+            // panel2
+            // 
+            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Location = new Point(8, 36);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1262, 489);
+            panel2.TabIndex = 15;
+            // 
+            // removeChannelButton
+            // 
+            removeChannelButton.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            removeChannelButton.Location = new Point(110, 5);
+            removeChannelButton.Margin = new Padding(3, 2, 3, 2);
+            removeChannelButton.Name = "removeChannelButton";
+            removeChannelButton.Size = new Size(96, 26);
+            removeChannelButton.TabIndex = 14;
+            removeChannelButton.Text = "Убавить";
+            removeChannelButton.UseVisualStyleBackColor = true;
+            removeChannelButton.Click += removeChannelButton_Click;
+            // 
+            // addChannelButton
+            // 
+            addChannelButton.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            addChannelButton.Location = new Point(8, 5);
+            addChannelButton.Margin = new Padding(3, 2, 3, 2);
+            addChannelButton.Name = "addChannelButton";
+            addChannelButton.Size = new Size(96, 26);
+            addChannelButton.TabIndex = 13;
+            addChannelButton.Text = "Добавить";
+            addChannelButton.UseVisualStyleBackColor = true;
+            addChannelButton.Click += addChannelButton_Click;
+            // 
             // openFileDialog1
             // 
             openFileDialog1.FileName = "openFileDialog1";
@@ -2655,6 +2708,7 @@
             tabPage9.ResumeLayout(false);
             panel5.ResumeLayout(false);
             panel5.PerformLayout();
+            channelsTabPage.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -2861,5 +2915,10 @@
         private RadioButton eSubdiscretizationRadioButton;
         private RadioButton eFirFilerRadioButton;
         private RadioButton eAveragingWithWeightsRadioButton;
+        private TabPage channelsTabPage;
+        private Button addChannelButton;
+        private Button removeChannelButton;
+        private Panel panel2;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }

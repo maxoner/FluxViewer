@@ -63,13 +63,13 @@ partial class MainForm
     {
         UpdateExportInfo();
     }
-    
+
     // Нажали на флажок "Децимация равными промежутками каждые"
     private void eFilterApplyingCheckBox_CheckedChanged(object sender, EventArgs e)
     {
         ChangeDecimationAlgorithmRadioButtons();
     }
-    
+
 
     // Нажали на флажок "Дата и время"
     private void dateTimeForExportCheckBox_CheckedChanged(object sender, EventArgs e)
