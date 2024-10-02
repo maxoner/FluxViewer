@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluxViewer.Core.ChannelContext
+namespace ChannelContext
 {
     /// <summary>
     /// Класс отдельного канала
     /// </summary>
 
     [Serializable]
-    public class Channel
+    public abstract class Channel
     {
         private int _id;
         public int Id 
@@ -83,23 +83,6 @@ namespace FluxViewer.Core.ChannelContext
             }
         }
 
-        /// <summary>
-        /// Тип канала
-        /// </summary>
-        private IChannelType _channelType;
-        public IChannelType ChannelType
-        {
-            get
-            {
-                return _channelType;
-            }
-            set
-            {
-                this._channelType = value;
-                ChannelContextHolder.Syncronize(this);
-            }
-        }
-
         public Channel()
         {
             this.Id = 0;
@@ -107,24 +90,22 @@ namespace FluxViewer.Core.ChannelContext
             this.Units = "усл. ед.";
             this.Display = true;
             this.Save = true;
-            this.ChannelType = new BasicType();
         }
 
-        public Channel(int id, String name, String units, bool display, bool save, IChannelType channelType)
+        public Channel(int id, String name, String units, bool display, bool save)
         {
             this.Id = id;
             this.Name = name;
             this.Units = units;
             this.Display = display;
             this.Save = save;
-            this.ChannelType = channelType;
         }
 
         override
         public String ToString()
         {
             return $"{{\"id\" : \"{this.Id}\", \"name\" : \"{this.Name}\", \"units\" : \"{this.Units}\", \"display\" : \"{this.Display}\", " +
-                $"\"save\" : \"{this.Save}\", \"channelType\" : {this.ChannelType.ToString()}}}";
+                $"\"save\" : \"{this.Save}\", \"channelType\" : {this.GetType().Name}}}";
         }
 
     }

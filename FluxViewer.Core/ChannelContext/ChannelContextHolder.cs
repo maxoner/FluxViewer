@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace FluxViewer.Core.ChannelContext
+namespace ChannelContext
 {
 
     /// <summary>
@@ -169,7 +169,7 @@ namespace FluxViewer.Core.ChannelContext
         }
 
         /// <summary>
-        /// Метод для синхронизации при модификации объектов типа Channel и IChannelType
+        /// Метод для синхронизации при модификации объектов типа Channel
         /// Вызывается каждый раз при вызове сеттера в соответствующих классах
         /// </summary>
         /// <param name="obj">Объект у которого был вызван </param>
@@ -182,9 +182,6 @@ namespace FluxViewer.Core.ChannelContext
 
             if (obj.GetType() == typeof(Channel))
                 changedObj = GetInstance().Channels.FirstOrDefault(x => x == obj);
-
-            if (obj.GetType() == typeof(IChannelType))
-                changedObj = GetInstance().Channels.FirstOrDefault(x => x.ChannelType == obj);
 
             if (changedObj != null)
                 SaveToFile();

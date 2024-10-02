@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluxViewer.Core.ChannelContext
+namespace ChannelContext
 {
     /// <summary>
     /// Класс реализующий базовый тип канала.
@@ -12,7 +12,7 @@ namespace FluxViewer.Core.ChannelContext
     /// </summary>
 
     [Serializable]
-    public class BasicType : IChannelType
+    public class BasicChannel : Channel
     {
 
         private Double _xValue;
@@ -57,14 +57,15 @@ namespace FluxViewer.Core.ChannelContext
             }
         }
 
-        public BasicType()
+        public BasicChannel() : base()
         {
             this.XValue = 1;
             this.FreeValue = 0;
             this.PhysicalChannel = 1;
         }
 
-        public BasicType(Double xValue, Double freeValue, int physicalChannel)
+        public BasicChannel(int id, String name, String units, bool display, bool save, Double xValue, Double freeValue, int physicalChannel) 
+            : base(id, name, units,  display, save)
         {
             this.XValue = xValue;
             this.FreeValue = freeValue;

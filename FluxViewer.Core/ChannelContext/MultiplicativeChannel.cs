@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluxViewer.Core.ChannelContext
+namespace ChannelContext
 {
     /// <summary>
     /// Класс реализующий перемнжающий тип
     /// </summary>
 
     [Serializable]
-    public class MultiplicativeType : IChannelType
+    public class MultiplicativeChannel : Channel
     {
         private List<int> _channelIds;
         public List<int> ChannelIds
@@ -27,12 +27,13 @@ namespace FluxViewer.Core.ChannelContext
             }
         }
 
-        public MultiplicativeType()
+        public MultiplicativeChannel() : base()
         {
             this.ChannelIds = new List<int>();
         }
 
-        public MultiplicativeType(List<int> channelIds)
+        public MultiplicativeChannel(int id, String name, String units, bool display, bool save, List<int> channelIds)
+            : base(id, name, units, display, save)
         {
             this.ChannelIds = channelIds;
         }

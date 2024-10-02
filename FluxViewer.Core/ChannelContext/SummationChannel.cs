@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluxViewer.Core.ChannelContext
+namespace ChannelContext
 {
     /// <summary>
     /// Суммирующий тип канала
     /// </summary>
 
     [Serializable]
-    public class SummationType
+    public class SummationChannel : Channel
     {
         private Double _baseKValue;
         public Double BaseKValue 
@@ -46,13 +46,14 @@ namespace FluxViewer.Core.ChannelContext
             }
         }
 
-        public SummationType()
+        public SummationChannel() : base()
         {
             this.BaseKValue = 0;
             this.KValues = new List<Tuple<int, double>>();
         }
 
-        public SummationType(Double baseKValue, List<Tuple<int, Double>> kValues)
+        public SummationChannel(int id, String name, String units, bool display, bool save, Double baseKValue, List<Tuple<int, Double>> kValues)
+            : base(id, name, units, display, save)
         {
             this.BaseKValue = baseKValue;
             this.KValues = kValues;
