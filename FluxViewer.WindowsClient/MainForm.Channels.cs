@@ -22,7 +22,7 @@ partial class MainForm
         };
 
         // Добавляем форму в panel2
-        panel2.Controls.Add(channelForm);
+        mainPanel.Controls.Add(channelForm);
 
         // Отображаем форму
         channelForm.Show();
@@ -35,10 +35,10 @@ partial class MainForm
         if (formCount > 0)
         {
             // Находим последнюю добавленную форму
-            Control lastForm = panel2.Controls["form" + (formCount - 1)];
+            Control lastForm = mainPanel.Controls["form" + (formCount - 1)];
 
             // Удаляем последнюю форму
-            panel2.Controls.Remove(lastForm);
+            mainPanel.Controls.Remove(lastForm);
 
             formCount--;  // Уменьшаем счетчик
         }

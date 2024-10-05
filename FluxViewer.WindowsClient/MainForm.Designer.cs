@@ -30,7 +30,7 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             toolStripStatusLabel2 = new ToolStripStatusLabel();
@@ -229,7 +229,7 @@
             label31 = new Label();
             label30 = new Label();
             channelsTabPage = new TabPage();
-            panel2 = new Panel();
+            mainPanel = new Panel();
             removeChannelButton = new Button();
             addChannelButton = new Button();
             openFileDialog1 = new OpenFileDialog();
@@ -2255,13 +2255,13 @@
             dataGridView1.Margin = new Padding(3, 2, 3, 2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
             dataGridView1.ScrollBars = ScrollBars.Vertical;
@@ -2568,7 +2568,7 @@
             // 
             // channelsTabPage
             // 
-            channelsTabPage.Controls.Add(panel2);
+            channelsTabPage.Controls.Add(mainPanel);
             channelsTabPage.Controls.Add(removeChannelButton);
             channelsTabPage.Controls.Add(addChannelButton);
             channelsTabPage.Location = new Point(4, 54);
@@ -2579,14 +2579,14 @@
             channelsTabPage.Text = "КАНАЛЫ";
             channelsTabPage.UseVisualStyleBackColor = true;
             // 
-            // panel2
+            // mainPanel
             // 
-            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Location = new Point(8, 36);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(1262, 489);
-            panel2.TabIndex = 15;
+            mainPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            mainPanel.BorderStyle = BorderStyle.FixedSingle;
+            mainPanel.Location = new Point(8, 36);
+            mainPanel.Name = "mainPanel";
+            mainPanel.Size = new Size(1262, 489);
+            mainPanel.TabIndex = 15;
             // 
             // removeChannelButton
             // 
@@ -2918,7 +2918,7 @@
         private TabPage channelsTabPage;
         private Button addChannelButton;
         private Button removeChannelButton;
-        private Panel panel2;
+        private Panel mainPanel;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
