@@ -45,6 +45,10 @@
     <Compile Update="DeviseSettingsTab.cs">
       <DependentUpon>MainForm.SettingsTab.cs</DependentUpon>
     </Compile>
+
+    <Compile Update="MainForm.Channels.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
