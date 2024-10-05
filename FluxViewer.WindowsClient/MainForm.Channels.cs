@@ -9,13 +9,13 @@ partial class MainForm
 {
     int channelCount; // Счетчик для отслеживания количества добавленных форм
 
-    private void addChannelButton_Click(object sender, EventArgs e)
+    private void addChannelTpmButton_Click(object sender, EventArgs e)
     {
         channelCount++;
         drawChannels();
     }
 
-    private void removeChannelButton_Click(object sender, EventArgs e)
+    private void removeChannelTmpButton_Click(object sender, EventArgs e)
     {
         if (channelCount > 0)
             channelCount--;

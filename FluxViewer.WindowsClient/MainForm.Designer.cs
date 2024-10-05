@@ -216,6 +216,18 @@
             label11 = new Label();
             textBox1 = new TextBox();
             btn_flash_edit = new Button();
+            channelTabPage = new TabPage();
+            commonChannelGroupBox = new GroupBox();
+            commonChannelCheckedListBox = new CheckedListBox();
+            removeChannelButton = new Button();
+            addChannelButton = new Button();
+            channelSettingDataGridView = new DataGridView();
+            CollumnID = new DataGridViewTextBoxColumn();
+            CollumnName = new DataGridViewTextBoxColumn();
+            CollumnUnits = new DataGridViewTextBoxColumn();
+            CollumnType = new DataGridViewTextBoxColumn();
+            CollumnDisplay = new DataGridViewTextBoxColumn();
+            CollumnSave = new DataGridViewTextBoxColumn();
             tabPage9 = new TabPage();
             panel5 = new Panel();
             linkLabel5 = new LinkLabel();
@@ -230,8 +242,8 @@
             label30 = new Label();
             channelsTabPage = new TabPage();
             mainPanel = new Panel();
-            removeChannelButton = new Button();
-            addChannelButton = new Button();
+            removeChannelTmpButton = new Button();
+            addChannelTpmButton = new Button();
             openFileDialog1 = new OpenFileDialog();
             timer1 = new System.Windows.Forms.Timer(components);
             saveFileDialog1 = new SaveFileDialog();
@@ -285,6 +297,9 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabPage8.SuspendLayout();
             groupBox16.SuspendLayout();
+            channelTabPage.SuspendLayout();
+            commonChannelGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)channelSettingDataGridView).BeginInit();
             tabPage9.SuspendLayout();
             panel5.SuspendLayout();
             channelsTabPage.SuspendLayout();
@@ -1236,6 +1251,7 @@
             leftMenuTabPage.Controls.Add(logsTabPage);
             leftMenuTabPage.Controls.Add(tabPage10);
             leftMenuTabPage.Controls.Add(tabPage8);
+            leftMenuTabPage.Controls.Add(channelTabPage);
             leftMenuTabPage.Controls.Add(tabPage9);
             leftMenuTabPage.Dock = DockStyle.Fill;
             leftMenuTabPage.DrawMode = TabDrawMode.OwnerDrawFixed;
@@ -2428,6 +2444,100 @@
             btn_flash_edit.UseVisualStyleBackColor = true;
             btn_flash_edit.Click += btn_flash_edit_Click;
             // 
+            // channelTabPage
+            // 
+            channelTabPage.Controls.Add(commonChannelGroupBox);
+            channelTabPage.Controls.Add(removeChannelButton);
+            channelTabPage.Controls.Add(addChannelButton);
+            channelTabPage.Controls.Add(channelSettingDataGridView);
+            channelTabPage.Location = new Point(304, 4);
+            channelTabPage.Margin = new Padding(3, 2, 3, 2);
+            channelTabPage.Name = "channelTabPage";
+            channelTabPage.Padding = new Padding(3, 2, 3, 2);
+            channelTabPage.Size = new Size(968, 523);
+            channelTabPage.TabIndex = 8;
+            channelTabPage.Text = "Виртуальные каналы";
+            channelTabPage.UseVisualStyleBackColor = true;
+            // 
+            // commonChannelGroupBox
+            // 
+            commonChannelGroupBox.Controls.Add(commonChannelCheckedListBox);
+            commonChannelGroupBox.Location = new Point(687, 23);
+            commonChannelGroupBox.Name = "commonChannelGroupBox";
+            commonChannelGroupBox.Size = new Size(257, 340);
+            commonChannelGroupBox.TabIndex = 3;
+            commonChannelGroupBox.TabStop = false;
+            commonChannelGroupBox.Text = "Общий канал";
+            // 
+            // commonChannelCheckedListBox
+            // 
+            commonChannelCheckedListBox.FormattingEnabled = true;
+            commonChannelCheckedListBox.Location = new Point(21, 24);
+            commonChannelCheckedListBox.Name = "commonChannelCheckedListBox";
+            commonChannelCheckedListBox.Size = new Size(215, 304);
+            commonChannelCheckedListBox.TabIndex = 0;
+            // 
+            // removeChannelButton
+            // 
+            removeChannelButton.Location = new Point(200, 369);
+            removeChannelButton.Name = "removeChannelButton";
+            removeChannelButton.Size = new Size(165, 25);
+            removeChannelButton.TabIndex = 2;
+            removeChannelButton.Text = "Удалить";
+            removeChannelButton.UseVisualStyleBackColor = true;
+            // 
+            // addChannelButton
+            // 
+            addChannelButton.Location = new Point(29, 369);
+            addChannelButton.Name = "addChannelButton";
+            addChannelButton.Size = new Size(165, 25);
+            addChannelButton.TabIndex = 1;
+            addChannelButton.Text = "Добавить";
+            addChannelButton.UseVisualStyleBackColor = true;
+            // 
+            // channelSettingDataGridView
+            // 
+            channelSettingDataGridView.AllowUserToAddRows = false;
+            channelSettingDataGridView.AllowUserToDeleteRows = false;
+            channelSettingDataGridView.AllowUserToResizeColumns = false;
+            channelSettingDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            channelSettingDataGridView.Columns.AddRange(new DataGridViewColumn[] { CollumnID, CollumnName, CollumnUnits, CollumnType, CollumnDisplay, CollumnSave });
+            channelSettingDataGridView.Location = new Point(29, 23);
+            channelSettingDataGridView.Name = "channelSettingDataGridView";
+            channelSettingDataGridView.RowTemplate.Height = 25;
+            channelSettingDataGridView.Size = new Size(641, 340);
+            channelSettingDataGridView.TabIndex = 0;
+            // 
+            // CollumnID
+            // 
+            CollumnID.HeaderText = "ID";
+            CollumnID.Name = "CollumnID";
+            // 
+            // CollumnName
+            // 
+            CollumnName.HeaderText = "Название";
+            CollumnName.Name = "CollumnName";
+            // 
+            // CollumnUnits
+            // 
+            CollumnUnits.HeaderText = "Ед. изм.";
+            CollumnUnits.Name = "CollumnUnits";
+            // 
+            // CollumnType
+            // 
+            CollumnType.HeaderText = "Тип";
+            CollumnType.Name = "CollumnType";
+            // 
+            // CollumnDisplay
+            // 
+            CollumnDisplay.HeaderText = "Отображение";
+            CollumnDisplay.Name = "CollumnDisplay";
+            // 
+            // CollumnSave
+            // 
+            CollumnSave.HeaderText = "Сохранение";
+            CollumnSave.Name = "CollumnSave";
+            // 
             // tabPage9
             // 
             tabPage9.Controls.Add(panel5);
@@ -2569,8 +2679,8 @@
             // channelsTabPage
             // 
             channelsTabPage.Controls.Add(mainPanel);
-            channelsTabPage.Controls.Add(removeChannelButton);
-            channelsTabPage.Controls.Add(addChannelButton);
+            channelsTabPage.Controls.Add(removeChannelTmpButton);
+            channelsTabPage.Controls.Add(addChannelTpmButton);
             channelsTabPage.Location = new Point(4, 54);
             channelsTabPage.Name = "channelsTabPage";
             channelsTabPage.Padding = new Padding(3);
@@ -2588,29 +2698,29 @@
             mainPanel.Size = new Size(1262, 489);
             mainPanel.TabIndex = 15;
             // 
-            // removeChannelButton
+            // removeChannelTmpButton
             // 
-            removeChannelButton.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            removeChannelButton.Location = new Point(110, 5);
-            removeChannelButton.Margin = new Padding(3, 2, 3, 2);
-            removeChannelButton.Name = "removeChannelButton";
-            removeChannelButton.Size = new Size(96, 26);
-            removeChannelButton.TabIndex = 14;
-            removeChannelButton.Text = "Убавить";
-            removeChannelButton.UseVisualStyleBackColor = true;
-            removeChannelButton.Click += removeChannelButton_Click;
+            removeChannelTmpButton.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            removeChannelTmpButton.Location = new Point(110, 5);
+            removeChannelTmpButton.Margin = new Padding(3, 2, 3, 2);
+            removeChannelTmpButton.Name = "removeChannelTmpButton";
+            removeChannelTmpButton.Size = new Size(96, 26);
+            removeChannelTmpButton.TabIndex = 14;
+            removeChannelTmpButton.Text = "Убавить";
+            removeChannelTmpButton.UseVisualStyleBackColor = true;
+            removeChannelTmpButton.Click += removeChannelTmpButton_Click;
             // 
-            // addChannelButton
+            // addChannelTpmButton
             // 
-            addChannelButton.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            addChannelButton.Location = new Point(8, 5);
-            addChannelButton.Margin = new Padding(3, 2, 3, 2);
-            addChannelButton.Name = "addChannelButton";
-            addChannelButton.Size = new Size(96, 26);
-            addChannelButton.TabIndex = 13;
-            addChannelButton.Text = "Добавить";
-            addChannelButton.UseVisualStyleBackColor = true;
-            addChannelButton.Click += addChannelButton_Click;
+            addChannelTpmButton.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            addChannelTpmButton.Location = new Point(8, 5);
+            addChannelTpmButton.Margin = new Padding(3, 2, 3, 2);
+            addChannelTpmButton.Name = "addChannelTpmButton";
+            addChannelTpmButton.Size = new Size(96, 26);
+            addChannelTpmButton.TabIndex = 13;
+            addChannelTpmButton.Text = "Добавить";
+            addChannelTpmButton.UseVisualStyleBackColor = true;
+            addChannelTpmButton.Click += addChannelTpmButton_Click;
             // 
             // openFileDialog1
             // 
@@ -2705,6 +2815,9 @@
             tabPage8.ResumeLayout(false);
             groupBox16.ResumeLayout(false);
             groupBox16.PerformLayout();
+            channelTabPage.ResumeLayout(false);
+            commonChannelGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)channelSettingDataGridView).EndInit();
             tabPage9.ResumeLayout(false);
             panel5.ResumeLayout(false);
             panel5.PerformLayout();
@@ -2916,9 +3029,21 @@
         private RadioButton eFirFilerRadioButton;
         private RadioButton eAveragingWithWeightsRadioButton;
         private TabPage channelsTabPage;
-        private Button addChannelButton;
-        private Button removeChannelButton;
+        private Button addChannelTpmButton;
+        private Button removeChannelTmpButton;
         private Panel mainPanel;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private TabPage channelTabPage;
+        private DataGridView channelSettingDataGridView;
+        private DataGridViewTextBoxColumn CollumnID;
+        private DataGridViewTextBoxColumn CollumnName;
+        private DataGridViewTextBoxColumn CollumnUnits;
+        private DataGridViewTextBoxColumn CollumnType;
+        private DataGridViewTextBoxColumn CollumnDisplay;
+        private DataGridViewTextBoxColumn CollumnSave;
+        private Button removeChannelButton;
+        private Button addChannelButton;
+        private GroupBox commonChannelGroupBox;
+        private CheckedListBox commonChannelCheckedListBox;
     }
 }
