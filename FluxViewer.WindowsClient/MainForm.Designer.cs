@@ -353,11 +353,11 @@
             // 
             mainTabControl.Appearance = TabAppearance.Buttons;
             mainTabControl.CausesValidation = false;
+            mainTabControl.Controls.Add(channelsTabPage);
             mainTabControl.Controls.Add(registrarTabPage);
             mainTabControl.Controls.Add(dataArchiveTabPage);
             mainTabControl.Controls.Add(exportTabPage);
             mainTabControl.Controls.Add(settingsTabPage);
-            mainTabControl.Controls.Add(channelsTabPage);
             mainTabControl.Dock = DockStyle.Fill;
             mainTabControl.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             mainTabControl.ItemSize = new Size(200, 50);
@@ -667,7 +667,7 @@
             // 
             daMainZedGraphControl.Dock = DockStyle.Fill;
             daMainZedGraphControl.Location = new Point(3, 107);
-            daMainZedGraphControl.Margin = new Padding(5);
+            daMainZedGraphControl.Margin = new Padding(5, 5, 5, 5);
             daMainZedGraphControl.Name = "daMainZedGraphControl";
             daMainZedGraphControl.ScrollGrace = 0D;
             daMainZedGraphControl.ScrollMaxX = 0D;
@@ -2706,8 +2706,9 @@
             channelsTabPage.Padding = new Padding(3);
             channelsTabPage.Size = new Size(1276, 531);
             channelsTabPage.TabIndex = 4;
-            channelsTabPage.Text = "КАНАЛЫ";
+            channelsTabPage.Text = "Каналы";
             channelsTabPage.UseVisualStyleBackColor = true;
+            channelsTabPage.Enter += channelsTabPage_Enter;
             // 
             // mainPanel
             // 
