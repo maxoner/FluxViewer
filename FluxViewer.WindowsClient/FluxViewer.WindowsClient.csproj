@@ -49,6 +49,14 @@
     <Compile Update="MainForm.Channels.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+
+    <Compile Update="ChannelsSettingsTab">
+      <DependentUpon>MainForm.SettingsTab.cs</DependentUpon>
+    </Compile>
+
+    <Compile Update="ChannelsSettingsTab.cs">
+      <DependentUpon>MainForm.SettingsTab.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

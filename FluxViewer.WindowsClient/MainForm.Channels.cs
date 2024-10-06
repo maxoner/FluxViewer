@@ -1,3 +1,4 @@
+using FluxViewer.Core.ChannelContext;
 using FluxViewer.Core.Controllers;
 
 namespace FluxViewer.WindowsClient;
@@ -7,46 +8,38 @@ namespace FluxViewer.WindowsClient;
 /// </summary>
 partial class MainForm
 {
-    int channelCount; // Счетчик для отслеживания количества добавленных форм
-
-    private void addChannelTpmButton_Click(object sender, EventArgs e)
+    private void InitChannelsTab()
     {
-        channelCount++;
-        drawChannels();
+        RedrawChannels();
     }
 
-    private void removeChannelTmpButton_Click(object sender, EventArgs e)
+    private void RedrawChannels()
     {
-        if (channelCount > 0)
-            channelCount--;
-        drawChannels();
-    }
+        mainPanel.Controls.Clear(); // Удаляем все существующие каналы (и ниже рисуем их вновь)
 
-    private void drawChannels()
-    {
-        mainPanel.Controls.Clear(); // Удаляем все существующие формы (и ниже рисуем их вновь)
-
-        if (channelCount == 0) // нечего рисовать --> выходим
+        var channels = ChannelContextHolder.GetInstance().Channels;
+        if (channels.Count == 0) // нечего рисовать --> выходим
             return;
+        var windowsInfo = WindowDistributer.DistributeWindows(mainPanel.Width, mainPanel.Height, channels.Count);
 
-        var windowsInfo = WindowDistributer.DistributeWindows(mainPanel.Width, mainPanel.Height, channelCount);
-        foreach (var windowInfo in windowsInfo)
+        for (var i = 0; i < channels.Count; i++)
         {
-            // Создаем новую форму ChannelForm
+            var channel = channels[i];
+            var windowInfo = windowsInfo[i];
+
+            // Создаем новый канал
             var channelForm = new Form
             {
-                Name = "form" + channelCount, // Даем уникальное имя
+                Name = $"channelForm{channel.Id}",
                 TopLevel = false, // Убираем статус топ-уровневого окна, чтобы встроить форму
-                FormBorderStyle = FormBorderStyle.Sizable, // Можно использовать любые другие стили границы
-                Size = new Size(windowInfo.Width, windowInfo.Height), // Размер встроенной формы
-                Location = new Point(windowInfo.X, windowInfo.Y), // Позиция в panel2
-                Text = "Канал " + (channelCount + 1) // Заголовок формы "Канал 1", "Канал 2" и т.д.
+                FormBorderStyle = FormBorderStyle.FixedSingle, // Можно использовать любые другие стили границы
+                Size = new Size(windowInfo.Width, windowInfo.Height),
+                Location = new Point(windowInfo.X, windowInfo.Y),
+                Text = channel.Name
             };
-            // Добавляем форму в panel2
-            mainPanel.Controls.Add(channelForm);
 
-            // Отображаем форму
-            channelForm.Show();
+            mainPanel.Controls.Add(channelForm); // Добавляем канал в форму
+            channelForm.Show(); // Делаем канал видимым
         }
     }
 }
