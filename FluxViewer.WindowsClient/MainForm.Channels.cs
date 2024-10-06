@@ -1,5 +1,7 @@
 using FluxViewer.Core.ChannelContext;
 using FluxViewer.Core.Controllers;
+using FluxViewer.Core.GraphThemes;
+using ZedGraph;
 
 namespace FluxViewer.WindowsClient;
 
@@ -23,7 +25,7 @@ partial class MainForm
 
     private void RedrawChannels()
     {
-        mainPanel.Controls.Clear(); // Удаляем все существующие каналы (и ниже рисуем их вновь)
+        channelsMainPanel.Controls.Clear(); // Удаляем все существующие каналы (и ниже рисуем их вновь)
 
         var channelContextHolder = ChannelContextHolder.GetInstance();
         var displayedChannels =
@@ -33,36 +35,46 @@ partial class MainForm
             return;
 
         var channelCount = displayedChannels.Count + 1; // +1 , т.к. рисуем ещё "Общий канал"
-        var windowsInfo = WindowDistributer.DistributeWindows(mainPanel.Width, mainPanel.Height, channelCount);
+        var windowsInfo = WindowDistributer.DistributeWindows(channelsMainPanel.Width, channelsMainPanel.Height, channelCount);
 
         for (var i = 0; i < displayedChannels.Count; i++)
         {
             var channel = displayedChannels[i];
             // Создаем канал
             var windowInfo = windowsInfo[i];
-            var channelForm = CreateChannelForm($"channelForm{channel.Id}", windowInfo, channel.Name);
+            var channelForm = CreateChannelZedGraphControl(windowInfo, channel.Name, channel.Units);
             channelForm.Show(); // Делаем канал видимым
-            mainPanel.Controls.Add(channelForm);
+            channelsMainPanel.Controls.Add(channelForm);
         }
 
         // Создаем "Общий канал"
         var commonWindowInfo = windowsInfo.Last();
-        var commonChannelForm = CreateChannelForm("commonChannel", commonWindowInfo, "Общий канал");
+        var commonChannelForm = CreateChannelZedGraphControl(commonWindowInfo, "Общий канал", "");
         commonChannelForm.Show(); // Делаем канал видимым
-        mainPanel.Controls.Add(commonChannelForm);
+        channelsMainPanel.Controls.Add(commonChannelForm);
     }
 
-    private Form CreateChannelForm(string name, WindowInfo windowInfo, string text)
+    /// <summary>
+    /// Создаёт окно (где будут распологаться графики) использую библиотеку zedGraph
+    /// </summary>
+    /// <param name="name">Уникальное имя окна</param>
+    /// <param name="windowInfo">Размеры и координаты окна</param>
+    /// <param name="title">Заголовок окна</param>
+    /// <returns></returns>
+    private static ZedGraphControl CreateChannelZedGraphControl(WindowInfo windowInfo, string title, string units)
     {
-        return new Form
+        var graphControl = new ZedGraphControl
         {
-            Name = name,
-            TopLevel = false, // Убираем статус топ-уровневого окна, чтобы встроить форму
-            FormBorderStyle = FormBorderStyle.FixedToolWindow, // Можно использовать любые другие стили границы
             Size = new Size(windowInfo.Width, windowInfo.Height),
             Location = new Point(windowInfo.X, windowInfo.Y),
-            ControlBox = false, // Убираем кнопки управления окном,
-            Text = text
         };
+        var graphPanel = graphControl.GraphPane;
+        var graphController = new GraphController(graphPanel);
+        graphController.SetGraphTitle(title);
+        graphController.SetXAxisTitle("Время, с");
+        graphController.SetYAxisTitle($"{title}, {units}");
+        graphController.ShowGrid();
+        graphController.SetGraphTheme(new BlackGraphTheme());
+        return graphControl;
     }
 }

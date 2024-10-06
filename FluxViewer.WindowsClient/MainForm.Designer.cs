@@ -30,7 +30,7 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             toolStripStatusLabel2 = new ToolStripStatusLabel();
@@ -38,6 +38,8 @@
             toolStripStatusLabel4 = new ToolStripStatusLabel();
             imageList1 = new ImageList(components);
             mainTabControl = new TabControl();
+            channelsTabPage = new TabPage();
+            channelsMainPanel = new Panel();
             registrarTabPage = new TabPage();
             tableLayoutPanel1 = new TableLayoutPanel();
             zedGraphControl1 = new ZedGraph.ZedGraphControl();
@@ -242,14 +244,13 @@
             label32 = new Label();
             label31 = new Label();
             label30 = new Label();
-            channelsTabPage = new TabPage();
-            mainPanel = new Panel();
             openFileDialog1 = new OpenFileDialog();
             timer1 = new System.Windows.Forms.Timer(components);
             saveFileDialog1 = new SaveFileDialog();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             statusStrip1.SuspendLayout();
             mainTabControl.SuspendLayout();
+            channelsTabPage.SuspendLayout();
             registrarTabPage.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
@@ -301,7 +302,6 @@
             ((System.ComponentModel.ISupportInitialize)channelSettingDataGridView).BeginInit();
             tabPage9.SuspendLayout();
             panel5.SuspendLayout();
-            channelsTabPage.SuspendLayout();
             SuspendLayout();
             // 
             // statusStrip1
@@ -368,6 +368,27 @@
             mainTabControl.Size = new Size(1284, 589);
             mainTabControl.SizeMode = TabSizeMode.Fixed;
             mainTabControl.TabIndex = 3;
+            // 
+            // channelsTabPage
+            // 
+            channelsTabPage.Controls.Add(channelsMainPanel);
+            channelsTabPage.Location = new Point(4, 54);
+            channelsTabPage.Name = "channelsTabPage";
+            channelsTabPage.Padding = new Padding(3);
+            channelsTabPage.Size = new Size(1276, 531);
+            channelsTabPage.TabIndex = 4;
+            channelsTabPage.Text = "Каналы";
+            channelsTabPage.UseVisualStyleBackColor = true;
+            channelsTabPage.Enter += channelsTabPage_Enter;
+            // 
+            // channelsMainPanel
+            // 
+            channelsMainPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            channelsMainPanel.BorderStyle = BorderStyle.FixedSingle;
+            channelsMainPanel.Location = new Point(8, 6);
+            channelsMainPanel.Name = "channelsMainPanel";
+            channelsMainPanel.Size = new Size(1262, 519);
+            channelsMainPanel.TabIndex = 15;
             // 
             // registrarTabPage
             // 
@@ -667,7 +688,7 @@
             // 
             daMainZedGraphControl.Dock = DockStyle.Fill;
             daMainZedGraphControl.Location = new Point(3, 107);
-            daMainZedGraphControl.Margin = new Padding(5, 5, 5, 5);
+            daMainZedGraphControl.Margin = new Padding(5);
             daMainZedGraphControl.Name = "daMainZedGraphControl";
             daMainZedGraphControl.ScrollGrace = 0D;
             daMainZedGraphControl.ScrollMaxX = 0D;
@@ -2270,13 +2291,13 @@
             dataGridView1.Margin = new Padding(3, 2, 3, 2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
             dataGridView1.ScrollBars = ScrollBars.Vertical;
@@ -2698,27 +2719,6 @@
             label30.TabIndex = 0;
             label30.Text = "для электростатического флюксметра ПЧЕЛА-Д";
             // 
-            // channelsTabPage
-            // 
-            channelsTabPage.Controls.Add(mainPanel);
-            channelsTabPage.Location = new Point(4, 54);
-            channelsTabPage.Name = "channelsTabPage";
-            channelsTabPage.Padding = new Padding(3);
-            channelsTabPage.Size = new Size(1276, 531);
-            channelsTabPage.TabIndex = 4;
-            channelsTabPage.Text = "Каналы";
-            channelsTabPage.UseVisualStyleBackColor = true;
-            channelsTabPage.Enter += channelsTabPage_Enter;
-            // 
-            // mainPanel
-            // 
-            mainPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            mainPanel.BorderStyle = BorderStyle.FixedSingle;
-            mainPanel.Location = new Point(8, 6);
-            mainPanel.Name = "mainPanel";
-            mainPanel.Size = new Size(1262, 519);
-            mainPanel.TabIndex = 15;
-            // 
             // openFileDialog1
             // 
             openFileDialog1.FileName = "openFileDialog1";
@@ -2746,6 +2746,7 @@
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
             mainTabControl.ResumeLayout(false);
+            channelsTabPage.ResumeLayout(false);
             registrarTabPage.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
@@ -2817,7 +2818,6 @@
             tabPage9.ResumeLayout(false);
             panel5.ResumeLayout(false);
             panel5.PerformLayout();
-            channelsTabPage.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -3025,7 +3025,7 @@
         private RadioButton eFirFilerRadioButton;
         private RadioButton eAveragingWithWeightsRadioButton;
         private TabPage channelsTabPage;
-        private Panel mainPanel;
+        private Panel channelsMainPanel;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private TabPage channelsSettingsTabPage;
         private DataGridView channelSettingDataGridView;

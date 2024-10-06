@@ -158,6 +158,15 @@ public class GraphController
     {
         _graphPane.XAxis.Title.Text = xAxisTitle;
     }
+    
+    /// <summary>
+    /// Установить заголовок под осью Y
+    /// </summary>
+    /// <param name="yAxisTitle">Заголовок, который будет размешён од осью Y</param>
+    public void SetYAxisTitle(string yAxisTitle)
+    {
+        _graphPane.YAxis.Title.Text = yAxisTitle;
+    }
 
     /// <summary>
     /// Установить толщину линии графика
