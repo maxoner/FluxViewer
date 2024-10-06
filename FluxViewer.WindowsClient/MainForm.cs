@@ -68,6 +68,7 @@ namespace FluxViewer.WindowsClient
             SetSettings();
             InitDataArchiveGraphs();
 
+            InitChannelsTab();
             InitDataArchiveTab();
             InitExportTab();
             InitSettingsTab();
@@ -1330,4 +1331,4 @@ namespace FluxViewer.WindowsClient
             return matrix;
         }
     }
-    }
+}
