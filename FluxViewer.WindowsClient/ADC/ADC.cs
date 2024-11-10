@@ -15,12 +15,9 @@ public class ModbusADC
 
     private SerialPort _comPort;
     private const int MaxChannels = 8;
-    public readonly PhysicalChannel[] PhysicalChannels;
+    public PhysicalChannel[] PhysicalChannels;
 
     public ModbusADC(byte adcID, SerialPort comPort, PhysicalChannelConfiguration[] physicalChannels) {
-        if (physicalChannels.Length > MaxChannels) {
-            throw new ArgumentException($"The maximum number of channels is {MaxChannels}.");
-        }
         _comPort = comPort;
         try {
             _comPort.Open();
@@ -36,7 +33,13 @@ public class ModbusADC
             throw new ModbusComInitExpection($"Error while init com port: {ex.Message}");
         }
         ADC_ID = adcID;
+        UpdateChannels(physicalChannels);
+    }
 
+    public void UpdateChannels(PhysicalChannelConfiguration[] physicalChannels){
+        if (physicalChannels.Length > MaxChannels) {
+            throw new ArgumentException($"The maximum number of channels is {MaxChannels}.");
+        }
         PhysicalChannel[] physChs = new PhysicalChannel[physicalChannels.Length];
         for (int i = 0; i < physicalChannels.Length; i++){
             physChs[i] = new PhysicalChannel(i, physicalChannels[i], _comPort);
@@ -70,6 +73,7 @@ public class ModbusADC
 
          comPort.Write(send, 0, 8);
     }
+
     public class PhysicalChannel {
         public PhysicalChannelConfiguration Configuration;
         public int ChannelIndex;
@@ -170,7 +174,6 @@ public class ModbusADC
                     }
                 }
             }
-
             return csum;
         }
     }
